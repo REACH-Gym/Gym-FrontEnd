@@ -1,0 +1,17 @@
+.tableContainer {
+  box-shadow: 0 0 7px -3px #000000;
+  width: 100%;
+  direction: rtl;
+  padding: 10px;
+  border-radius: 15px;
+  min-height: 500px;
+  height: 90vh;
+  max-height: 1000px;
+  overflow-y: auto;
+}
+.tableContainer thead th:first-child {
+  width: 50px;
+}
+.tableContainer thead th:last-child {
+  width: 100px;
+}

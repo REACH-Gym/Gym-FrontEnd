@@ -1,0 +1,10 @@
+.groupForm {
+  width: 60%;
+  max-width: 800px;
+  margin: auto;
+}
+@media (max-width: 768px) {
+  .groupForm {
+    width: 90%;
+  }
+}
