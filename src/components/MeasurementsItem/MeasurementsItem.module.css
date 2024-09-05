@@ -1,0 +1,14 @@
+.tableRow {
+  border-bottom: 1px solid lightgray;
+}
+.tableRow td:last-child {
+  cursor: pointer;
+}
+.tableRow td:last-child span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: black;
+  margin: 0 auto 2px;
+}
