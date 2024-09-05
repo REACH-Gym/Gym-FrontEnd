@@ -3,9 +3,9 @@
   width: 100%;
   direction: rtl;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 15px;
   min-height: 500px;
-  height: 80vh;
+  height: 90vh;
   max-height: 1000px;
   overflow-y: auto;
 }
