@@ -1,0 +1,19 @@
+.container{
+    background-color: #F2F4F5;
+    padding: 100px 50px 50px 50px;
+}
+.items{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.item{
+    background-color: #fff;
+    width: 270px;
+    height: 220px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 20px;
+}
+.progressbar{
+    width: 100px;
+    height: 100px;
+}

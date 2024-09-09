@@ -1,5 +1,12 @@
+.addMeasurmentsContainer{
+  background-color: #f2f2f2;
+  padding: 60px 0px 0px 0px ;
+}
 .formContainer {
-  color: #666666;
+  padding: 100px 50px 50px 50px;
+  background-color: #fff;
+  width: 90%;
+  margin: auto;
 }
 .title {
   font-size: 18px;
@@ -16,3 +23,4 @@
   right: 0;
   background-color: #f4f4f4;
 }
+/*  padding: 100px 50px 50px 50px; */

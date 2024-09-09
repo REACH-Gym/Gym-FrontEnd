@@ -1,8 +1,10 @@
 import styles from "./AddGroupForm.module.css";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import InputField from "../common/InputField/InputField";
-import MainBtn from "../common/MainBtn/MainBtn";
+import MainButton from "../../Common Components/Main Button/MainButton";
+import InputField from "../../Common Components/InputField/InputField";
+import SidebarBox from "../Sidebar/Sidebar";
+import Navbar from "../Navbar/Navbar";
 const AddGroupForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
@@ -26,10 +28,32 @@ const AddGroupForm = () => {
   };
 
   return (
-    <div
-      style={{ height: "100%" }}
-      className="d-flex justify-content-center align-items-center"
+    <div>
+      <Navbar/>
+        <div className="d-flex">
+          <SidebarBox/>
+        
+      <div className={`${styles.addgroupContainer}`}
+      // style={{ height: "100%" }}
+      // className="d-flex justify-content-center align-items-center"
     >
+
+      {/*add group */}
+      <section className="d-flex align-items-center pe-5">
+            <div className="ms-3 mb-3 bg-light p-2 rounded">
+              <img
+                src="/assets/image/group-svgrepo-com.png"
+                alt="home logo"
+                width={"21.08px"}
+                height={"13.42"}
+              />
+            </div>
+            <div>
+              <p className="mb-0"> إضافة مجموعة جديدة </p>
+              <p className="fw-lighter">يمكنك إضافة مجموعة جديدة من هنا</p>
+            </div>
+          </section>
+          {/*end of add group */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -60,12 +84,15 @@ const AddGroupForm = () => {
               <InputField name="numOfReservations " label="عدد مرات الحجز" />
             </div>
           </div>
-          <div className="row">
-            <MainBtn text="إضافة" btnType="submit" btnWidth={"200px"} />
-          </div>
+          <div className={`addmemberBtn m-auto`}>
+                <MainButton text={"اضافة"} btnType={"submit"} />
+              </div>
         </Form>
       </Formik>
     </div>
+      </div>
+      </div>
+    
   );
 };
 

@@ -1,0 +1,30 @@
+.allMembereContainer {
+  padding: 100px 50px 50px 50px;
+  background-color: #f2f4f5;
+  width: 100%;
+  color: rgba(74, 217, 145,0.4);
+}
+.search-input {
+  width: 50%;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  outline: none;
+  height: 40px;
+}
+.search-btn button{
+  width: 40%;
+  height: 40px;
+}
+.addmember-btn button{
+  height: 40px;
+  width: 40%;
+}
+.icon{
+  color: #3572EF;
+}
+.table td {
+  padding: 10px;
+  vertical-align: middle; 
+}

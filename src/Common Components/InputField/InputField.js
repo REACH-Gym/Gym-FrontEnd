@@ -7,7 +7,7 @@ import { Field, ErrorMessage } from "formik";
 const InputField = ({ children, name, label, inputType, ...props }) => {
   return (
     <div>
-      <label className="mb-1" htmlFor={name}>
+      <label className="mb-2 mt-2" htmlFor={name}>
         {label}
       </label>
       <Field
@@ -26,7 +26,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
       >
         {children}
       </Field>
-      <ErrorMessage name={name} component="div" className="error" />
+      <ErrorMessage name={name} component="div" className="error text-danger" />
     </div>
   );
 };

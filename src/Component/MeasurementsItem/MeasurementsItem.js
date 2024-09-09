@@ -1,5 +1,6 @@
 import styles from "./MeasurementsItem.module.css";
-
+import Navbar from "../Navbar/Navbar";
+import SidebarBox from "../Sidebar/Sidebar";
 // Measurements table item
 // props --> object that has: number of the row, member name, measurement date, height, register date
 const MeasurementsItem = ({ ...row }) => {
