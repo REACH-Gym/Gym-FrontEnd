@@ -1,8 +1,11 @@
-.main-button{
-    background-color: #3572EF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    height:52px;
-    cursor: pointer;
+.main-button {
+  background-color: #3572ef;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  height: 52px;
+  cursor: pointer;
+}
+.main-button:disabled {
+  opacity: 0.5;
 }
