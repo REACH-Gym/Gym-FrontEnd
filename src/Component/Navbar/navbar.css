@@ -1,0 +1,9 @@
+.navbar{
+    background-color: #fff;
+    padding: 0px 30px 0px 30px;
+    height: 65px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.admin-name{
+    margin-top: -8px;
+}

@@ -1,6 +1,6 @@
 .container{
     background-color: #F2F4F5;
-    padding: 50px;
+    padding: 100px 50px 50px 50px;
 }
 .items{
     display: grid;

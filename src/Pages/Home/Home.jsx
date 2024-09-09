@@ -5,10 +5,12 @@ import Container from "../../Component/Container/Container";
 import Navbar from "../../Component/Navbar/Navbar";
 function Home() {
   return (
-    <div className="homePage d-flex">
-      <Navbar/>
-      <SidebarBox />
-      <Container />
+    <div className="homePage ">
+      <Navbar />
+      <div className="homepage__item d-flex">
+        <SidebarBox />
+        <Container />
+      </div>
     </div>
   );
 }
