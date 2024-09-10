@@ -1,12 +1,11 @@
 .allMembereContainer {
   padding: 100px 50px 50px 50px;
-  background-color: #f2f4f5;
+  background-color: #F2F4F5;
   width: 100%;
-  color: rgba(74, 217, 145,0.4);
 }
 .search-input {
   width: 50%;
-  background-color: #e8e8e8;
+  background-color: #F0F0F0;
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -23,8 +22,4 @@
 }
 .icon{
   color: #3572EF;
-}
-.table td {
-  padding: 10px;
-  vertical-align: middle; 
 }

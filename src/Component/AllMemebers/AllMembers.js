@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./AllMembers.css";
 import SidebarBox from "../Sidebar/Sidebar";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import Navbar from "../Navbar/Navbar";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+
 function AllMembers() {
+  useEffect(() => {
+    async function fetchAllMembers() {
+      const data = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/members?page_size=20",
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+          },
+        }
+      );
+      const response = await data.json();
+    }
+    fetchAllMembers();
+  });
   return (
     <div>
       <Navbar />
@@ -81,18 +96,32 @@ function AllMembers() {
                   <td></td>
                   <td></td>
                   <td>
-                    <p  className="rounded text-center p-2"
-                    style={{
-                      color: "#4AD991",
-                      fontWeight: "bolder",
-                      backgroundColor: "rgba(74, 217, 145,0.2",
-                    }}>
-                    مؤكد
+                    <p
+                      className="rounded text-center p-2"
+                      style={{
+                        color: "#4AD991",
+                        fontWeight: "bolder",
+                        backgroundColor: "rgba(74, 217, 145,0.2",
+                      }}
+                    >
+                      مؤكد
                     </p>
-                   
                   </td>
                 </tr>
-                <tr style={{ fontSize: "14px" }}>
+                {/*  */}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AllMembers;
+
+{
+  /* <tr style={{ fontSize: "14px" }}>
                   <th scope="row">2</th>
                   <td>أحمد محمد علي الدوسري</td>
                   <td>966541995585</td>
@@ -280,14 +309,5 @@ function AllMembers() {
                     </p>
                    
                   </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+                </tr> */
 }
-
-export default AllMembers;

@@ -1,11 +1,11 @@
 .addMemberContainer {
-  padding: 100px 50px 50px 50px;
+  padding: 100px 0px 100px 0px;
   background-color: #f2f4f5;
   width: 100%;
 }
 .addForm {
   background-color: #fff;
-  padding: 0px 100px 30px 100px;
+  padding: 0px 150px 50px 150px;
   border-radius: 5px;
   border: 1px solid lightgray;
   width: 95%;
@@ -16,11 +16,11 @@
   color: rgb(98, 98, 98);
 }
 .phone-number input {
-  background: url("/public/assets/image/counrty code.png") no-repeat left;
+  /* background: url("/public/assets/image/counrty code.png") no-repeat left;
   background-size: 20px;
   background-position: 10px center;
   padding-left: 40px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
 }
 .upload-image {
   bottom: 50px;
@@ -28,9 +28,9 @@
   clear: both;
 }
 .addmemberBtn {
-  width:30%;
+  width: 30%;
   margin: auto;
 }
 .addmemberBtn button {
-  width:100%;
+  width: 100%;
 }

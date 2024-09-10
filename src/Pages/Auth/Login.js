@@ -82,7 +82,7 @@ function Login() {
               </label>
               <Field id="phone_number" name="phone_number" />
               <ErrorMessage
-                className="error mt-1 text-danger"
+                className="error-message mt-1 text-danger"
                 name="phone_number"
                 component="div"
               />
@@ -93,7 +93,7 @@ function Login() {
               </label>
               <Field name="password" id="password" type="password" />
               <ErrorMessage
-                className="error mt-1 text-danger"
+                className="error-message mt-1 text-danger"
                 name="password"
                 component="div"
               />
