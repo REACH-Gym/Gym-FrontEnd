@@ -1,6 +1,6 @@
 .tableContainer {
-  box-shadow: 0 0 7px -3px #000000;
   width: 100%;
+  background-color: white;
   direction: rtl;
   padding: 10px;
   border-radius: 15px;

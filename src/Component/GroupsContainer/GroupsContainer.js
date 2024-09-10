@@ -1,5 +1,5 @@
-import AddGroupForm from "../AddGroupForm/AddGroupForm";
-// import GroupsItem from "../GroupsItem/GroupsItem";
+import ContentContainer from "../ContentContainer/ContentContainer";
+import GroupsItem from "../GroupsItem/GroupsItem";
 import styles from "./GroupsContainer.module.css";
 
 const row = {
@@ -14,23 +14,29 @@ const row = {
 // Groups table container and header
 const GroupsContainer = () => {
   return (
-    <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
-      {/* <table className="w-100">
-        <thead className={`fw-bold`}>
-          <th className={`p-2 pt-3 pb-3`}>#</th>
-          <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-          <th className={`p-2 pt-3 pb-3`}>السعر</th>
-          <th className={`p-2 pt-3 pb-3`}>الخصم(%)</th>
-          <th className={`p-2 pt-3 pb-3`}>المدة</th>
-          <th className={`p-2 pt-3 pb-3`}>عدد مرات الحجز</th>
-          <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-        </thead>
-        <tbody>
-          <GroupsItem {...row} />
-        </tbody>
-      </table> */}
-      <AddGroupForm />
-    </div>
+    <ContentContainer
+      title={"جميع المجموعات"}
+      desc={"يمكنك متابعة جميع المجموعات المحفوظة"}
+      btn1={"إضافة مجموعة جديدة"}
+      btn2={"disabled"}
+    >
+      <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+        <table className="w-100">
+          <thead className={`fw-bold`}>
+            <th className={`p-2 pt-3 pb-3`}>#</th>
+            <th className={`p-2 pt-3 pb-3`}>الإسم</th>
+            <th className={`p-2 pt-3 pb-3`}>السعر</th>
+            <th className={`p-2 pt-3 pb-3`}>الخصم(%)</th>
+            <th className={`p-2 pt-3 pb-3`}>المدة</th>
+            <th className={`p-2 pt-3 pb-3`}>عدد مرات الحجز</th>
+            <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+          </thead>
+          <tbody>
+            <GroupsItem {...row} />
+          </tbody>
+        </table>
+      </div>
+    </ContentContainer>
   );
 };
 

@@ -1,6 +1,4 @@
 .addMemberContainer {
-  padding: 100px 50px 50px 50px;
-  background-color: #f2f4f5;
   width: 100%;
 }
 .addForm {
@@ -28,9 +26,9 @@
   clear: both;
 }
 .addmemberBtn {
-  width:30%;
+  width: 30%;
   margin: auto;
 }
 .addmemberBtn button {
-  width:100%;
+  width: 100%;
 }

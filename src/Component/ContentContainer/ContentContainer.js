@@ -1,9 +1,17 @@
 import styles from "./ContentContainer.module.css";
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { useEffect, useState } from "react";
 
-const ContentContainer = ({ title, desc, search, btn1, btn2, mainIcon }) => {
+const ContentContainer = ({
+  children,
+  title,
+  desc,
+  search,
+  btn1,
+  btn2,
+  mainIcon,
+}) => {
   const currentDate = new Date();
   const [disabled, setDisabled] = useState("false");
   useEffect(() => {
@@ -20,16 +28,11 @@ const ContentContainer = ({ title, desc, search, btn1, btn2, mainIcon }) => {
     day: "numeric",
   });
   return (
-    <div className="p-4">
+    <div className={`${styles.contentContainer}`}>
       <div className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center">
           <div className="ms-3 mb-3 bg-light p-2 rounded">
-            <img
-              src={mainIcon}
-              alt="home logo"
-              width={"23px"}
-              height={"21.36"}
-            />
+            <img src={mainIcon} alt="Icon" width={"23px"} height={"21.36"} />
           </div>
           <div>
             <p className="mb-0">
@@ -73,9 +76,7 @@ const ContentContainer = ({ title, desc, search, btn1, btn2, mainIcon }) => {
           </div>
         ) : null}
       </div>
-      <div className={`content`}>
-        <Outlet />
-      </div>
+      <div className={`content`}>{children}</div>
     </div>
   );
 };
