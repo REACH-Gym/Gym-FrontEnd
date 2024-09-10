@@ -1,28 +1,14 @@
 import styles from "./MeasurementsContainer.module.css";
 import MeasurementsItem from "../MeasurementsItem/MeasurementsItem";
-import {
-  useAddMeasurementsMutation,
-  useGetMeasurementsQuery,
-} from "../../features/api";
+import { useGetMeasurementsQuery } from "../../features/api";
 import ContentContainer from "../ContentContainer/ContentContainer";
 
 // Measurements table container and header
-const MeasurementsContainer = ({ rows }) => {
+const MeasurementsContainer = () => {
   const { data, error, isLoading } = useGetMeasurementsQuery();
   console.log(data);
   console.log(isLoading);
   console.log(error);
-  // const [addMeasuremenst, { isLoading }] = useAddMeasurementsMutation();
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     const response = await addMeasuremenst();
-  //     console.log(response);
-  //     console.log(isLoading);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
 
   return (
     <ContentContainer

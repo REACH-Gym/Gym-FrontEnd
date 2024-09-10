@@ -11,6 +11,10 @@ export const apis = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getAllMembers: builder.query({
+      query: ({ page, page_size }) =>
+        `members?page=${page}&page_size=${page_size}`,
+    }),
     getMeasurements: builder.query({
       query: () => "members/measurements",
     }),
@@ -32,6 +36,7 @@ export const apis = createApi({
 });
 
 export const {
+  useGetAllMembersQuery,
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,
