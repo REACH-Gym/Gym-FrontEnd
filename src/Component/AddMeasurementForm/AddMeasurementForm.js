@@ -35,22 +35,22 @@ const AddMeasurementForm = () => {
     thigh1: "",
     buttocks1: "",
   };
-  // // const [addMeasuremenst, { isLoading }] = useAddMeasurementsMutation();
-  // const handleSubmit = async (values) => {
-  //   console.log(values);
-  //   try {
-  //     const response = await addMeasuremenst();
-  //     console.log(response);
-  //     console.log(isLoading);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const [addMeasuremenst, { isLoading }] = useAddMeasurementsMutation();
+  const handleSubmit = async (values) => {
+    console.log(values);
+    try {
+      const response = await addMeasuremenst();
+      console.log(response);
+      console.log(isLoading);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const [page, setPage] = useState(1);
 
   const [getMembers, { isLoading: membersIsLoading, isFetching }] =
-    useGetAllMembersQuery;
+    useGetAllMembersQuery(page, 3);
 
   const interval = setInterval(async () => {
     const response = await getMembers(page, 4);
@@ -94,7 +94,7 @@ const AddMeasurementForm = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              onSubmit={() => {}}
+              onSubmit={handleSubmit}
             >
               <Form className={`${styles.formContainer} p-4`}>
                 <div className={`row g-4 d-flex align-items-end w-100`}>
