@@ -93,8 +93,19 @@ function SidebarBox() {
         </SubMenu>
 
         <SubMenu label="الحجوزات">
-          <MenuItem className="menu-item"> جميع الحجوزات </MenuItem>
-          <MenuItem className="menu-item">حجوزات اليوم</MenuItem>
+          <MenuItem
+            className="menu-item"
+            onClick={() => navigate("ReservationsContainer")}
+          >
+            {" "}
+            جميع الحجوزات{" "}
+          </MenuItem>
+          <MenuItem
+            className="menu-item"
+            onClick={() => navigate("ReservationsContainer")}
+          >
+            حجوزات اليوم
+          </MenuItem>
         </SubMenu>
 
         <SubMenu label="السندات">
@@ -108,8 +119,20 @@ function SidebarBox() {
         </SubMenu>
 
         <SubMenu label="طرق الدفع">
-          <MenuItem className="menu-item"> جميع طرق الدفع </MenuItem>
-          <MenuItem className="menu-item"> اضافة طريقة دفع</MenuItem>
+          <MenuItem
+            className="menu-item"
+            onClick={() => navigate("PaymentMethodsContainer")}
+          >
+            {" "}
+            جميع طرق الدفع{" "}
+          </MenuItem>
+          <MenuItem
+            className="menu-item"
+            onClick={() => navigate("AddPaymentMethodForm")}
+          >
+            {" "}
+            اضافة طريقة دفع
+          </MenuItem>
         </SubMenu>
 
         <SubMenu label="بوابات الدخول">

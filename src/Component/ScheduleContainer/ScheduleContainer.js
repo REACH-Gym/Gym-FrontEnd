@@ -15,6 +15,7 @@ const ScheduleContainer = () => {
     <ContentContainer
       title={"جميع المواعيد"}
       desc={"يمكنك متابعة جميع المواعيد هنا"}
+      mainIcon={"/assets/image/schedule.png"}
       btn1={"إضافة موعد جديد"}
       btn2={"disabled"}
     >

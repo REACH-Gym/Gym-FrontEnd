@@ -30,6 +30,7 @@ const AddScheduleForm = () => {
     <ContentContainer
       title={"إضافة موعد جديد"}
       desc={"يمكنك إضافة موعد جديد من هنا"}
+      mainIcon={"/assets/image/schedule.png"}
     >
       <div
         style={{ height: "100%" }}

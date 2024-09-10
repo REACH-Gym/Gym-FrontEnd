@@ -31,6 +31,7 @@ const AddGroupForm = () => {
     <ContentContainer
       title={"إضافة مجموعة جديدة"}
       desc={"يمكنك إضافة مجموعة جديدة هنا"}
+      mainIcon={"/assets/image/groups.png"}
     >
       <div>
         <div className="d-flex">
@@ -68,7 +69,7 @@ const AddGroupForm = () => {
                     />
                   </div>
                 </div>
-                <div className={`addmemberBtn m-auto`}>
+                <div className={`addmemberBtn m-auto text-center`}>
                   <MainButton text={"اضافة"} btnType={"submit"} />
                 </div>
               </Form>

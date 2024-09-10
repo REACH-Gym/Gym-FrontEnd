@@ -3,12 +3,9 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import InputField from "../../Common Components/InputField/InputField";
-import {
-  useAddMeasurementsMutation,
-  useGetAllMembersQuery,
-} from "../../features/api";
+import { useAddMeasurementsMutation } from "../../features/api";
 import ContentContainer from "../ContentContainer/ContentContainer";
-import { useEffect, useState } from "react";
+
 // Add Measurements Form Container And Controller
 const AddMeasurementForm = () => {
   const validationSchema = Yup.object({
@@ -46,41 +43,6 @@ const AddMeasurementForm = () => {
       console.log(error.message);
     }
   };
-
-  const [page, setPage] = useState(1);
-
-  const [getMembers, { isLoading: membersIsLoading, isFetching }] =
-    useGetAllMembersQuery(page, 3);
-
-  const interval = setInterval(async () => {
-    const response = await getMembers(page, 4);
-    console.log(response);
-    setPage(response.next);
-    if (page === null) {
-      clearInterval(interval);
-    }
-  }, 300);
-  // useEffect(() => {
-  //   if (!membersIsLoading && !isFetching) {
-  //     setPage(members.next)
-  //     if (page === null) {
-  //       setPage
-  //     }
-  //     console.log("Members data:", members);
-  //   }
-  // }, [members, membersIsLoading, isFetching]);
-  // useEffect(() => {
-  //   const getAllMembers = async () => {
-  //    try {
-  //       const response = await getAllMembersEndPoint(page, 4);
-  //       console.log(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   getAllMembers();
-  // }, []);
 
   return (
     <ContentContainer

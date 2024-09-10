@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Pages/Auth/Login";
-import Home from "./Pages/Home/Home";
+import Login from "./pages/Auth/Login";
+import Home from "./pages/Home/Home";
 import AddNewMember from "./Component/AddNewMember/AddNewMember";
 import AllMembers from "./Component/AllMemebers/AllMembers";
 import MeasurmentsContainer from "./Component/MeasurementsContainer/MeasurementsContainer";
@@ -12,6 +12,10 @@ import Container from "./Component/Container/Container";
 import GroupsContainer from "./Component/GroupsContainer/GroupsContainer";
 import ScheduleContainer from "./Component/ScheduleContainer/ScheduleContainer";
 import AddScheduleForm from "./Component/AddScheduleForm/AddScheduleForm";
+import ReservationsContainer from "./Component/ReservationsContainer/ReservationsContainer";
+import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/PaymentMethodsContainer";
+import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
+
 function App() {
   return (
     <Provider store={store}>
@@ -35,6 +39,18 @@ function App() {
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route
+                path="ReservationsContainer"
+                element={<ReservationsContainer />}
+              />
+              <Route
+                path="PaymentMethodsContainer"
+                element={<PaymentMethodsContainer />}
+              />
+              <Route
+                path="AddPaymentMethodForm"
+                element={<AddPaymentMethodForm />}
+              />
             </Route>
           </Route>
         </Routes>

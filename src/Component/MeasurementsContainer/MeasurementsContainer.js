@@ -14,6 +14,7 @@ const MeasurementsContainer = () => {
     <ContentContainer
       title={"جميع القياسات"}
       desc={"يمكنك إضافة قياس المطلوب"}
+      mainIcon={"/assets/image/measurements.png"}
       btn1={"أضف قياس جديد"}
       btn2={"disabled"}
     >

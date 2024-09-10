@@ -17,6 +17,7 @@ const GroupsContainer = () => {
     <ContentContainer
       title={"جميع المجموعات"}
       desc={"يمكنك متابعة جميع المجموعات المحفوظة"}
+      mainIcon={"/assets/image/groups.png"}
       btn1={"إضافة مجموعة جديدة"}
       btn2={"disabled"}
     >
