@@ -1,0 +1,12 @@
+.contentContainer {
+  background-color: #f8f9fa;
+  width: 100%;
+  padding: 90px 10px 10px 10px;
+}
+.searchInput {
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  outline: none;
+}

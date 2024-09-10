@@ -1,9 +1,10 @@
 import styles from "./AddScheduleForm.module.css";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import InputField from "../common/InputField/InputField";
-import MainBtn from "../common/MainBtn/MainBtn";
-const AddGroupForm = () => {
+import InputField from "../../Common Components/InputField/InputField";
+import MainButton from "../../Common Components/Main Button/MainButton";
+import ContentContainer from "../ContentContainer/ContentContainer";
+const AddScheduleForm = () => {
   const validationSchema = Yup.object({
     group: Yup.string().required("هذا الحقل إلزامي"),
     capacity: Yup.number().required("هذا الحقل إلزامي"),
@@ -26,65 +27,70 @@ const AddGroupForm = () => {
   };
 
   return (
-    <div
-      style={{ height: "100%" }}
-      className="d-flex justify-content-center align-items-center"
+    <ContentContainer
+      title={"إضافة موعد جديد"}
+      desc={"يمكنك إضافة موعد جديد من هنا"}
     >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+      <div
+        style={{ height: "100%" }}
+        className="d-flex justify-content-center align-items-center"
       >
-        <Form className={`${styles.groupForm}`}>
-          <div className="row mb-4 g-5">
-            <div className="col-6">
-              <InputField name="group" label="المجموعة" inputType={"select"}>
-                <option value="">إختر</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-              </InputField>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form className={`${styles.groupForm} p-4`}>
+            <div className="row mb-4 g-5">
+              <div className="col-6">
+                <InputField name="group" label="المجموعة" inputType={"select"}>
+                  <option value="">إختر</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                </InputField>
+              </div>
+              <div className="col-6">
+                <InputField name="capacity" label="الطاقة الإستيعابية" />
+              </div>
             </div>
-            <div className="col-6">
-              <InputField name="capacity" label="الطاقة الإستيعابية" />
+            <div className="row mb-4 g-5">
+              <div className="col-6">
+                <InputField
+                  name="from"
+                  label="من"
+                  inputType={"input"}
+                  type={"date"}
+                />
+              </div>
+              <div className="col-6">
+                <InputField name="time1" label="الساعة" />
+              </div>
             </div>
-          </div>
-          <div className="row mb-4 g-5">
-            <div className="col-6">
-              <InputField
-                name="from"
-                label="من"
-                inputType={"input"}
-                type={"date"}
-              />
+            <div className="row mb-5 g-5">
+              <div className="col-6">
+                <InputField
+                  name="to"
+                  label="إلى"
+                  inputType={"input"}
+                  type={"date"}
+                />
+              </div>
+              <div className="col-6">
+                <InputField name="time2" label="الساعة" />
+              </div>
             </div>
-            <div className="col-6">
-              <InputField name="time1" label="الساعة" />
+            <div className="row text-center">
+              <MainButton text="إضافة" btnType="submit" btnWidth={"200px"} />
             </div>
-          </div>
-          <div className="row mb-5 g-5">
-            <div className="col-6">
-              <InputField
-                name="to"
-                label="إلى"
-                inputType={"input"}
-                type={"date"}
-              />
-            </div>
-            <div className="col-6">
-              <InputField name="time2" label="الساعة" />
-            </div>
-          </div>
-          <div className="row">
-            <MainBtn text="إضافة" btnType="submit" btnWidth={"200px"} />
-          </div>
-        </Form>
-      </Formik>
-    </div>
+          </Form>
+        </Formik>
+      </div>
+    </ContentContainer>
   );
 };
 
-export default AddGroupForm;
+export default AddScheduleForm;

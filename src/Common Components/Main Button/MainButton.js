@@ -1,9 +1,21 @@
 import React from "react";
 import "./mainButton.css";
-function MainButton({ text, onClick, btnWidth, btnType }) {
+function MainButton({
+  text,
+  onClick,
+  btnWidth = "100px",
+  btnType,
+  disabled = false,
+}) {
   return (
     <div>
-      <button className="main-button" onClick={onClick} type={btnType}>
+      <button
+        className="main-button"
+        style={{ width: btnWidth }}
+        onClick={onClick}
+        type={btnType}
+        disabled={disabled}
+      >
         {text}
       </button>
     </div>

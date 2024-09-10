@@ -30,13 +30,15 @@ function Login() {
       );
 
       const result = await response.json();
-      localStorage.setItem("loginResult", JSON.stringify(result));
+      console.log(result);
+      localStorage.setItem("access", result.data.access);
+      localStorage.setItem("refresh", result.data.refresh);
 
       if (response.ok) {
         toast.success("Login successful");
         setTimeout(() => {
           navigate("/Home");
-        }, 1500); 
+        }, 1500);
       } else {
         toast.error("Login failed. Please check your credentials.");
       }

@@ -1,6 +1,5 @@
 import React from "react";
 import "./AddNewMember.css";
-import SidebarBox from "../Sidebar/Sidebar";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Formik, Form } from "formik";
