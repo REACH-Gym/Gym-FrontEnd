@@ -18,4 +18,22 @@
   right: 0;
   background-color: #f4f4f4;
 }
-/*  padding: 100px 50px 50px 50px; */
+.membersSearch {
+  position: relative;
+}
+.membersDropdown {
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 3px #0001;
+  top: 90px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.membersDropdown div {
+  padding: 5px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}

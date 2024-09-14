@@ -12,17 +12,20 @@ export const apis = createApi({
   }),
   endpoints: (builder) => ({
     getAllMembers: builder.query({
-      query: ({ page, page_size }) =>
-        `members?page=${page}&page_size=${page_size}`,
+      query: () => `members`,
+    }),
+    getAllMembersAtOnce: builder.query({
+      query: () => `members?paginate=false`,
     }),
     getMeasurements: builder.query({
-      query: () => "members/measurements",
+      query: ({ page, page_size }) =>
+        `members/measurements?page=${page}&page_size=${page_size}`,
     }),
     addMeasurements: builder.mutation({
-      query: () => ({
+      query: (data) => ({
         url: "members/measurements",
         method: "POST",
-        body: JSON.stringify({ user_id: 14, height: 170, month: "2024-9-11" }),
+        body: JSON.stringify(data),
       }),
     }),
     loginAdmin: builder.mutation({
@@ -37,6 +40,7 @@ export const apis = createApi({
 
 export const {
   useGetAllMembersQuery,
+  useGetAllMembersAtOnceQuery,
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,

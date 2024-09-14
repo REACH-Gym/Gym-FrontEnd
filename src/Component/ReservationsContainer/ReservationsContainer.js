@@ -10,7 +10,7 @@ const ReservationsContainer = () => {
     group: "اسم المجموعة",
     from: "من",
     to: "إلى",
-    status: "تم",
+    status: "confirmed",
     rating: "3.5",
   };
 
