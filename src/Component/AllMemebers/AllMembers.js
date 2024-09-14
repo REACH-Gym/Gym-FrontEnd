@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./AllMembers.css";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ContentContainer from "../ContentContainer/ContentContainer";
 function AllMembers() {
+  useEffect(() => {
+    async function fetchAllMembers() {
+      const data = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/members?page_size=20",
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+          },
+        }
+      );
+      const response = await data.json();
+    }
+    fetchAllMembers();
+  });
   return (
     <ContentContainer
       title={"جميع الإعضاء"}

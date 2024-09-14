@@ -8,9 +8,11 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import BrightnessLowRoundedIcon from "@mui/icons-material/BrightnessLowRounded";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import MainButton from "../../Common Components/Main Button/MainButton";
+import { useEffect } from "react";
+
 function SidebarBox() {
   const navigate = useNavigate();
+  
 
   return (
     <Sidebar className="sidebarContainer">
@@ -164,10 +166,9 @@ function SidebarBox() {
           {/* <MenuItem>  رابط التطبيق </MenuItem> */}
           {/* <MenuItem> كود الأستجابة السريع</MenuItem> */}
         </SubMenu>
-        <MenuItem className="logOut">
+        <MenuItem>
           {" "}
-          <PowerSettingsNewRoundedIcon className="icon-svg ms-2" />
-          <MainButton text={" تسجيل الخروج"} />{" "}
+          <PowerSettingsNewRoundedIcon className="icon-svg ms-2" /><button className="logout-btn" type="submit"> تسجيل الخروج{" "}</button>
         </MenuItem>
       </Menu>
     </Sidebar>
