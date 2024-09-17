@@ -79,7 +79,7 @@ function AddNewMember() {
       <Navbar />
 
       <div className="d-flex">
-        <SidebarBox />
+        {/*<SidebarBox />*/}
         <div className="addMemberContainer">
           {/*add member */}
           <section className="d-flex align-items-center pe-5">

@@ -114,7 +114,7 @@ const AddMeasurementForm = () => {
                               onBlur={() => {
                                 setTimeout(() => {
                                   setActive(false);
-                                }, 100);
+                                }, 200);
                               }}
                               onChange={(e) => {
                                 handleChange(e, setFieldValue);
@@ -123,7 +123,7 @@ const AddMeasurementForm = () => {
                             />
                             {active ? (
                               <div className={`${styles.membersDropdown}`}>
-                                {filteredData?.map((member) => (
+                                {filteredData?.map((member, i) => (
                                   <div
                                     key={member.id}
                                     value={member.id}

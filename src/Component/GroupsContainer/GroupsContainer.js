@@ -1,18 +1,44 @@
+import { Link } from "react-router-dom";
+import { useGetMembersSessionsQuery } from "../../features/api";
 import ContentContainer from "../ContentContainer/ContentContainer";
-import GroupsItem from "../GroupsItem/GroupsItem";
+import GroupsItem from "../GroupsContainerItem/GroupsItem";
 import styles from "./GroupsContainer.module.css";
 
 const row = {
   num: 1,
   name: "Ahmed",
   price: "170",
-  discount: "10",
+  notes: "10",
   duration: "10",
-  numOfReservations: "10",
 };
 
 // Groups table container and header
 const GroupsContainer = () => {
+  const {
+    data: members,
+    isLoading: isMembersSessionsLoading,
+    error: membersSessionsError,
+  } = useGetMembersSessionsQuery(
+    "?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=user.name&include[]=schedule.session.name&include[]=schedule.trainer.name"
+  );
+
+  console.log(members);
+
+  if (membersSessionsError) {
+    return (
+      <div className="text-center mt-5">
+        <h3>حدث خطأ، حاول مجدداً</h3>
+      </div>
+    );
+  }
+
+  if (isMembersSessionsLoading) {
+    return (
+      <div className="text-center d-flex justify-content-center align-items-center">
+        جاري التحميل...
+      </div>
+    );
+  }
   return (
     <ContentContainer
       title={"جميع المجموعات"}
@@ -27,13 +53,12 @@ const GroupsContainer = () => {
             <th className={`p-2 pt-3 pb-3`}>#</th>
             <th className={`p-2 pt-3 pb-3`}>الإسم</th>
             <th className={`p-2 pt-3 pb-3`}>السعر</th>
-            <th className={`p-2 pt-3 pb-3`}>الخصم(%)</th>
             <th className={`p-2 pt-3 pb-3`}>المدة</th>
-            <th className={`p-2 pt-3 pb-3`}>عدد مرات الحجز</th>
+            <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
             <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
           </thead>
           <tbody>
-            <GroupsItem {...row} />
+            <GroupsItem {...members} />
           </tbody>
         </table>
       </div>

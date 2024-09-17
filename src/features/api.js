@@ -35,13 +35,36 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    getMembersSessions: builder.query({
+      query: (params) => `members/sessions/${params}`,
+    }),
+    postSession: builder.mutation({
+      query: (data) => ({
+        url: "sessions",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
+    getSchedules: builder.query({
+      query: (params) => `schedules${params}`,
+    }),
+    postSchedule: builder.mutation({
+      query: (data) => ({
+        url: "schedules",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
   }),
 });
-
 export const {
   useGetAllMembersQuery,
   useGetAllMembersAtOnceQuery,
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,
+  useGetMembersSessionsQuery,
+  usePostSessionMutation,
+  useGetSchedulesQuery,
+  usePostScheduleMutation,
 } = apis;
