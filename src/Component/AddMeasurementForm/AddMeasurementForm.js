@@ -9,6 +9,7 @@ import {
 } from "../../features/api";
 import ContentContainer from "../ContentContainer/ContentContainer";
 import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Add Measurements Form Container And Controller
 const AddMeasurementForm = () => {
@@ -39,10 +40,12 @@ const AddMeasurementForm = () => {
     buttocks1: "",
   };
   const [addMeasuremenst, { isLoading }] = useAddMeasurementsMutation();
+  const navigate = useNavigate();
   const handleSubmit = async (values) => {
     console.log(values);
     const data = {
       user_id: values.user_id,
+      user: values.user_id,
       month: values.month,
       height: values.height,
       weight: values.weight1,
@@ -58,6 +61,7 @@ const AddMeasurementForm = () => {
       const response = await addMeasuremenst(data);
       console.log(response);
       console.log(isLoading);
+      navigate("/Home/MeasurmentsContainer");
     } catch (error) {
       console.log(error.message);
     }
@@ -114,7 +118,7 @@ const AddMeasurementForm = () => {
                               onBlur={() => {
                                 setTimeout(() => {
                                   setActive(false);
-                                }, 100);
+                                }, 200);
                               }}
                               onChange={(e) => {
                                 handleChange(e, setFieldValue);
