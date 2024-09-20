@@ -3,8 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import ContentContainer from "../ContentContainer/ContentContainer";
-
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 const AddPaymentMethodForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
@@ -24,18 +23,21 @@ const AddPaymentMethodForm = () => {
   };
 
   return (
-    <ContentContainer
-      title={"إضافة طريقة دفع جديدة"}
-      desc={"يمكنك إضافة طريقة دفع جديدة من هنا"}
-      mainIcon={"/assets/image/payment.png"}
-    >
+    <div className={`${styles.AddPaymentMethodForm}`}>
+      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <ComponentTitle
+          MainIcon={"/assets/image/ph_money.png"}
+          title={"جميع طرق دفع"}
+          subTitle={"يمكنك إضافة طريقة الدفع المطلوب"}
+        />
+        </div>
       <div className={`w-100`}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className={`${styles.formContainer} p-4`}>
+          <Form className={`${styles.formContainer} p-4 mt-3`}>
             <div className="row g-4">
               <div className={`row g-4`}>
                 <div className="col-6">
@@ -66,7 +68,7 @@ const AddPaymentMethodForm = () => {
           </Form>
         </Formik>
       </div>
-    </ContentContainer>
+      </div>
   );
 };
 

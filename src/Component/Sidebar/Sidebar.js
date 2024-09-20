@@ -111,8 +111,8 @@ function SidebarBox() {
       icon: <PaymentsOutlinedIcon />,
       itemId: "payments",
       subItems: [
-        { title: "جميع طرق الدفع", navigateTo: "" },
-        { title: "اضافة طريقة دفع", navigateTo: "" },
+        { title: "جميع طرق الدفع", navigateTo: "PaymentMethodsContainer" },
+        { title: "اضافة طريقة دفع", navigateTo: "AddPaymentMethodForm" },
       ],
     },
     {
