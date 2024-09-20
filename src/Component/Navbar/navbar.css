@@ -1,9 +1,17 @@
-.navbar{
-    background-color: #fff;
-    padding: 0px 30px 0px 30px;
-    height: 65px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+.navbar {
+  background-color: #fff;
+  padding: 0px 60px 15px 60px;
+  height: 65px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
-.admin-name{
-    margin-top: -8px;
+.admin-name {
+  margin-top: -8px;
+}
+.first-char{
+    background-color: rgb(203, 203, 203);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    text-align: center;
 }

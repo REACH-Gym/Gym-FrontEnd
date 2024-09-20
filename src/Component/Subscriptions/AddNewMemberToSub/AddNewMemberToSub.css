@@ -1,0 +1,33 @@
+.addNewSubscriptionsContainer__item1,
+.addNewSubscriptionsContainer__item2 {
+  background-color: #fff;
+  padding: 50px;
+  width: 47%;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+}
+.AddNewSubscriptionForm label {
+  color: #666666;
+  font-size: 15px;
+}
+.addBtn button {
+  width: 50%;
+}
+.addBtn {
+  margin-top: 95px;
+}
+.addNewSubscriptionsContainer__item2 p {
+  color: #666666;
+}
+.addNewSubscriptionsContainer {
+  padding: 30px 0px 0px 0px;
+  width: 100%;
+  background-color: #f2f4f5;
+}
+.formContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+}

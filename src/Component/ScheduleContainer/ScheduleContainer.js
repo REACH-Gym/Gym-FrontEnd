@@ -1,8 +1,8 @@
 import styles from "./ScheduleContainer.module.css";
 import ScheduleItem from "../ScheduleItem/ScheduleItem";
-import ContentContainer from "../ContentContainer/ContentContainer";
-
-// Schedule table container and header
+import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import Filter from "../../Common Components/Filter/Filter";
 const ScheduleContainer = () => {
   const row = {
     num: 1,
@@ -12,13 +12,17 @@ const ScheduleContainer = () => {
     registerDate: "2022-01-01",
   };
   return (
-    <ContentContainer
-      title={"جميع المواعيد"}
-      desc={"يمكنك متابعة جميع المواعيد هنا"}
-      btn1={"إضافة موعد جديد"}
-      btn2={"disabled"}
-    >
-      <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+    <div className={`${styles.scheduleContainer}`}>
+      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <ComponentTitle
+          MainIcon={"/assets/image/appointments.png"}
+          title={" جميع المواعيد"}
+          subTitle={"يمكنك متابعة جميع االمواعيد  من هنا"}
+        />
+        <Filter/>
+        <ComponentBtns btn1={"+ إضافة موعد جديد "} />
+      </div>
+      <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
         <table className="w-100">
           <thead className={`fw-bold`}>
             <th className={`p-2 pt-3 pb-3`}>#</th>
@@ -34,7 +38,7 @@ const ScheduleContainer = () => {
           </tbody>
         </table>
       </div>
-    </ContentContainer>
+    </div>
   );
 };
 export default ScheduleContainer;

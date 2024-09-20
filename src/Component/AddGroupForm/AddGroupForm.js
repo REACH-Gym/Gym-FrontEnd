@@ -3,8 +3,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import InputField from "../../Common Components/InputField/InputField";
-import ContentContainer from "../ContentContainer/ContentContainer";
-
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 const AddGroupForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
@@ -26,14 +25,17 @@ const AddGroupForm = () => {
   const handleSubmit = (values) => {
     console.log(values);
   };
-
   return (
-    <ContentContainer
-      title={"إضافة مجموعة جديدة"}
-      desc={"يمكنك إضافة مجموعة جديدة هنا"}
-    >
-      <div>
-        <div className="d-flex">
+    <div className={`${styles.groupFormContainer}`}>
+      <div className="allSubscriptionContainer mt-4">
+        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+          <ComponentTitle
+            MainIcon={"/assets/image/groups.png"}
+            title={"اضافة مجموعة جديدة"}
+            subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
+          />
+        </div>
+        <div className="">
           <div className={`${styles.addgroupContainer}`}>
             <Formik
               initialValues={initialValues}
@@ -68,7 +70,7 @@ const AddGroupForm = () => {
                     />
                   </div>
                 </div>
-                <div className={`addmemberBtn m-auto`}>
+                <div className={`${styles.addgroupBtn} text-center`}>
                   <MainButton text={"اضافة"} btnType={"submit"} />
                 </div>
               </Form>
@@ -76,7 +78,7 @@ const AddGroupForm = () => {
           </div>
         </div>
       </div>
-    </ContentContainer>
+    </div>
   );
 };
 

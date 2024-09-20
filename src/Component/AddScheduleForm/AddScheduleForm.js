@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import ContentContainer from "../ContentContainer/ContentContainer";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 const AddScheduleForm = () => {
   const validationSchema = Yup.object({
     group: Yup.string().required("هذا الحقل إلزامي"),
@@ -21,19 +21,21 @@ const AddScheduleForm = () => {
     to: "",
     time2: "",
   };
-
   const handleSubmit = (values) => {
     console.log(values);
   };
-
   return (
-    <ContentContainer
-      title={"إضافة موعد جديد"}
-      desc={"يمكنك إضافة موعد جديد من هنا"}
-    >
+    <div className={`${styles.schedulFormeContainer}`}>
+      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <ComponentTitle
+          MainIcon={"/assets/image/appointments.png"}
+          title={"اضافه موعد جديد"}
+          subTitle={"يمكنك اضافه موعد جديد من هنا"}
+        />
+      </div>
       <div
         style={{ height: "100%" }}
-        className="d-flex justify-content-center align-items-center"
+        className="  justify-content-center align-items-center mt-3"
       >
         <Formik
           initialValues={initialValues}
@@ -83,13 +85,13 @@ const AddScheduleForm = () => {
                 <InputField name="time2" label="الساعة" />
               </div>
             </div>
-            <div className="row text-center">
-              <MainButton text="إضافة" btnType="submit" btnWidth={"200px"} />
+            <div className={`${styles.AddSchedule} text-center`}>
+              <MainButton text="إضافة" btnType="submit" />
             </div>
           </Form>
         </Formik>
       </div>
-    </ContentContainer>
+    </div>
   );
 };
 

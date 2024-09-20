@@ -3,7 +3,16 @@
   border-radius: 5px;
 }
 .addgroupContainer {
+  width: 98%;
+  margin: auto;
+}
+.addgroupBtn button{
+  width: 20%;
+}
+.groupFormContainer{
+  background-color: #F2F4F5;
   width: 100%;
+  /* padding: 0px 20px 20px 20px; */
 }
 @media (max-width: 768px) {
   .groupForm {

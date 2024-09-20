@@ -1,154 +1,224 @@
-"use client";
+import React, {useState } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"; //up and down arrow
 import "./sidebar.css";
-import { useNavigate } from "react-router-dom";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PowerSettingsNewRoundedIcon from "@mui/icons-material/PowerSettingsNewRounded";
-import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
-import BrightnessLowRoundedIcon from "@mui/icons-material/BrightnessLowRounded";
-import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import { useEffect } from "react";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
+import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import FingerprintOutlinedIcon from "@mui/icons-material/FingerprintOutlined";
+import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import SpeedIcon from "@mui/icons-material/Speed";
+import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
+import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
+import { useNavigate } from "react-router-dom";
 
 function SidebarBox() {
+  const [openItemId, setOpenItemId] = useState(null);
+  const [activeItemId, setActiveItemId] = useState(null);
   const navigate = useNavigate();
-  
+
+  const handleToggle = (itemId) => {
+    setOpenItemId((prevItemId) => (prevItemId === itemId ? null : itemId));
+  };
+
+  const handleNavigate = (itemId, navigateTo) => {
+    setActiveItemId(itemId);
+    navigate(navigateTo);
+  };
+
+  const menuItems = [
+    {
+      title: "الصفحة الريئسية",
+      itemId: "home",
+      icon: <HomeOutlinedIcon />,
+      navigateTo: "/Home",
+    },
+    {
+      title: "الأعضاء",
+      itemId: "members",
+      icon: <GroupsOutlinedIcon />,
+      subItems: [
+        { title: "جميع الأعضاء", navigateTo: "AllMembers" },
+        { title: "اضافة عضو جديد", navigateTo: "AddNewMember" },
+      ],
+    },
+    {
+      title: "القياسات",
+      icon: <SpeedIcon />,
+      itemId: "mesurments",
+      subItems: [
+        { title: "جميع القياسات", navigateTo: "MeasurmentsContainer" },
+        { title: "اضافة قياس جديد", navigateTo: "AddMeasurementForm" },
+      ],
+    },
+    {
+      title: "المجموعات",
+      icon: <Diversity2OutlinedIcon />,
+      itemId: "groups",
+      subItems: [
+        { title: "جميع المجموعات", navigateTo: "GroupsContainer" },
+        { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
+      ],
+    },
+    {
+      title: "المواعيد",
+      itemId: "times",
+      icon: <DateRangeOutlinedIcon />,
+      subItems: [
+        { title: "جميع المواعيد", navigateTo: "ScheduleContainer" },
+        { title: "اضافة موعد جديد", navigateTo: "AddScheduleForm" },
+      ],
+    },
+    {
+      title: "الأشتراكات",
+      itemId: "subscriptions",
+      icon: <SubscriptionsOutlinedIcon />,
+      subItems: [
+        { title: "جميع الأشتراكات", navigateTo: "AllSubScriptions" },
+        { title: "الأعضاء المشتركين ", navigateTo: "SubscripedMembers" },
+        { title: "إضافة عضو للاشتراك", navigateTo: "AddNewMemberToSub" },
+        { title: "اضافة اشتراك جديد", navigateTo: "AddNewSubscription" },
+      ],
+    },
+    {
+      title: "السندات",
+      itemId: "bonds",
+      icon: <ArticleOutlinedIcon />,
+      subItems: [
+        { title: "جميع السندات", navigateTo: "" },
+        { title: "اضافة سندات", navigateTo: "" },
+      ],
+    },
+    {
+      title: "المستخدمين",
+      itemId: "users",
+      icon: <ManageAccountsOutlinedIcon />,
+      subItems: [
+        { title: "جميع المستخدمين", navigateTo: "" },
+        { title: "اضافة مستخدم جديد", navigateTo: "" },
+      ],
+    },
+    {
+      title: "طرق الدفع",
+      icon: <PaymentsOutlinedIcon />,
+      itemId: "payments",
+      subItems: [
+        { title: "جميع طرق الدفع", navigateTo: "" },
+        { title: "اضافة طريقة دفع", navigateTo: "" },
+      ],
+    },
+    {
+      title: "بوابات الدخول",
+      itemId: "entry gates",
+      icon: <FingerprintOutlinedIcon />,
+      subItems: [
+        { title: "جميع بوابات الدخول", navigateTo: "" },
+        { title: "اضافة بوابة دفع", navigateTo: "" },
+        { title: "تحميل برنامج البوابة", navigateTo: "" },
+      ],
+    },
+    {
+      title: "التقارير",
+      icon: <ReceiptLongOutlinedIcon />,
+      itemId: "reports",
+      navigateTo: "",
+    },
+    {
+      title: "الأعدادات",
+      icon: <SettingsOutlinedIcon />,
+      itemId: "settings",
+      navigateTo: "",
+    },
+    {
+      title: "التنبيهات",
+      icon: <NotificationsNoneOutlinedIcon />,
+      itemId: "notifications",
+      navigateTo: "",
+    },
+    {
+      title: "الربط المحسابي",
+      icon: <AttachFileOutlinedIcon />,
+      itemId: "link",
+      navigateTo: "",
+    },
+    {
+      title: "تحديثات النظام",
+      icon: <RestoreOutlinedIcon />,
+      itemId: "update",
+      navigateTo: "UpdateSystem",
+    },
+    {
+      title: "تطبيق العميل",
+      icon: <AppsOutlinedIcon />,
+      itemId: "user app",
+      subItems: [
+        { title: "رابط التطبيق", navigateTo: "" },
+        { title: "كود الأستجابة السريع", navigateTo: "" },
+      ],
+    },
+    {
+      title: "تسجيل الخروج",
+      icon: <PowerSettingsNewOutlinedIcon />,
+      itemId: "logout",
+      navigateTo: "",
+    },
+  ];
 
   return (
-    <Sidebar className="sidebarContainer">
-      <Menu>
-        <MenuItem onClick={() => navigate("Home")}>
-          <HomeOutlinedIcon className="icon-svg ms-2" /> الصفحة الرئيسية
-        </MenuItem>
-        <SubMenu label={`الأعضاء`}>
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("AllMembers")}
-          >
-            {" "}
-            جميع الأعضاء{" "}
-          </MenuItem>
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("AddNewMember")}
-          >
-            {" "}
-            اضافة عضو جديد{" "}
-          </MenuItem>
-        </SubMenu>
-
-        <SubMenu label="القياسات">
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("MeasurmentsContainer")}
-          >
-            {" "}
-            جميع القياسات{" "}
-          </MenuItem>
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("AddMeasurementForm")}
-          >
-            {" "}
-            اضافة قياس جديد{" "}
-          </MenuItem>
-        </SubMenu>
-
-        <SubMenu label="المجموعات">
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("GroupsContainer")}
-          >
-            {" "}
-            جميع المجموعات{" "}
-          </MenuItem>
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("AddGroupForm")}
-          >
-            {" "}
-            اضافة مجموعة جديدة
-          </MenuItem>
-        </SubMenu>
-        <SubMenu label="المواعيد">
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("ScheduleContainer")}
-          >
-            {" "}
-            جميع المواعيد{" "}
-          </MenuItem>
-          <MenuItem
-            className="menu-item"
-            onClick={() => navigate("AddScheduleForm")}
-          >
-            {" "}
-            اضافة موعد جديد{" "}
-          </MenuItem>
-        </SubMenu>
-        <SubMenu label="الأشتراكات">
-          <MenuItem className="menu-item"> جميع الأشتراكات </MenuItem>
-          <MenuItem className="menu-item"> الأشتراكات الفعالة </MenuItem>
-          <MenuItem className="menu-item"> الأشتراكات المنتهية </MenuItem>
-          <MenuItem className="menu-item"> اوشكت علي الأنتهاء </MenuItem>
-          <MenuItem className="menu-item"> اضافة اشتراك جديد</MenuItem>
-        </SubMenu>
-
-        <SubMenu label="الحجوزات">
-          <MenuItem className="menu-item"> جميع الحجوزات </MenuItem>
-          <MenuItem className="menu-item">حجوزات اليوم</MenuItem>
-        </SubMenu>
-
-        <SubMenu label="السندات">
-          <MenuItem className="menu-item"> جميع السندات </MenuItem>
-          <MenuItem className="menu-item"> اضافة سندات</MenuItem>
-        </SubMenu>
-
-        <SubMenu label="المستخدمين">
-          <MenuItem className="menu-item"> جميع المستخدمين </MenuItem>
-          <MenuItem className="menu-item">اضافة مستخدم جديد</MenuItem>
-        </SubMenu>
-
-        <SubMenu label="طرق الدفع">
-          <MenuItem className="menu-item"> جميع طرق الدفع </MenuItem>
-          <MenuItem className="menu-item"> اضافة طريقة دفع</MenuItem>
-        </SubMenu>
-
-        <SubMenu label="بوابات الدخول">
-          <MenuItem className="menu-item"> جميع بوابات الدخول </MenuItem>
-          <MenuItem className="menu-item"> اضافة مجموعة جديدة</MenuItem>
-        </SubMenu>
-        <SubMenu label="المجموعات">
-          <MenuItem className="menu-item"> جميع المجموعات </MenuItem>
-          <MenuItem className="menu-item"> اضافة بوابة دفع</MenuItem>
-          <MenuItem className="menu-item">تحميل برنامج البوابة</MenuItem>
-        </SubMenu>
-        <MenuItem>التقارير</MenuItem>
-        <MenuItem>
-          {" "}
-          <BrightnessLowRoundedIcon className="icon-svg ms-2" /> الأعدادات
-        </MenuItem>
-        <MenuItem>
-          {" "}
-          <NotificationsNoneRoundedIcon className="icon-svg ms-2" /> التنبيهات
-        </MenuItem>
-        <MenuItem>الربط الحسابي</MenuItem>
-        <MenuItem>تحديث النظام</MenuItem>
-        <SubMenu label="تطبيق العميل">
-          <MenuItem className="menu-item"> رابط التطبيق </MenuItem>
-          <MenuItem className="menu-item"> كود الأستجابة السريع</MenuItem>
-        </SubMenu>
-        <MenuItem>تحديث النظام</MenuItem>
-        <SubMenu label="منتاجتنا ">
-          {/* <MenuItem>  رابط التطبيق </MenuItem> */}
-          {/* <MenuItem> كود الأستجابة السريع</MenuItem> */}
-        </SubMenu>
-        <MenuItem>
-          {" "}
-          <PowerSettingsNewRoundedIcon className="icon-svg ms-2" /><button className="logout-btn" type="submit"> تسجيل الخروج{" "}</button>
-        </MenuItem>
-      </Menu>
-    </Sidebar>
+    <div className="sidebarContainer">
+      <ul className="menu">
+        {menuItems.map((item) => (
+          <li key={item.itemId || item.title} className="menu-item">
+            <div
+              className={`menu-item-header ${
+                activeItemId === item.itemId ? "active-item" : ""
+              }`}
+              onClick={() => {
+                setActiveItemId(item.itemId);
+                if (item.navigateTo) {
+                  navigate(item.navigateTo);
+                } else {
+                  handleToggle(item.itemId);
+                }
+              }}
+            >
+              <span>
+                <span className="menu-item-icon">{item.icon}</span>
+                {item.title}
+              </span>
+              {item.subItems ? (
+                openItemId === item.itemId ? (
+                  <FaChevronUp className="up-icon" />
+                ) : (
+                  <FaChevronDown className="down-icon" />
+                )
+              ) : null}
+            </div>
+            {item.subItems && openItemId === item.itemId && (
+              <ul className="submenu">
+                {item.subItems.map((subItem, index) => (
+                  <li
+                    key={index}
+                    className="submenu-item"
+                    onClick={() => navigate(subItem.navigateTo)}
+                  >
+                    {subItem.title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 export default SidebarBox;

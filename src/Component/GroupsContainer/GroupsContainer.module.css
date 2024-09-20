@@ -1,5 +1,6 @@
 .tableContainer {
-  width: 100%;
+  width: 99%;
+  background-color: #fff;
   direction: rtl;
   padding: 10px;
   border-radius: 15px;
@@ -13,4 +14,9 @@
 }
 .tableContainer thead th:last-child {
   width: 100px;
+}
+.groupsContainer{
+  background-color: #F2F4F5;
+  width: 100%;
+  padding: 90px 20px 20px 20px;
 }

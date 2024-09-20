@@ -1,11 +1,11 @@
 .allMembereContainer {
-  background-color: #f2f4f5;
+  background-color: #F2F4F5;
   width: 100%;
-  color: rgba(74, 217, 145, 0.4);
+  padding: 80px 20px 20px 20px;
 }
 .search-input {
   width: 50%;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -23,7 +23,28 @@
 .icon {
   color: #3572ef;
 }
-.table td {
+/* Pagination Controls  */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.previousBtn {
+  border: none;
   padding: 10px;
-  vertical-align: middle;
+  width:60px;
+  background-color: #3572ef;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.nextBtn {
+  border: none;
+  padding: 10px;
+  width:60px;
+  background-color: #3572ef;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.previousBtn:hover , .nextBtn:hover{
+  background-color: rgba(53, 114, 239,0.7);
 }

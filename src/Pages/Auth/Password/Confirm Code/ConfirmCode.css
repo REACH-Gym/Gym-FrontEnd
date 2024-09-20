@@ -1,0 +1,26 @@
+.confirmCodeContainer {
+  background-image: url("/public/assets/image/login bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+}
+.confirmCodeFormContainer {
+  background-color: #fff;
+  width: 36%;
+  border-radius: 5px;
+  margin: auto;
+  padding: 30px;
+}
+.confirmCodeForm__inputs input {
+  outline: none;
+  border: 1px solid rgb(86, 85, 85);
+  border-radius: 5px;
+  width: 64px;
+  height: 64px;
+  margin: 5px;
+}
+.span{
+    cursor: pointer;
+}

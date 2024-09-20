@@ -1,7 +1,8 @@
-import ContentContainer from "../ContentContainer/ContentContainer";
 import GroupsItem from "../GroupsItem/GroupsItem";
 import styles from "./GroupsContainer.module.css";
-
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import Filter from "../../Common Components/Filter/Filter";
+import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 const row = {
   num: 1,
   name: "Ahmed",
@@ -10,17 +11,20 @@ const row = {
   duration: "10",
   numOfReservations: "10",
 };
-
 // Groups table container and header
 const GroupsContainer = () => {
   return (
-    <ContentContainer
-      title={"جميع المجموعات"}
-      desc={"يمكنك متابعة جميع المجموعات المحفوظة"}
-      btn1={"إضافة مجموعة جديدة"}
-      btn2={"disabled"}
-    >
-      <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+    <div className={`${styles.groupsContainer}`}>
+      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <ComponentTitle
+          MainIcon={"/assets/image/groups.png"}
+          title={"جميع المجموعات"}
+          subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
+        />
+        <Filter />
+        <ComponentBtns btn1={"+ إضافة مجموهة جديدة "} />
+      </div>
+      <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
         <table className="w-100">
           <thead className={`fw-bold`}>
             <th className={`p-2 pt-3 pb-3`}>#</th>
@@ -36,7 +40,7 @@ const GroupsContainer = () => {
           </tbody>
         </table>
       </div>
-    </ContentContainer>
+    </div>
   );
 };
 

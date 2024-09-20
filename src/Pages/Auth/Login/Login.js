@@ -3,7 +3,7 @@ import "./login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import MainButton from "../../Common Components/Main Button/MainButton";
+import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,18 +33,18 @@ function Login() {
       console.log(result);
       localStorage.setItem("access", result.data.access);
       localStorage.setItem("refresh", result.data.refresh);
-
+      localStorage.setItem("adminName", result.data.role);
+      
       if (response.ok) {
         toast.success("Login successful");
         setTimeout(() => {
           navigate("/Home");
         }, 1500);
       } else {
-        toast.error("Login failed. Please check your credentials.");
+        toast.error("Login failed. Please check your phone or password.");
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Phone or password is not correct , please try again");
     }
   };
 
@@ -89,7 +89,7 @@ function Login() {
                 component="div"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <label htmlFor="password" className="d-block mb-2 mt-4">
                 كلمة السر
               </label>
@@ -100,10 +100,10 @@ function Login() {
                 component="div"
               />
             </div>
-            <Link to={""} className="text-decoration-none">
+            <Link to={"ForgotPassword"} className="text-decoration-none fw-bolder">
               <span className="forgot-password">هل نسيت كلمة السر؟</span>
             </Link>
-            <div className="mt-4 login-btn">
+            <div className="mt-4 text-center login-btn">
               <MainButton text={"تسجيل الدخول"} btnType="submit" />
             </div>
           </Form>

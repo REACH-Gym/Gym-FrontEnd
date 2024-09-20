@@ -16,3 +16,8 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
+.MeasurementsContainer{
+  background-color: #F2F4F5;
+  width: 100%;
+  padding: 90px 20px 20px 20px;
+}

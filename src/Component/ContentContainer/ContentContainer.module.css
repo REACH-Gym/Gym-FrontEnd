@@ -1,12 +1,23 @@
 .contentContainer {
-  background-color: #f8f9fa;
+  background-color: #F2F4F5;
   width: 100%;
-  padding: 90px 10px 10px 10px;
+  /* margin: auto; */
+  padding: 90px 20px 20px 20px;
 }
 .searchInput {
-  background-color: #f4f4f4;
+  background-color: #e2e2e2;
   border: none;
   border-radius: 5px;
   padding: 10px;
   outline: none;
+  height: 40px;
+}
+.main-icon{
+  background-color: #fff;
+}
+.form button{
+  height: 40px;
+}
+.buttons button{
+  height: 40px;
 }

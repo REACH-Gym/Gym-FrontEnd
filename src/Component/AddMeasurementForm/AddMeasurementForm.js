@@ -3,9 +3,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import InputField from "../../Common Components/InputField/InputField";
-import SidebarBox from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
-import ContentContainer from "../ContentContainer/ContentContainer";
+// import ContentContainer from "../ContentContainer/ContentContainer";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 // Add Measurements Form Container And Controller
 const AddMeasurementForm = () => {
   const validationSchema = Yup.object({
@@ -50,19 +49,29 @@ const AddMeasurementForm = () => {
     console.log(values);
   };
   return (
-    <ContentContainer
-      title={"إضافة قياس جديد"}
-      desc={"يمكنك إضافة قياس جديد هنا"}
-    >
-      <div>
-        <div className="d-flex">
+    // <ContentContainer
+    //   title={"إضافة قياس جديد"}
+    //   desc={"يمكنك إضافة قياس جديد هنا"}
+    //   mainIcon={'/assets/image/measurments.png'}
+    // >
+      // <div>
+        <div className={`${styles.AddMeasurementFormContainer}`}>
+        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <ComponentTitle
+          MainIcon={"/assets/image/measurments.png"}
+          title={"اضافة قياس جديد"}
+          subTitle={"يمكنك اضافة قياس  جديد من هنا"}
+        />
+        {/* <Filter />
+        <ComponentBtns btn1={"+ إضافة قياس جديد "} /> */}
+      </div>
           <div className={`${styles.addMeasurmentsContainer}`}>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              <Form className={`${styles.formContainer} mt-5 mb-5`}>
+              <Form className={`${styles.formContainer} mb-5`}>
                 <div className={`row g-4 mb-5`}>
                   <div className={`col-4 col-lg-6`}>
                     <InputField name="member" label={"العضو"} />
@@ -112,7 +121,7 @@ const AddMeasurementForm = () => {
                     <div className={`row`}>
                       <div className={`col-2`}></div>
                       <div className={`col-8 text-center`}>
-                        <img src="assets/body.png" alt="Body" />
+                        <img src="/assets/image/body.png" alt="Body" />
                       </div>
                       <div className={`col-2`}></div>
                     </div>
@@ -146,15 +155,15 @@ const AddMeasurementForm = () => {
                   </div>
                 </div>
                 {/* button to confirm add memeber */}
-                <div className={`addmemberBtn m-auto`}>
+                <div className={`${styles.AddMeasurement} text-center`}>
                   <MainButton text={"حفط القياس"} btnType={"submit"} />
                 </div>
               </Form>
             </Formik>
           </div>
         </div>
-      </div>
-    </ContentContainer>
+      // </div>
+    // </ContentContainer>
   );
 };
 

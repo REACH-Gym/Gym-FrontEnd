@@ -1,14 +1,48 @@
-.sidebarContainer{
-    padding: 65px 0px 0px 0px;
+.sidebarContainer {
+  width: 300px;
+  padding: 100px 10px;
 }
-.menu-item{
-    color: gray;
-    font-size: 15px;
+.menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
-.icon-svg{
-    font-size: 20px;
+.menu-item {
+  margin-bottom: 10px;
 }
-.logout-btn{
-    border: none;
-    background-color: transparent;
+.menu-item-header {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.menu-item-icon {
+  margin-left: 10px;
+  font-size: 10px;
+}
+.submenu-item {
+  padding: 5px 10px;
+  color: #666666;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.down-icon {
+  font-weight: lighter;
+  color: #000;
+}
+.up-icon {
+  color: #fff;
+  margin-left: 10px;
+}
+.submenu {
+  list-style-type: none;
+  border-left: 1px solid #3572ef;
+  margin: 10px 20px;
+}
+.menu-item-header.active-item {
+  background-color: #3572ef; 
+  color: #fff; 
 }

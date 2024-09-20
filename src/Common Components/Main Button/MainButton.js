@@ -3,7 +3,7 @@ import "./mainButton.css";
 function MainButton({
   text,
   onClick,
-  btnWidth = "100px",
+  btnWidth = "",
   btnType,
   disabled = false,
 }) {

@@ -1,9 +1,17 @@
 .groupForm {
   background-color: white;
-  width: 100%;
+  width: 98%;
+  margin: auto;
+}
+.AddSchedule button{
+  width: 20%;
 }
 @media (max-width: 768px) {
   .groupForm {
     width: 90%;
   }
+}.schedulFormeContainer{
+  background-color: #f2f4f5;
+  padding: 80px 0px 0px 0px;
+  width: 100%;
 }
