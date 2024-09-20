@@ -1,14 +1,8 @@
 import styles from "./MeasurementsContainer.module.css";
 import { useState, useMemo, useEffect } from "react";
 import MeasurementsItem from "../MeasurementsItem/MeasurementsItem";
-import { useGetMeasurementsQuery } from "../../features/api";
-import ContentContainer from "../ContentContainer/ContentContainer";
+import { useGetMeasurementsQuery  , useAddMeasurementsMutation} from "../../features/api";
 import MainButton from "../../Common Components/Main Button/MainButton";
-
-import {
-  useAddMeasurementsMutation,
-  useGetMeasurementsQuery,
-} from "../../features/api";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
@@ -43,35 +37,6 @@ const MeasurementsContainer = () => {
         <ComponentBtns btn1={"+ إضافة قياس جديد "} />
       </div>
       <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>
-        <table className="w-100">
-          <thead className={`fw-bold`}>
-            <tr>
-              <th className={`p-2 pt-3 pb-3`}>#</th>
-              <th className={`p-2 pt-3 pb-3`}>العضو</th>
-              <th className={`p-2 pt-3 pb-3`}>تاريخ القياس</th>
-              <th className={`p-2 pt-3 pb-3`}>الطول</th>
-              <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
-              <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data
-              ? data.data.map((e, i) => <MeasurementsItem key={i} {...e} />)
-              : null}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <ContentContainer
-      title={"جميع القياسات"}
-      desc={"يمكنك إضافة قياس المطلوب"}
-      mainIcon={"/assets/image/measurements.png"}
-      btn1={"أضف قياس جديد"}
-      btn2={"disabled"}
-    >
-      <div>
-        <div className="d-flex w-100">
-          <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
                 <tr>
@@ -101,8 +66,7 @@ const MeasurementsContainer = () => {
             </div>
           </div>
         </div>
-      </div>
-    </ContentContainer>
+   
   );
 };
 export default MeasurementsContainer;

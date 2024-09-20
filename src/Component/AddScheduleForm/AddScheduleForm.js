@@ -101,8 +101,8 @@ const AddScheduleForm = () => {
                 <InputField name="time2" label="الساعة" />
               </div>
             </div>
-            <div className={`${styles.AddSchedule} text-center`}>
-              <MainButton text="إضافة" btnType="submit" />
+            <div className="row text-center">
+              <MainButton text="إضافة" btnType="submit" btnWidth={"200px"} />
             </div>
           </Form>
         </Formik>

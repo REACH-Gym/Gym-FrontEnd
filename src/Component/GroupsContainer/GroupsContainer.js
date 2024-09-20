@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useGetMembersSessionsQuery } from "../../features/api";
-import ContentContainer from "../ContentContainer/ContentContainer";
 import GroupsItem from "../GroupsContainerItem/GroupsItem";
 import styles from "./GroupsContainer.module.css";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";

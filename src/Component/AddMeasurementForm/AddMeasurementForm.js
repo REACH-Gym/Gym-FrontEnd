@@ -7,8 +7,8 @@ import {
   useAddMeasurementsMutation,
   useGetAllMembersAtOnceQuery,
 } from "../../features/api";
-import ContentContainer from "../ContentContainer/ContentContainer";
 import { memo, useState } from "react";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 
 // Add Measurements Form Container And Controller
 const AddMeasurementForm = () => {
@@ -84,134 +84,121 @@ const AddMeasurementForm = () => {
   };
 
   return (
-    // <ContentContainer
-    //   title={"إضافة قياس جديد"}
-    //   desc={"يمكنك إضافة قياس جديد هنا"}
-    //   mainIcon={'/assets/image/measurments.png'}
-    // >
-      // <div>
-        <div className={`${styles.AddMeasurementFormContainer}`}>
-        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+    <div className={`${styles.AddMeasurementFormContainer}`}>
+      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
         <ComponentTitle
           MainIcon={"/assets/image/measurments.png"}
           title={"اضافة قياس جديد"}
           subTitle={"يمكنك اضافة قياس  جديد من هنا"}
         />
-        {/* <Filter />
-        <ComponentBtns btn1={"+ إضافة قياس جديد "} /> */}
       </div>
-          <div className={`${styles.addMeasurmentsContainer}`}>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ setFieldValue, values }) => (
-                <Form className={`${styles.formContainer} p-4`}>
-                  <div className={`row g-4 d-flex align-items-end w-100`}>
-                    <div className={`col-5`}>
-                      <div className={`row g-4`}>
-                        {!isMembersLoading ? (
-                          <div className={`col-12 ${styles.membersSearch}`}>
-                            <InputField
-                              name="member"
-                              label={"العضو"}
-                              onFocus={() => {
-                                setActive(true);
-                                setFilteredData(data.data);
-                              }}
-                              onBlur={() => {
-                                setTimeout(() => {
-                                  setActive(false);
-                                }, 200);
-                              }}
-                              onChange={(e) => {
-                                handleChange(e, setFieldValue);
-                              }}
-                              value={values.member}
-                            />
-                            {active ? (
-                              <div className={`${styles.membersDropdown}`}>
-                                {filteredData?.map((member, i) => (
-                                  <div
-                                    key={member.id}
-                                    value={member.id}
-                                    onClick={() => {
-                                      setFieldValue("member", member.name);
-                                      setFieldValue("user_id", member.id);
-                                      console.log(member.name);
-                                    }}
-                                  >
-                                    {member.name}
-                                  </div>
-                                ))}
+      <div className={`${styles.addMeasurmentsContainer}`}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ setFieldValue, values }) => (
+            <Form className={`${styles.formContainer} p-4`}>
+              <div className={`row g-4 d-flex align-items-end w-100`}>
+                <div className={`col-5`}>
+                  <div className={`row g-4`}>
+                    {!isMembersLoading ? (
+                      <div className={`col-12 ${styles.membersSearch}`}>
+                        <InputField
+                          name="member"
+                          label={"العضو"}
+                          onFocus={() => {
+                            setActive(true);
+                            setFilteredData(data.data);
+                          }}
+                          onBlur={() => {
+                            setTimeout(() => {
+                              setActive(false);
+                            }, 200);
+                          }}
+                          onChange={(e) => {
+                            handleChange(e, setFieldValue);
+                          }}
+                          value={values.member}
+                        />
+                        {active ? (
+                          <div className={`${styles.membersDropdown}`}>
+                            {filteredData?.map((member, i) => (
+                              <div
+                                key={member.id}
+                                value={member.id}
+                                onClick={() => {
+                                  setFieldValue("member", member.name);
+                                  setFieldValue("user_id", member.id);
+                                  console.log(member.name);
+                                }}
+                              >
+                                {member.name}
                               </div>
-                            ) : null}
+                            ))}
                           </div>
                         ) : null}
-                        <div className={`col-12`}>
-                          <InputField
-                            name="month"
-                            label={"قياسات شهر"}
-                            inputType={"input"}
-                            type={"date"}
-                          />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="height" label={"الطول"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField
-                            name="weight1"
-                            label={"الوزن بداية الشهر"}
-                          />
-                        </div>
                       </div>
-                    </div>
-                    <div className="col-2 text-center p-2">
-                      <img
-                        src="/assets/image/body.png"
-                        alt="Body"
-                        style={{ maxHeight: "350px" }}
+                    ) : null}
+                    <div className={`col-12`}>
+                      <InputField
+                        name="month"
+                        label={"قياسات شهر"}
+                        inputType={"input"}
+                        type={"date"}
                       />
                     </div>
-                    <div className="col-5">
-                      <div className="row g-4">
-                        <div className={`col-6`}>
-                          <InputField name="shoulder1" label={"الكتف"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="arm1" label={"الذراع"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="buttocks1" label={"الأرداف"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="chest1" label={"الصدر"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="waist1" label={"الخصر"} />
-                        </div>
-                        <div className={`col-6`}>
-                          <InputField name="thigh1" label={"الفخذ"} />
-                        </div>
-                      </div>
+                    <div className={`col-6`}>
+                      <InputField name="height" label={"الطول"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="weight1" label={"الوزن بداية الشهر"} />
                     </div>
                   </div>
-                  <div className={`addmemberBtn m-auto w-100 text-center mt-5`}>
-                    <MainButton
-                      text={"حفظ القياس"}
-                      btnType={"submit"}
-                      btnWidth="200px"
-                    />
+                </div>
+                <div className="col-2 text-center p-2">
+                  <img
+                    src="/assets/image/body.png"
+                    alt="Body"
+                    style={{ maxHeight: "350px" }}
+                  />
+                </div>
+                <div className="col-5">
+                  <div className="row g-4">
+                    <div className={`col-6`}>
+                      <InputField name="shoulder1" label={"الكتف"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="arm1" label={"الذراع"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="buttocks1" label={"الأرداف"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="chest1" label={"الصدر"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="waist1" label={"الخصر"} />
+                    </div>
+                    <div className={`col-6`}>
+                      <InputField name="thigh1" label={"الفخذ"} />
+                    </div>
                   </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      // </div>
-    // </ContentContainer>
+                </div>
+              </div>
+              <div className={`addmemberBtn m-auto w-100 text-center mt-5`}>
+                <MainButton
+                  text={"حفظ القياس"}
+                  btnType={"submit"}
+                  btnWidth="200px"
+                />
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
   );
 };
 
