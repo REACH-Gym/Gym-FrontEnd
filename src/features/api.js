@@ -11,14 +11,21 @@ export const apis = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getAllMembers: builder.query({
+      query: () => `members`,
+    }),
+    getAllMembersAtOnce: builder.query({
+      query: () => `members?paginate=false`,
+    }),
     getMeasurements: builder.query({
-      query: () => "members/measurements",
+      query: ({ page, page_size }) =>
+        `members/measurements?page=${page}&page_size=${page_size}`,
     }),
     addMeasurements: builder.mutation({
-      query: () => ({
+      query: (data) => ({
         url: "members/measurements",
         method: "POST",
-        body: JSON.stringify({ user_id: 14, height: 170, month: "2024-9-11" }),
+        body: JSON.stringify(data),
       }),
     }),
     loginAdmin: builder.mutation({
@@ -28,11 +35,36 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    getMembersSessions: builder.query({
+      query: (params) => `members/sessions/${params}`,
+    }),
+    postSession: builder.mutation({
+      query: (data) => ({
+        url: "sessions",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
+    getSchedules: builder.query({
+      query: (params) => `schedules${params}`,
+    }),
+    postSchedule: builder.mutation({
+      query: (data) => ({
+        url: "schedules",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
   }),
 });
-
 export const {
+  useGetAllMembersQuery,
+  useGetAllMembersAtOnceQuery,
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,
+  useGetMembersSessionsQuery,
+  usePostSessionMutation,
+  useGetSchedulesQuery,
+  usePostScheduleMutation,
 } = apis;

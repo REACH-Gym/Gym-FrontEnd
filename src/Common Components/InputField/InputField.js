@@ -7,7 +7,7 @@ import { Field, ErrorMessage } from "formik";
 const InputField = ({ children, name, label, inputType, ...props }) => {
   return (
     <div>
-      <label className="mb-2 mt-2" htmlFor={name}>
+      <label className="mb-2 mt-2 text-secondary" htmlFor={name}>
         {label}
       </label>
       <Field

@@ -2,7 +2,6 @@
   padding: 20px 0px 0px 0px;
 }
 .formContainer {
-  padding: 100px 50px 50px 50px;
   background-color: #fff;
   width: 100%;
   margin: auto;
@@ -29,4 +28,23 @@
   background-color: #F2F4F5;
   width: 100%;
   padding: 90px 20px 20px 20px;
+}
+.membersSearch {
+  position: relative;
+}
+.membersDropdown {
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 3px #0001;
+  top: 90px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.membersDropdown div {
+  padding: 5px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
 }

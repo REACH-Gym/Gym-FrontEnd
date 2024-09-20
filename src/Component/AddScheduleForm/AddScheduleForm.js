@@ -4,14 +4,12 @@ import * as Yup from "yup";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import { usePostScheduleMutation } from "../../features/api";
 const AddScheduleForm = () => {
   const validationSchema = Yup.object({
     group: Yup.string().required("هذا الحقل إلزامي"),
     capacity: Yup.number().required("هذا الحقل إلزامي"),
-    from: Yup.date().required("هذا الحقل إلزامي"),
-    time1: Yup.number().required("هذا الحقل إلزامي"),
-    to: Yup.date().required("هذا الحقل إلزامي"),
-    time2: Yup.number().required("هذا الحقل إلزامي"),
+    days: Yup.string().required("هذا الحقل إلزامي"),
   });
   const initialValues = {
     group: "",
@@ -21,8 +19,26 @@ const AddScheduleForm = () => {
     to: "",
     time2: "",
   };
+  const [postSchedule, { isLoading: isPostSchedulesLoading }] =
+    usePostScheduleMutation();
+
   const handleSubmit = (values) => {
     console.log(values);
+    const newSchedule = {
+      group: values["group"],
+      capacity: values["capacity"],
+      from: values["from"],
+      time1: values["time1"],
+      to: values["to"],
+      time2: values["time2"],
+    };
+    console.log(newSchedule);
+    try {
+      const response = postSchedule(newSchedule);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={`${styles.schedulFormeContainer}`}>
