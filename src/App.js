@@ -15,6 +15,7 @@ import AddScheduleForm from "./Component/AddScheduleForm/AddScheduleForm";
 import ReservationsContainer from "./Component/ReservationsContainer/ReservationsContainer";
 import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/PaymentMethodsContainer";
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
+import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route path="AddGroupMember" element={<AddGroupMember />} />
               <Route
                 path="ReservationsContainer"
                 element={<ReservationsContainer />}

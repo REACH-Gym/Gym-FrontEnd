@@ -4,6 +4,7 @@ import ContentContainer from "../ContentContainer/ContentContainer";
 import { useGetSessionsQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
+import { useNavigate } from "react-router-dom";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
@@ -17,6 +18,7 @@ const ScheduleContainer = () => {
     setTotalPages(data?.data.meta?.total_pages);
   }, [data]);
 
+  const navigate = useNavigate();
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
@@ -42,6 +44,11 @@ const ScheduleContainer = () => {
       btn2={"disabled"}
     >
       <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+        <MainButton
+          text={"إضافة عضو"}
+          btnWidth="200px"
+          onClick={() => navigate("/Home/AddGroupMember")}
+        />
         <table className="w-100">
           <thead className={`fw-bold`}>
             <th className={`p-2 pt-3 pb-3`}>#</th>

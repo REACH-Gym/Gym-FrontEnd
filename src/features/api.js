@@ -58,6 +58,9 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    getSchedules: builder.query({
+      query: (params) => `schedules/${params}`,
+    }),
   }),
 });
 
@@ -72,4 +75,5 @@ export const {
   useGetSessionsQuery,
   usePostScheduleMutation,
   useGetEmployeesQuery,
+  useGetSchedulesQuery,
 } = apis;
