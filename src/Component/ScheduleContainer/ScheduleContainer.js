@@ -1,10 +1,11 @@
 import styles from "./ScheduleContainer.module.css";
 import ScheduleItem from "../ScheduleItem/ScheduleItem";
-import ContentContainer from "../ContentContainer/ContentContainer";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import Filter from "../../Common Components/Filter/Filter";
+import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useGetSessionsQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import { useNavigate } from "react-router-dom";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
@@ -18,7 +19,6 @@ const ScheduleContainer = () => {
     setTotalPages(data?.data.meta?.total_pages);
   }, [data]);
 
-  const navigate = useNavigate();
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
@@ -78,6 +78,7 @@ const ScheduleContainer = () => {
             onClick={() => setPage(page - 1)}
             text="<<"
             disabled={page === 1}
+            btnWidth="100px"
           />
           <p className="m-0">
             الصفحة {page} من {totalPages}
@@ -86,6 +87,7 @@ const ScheduleContainer = () => {
             onClick={() => setPage(page + 1)}
             text=">>"
             disabled={page === totalPages}
+            btnWidth="100px"
           />
         </div>
       </div>

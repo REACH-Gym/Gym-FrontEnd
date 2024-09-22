@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import ContentContainer from "../ContentContainer/ContentContainer";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { useRef, useState } from "react";
 import {
   useGetEmployeesQuery,

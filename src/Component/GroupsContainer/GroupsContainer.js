@@ -88,6 +88,7 @@ const GroupsContainer = () => {
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
               text={"<<"}
+              btnWidth="100px"
             />
             <p className={`m-0`}>
               صفحة {page} من {totalPages}
@@ -96,6 +97,7 @@ const GroupsContainer = () => {
               onClick={() => setPage(page + 1)}
               disabled={page === totalPages}
               text={">>"}
+              btnWidth="100px"
             />
           </div>
         </div>
