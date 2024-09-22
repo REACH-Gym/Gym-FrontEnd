@@ -14,6 +14,9 @@ export const apis = createApi({
     getAllMembers: builder.query({
       query: () => `members`,
     }),
+    getEmployees: builder.query({
+      query: (params) => `employee${params}`,
+    }),
     getAllMembersAtOnce: builder.query({
       query: () => `members?paginate=false`,
     }),
@@ -35,7 +38,7 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
-    getMembersSessions: builder.query({
+    getGroupsMembers: builder.query({
       query: (params) => `members/sessions/${params}`,
     }),
     postSession: builder.mutation({
@@ -45,8 +48,8 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
-    getSchedules: builder.query({
-      query: (params) => `schedules${params}`,
+    getSessions: builder.query({
+      query: (params) => `sessions/${params}`,
     }),
     postSchedule: builder.mutation({
       query: (data) => ({
@@ -54,6 +57,9 @@ export const apis = createApi({
         method: "POST",
         body: JSON.stringify(data),
       }),
+    }),
+    getSchedules: builder.query({
+      query: (params) => `schedules/${params}`,
     }),
   }),
 });
@@ -63,8 +69,10 @@ export const {
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,
-  useGetMembersSessionsQuery,
+  useGetGroupsMembersQuery,
   usePostSessionMutation,
-  useGetSchedulesQuery,
+  useGetSessionsQuery,
   usePostScheduleMutation,
+  useGetEmployeesQuery,
+  useGetSchedulesQuery,
 } = apis;

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Pages/Auth/Login/Login";
+import Login from "./Pages/Auth/Login";
 import Home from "./Pages/Home/Home";
 import AddNewMember from "./Component/AddNewMember/AddNewMember";
 import AllMembers from "./Component/AllMemebers/AllMembers";
@@ -25,6 +25,8 @@ import ConfirmCode from "./Pages/Auth/Password/Confirm Code/ConfirmCode";
 import CreateNewPassword from "./Pages/Auth/Password/Create New Password/CreateNewPassword";
 import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/PaymentMethodsContainer";
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
+import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
+
 function App() {
   return (
     <Provider store={store}>
@@ -49,12 +51,19 @@ function App() {
                 path="AddMeasurementForm"
                 element={<AddMeasurementForm />}
               />
-              <Route path="PaymentMethodsContainer" element={<PaymentMethodsContainer/>}/>
-              <Route path="AddPaymentMethodForm" element={<AddPaymentMethodForm/>}/>
+              <Route
+                path="PaymentMethodsContainer"
+                element={<PaymentMethodsContainer />}
+              />
+              <Route
+                path="AddPaymentMethodForm"
+                element={<AddPaymentMethodForm />}
+              />
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route path="AddGroupMember" element={<AddGroupMember />} />
 
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />

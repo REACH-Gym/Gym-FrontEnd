@@ -15,8 +15,13 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
-.groupsContainer{
-  background-color: #F2F4F5;
+.pageBtn {
+  width: 350px;
+  margin: auto;
+  margin-top: 30px;
+}
+.groupsContainer {
+  background-color: #f2f4f5;
   width: 100%;
   padding: 90px 20px 20px 20px;
 }

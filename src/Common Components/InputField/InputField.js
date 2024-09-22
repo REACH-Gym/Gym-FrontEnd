@@ -1,3 +1,4 @@
+import { Height } from "@mui/icons-material";
 import { Field, ErrorMessage } from "formik";
 
 // Input Field Component With Error Message and Label
@@ -20,6 +21,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
           borderRadius: "5px",
           padding: "10px",
           outline: "none",
+          height: "52px",
         }}
         id={name}
         name={name}
