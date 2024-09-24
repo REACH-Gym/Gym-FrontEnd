@@ -5,8 +5,7 @@
   padding: 10px;
   border-radius: 15px;
   min-height: 500px;
-  height: 90vh;
-  max-height: 1000px;
+  max-height: 70vh;
   overflow-y: auto;
   margin: auto;
 }

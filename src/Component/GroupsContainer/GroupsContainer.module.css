@@ -1,12 +1,11 @@
 .tableContainer {
-  width: 99%;
+  width: 98%;
   background-color: #fff;
   direction: rtl;
   padding: 10px;
   border-radius: 15px;
   min-height: 500px;
-  height: 90vh;
-  max-height: 1000px;
+  height: 70vh;
   overflow-y: auto;
 }
 .tableContainer thead th:first-child {

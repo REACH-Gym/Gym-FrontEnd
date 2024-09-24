@@ -16,7 +16,7 @@ const GroupsContainer = () => {
     isFetching: isGroupsMembersFetching,
     error: groupsMembersError,
   } = useGetGroupsMembersQuery(
-    `?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=schedule.session.name&include[]=schedule.trainer.name&include[]=user.name&page=${page}&per_page=10&sort[]=-id`
+    `?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=schedule.session.name&include[]=schedule.trainer.name&include[]=user.name&page=${page}&per_page=20&sort[]=-id`
   );
   console.log(groupsMembers);
   useEffect(() => {
@@ -71,7 +71,7 @@ const GroupsContainer = () => {
               {groupsMembers?.data.user_sessions.map((item, index) => (
                 <GroupsItem
                   key={index}
-                  inedx={
+                  index={
                     groupsMembers?.data.user_sessions.indexOf(item) +
                     (page - 1) * 5 +
                     1

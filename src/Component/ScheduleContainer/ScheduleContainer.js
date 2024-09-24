@@ -12,7 +12,7 @@ const ScheduleContainer = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { data, error, isLoading } = useGetSessionsQuery(
-    `?page=${page}&per_page=5&sort[]=-id`
+    `?page=${page}&per_page=20&sort[]=-id`
   );
   console.log(data);
   useEffect(() => {
@@ -60,10 +60,8 @@ const ScheduleContainer = () => {
             {data?.data.sessions.map((session, index) => (
               <ScheduleItem
                 key={index}
-                inedx={
-                  data?.data.user_sessions?.indexOf(session) +
-                  (page - 1) * 5 +
-                  1
+                index={
+                  data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
                 }
                 session={session}
               />
