@@ -6,12 +6,13 @@ import InputField from "../../Common Components/InputField/InputField";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { usePostSessionMutation } from "../../features/api";
 import { useNavigate } from "react-router-dom";
+
 const AddGroupForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
     notes: Yup.string().required("هذا الحقل إلزامي"),
-    price: Yup.number().required("هذا الحقل إلزامي"),
     duration: Yup.number().required("هذا الحقل إلزامي"),
+    price: Yup.number().required("هذا الحقل إلزامي"),
   });
   const initialValues = {
     name: "",
@@ -65,12 +66,12 @@ const AddGroupForm = () => {
                     <InputField name="name" label="الإسم" />
                   </div>
                   <div className="col-6">
-                    <InputField name="price" label="السعر" />
+                    <InputField name="duration" label="المدة (بالشهر)" />
                   </div>
                 </div>
                 <div className="row mb-4 g-5">
                   <div className="col-6">
-                    <InputField name="duration" label="المدة" />
+                    <InputField name="price" label="السعر" />
                   </div>
                   <div className="col-6">
                     <InputField name="notes" label="ملاحظات" />

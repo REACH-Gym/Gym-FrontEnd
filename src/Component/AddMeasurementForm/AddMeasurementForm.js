@@ -8,6 +8,7 @@ import {
   useGetAllMembersAtOnceQuery,
 } from "../../features/api";
 import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 
 // Add Measurements Form Container And Controller
@@ -39,10 +40,12 @@ const AddMeasurementForm = () => {
     buttocks1: "",
   };
   const [addMeasuremenst, { isLoading }] = useAddMeasurementsMutation();
+  const navigate = useNavigate();
   const handleSubmit = async (values) => {
     console.log(values);
     const data = {
       user_id: values.user_id,
+      user: values.user_id,
       month: values.month,
       height: values.height,
       weight: values.weight1,
@@ -58,6 +61,7 @@ const AddMeasurementForm = () => {
       const response = await addMeasuremenst(data);
       console.log(response);
       console.log(isLoading);
+      navigate("/Home/MeasurmentsContainer");
     } catch (error) {
       console.log(error.message);
     }
