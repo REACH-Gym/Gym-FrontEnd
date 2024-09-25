@@ -1,5 +1,5 @@
-.btnDiv button{
-  height:40px;
+.btnDiv button {
+  height: 40px;
 }
 .filterContainer {
   position: relative;
@@ -40,7 +40,7 @@
   overflow-y: auto;
   margin-left: 30px;
   display: none;
-  z-index: 1000;
+  z-index: 10000;
 }
 .dropdownList.open {
   display: block;

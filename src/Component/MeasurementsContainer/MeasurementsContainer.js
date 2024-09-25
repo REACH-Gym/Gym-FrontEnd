@@ -44,7 +44,6 @@ const MeasurementsContainer = () => {
           title={" جميع القياسات"}
           subTitle={"يمكنك متابعة جميع القياسات  من هنا"}
         />
-        <Filter />
         <ComponentBtns btn1={"+ إضافة قياس جديد "} />
       </div>
       <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>
