@@ -18,6 +18,15 @@ function Filter({
     setDropdownOpen(!dropdownOpen);
   };
 
+
+  const [search , setSearch] = useState("");
+  const [results, setResults] = useState([]); // State to store search results
+
+  const handleSearch = (e)=>{
+   console.log(e.target.value)
+   setSearch(e.target.value)
+  }
+
   return (
     <div className="filterContainer">
       <form className={`d-flex`}>
@@ -27,12 +36,15 @@ function Filter({
             id="search"
             placeholder="ابحث هنا"
             className="searchInput ms-2"
+            // onChange={handleSearch}
+            value={search}
           />
           {/* Left icon */}
           <img
             src="/assets/image/Component 13.png"
             alt="search icon"
             className="searchIcon"
+        
             onClick={toggleDropdown}
           />
 
@@ -71,7 +83,7 @@ function Filter({
           </div>
         </div>
         <div className="btnDiv">
-          <MainButton text={"بحث"} btnWidth={"100px"} />
+          <MainButton text={"بحث"} btnWidth={"100px"} btnType={'submit'} onClick={handleSearch}/>
         </div>
       </form>
     </div>

@@ -29,7 +29,9 @@
   font-size: 13px;
   color: #3572EF;
 }
-
+.modal-img{
+  border-radius: 50%;
+}
 /* media Quary */
 @media screen and (max-width: 600px) {
   .login {

@@ -1,6 +1,5 @@
 import React from "react";
 import "./AddNewMemberToSub.css";
-import ContentContainer from "../../ContentContainer/ContentContainer";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../../../Common Components/InputField/InputField";
@@ -12,7 +11,6 @@ function AddNewMemberToSub() {
     subscription: "",
     notes: "",
     dauration_freeze: "",
-    // amount: "",
     start_date: "",
   };
   const handleSubmit = (values) => {

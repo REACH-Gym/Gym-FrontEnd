@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"; //up and down arrow
 import "./sidebar.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -19,7 +19,7 @@ import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
 import { useNavigate } from "react-router-dom";
-
+import Logout from "../../Pages/Auth/Logout/Logout";
 function SidebarBox() {
   const [openItemId, setOpenItemId] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
@@ -169,54 +169,64 @@ function SidebarBox() {
       icon: <PowerSettingsNewOutlinedIcon />,
       itemId: "logout",
       navigateTo: "",
+      isLogout:true
     },
   ];
 
   return (
     <div className="sidebarContainer">
       <ul className="menu">
-        {menuItems.map((item) => (
-          <li key={item.itemId || item.title} className="menu-item">
-            <div
-              className={`menu-item-header ${
-                activeItemId === item.itemId ? "active-item" : ""
-              }`}
-              onClick={() => {
-                setActiveItemId(item.itemId);
-                if (item.navigateTo) {
-                  navigate(item.navigateTo);
-                } else {
-                  handleToggle(item.itemId);
-                }
-              }}
+        {menuItems.map((item) =>
+          item.isLogout ? (
+            <li
+              key={item.itemId || item.title}
+              className="menu-item logout-item"
             >
-              <span>
-                <span className="menu-item-icon">{item.icon}</span>
-                {item.title}
-              </span>
-              {item.subItems ? (
-                openItemId === item.itemId ? (
-                  <FaChevronUp className="up-icon" />
-                ) : (
-                  <FaChevronDown className="down-icon" />
-                )
-              ) : null}
-            </div>
-            {item.subItems && openItemId === item.itemId && (
-              <ul className="submenu">
-                {item.subItems.map((subItem, index) => (
-                  <li
-                    key={index}
-                    className="submenu-item"
-                    onClick={() => navigate(subItem.navigateTo)}
-                  >
-                    {subItem.title}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+             <Logout/>
+            </li>
+          ) : (
+            <li key={item.itemId || item.title} className="menu-item">
+              <div
+                className={`menu-item-header ${
+                  activeItemId === item.itemId ? "active-item" : ""
+                }`}
+                onClick={() => {
+                  setActiveItemId(item.itemId);
+                  if (item.navigateTo) {
+                    navigate(item.navigateTo);
+                  } else {
+                    handleToggle(item.itemId);
+                  }
+                }}
+              >
+                <span>
+                  <span className="menu-item-icon">{item.icon}</span>
+                  {item.title}
+                </span>
+                {item.subItems ? (
+                  openItemId === item.itemId ? (
+                    <FaChevronUp className="up-icon" />
+                  ) : (
+                    <FaChevronDown className="down-icon" />
+                  )
+                ) : null}
+              </div>
+              {item.subItems && openItemId === item.itemId && (
+                <ul className="submenu">
+                  {item.subItems.map((subItem, index) => (
+                    <li
+                      key={index}
+                      className="submenu-item"
+                      onClick={() => navigate(subItem.navigateTo)}
+                    >
+                      {subItem.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          )
+        )}
       </ul>
     </div>
   );

@@ -25,6 +25,7 @@ import ConfirmCode from "./Pages/Auth/Password/Confirm Code/ConfirmCode";
 import CreateNewPassword from "./Pages/Auth/Password/Create New Password/CreateNewPassword";
 import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/PaymentMethodsContainer";
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
+import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 function App() {
   return (
     <Provider store={store}>
@@ -49,8 +50,14 @@ function App() {
                 path="AddMeasurementForm"
                 element={<AddMeasurementForm />}
               />
-              <Route path="PaymentMethodsContainer" element={<PaymentMethodsContainer/>}/>
-              <Route path="AddPaymentMethodForm" element={<AddPaymentMethodForm/>}/>
+              <Route
+                path="PaymentMethodsContainer"
+                element={<PaymentMethodsContainer />}
+              />
+              <Route
+                path="AddPaymentMethodForm"
+                element={<AddPaymentMethodForm />}
+              />
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
@@ -69,9 +76,15 @@ function App() {
                 path="ActiveSubScription"
                 element={<ActiveSubScription />}
               />
+              <Route path="SubscribedMembers" element={<SubscripedMembers />} />
+
               <Route
                 path="ExpiredSubScriptions"
                 element={<ExpiredSubscriptions />}
+              />
+              <Route
+                path="SubscripedMembers/:id"
+                element={<SubscriptionDetail />}
               />
             </Route>
           </Route>
