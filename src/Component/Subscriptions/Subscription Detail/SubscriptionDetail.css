@@ -1,0 +1,19 @@
+.subscriptionDetailContainer {
+  background-color: #f2f4f5;
+  width: 100%;
+  padding: 80px 20px 20px 20px;
+}
+.subscriptionDetailContainer__items {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+}
+.item1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 50px;
+}
+.item1 div {
+  margin-top: 5px;
+}

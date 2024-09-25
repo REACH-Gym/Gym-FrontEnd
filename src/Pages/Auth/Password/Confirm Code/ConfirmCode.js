@@ -12,7 +12,6 @@ function ConfirmCode() {
   const handleSubmit = async (values) => {
     try {
       const phone_number = localStorage.getItem("phone_number"); //get phone number from local storage to send it body
-
       // Combine all six OTP fields into one string
       const otp =
         values.otp1 +
@@ -26,7 +25,6 @@ function ConfirmCode() {
         otp,
         phone_number, // to send it in body with otp
       };
-
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/auth/verify-otp",
         {
@@ -39,7 +37,6 @@ function ConfirmCode() {
           body: JSON.stringify(item),
         }
       );
-
       const result = await response.json();
       if (response.ok) {
         console.log("OTP Verified", result);
@@ -56,7 +53,6 @@ function ConfirmCode() {
       console.error("An error occurred:", error);
     }
   };
-
   const validationSchema = Yup.object({
     otp1: Yup.string()
       .required("من فضلك قم بادخال رمز التأكيد")
@@ -128,7 +124,7 @@ function ConfirmCode() {
             <p className="mt-3 fw-bolder">لم تقم باستلام الرمز؟</p>
             <p>
               ارسال الرمز مرة اخرى{" "}
-              <span className="span fw-bolder text-primary me-2">
+              <span className="span fw-bolder text-primary me-2" onClick={()=>handleSubmit}>
                 اعادة الارسال
               </span>
             </p>

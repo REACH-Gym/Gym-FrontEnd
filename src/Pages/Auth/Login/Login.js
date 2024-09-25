@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,9 +7,11 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Modal from "../../../Common Components/Modal/Modal";
 
 function Login() {
   const navigate = useNavigate();
+  const [showModal , setShowModal] = useState(false)
   const handleSubmit = async (values) => {
     try {
       const items = {
@@ -36,10 +38,11 @@ function Login() {
       localStorage.setItem("adminName", result.data.role);
       
       if (response.ok) {
-        toast.success("Login successful");
+        // toast.success("Login successful");
+        setShowModal(true)
         setTimeout(() => {
           navigate("/Home");
-        }, 1500);
+        }, 2500);
       } else {
         toast.error("Login failed. Please check your phone or password.");
       }
@@ -110,6 +113,20 @@ function Login() {
         </Formik>
       </aside>
       <ToastContainer />
+      
+      <Modal isOpen={showModal}>
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <img
+            src="/assets/image/blue-star-check-mark_78370-4478.avif"
+            alt="modal"
+            className="mt-5 modal-img"
+            width={"160.57px"}
+          />
+          <p className="mt-2 text-center fs-2 ">
+            Login successful
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

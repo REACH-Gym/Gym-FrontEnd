@@ -1,34 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 
-async function Logout() {
+function Logout() {
   const navigate = useNavigate();
-  useEffect(() => {
-    async function handleLogout() {
-      try {
-        const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/auth/logout",
-          {
-            method: "POST",
-            headers: {
-              accept: "*/*",
-              Authorization: localStorage.getItem("access"),
-            },
-          }
-        );
-        localStorage.clear();
-        if (response.ok) {
-          navigate("Login");
-        } else {
-          console.error("Logout falied");
+  const access_token = localStorage.getItem("access");
+  async function clearData() {
+    try {
+      const response = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            accept: "*/*",
+            Authorization: access_token,
+          },
         }
-      } catch (error) {
-        console.error("Error during logout:", error);
+      );
+      const result = await response.json();
+      console.log(result);
+      if (response.ok) {
+        localStorage.clear();
+        toast.success("you logged out successfully");
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      }else{
+        toast.error('failed to log out')
       }
+    } catch (error) {
+      console.log(error);
     }
-    handleLogout();
-  }, [navigate]);
-  return null;
+  }
+  return (
+    <div>
+      <button type="submit" onClick={clearData} className="logout-button">
+        <PowerSettingsNewOutlinedIcon /> تسجيل الخروج
+      </button>
+      <ToastContainer />
+    </div>
+  );
 }
-
 export default Logout;

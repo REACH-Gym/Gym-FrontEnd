@@ -1,9 +1,13 @@
-.allSubscriptionContainer{
-    background-color: #f2f4f5;
-    padding: 50px 0px 0px 0px;
-    width: 100%;
+.allSubscriptionContainer {
+  background-color: #f2f4f5;
+  padding: 50px 0px 0px 0px;
+  width: 100%;
 }
-.table{
+.table {
+  width: 100%;
+  margin: auto;
+}
+.tableContainer{
     width: 98%;
     margin: auto;
 }
