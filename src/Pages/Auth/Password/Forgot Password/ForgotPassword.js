@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./forgotPassword.css";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import MainButton from "../../../../Common Components/Main Button/MainButton";
@@ -6,16 +6,16 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Modal from "../../../../Common Components/Modal/Modal";
 function ForgotPassword() {
   const navigate = useNavigate();
-  const access_token = localStorage.getItem('access');
+  const [showModal, setShowModal] = useState(false);
+  const access_token = localStorage.getItem("access");
   const handleSubmit = async (values) => {
     try {
       const item = {
         phone_number: values["phone_number"],
       };
-
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
         {
@@ -23,24 +23,23 @@ function ForgotPassword() {
           headers: {
             accept: "application/json",
             "Content-Type": "application/json",
-            Authorization:access_token
+            Authorization: access_token,
           },
           body: JSON.stringify(item),
         }
       );
-
       const data = await response.json();
       console.log(data);
 
       if (response.ok) {
         localStorage.setItem("message", data.message);
-        localStorage.setItem("phone_number", values['phone_number']);
+        localStorage.setItem("phone_number", values["phone_number"]);
         setTimeout(() => {
           navigate("/ConfirmCode");
-        }, 1500);
-        toast.success(data.message);
+        }, 2500);
+        setShowModal(true);
       } else {
-        console.log("not validate");
+        toast.error("Please try again");
       }
     } catch (error) {
       console.error("Error occurred:", error);
@@ -95,7 +94,7 @@ function ForgotPassword() {
                   className="text-danger"
                 />
               </div>
-              <div className="sendCodeBtn mt-5">
+              <div className="sendCodeBtn mt-4">
                 <MainButton btnType={"submit"} text={"ارسال رمز"} />
               </div>
             </Form>
@@ -103,6 +102,18 @@ function ForgotPassword() {
         </div>
       </div>
       <ToastContainer />
+      <Modal isOpen={showModal}>
+        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
+          <div className="modal-img">
+            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+          </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">
+          <p className="mt-4" style={{ color: "darkblue" , fontSize:"15px" }}>
+            A verification request has been sent to your number: <span className="fw-bolder">01013585051</span>
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

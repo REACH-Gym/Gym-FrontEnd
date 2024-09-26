@@ -21,6 +21,7 @@
   height: 64px;
   margin: 5px;
 }
-.span{
-    cursor: pointer;
+.resend-button{
+  border: none;
+  background: transparent;  
 }

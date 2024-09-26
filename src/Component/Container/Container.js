@@ -15,7 +15,6 @@ function Container() {
           subTitle={"أهلا بك في يوم إبداعي جديد"}
         />
       </div>
-
       <div className="items mt-4">
         <div className="item">
           <CircularProgressbar

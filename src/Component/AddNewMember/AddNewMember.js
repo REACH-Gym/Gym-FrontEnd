@@ -4,14 +4,18 @@ import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Link, useNvigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+
 function AddNewMember() {
-  // const navigate = useNavigate();
-  const access_token = localStorage.getItem('access');
+  const navigate = useNavigate();
+  const access_token = localStorage.getItem("access");
+
   const handleSubmit = async (value) => {
     try {
+      const genderValue = value.gender === "انثي" ? "F" : "M";
+
       const items = {
         name: value["name"],
         phone_number: value["phone_number"],
@@ -19,7 +23,7 @@ function AddNewMember() {
         password: value["password"],
         notes: value["notes"],
         date_of_birth: value["date_of_birth"],
-        gender: value["gender"],
+        gender:genderValue,
       };
 
       const data = await fetch(
@@ -38,19 +42,17 @@ function AddNewMember() {
       const result = await data.json();
       console.log("Response status:", data.status);
       console.log("Response result:", result);
-      localStorage.setItem("loginResult", JSON.stringify(result));
 
       if (data.ok) {
         toast.success("Member Added Successfully");
         setTimeout(() => {
-          // navigate("AllMembers");
+          navigate("/Home/AllMembers");
         }, 1500);
-        console.log(items);
       } else {
-        toast.error("failed. Please check your credentials.");
+        toast.error("Failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during submission:", error);
       toast.error("An error occurred. Please try again.");
     }
   };
@@ -65,7 +67,7 @@ function AddNewMember() {
     gender: Yup.string().required("هذا الحقل الزامي"),
   });
 
-  const intialValues = {
+  const initialValues = {
     name: "",
     phone_number: "",
     national_id: "",
@@ -74,6 +76,7 @@ function AddNewMember() {
     date_of_birth: "",
     gender: "",
   };
+
   return (
     <div className="addMemberContainer">
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
@@ -86,7 +89,7 @@ function AddNewMember() {
       <div className="">
         <Formik
           onSubmit={handleSubmit}
-          initialValues={intialValues}
+          initialValues={initialValues}
           validationSchema={validationSchema}
         >
           <Form className={`addForm mt-3 mb-5`}>
@@ -132,7 +135,11 @@ function AddNewMember() {
                 <InputField name={"national_id"} label={"رقم العضوية"} />
               </div>
               <div className={`col-4 col-lg-6`}>
-                <InputField name={"password"} label={"كلمة السر"} />
+                <InputField
+                  name={"password"}
+                  label={"كلمة السر"}
+                  type="password"
+                />
               </div>
             </div>
             {/* end of nationalId & password */}
@@ -140,28 +147,25 @@ function AddNewMember() {
             {/* notes & date & gender */}
             <div className={`row g-4 mb-5`}>
               <div className={`col-4 col-lg-6`}>
-                <InputField name={"notes"} label={"ملاحظات"} className="p-5" />
+                <InputField name={"notes"} label={"ملاحظات"} className="note" />
               </div>
               <div className={`col-4 col-lg-6`}>
                 <InputField
                   name={"date_of_birth"}
-                  label={" تاريخ الميلاد"}
+                  label={"تاريخ الميلاد"}
                   inputType={"input"}
                   type={"date"}
                 />
-                <InputField
-                  name={"gender"}
-                  label={" النوع"}
-                  // inputType={"select"}
-                >
-                  {/* <option>ذكر</option>
-                    <option>انثي</option> */}
+                <InputField name={"gender"} label={"النوع"} inputType={"select"}>
+                  <option value="">{'أختر نوع'}</option>
+                  <option value="انثي">{'انثي'}</option>
+                  <option value="ذكر">{`ذكر`}</option>
                 </InputField>
               </div>
             </div>
             {/* end of notes & date & gender */}
 
-            {/* button to confirm add memeber */}
+            {/* button to confirm add member */}
             <div className={`addmemberBtn m-auto`}>
               <MainButton text={"اضافة"} btnType={"submit"} />
             </div>
@@ -172,4 +176,5 @@ function AddNewMember() {
     </div>
   );
 }
+
 export default AddNewMember;
