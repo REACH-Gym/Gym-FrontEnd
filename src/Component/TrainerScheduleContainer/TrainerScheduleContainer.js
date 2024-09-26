@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useGetSchedulesQuery } from "../../features/api";
 import TrainerSchedule from "../TrainerSchedule/TrainerSchedule";
-import styles from "./AddGroupMember.module.css";
-const AddGroupMember = () => {
+import styles from "./TrainerScheduleContainer.css";
+const TrainerScheduleContainer = () => {
   const {
     data: trainerSchedule,
     isLoading: isTrainerSchedulesLoading,
@@ -36,4 +36,4 @@ const AddGroupMember = () => {
   );
 };
 
-export default AddGroupMember;
+export default TrainerScheduleContainer;

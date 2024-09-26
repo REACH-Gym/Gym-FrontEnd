@@ -26,6 +26,7 @@ import CreateNewPassword from "./Pages/Auth/Password/Create New Password/CreateN
 import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/PaymentMethodsContainer";
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
+import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
 
 function App() {
   return (
@@ -63,6 +64,10 @@ function App() {
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route
+                path="TrainerScheduleContainer"
+                element={<TrainerScheduleContainer />}
+              />
 
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />

@@ -18,7 +18,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     const refreshResult = await fetchBaseQuery({
       baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
       method: "POST",
-      // body: JSON.stringify({ refresh: refreshToken }),
       headers: {
         "Content-Type": "application/json",
         Authorization: refreshToken,
@@ -103,6 +102,9 @@ export const apis = createApi({
     getSchedules: builder.query({
       query: (params) => `schedules/${params}`,
     }),
+    search: builder.query({
+      query: (data) => `${data}`,
+    }),
   }),
 });
 export const {
@@ -117,4 +119,5 @@ export const {
   usePostScheduleMutation,
   useGetEmployeesQuery,
   useGetSchedulesQuery,
+  useLazySearchQuery,
 } = apis;
