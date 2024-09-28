@@ -39,7 +39,7 @@ const ScheduleContainer = () => {
   return (
     <>
       <div className={`${styles.scheduleContainer}`}>
-        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+        <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/appointments.png"}
             title={" جميع المواعيد"}

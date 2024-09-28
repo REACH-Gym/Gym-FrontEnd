@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGetSchedulesQuery } from "../../features/api";
+import { useLazyGetSchedulesQuery } from "../../features/api";
 import TrainerSchedule from "../TrainerSchedule/TrainerSchedule";
 import styles from "./TrainerScheduleContainer.css";
 const TrainerScheduleContainer = () => {
@@ -7,7 +7,7 @@ const TrainerScheduleContainer = () => {
     data: trainerSchedule,
     isLoading: isTrainerSchedulesLoading,
     error: trainerScheduleError,
-  } = useGetSchedulesQuery("?filter{session.id}=1&sort[]=trainer.id");
+  } = useLazyGetSchedulesQuery("?filter{session.id}=1&sort[]=trainer.id");
   console.log(trainerSchedule);
   const [data, setData] = useState({});
   const trainers = {};

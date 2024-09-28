@@ -6,9 +6,11 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
+import { useNavigate } from "react-router-dom";
 
 // Groups table container and header
 const GroupsContainer = () => {
+  const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -63,7 +65,13 @@ const GroupsContainer = () => {
             options={["اسم المستخدم", "المجموعة", "اسم المدرب"]}
             searchResults={setResults}
           />
-          <ComponentBtns btn1={"+ إضافة مجموهة جديدة "} />
+          <ComponentBtns
+            btn1={"+ إضافة عضو لمجموعة"}
+            onclick={() => {
+              console.log("clicked");
+              navigate("/Home/AddGroupMember");
+            }}
+          />
         </div>
         {!isGroupsMembersFetching ? (
           <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
