@@ -38,7 +38,7 @@ const AddGroupForm = () => {
       const response = await postSession(newSession);
       console.log(response);
       localStorage.setItem("groupId", response.data.name);
-      navigate("/Home/AddScheduleForm");
+      navigate("/Home/ScheduleContainer");
     } catch (error) {
       console.log(error);
     }

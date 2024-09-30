@@ -8,8 +8,8 @@ const filters = {
   "phone_number": "رقم الجوال",
   "national_id": "رقم العضوية",
   "schedule.session.name": "المجموعة",
-  "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
+  "membership.name": "الباقة",
 };
 
 function Filter({ options = [], query, status = true, searchResults }) {
@@ -20,7 +20,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
   const [search, { isLoading }] = useLazySearchQuery();
 
   const [activeFilter, setActiveFilter] = useState(
-    Object.keys(filters).find((value) => filters[value] === options[0])
+    Object.keys(filters).find((key) => filters[key] === options[0])
   );
 
   const toggleDropdown = () => {
@@ -44,8 +44,8 @@ function Filter({ options = [], query, status = true, searchResults }) {
         const response = await search(
           `${query}?filter{${activeFilter}.istartswith}=${debounce}`
         );
-        searchResults(response.data);
-        console.log(response.data);
+        console.log(response);
+        searchResults(response?.data?.data);
       })();
     } else {
       searchResults([]);

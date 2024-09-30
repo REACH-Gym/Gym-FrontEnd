@@ -27,7 +27,8 @@ import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/Payment
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
-import EditMember from "./Component/Members/Edit Member/EditMember";
+import EditMember from "./Component/Members/Edit Member/EditMember";import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
+
 function App() {
   return (
     <Provider store={store}>
@@ -64,6 +65,7 @@ function App() {
               />
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
+              <Route path="AddGroupMember" element={<AddGroupMember />} />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
               <Route
