@@ -1,13 +1,12 @@
 import React from "react";
 import "./AddNewMember.css";
-import InputField from "../../Common Components/InputField/InputField";
-import MainButton from "../../Common Components/Main Button/MainButton";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-
+import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
+import InputField from "../../../Common Components/InputField/InputField";
+import MainButton from "../../../Common Components/Main Button/MainButton";
 function AddNewMember() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
@@ -116,9 +115,6 @@ function AddNewMember() {
                 <p style={{ color: "#3572EF" }}>تعديل الصورة</p>
               </Link>
             </div>
-            {/* end of upload user image */}
-
-            {/* name & number */}
             <div className={`row g-4 mb-5`}>
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"name"} label={"الأسم"} />
@@ -127,9 +123,6 @@ function AddNewMember() {
                 <InputField name={"phone_number"} label={"رقم الهاتف"} />
               </div>
             </div>
-            {/* end of name & number */}
-
-            {/* nationalId & password */}
             <div className={`row g-4 mb-5`}>
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"national_id"} label={"رقم العضوية"} />
@@ -142,9 +135,6 @@ function AddNewMember() {
                 />
               </div>
             </div>
-            {/* end of nationalId & password */}
-
-            {/* notes & date & gender */}
             <div className={`row g-4 mb-5`}>
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"notes"} label={"ملاحظات"} className="note" />
@@ -163,9 +153,6 @@ function AddNewMember() {
                 </InputField>
               </div>
             </div>
-            {/* end of notes & date & gender */}
-
-            {/* button to confirm add member */}
             <div className={`addmemberBtn m-auto`}>
               <MainButton text={"اضافة"} btnType={"submit"} />
             </div>
@@ -176,5 +163,4 @@ function AddNewMember() {
     </div>
   );
 }
-
 export default AddNewMember;

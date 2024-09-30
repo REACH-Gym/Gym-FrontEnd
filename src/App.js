@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Auth/Login/Login";
 import Home from "./Pages/Home/Home";
-import AddNewMember from "./Component/AddNewMember/AddNewMember";
-import AllMembers from "./Component/AllMemebers/AllMembers";
+import AddNewMember from "./Component/Members/AddNewMember/AddNewMember";
+import AllMembers from "./Component/Members/AllMemebers/AllMembers";
 import MeasurmentsContainer from "./Component/MeasurementsContainer/MeasurementsContainer";
 import AddMeasurementForm from "./Component/AddMeasurementForm/AddMeasurementForm";
 import AddGroupForm from "./Component/AddGroupForm/AddGroupForm";
@@ -27,7 +27,7 @@ import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/Payment
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
-
+import EditMember from "./Component/Members/Edit Member/EditMember";
 function App() {
   return (
     <Provider store={store}>
@@ -44,6 +44,8 @@ function App() {
               <Route index element={<Container />} />
               <Route path="AllMembers" element={<AllMembers />} />
               <Route path="AddNewMember" element={<AddNewMember />} />
+              {/* <Route path="EditMember" element={<EditMember />} /> */}
+              <Route path="AllMembers/:id/" element={<EditMember />} />
               <Route
                 path="MeasurmentsContainer"
                 element={<MeasurmentsContainer />}
@@ -89,7 +91,7 @@ function App() {
                 element={<ExpiredSubscriptions />}
               />
               <Route
-                path="SubscripedMembers/:id"
+                path="SubscripedMembers/:id/"
                 element={<SubscriptionDetail />}
               />
             </Route>
