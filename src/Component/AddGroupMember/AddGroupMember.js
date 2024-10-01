@@ -26,8 +26,10 @@ const DynamicComponent = () => {
     isLoading: isSessionsLoading,
     error: sessionsError,
   } = useGetSessionsQuery("");
-
+  console.log(sessions?.data);
   const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
+
+  console.log(schedulesData?.data?.schedules);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
 
@@ -92,7 +94,7 @@ const DynamicComponent = () => {
         <div className={`col-6`}>
           <InputField name="name" label="اسم العضو" inputType={"select"}>
             <option value={""}>اختر</option>
-            {members?.data?.map((member, i) => (
+            {members?.data?.users?.map((member, i) => (
               <option value={member.id} key={i}>
                 {member.name}
               </option>
@@ -115,7 +117,7 @@ const DynamicComponent = () => {
           <InputField name="schedule" label="الموعد" inputType={"select"}>
             <option value={""}>اختر</option>
             {sessionSchedules?.map((schedule, i) => (
-              <option value={schedulesData?.data?.schedules[i].id} key={i}>
+              <option value={schedulesData?.data?.schedules[i]?.id} key={i}>
                 {schedule}
               </option>
             ))}
