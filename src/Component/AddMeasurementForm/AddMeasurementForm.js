@@ -81,7 +81,7 @@ const AddMeasurementForm = () => {
   const handleChange = (e, setFieldValue) => {
     setFieldValue("member", e.target.value);
     const query = e.target.value.toLowerCase();
-    const filteredData = data?.data.filter((item) => {
+    const filteredData = data?.data.users.filter((item) => {
       return item.name && item.name.toString().toLowerCase().includes(query);
     });
     setFilteredData(filteredData);
@@ -113,8 +113,8 @@ const AddMeasurementForm = () => {
                           name="member"
                           label={"العضو"}
                           onFocus={() => {
+                            setFilteredData(data?.data.users)
                             setActive(true);
-                            setFilteredData(data.data);
                           }}
                           onBlur={() => {
                             setTimeout(() => {
