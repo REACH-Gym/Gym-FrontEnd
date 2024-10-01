@@ -30,7 +30,15 @@
   color: #3572EF;
 }
 .modal-img{
+  position: absolute;
+  clear: both;
+}
+.modal-img img{
   border-radius: 50%;
+  clear: both;
+}
+.modal-width{
+  width: 350px;
 }
 /* media Quary */
 @media screen and (max-width: 600px) {

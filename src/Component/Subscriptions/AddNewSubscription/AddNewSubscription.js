@@ -8,14 +8,14 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 function AddNewSubscription() {
-  // const navigate = useNavigate();
-  const access_token = localStorage.getItem('access');
+  const navigate = useNavigate();
+  const access_token = localStorage.getItem("access");
   const handleSubmit = async (values) => {
     try {
       const items = {
         name: values["name"],
         price: values["price"],
-        duration: values["duration"],
+        membership_duration: values["membership_duration"],
         freeze_duration: values["freeze_duration"],
         description: values["description"],
       };
@@ -26,30 +26,31 @@ function AddNewSubscription() {
           headers: {
             accept: "application/json",
             "Content-Type": "application/json",
-            Authorization:access_token
+            Authorization: access_token,
           },
-          body: JSON.stringify(items), //send data in body
+          body: JSON.stringify(items),
         }
       );
       const result = await response.json();
       if (response.ok) {
-        console.log(result);
-        console.log("success");
-        toast.success('Done!, Subscription Added Successfully')
-        // setTimeout(() => {
-        //   navigate('/AllSubScriptions')
-        // }, 1500);
+        console.log("Response data:", result);
+        toast.success("Done! Subscription Added Successfully");
+        setTimeout(() => {
+          navigate("/Home/AllSubScriptions");
+        }, 1500);
       } else {
-        console.log("Falied to add Subscription");
+        console.error("Response status:", response.status);
+        console.error("Response body:", result);
+        console.log("Failed to add new Subscription");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error during submission:", error);
     }
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
     price: Yup.string().required("هذا الحقل الزامي"),
-    duration: Yup.string().required("هذا الحقل الزامي"),
+    membership_duration: Yup.string().required("هذا الحقل الزامي"),
     freeze_duration: Yup.string().required("هذا الحقل الزامي"),
     description: Yup.string().required("هذا الحقل الزامي"),
   });
@@ -57,7 +58,7 @@ function AddNewSubscription() {
     name: "",
     description: "",
     price: "",
-    duration: "",
+    membership_duration: "",
     freeze_duration: "",
   };
   return (
@@ -87,7 +88,7 @@ function AddNewSubscription() {
             </div>
             <div className="row mb-4 g-5">
               <div className="col-6">
-                <InputField name={"duration"} label={"المدة"} />
+                <InputField name={"membership_duration"} label={"المدة"} />
               </div>
               <div className="col-6">
                 <InputField name={"freeze_duration"} label={"فترة التجميد"} />
@@ -106,7 +107,7 @@ function AddNewSubscription() {
           </Form>
         </Formik>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CreateNewPassword.css";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import MainButton from "../../../../Common Components/Main Button/MainButton";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
-
+import Modal from "../../../../Common Components/Modal/Modal";
 function CreateNewPassword() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
   const phone_number = localStorage.getItem("phone_number");
-
   const handleSubmit = async (values) => {
     try {
       const items = {
         phone_number: phone_number,
         new_password: values["new_password"],
       };
-
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/auth/forget-password",
         {
@@ -36,14 +35,15 @@ function CreateNewPassword() {
         console.log(data);
         localStorage.setItem("rest_password", data.message);
         console.log(data.message);
-        toast.success(data.message);
+        setShowModal(true);
         setTimeout(() => {
           navigate("/"); // Go to login page again
         }, 1500);
       } else {
-        console.log("An error happened");
+        toast.error("تأكد أن كلمة المرور متطابقة");
       }
     } catch (error) {
+      toast.error("تأكد أن كلمة المرور متطابقة");
       console.error("An error occurred", error);
     }
   };
@@ -56,7 +56,7 @@ function CreateNewPassword() {
   const validationSchema = Yup.object({
     new_password: Yup.string().required("يجب عليك ادخال كلمة المرور الجديدة"),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref("new_password"), null], "كلمة المرور غير متطابقة")//confirm match 
+      .oneOf([Yup.ref("new_password"), null], "كلمة المرور غير متطابقة") //confirm match
       .required("يرجي تأكيد كلمة السر"),
   });
 
@@ -74,56 +74,66 @@ function CreateNewPassword() {
         <p className="text-center mt-3 fw-bolder">
           أدخل كلمة السر الجديدة التي ترغب في استخدامها لحماية حسابك.
         </p>
-
         <div>
           <Formik
             validationSchema={validationSchema}
             initialValues={initialValues}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched }) => (
-              <Form className="createNewPasswordForm">
-                <div>
-                  <label className="d-block" htmlFor="new_password">
-                    كلمة السر الجديدة
-                  </label>
-                  <Field
-                    className="createNewPasswordForm__input mt-2 p-2"
-                    name="new_password"
-                    id="new_password"
-                    type="password"
-                  />
-                  <ErrorMessage
-                    name="new_password"
-                    component="div"
-                    className="text-danger mt-2"
-                  />
-                </div>
-                <div className="mt-3">
-                  <label className="d-block mb-2" htmlFor="confirm_password">
-                    اعادة كتابة كلمة السر
-                  </label>
-                  <Field
-                    className="createNewPasswordForm__input p-2"
-                    name="confirm_password"
-                    id="confirm_password"
-                    type="password"
-                  />
-                  <ErrorMessage
-                    name="confirm_password"
-                    component="div"
-                    className="text-danger mt-2"
-                  />
-                </div>
-                <div className="mt-4 sendCodeBtn">
-                  <MainButton text={"تأكيد"} btnType={"submit"} />
-                </div>
-              </Form>
-            )}
+            {/* {({ errors, touched }) => ( */}
+            <Form className="createNewPasswordForm">
+              <div>
+                <label className="d-block" htmlFor="new_password">
+                  كلمة السر الجديدة
+                </label>
+                <Field
+                  className="createNewPasswordForm__input mt-2 p-2"
+                  name="new_password"
+                  id="new_password"
+                  type="password"
+                />
+                <ErrorMessage
+                  name="new_password"
+                  component="div"
+                  className="text-danger mt-2"
+                />
+              </div>
+              <div className="mt-3">
+                <label className="d-block mb-2" htmlFor="confirm_password">
+                  اعادة كتابة كلمة السر
+                </label>
+                <Field
+                  className="createNewPasswordForm__input p-2"
+                  name="confirm_password"
+                  id="confirm_password"
+                  type="password"
+                />
+                <ErrorMessage
+                  name="confirm_password"
+                  component="div"
+                  className="text-danger mt-2"
+                />
+              </div>
+              <div className="mt-4 sendCodeBtn">
+                <MainButton text={"تأكيد"} btnType={"submit"} />
+              </div>
+            </Form>
           </Formik>
         </div>
       </div>
       <ToastContainer />
+      <Modal isOpen={showModal}>
+        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
+          <div className="modal-img">
+            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+          </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">
+          <p className="mt-4" style={{ color: "darkblue", fontSize: "17px" }}>
+            01013585051 has been verified
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

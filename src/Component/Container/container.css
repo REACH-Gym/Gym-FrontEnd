@@ -1,6 +1,7 @@
-.container{
-  background-color: #F2F4F5;
+.container {
+  background-color: #f2f4f5;
   padding: 80px 0px 0px 0px;
+  max-width: 1320px;
 }
 .items {
   display: grid;

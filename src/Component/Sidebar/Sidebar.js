@@ -3,9 +3,9 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa"; //up and down arrow
 import "./sidebar.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
-import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import FingerprintOutlinedIcon from "@mui/icons-material/FingerprintOutlined";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
@@ -20,20 +20,20 @@ import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
 import { useNavigate } from "react-router-dom";
 import Logout from "../../Pages/Auth/Logout/Logout";
+import ModalLogOut from "../../Pages/Auth/Logout/ModalLogOut";
+
 function SidebarBox() {
   const [openItemId, setOpenItemId] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
+  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
-
   const handleToggle = (itemId) => {
     setOpenItemId((prevItemId) => (prevItemId === itemId ? null : itemId));
   };
-
   const handleNavigate = (itemId, navigateTo) => {
     setActiveItemId(itemId);
     navigate(navigateTo);
   };
-
   const menuItems = [
     {
       title: "الصفحة الريئسية",
@@ -168,21 +168,35 @@ function SidebarBox() {
       title: "تسجيل الخروج",
       icon: <PowerSettingsNewOutlinedIcon />,
       itemId: "logout",
-      navigateTo: "",
-      isLogout:true
+      isLogout: true,
     },
   ];
-
+  const openLogoutModal = () => {
+    setLogoutModalOpen(true);
+  };
+  const closeLogoutModal = () => {
+    setLogoutModalOpen(false);
+  };
   return (
     <div className="sidebarContainer">
       <ul className="menu">
         {menuItems.map((item) =>
           item.isLogout ? (
-            <li
-              key={item.itemId || item.title}
-              className="menu-item logout-item"
-            >
-             <Logout/>
+            <li key={item.itemId || item.title} className="menu-item logout-item">
+              <div
+                className="menu-item-header"
+                onClick={openLogoutModal}
+              >
+                <span>
+                  <span className="menu-item-icon">{item.icon}</span>
+                  {item.title}
+                </span>
+              </div>
+              {isLogoutModalOpen && ( 
+                <ModalLogOut isOpen={isLogoutModalOpen} onClose={closeLogoutModal}>
+                  <Logout onClose={closeLogoutModal} />
+                </ModalLogOut>
+              )}
             </li>
           ) : (
             <li key={item.itemId || item.title} className="menu-item">
@@ -193,7 +207,7 @@ function SidebarBox() {
                 onClick={() => {
                   setActiveItemId(item.itemId);
                   if (item.navigateTo) {
-                    navigate(item.navigateTo);
+                    handleNavigate(item.itemId, item.navigateTo);
                   } else {
                     handleToggle(item.itemId);
                   }

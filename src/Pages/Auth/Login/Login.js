@@ -11,7 +11,7 @@ import Modal from "../../../Common Components/Modal/Modal";
 
 function Login() {
   const navigate = useNavigate();
-  const [showModal , setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const handleSubmit = async (values) => {
     try {
       const items = {
@@ -36,10 +36,9 @@ function Login() {
       localStorage.setItem("access", result.data.access);
       localStorage.setItem("refresh", result.data.refresh);
       localStorage.setItem("adminName", result.data.role);
-      
+
       if (response.ok) {
-        // toast.success("Login successful");
-        setShowModal(true)
+        setShowModal(true);
         setTimeout(() => {
           navigate("/Home");
         }, 2500);
@@ -103,7 +102,10 @@ function Login() {
                 component="div"
               />
             </div>
-            <Link to={"ForgotPassword"} className="text-decoration-none fw-bolder">
+            <Link
+              to={"ForgotPassword"}
+              className="text-decoration-none fw-bolder"
+            >
               <span className="forgot-password">هل نسيت كلمة السر؟</span>
             </Link>
             <div className="mt-4 text-center login-btn">
@@ -113,18 +115,15 @@ function Login() {
         </Formik>
       </aside>
       <ToastContainer />
-      
+
       <Modal isOpen={showModal}>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <img
-            src="/assets/image/blue-star-check-mark_78370-4478.avif"
-            alt="modal"
-            className="mt-5 modal-img"
-            width={"160.57px"}
-          />
-          <p className="mt-2 text-center fs-2 ">
-            Login successful
-          </p>
+        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
+          <div className="modal-img">
+            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+          </div>
+        </div>
+        <div className="text-center mt-5 fw-bolder fs-4">
+          <p className="" style={{color:"darkblue"}}>Login Successful</p>
         </div>
       </Modal>
     </div>

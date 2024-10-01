@@ -5,11 +5,11 @@ import { useLazySearchQuery } from "../../features/api";
 const filters = {
   name: "الاسم",
   "user.name": "اسم المستخدم",
-  "user.phone_number": "رقم الجوال",
-  "user.national_id": "رقم العضوية",
+  "phone_number": "رقم الجوال",
+  "national_id": "رقم العضوية",
   "schedule.session.name": "المجموعة",
-  "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
+  "membership.name": "الباقة",
 };
 
 function Filter({ options = [], query, status = true, searchResults }) {
@@ -19,7 +19,9 @@ function Filter({ options = [], query, status = true, searchResults }) {
   const [debounce, setDebounce] = useState(term);
   const [search, { isLoading }] = useLazySearchQuery();
 
-  const [activeFilter, setActiveFilter] = useState(Object.keys(filters)[0]);
+  const [activeFilter, setActiveFilter] = useState(
+    Object.keys(filters).find((key) => filters[key] === options[0])
+  );
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -42,13 +44,13 @@ function Filter({ options = [], query, status = true, searchResults }) {
         const response = await search(
           `${query}?filter{${activeFilter}.istartswith}=${debounce}`
         );
-        searchResults(response.data.data);
-        console.log(response.data.data);
+        console.log(response);
+        searchResults(response?.data?.data);
       })();
     } else {
       searchResults([]);
     }
-  }, [query, debounce, search, activeFilter]);
+  }, [query, debounce, search, activeFilter, searchResults]);
 
   return (
     <div className="filterContainer">
@@ -188,5 +190,4 @@ function Filter({ options = [], query, status = true, searchResults }) {
     </div>
   );
 }
-
 export default Filter;
