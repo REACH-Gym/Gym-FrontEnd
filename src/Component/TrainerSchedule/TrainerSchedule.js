@@ -1,7 +1,7 @@
 import styles from "./TrainerSchedule.module.css";
 const TrainerSchedule = ({ id, trainerSchedule }) => {
   // console.log(id, trainerSchedule);
-  const schedules = trainerSchedule?.data.schedules.filter((e) => {
+  const schedules = trainerSchedule?.data?.data?.schedules?.filter((e) => {
     return +id === +e.trainer.id;
   });
   console.log(schedules);
@@ -25,9 +25,9 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
                 alt={"Icon"}
               />
             </span>
-            <div>
-              <div className="fs-5 mb-2 fw-bold">اسم المدرب</div>
-              <div className="fs-5">أيمن إيهاب</div>
+            <div className="me-2">
+              <div className="mb-2 fw-bold">اسم المدرب</div>
+              <div className="">{schedules[0]?.trainer?.name}</div>
             </div>
           </div>
           <div className={`col-2 d-flex justify-content-around`}>
@@ -38,18 +38,18 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
                 alt={"Icon"}
               />
             </span>
-            <div>
-              <div className="fs-5 mb-2 fw-bold">رقم الجوال</div>
-              <div className="fs-5">0123848234</div>
+            <div className="me-2">
+              <div className="mb-2 fw-bold">رقم الجوال</div>
+              <div className="">{schedules[0]?.trainer?.phone_number}</div>
             </div>
           </div>
           <div className={`col-2 d-flex justify-content-around`}>
             <span className="">
               <img src={"/assets/image/date.png"} width={"24px"} alt={"Icon"} />
             </span>
-            <div>
-              <div className="fs-5 mb-2 fw-bold">تاريخ الإنشاء</div>
-              <div className="fs-5">12/23/1223</div>
+            <div className="me-2">
+              <div className="mb-2 fw-bold">تاريخ الإنشاء</div>
+              <div className="">{schedules[0].session.created_at}</div>
             </div>
           </div>
           <div className={`col-2 d-flex justify-content-around`}>
@@ -60,16 +60,16 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
                 alt={"Icon"}
               />
             </span>
-            <div>
-              <div className="fs-5 mb-2 fw-bold">بواسطة</div>
-              <div className="fs-5">أيمن إيهاب</div>
+            <div className="me-2">
+              <div className="mb-2 fw-bold">بواسطة</div>
+              <div className="">المشرف</div>
             </div>
           </div>
         </div>
       </div>
-      <div className={`fs-4 fw-bold mt-4 mb-3 me-4`}>المواعيد</div>
+      <div className={`fs-4 fw-bold mt-4 mb-5 me-4`}>المواعيد</div>
       <div className="">
-        <table className="w-100 fs-5">
+        <table className="w-100">
           <thead>
             <tr>
               <th>#</th>
@@ -87,7 +87,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
           </thead>
           <tbody>
             {schedules?.map((schedule, index) => (
-              <tr className={`${styles.scheduleRow}`}>
+              <tr key={index} className={`${styles.scheduleRow}`}>
                 <td>{index + 1}</td>
                 <td>{schedule.session.name}</td>
                 <td>{schedule.saturday ?? "-"}</td>

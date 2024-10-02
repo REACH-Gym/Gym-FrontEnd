@@ -9,6 +9,7 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
+import { Commet } from "react-loading-indicators";
 // Measurements table container and header
 const MeasurementsContainer = () => {
   const [page, setPage] = useState(1);
@@ -26,10 +27,8 @@ const MeasurementsContainer = () => {
 
   if (isLoading || isFetching) {
     return (
-      <div
-        className={`fs-3 fw-bold text-primary d-flex justify-content-center align-items-center`}
-      >
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }

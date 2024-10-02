@@ -27,7 +27,10 @@ import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/Payment
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
-import EditMember from "./Component/Members/Edit Member/EditMember";import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
+import EditMember from "./Component/Members/Edit Member/EditMember";
+import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
+import EditGroup from "./Component/EditGroup/EditGroup";
+import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 
 function App() {
   return (
@@ -65,9 +68,18 @@ function App() {
               />
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
+              <Route path="EditGroup/:GroupId/" element={<EditGroup />} />
               <Route path="AddGroupMember" element={<AddGroupMember />} />
+              <Route
+                path="EditGroupMember/:GroupMemberId/"
+                element={<EditGroupMember />}
+              />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route
+                path="SessionDetails/:sessionId/"
+                element={<TrainerScheduleContainer />}
+              />
               <Route
                 path="TrainerScheduleContainer"
                 element={<TrainerScheduleContainer />}

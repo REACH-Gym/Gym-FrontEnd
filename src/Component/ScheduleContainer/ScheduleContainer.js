@@ -6,6 +6,7 @@ import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useGetSessionsQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
+import { Commet } from "react-loading-indicators";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
@@ -22,8 +23,8 @@ const ScheduleContainer = () => {
   const [results, setResults] = useState([]);
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }

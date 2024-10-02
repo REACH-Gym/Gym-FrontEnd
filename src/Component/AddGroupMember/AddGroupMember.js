@@ -12,6 +12,7 @@ import {
 } from "../../features/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Commet } from "react-loading-indicators";
 
 const DynamicComponent = () => {
   const { values } = useFormikContext();
@@ -32,9 +33,15 @@ const DynamicComponent = () => {
   console.log(schedulesData?.data?.schedules);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
+  const [sessionPrice, setSessionPrice] = useState(0);
 
   useEffect(() => {
     if (values.group !== "") {
+      setSessionPrice(
+        sessions?.data?.sessions?.find(
+          (session) => +session.id === +values.group
+        )?.price
+      );
       (async () => {
         try {
           const response = await getSchedules(
@@ -74,8 +81,8 @@ const DynamicComponent = () => {
 
   if (isSessionsLoading || isMembersLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }
@@ -91,7 +98,7 @@ const DynamicComponent = () => {
   return (
     <>
       <div className={`row`}>
-        <div className={`col-6`}>
+        <div className={`col-12`}>
           <InputField name="name" label="اسم العضو" inputType={"select"}>
             <option value={""}>اختر</option>
             {members?.data?.users?.map((member, i) => (
@@ -101,6 +108,9 @@ const DynamicComponent = () => {
             ))}
           </InputField>
         </div>
+        <div className={`col-6`}></div>
+      </div>
+      <div className={`row`}>
         <div className={`col-6`}>
           <InputField name="group" label="اسم المجموعة" inputType={"select"}>
             <option value={""}>اختر</option>
@@ -111,8 +121,6 @@ const DynamicComponent = () => {
             ))}
           </InputField>
         </div>
-      </div>
-      <div className={`row`}>
         <div className={`col-6`}>
           <InputField name="schedule" label="الموعد" inputType={"select"}>
             <option value={""}>اختر</option>
@@ -122,17 +130,6 @@ const DynamicComponent = () => {
               </option>
             ))}
           </InputField>
-        </div>
-        <div className={`col-6`}>
-          <InputField name="price" label="السعر" />
-        </div>
-      </div>
-      <div className={`row`}>
-        <div className={`col-6`}>
-          <InputField name="discount" label="الخصم" />
-        </div>
-        <div className={`col-6`}>
-          <InputField name="payed" label="المدفوع" />
         </div>
       </div>
       <div className={`row`}>
@@ -145,12 +142,34 @@ const DynamicComponent = () => {
           />
         </div>
         <div className={`col-6`}>
-          <InputField
-            name="end_date"
-            label="تاريخ النهاية"
-            inputType={"input"}
-            type={"date"}
-          />
+          <InputField name="discount" label="الخصم (%)" />
+        </div>
+      </div>
+      <div
+        className={`row`}
+        style={{ border: "1px solid #f0f0f0", borderRadius: 10 }}
+      >
+        <div
+          className={`col-6 d-flex justify-content-center align-items-end p-3`}
+        >
+          <div className="ms-5 fs-5" style={{ width: 150 }}>
+            <strong>السعر:</strong>{" "}
+            {sessionPrice
+              ? `${Number(sessionPrice).toFixed(2)} ريال`
+              : " لا يوجد "}
+          </div>
+        </div>
+        <div
+          className={`col-6 d-flex justify-content-center align-items-end p-3 fs-5`}
+        >
+          <div style={{ minWidth: 200 }}>
+            <strong>السعر بعد الخصم:</strong>
+            {sessionPrice > 0 && values.discount > 0
+              ? ` ${(sessionPrice * (1 - values.discount / 100)).toFixed(
+                  2
+                )} ريال`
+              : " لا يوجد "}
+          </div>
         </div>
       </div>
     </>
@@ -162,21 +181,15 @@ const AddGroupMember = () => {
     name: 0,
     group: 0,
     schedule: 0,
-    price: 0,
     discount: 0,
-    payed: 0,
     start_date: "",
-    end_date: "",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
     group: Yup.string().required("هذا الحقل الزامي"),
     schedule: Yup.string().required("هذا الحقل الزامي"),
-    price: Yup.number().required("هذا الحقل الزامي"),
-    discount: Yup.number().required("هذا الحقل الزامي"),
-    payed: Yup.number().required("هذا الحقل الزامي"),
+    discount: Yup.number().required("هذا الحقل الزامي").max(100),
     start_date: Yup.date().required("هذا الحقل الزامي"),
-    end_date: Yup.date().required("هذا الحقل الزامي"),
   });
 
   const [postSessionMember] = usePostSessionMemberMutation();
