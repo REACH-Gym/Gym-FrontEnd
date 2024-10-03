@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, generatePath } from "react-router-dom";
 import Login from "./Pages/Auth/Login/Login";
 import Home from "./Pages/Home/Home";
 import AddNewMember from "./Component/Members/AddNewMember/AddNewMember";
@@ -31,88 +31,114 @@ import EditMember from "./Component/Members/Edit Member/EditMember";
 import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
+import { useEffect } from "react";
+import { generateToken, messaging } from "./notifications/firebase";
+import { onMessage } from "firebase/messaging";
+import { Toaster, toast } from "react-hot-toast";
 
 function App() {
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      toast(payload.notification.body);
+    });
+  }, []);
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Login />} />
-            <Route path="ForgotPassword" element={<ForgotPassword />} />
-            <Route path="ConfirmCode" element={<ConfirmCode />} />
-            <Route path="CreateNewPassword" element={<CreateNewPassword />} />
+    <>
+      <Toaster position="top-center" />
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/">
+              <Route index element={<Login />} />
+              <Route path="ForgotPassword" element={<ForgotPassword />} />
+              <Route path="ConfirmCode" element={<ConfirmCode />} />
+              <Route path="CreateNewPassword" element={<CreateNewPassword />} />
 
-            <Route path="Home" element={<Home />}>
-              <Route path="UpdateSystem" element={<UpdateSystem />} />
-              <Route index element={<Container />} />
-              <Route path="AllMembers" element={<AllMembers />} />
-              <Route path="AddNewMember" element={<AddNewMember />} />
-              {/* <Route path="EditMember" element={<EditMember />} /> */}
-              <Route path="AllMembers/:id/" element={<EditMember />} />
-              <Route
-                path="MeasurmentsContainer"
-                element={<MeasurmentsContainer />}
-              />
-              <Route
-                path="AddMeasurementForm"
-                element={<AddMeasurementForm />}
-              />
-              <Route
-                path="PaymentMethodsContainer"
-                element={<PaymentMethodsContainer />}
-              />
-              <Route
-                path="AddPaymentMethodForm"
-                element={<AddPaymentMethodForm />}
-              />
-              <Route path="GroupsContainer" element={<GroupsContainer />} />
-              <Route path="AddGroupForm" element={<AddGroupForm />} />
-              <Route path="EditGroup/:GroupId/" element={<EditGroup />} />
-              <Route path="AddGroupMember" element={<AddGroupMember />} />
-              <Route
-                path="EditGroupMember/:GroupMemberId/"
-                element={<EditGroupMember />}
-              />
-              <Route path="ScheduleContainer" element={<ScheduleContainer />} />
-              <Route path="AddScheduleForm" element={<AddScheduleForm />} />
-              <Route
-                path="SessionDetails/:sessionId/"
-                element={<TrainerScheduleContainer />}
-              />
-              <Route
-                path="TrainerScheduleContainer"
-                element={<TrainerScheduleContainer />}
-              />
+              <Route path="Home" element={<Home />}>
+                <Route path="UpdateSystem" element={<UpdateSystem />} />
+                <Route index element={<Container />} />
+                <Route path="AllMembers" element={<AllMembers />} />
+                <Route path="AddNewMember" element={<AddNewMember />} />
+                {/* <Route path="EditMember" element={<EditMember />} /> */}
+                <Route path="AllMembers/:id/" element={<EditMember />} />
+                <Route
+                  path="MeasurmentsContainer"
+                  element={<MeasurmentsContainer />}
+                />
+                <Route
+                  path="AddMeasurementForm"
+                  element={<AddMeasurementForm />}
+                />
+                <Route
+                  path="PaymentMethodsContainer"
+                  element={<PaymentMethodsContainer />}
+                />
+                <Route
+                  path="AddPaymentMethodForm"
+                  element={<AddPaymentMethodForm />}
+                />
+                <Route path="GroupsContainer" element={<GroupsContainer />} />
+                <Route path="AddGroupForm" element={<AddGroupForm />} />
+                <Route path="EditGroup/:GroupId/" element={<EditGroup />} />
+                <Route path="AddGroupMember" element={<AddGroupMember />} />
+                <Route
+                  path="EditGroupMember/:GroupMemberId/"
+                  element={<EditGroupMember />}
+                />
+                <Route
+                  path="ScheduleContainer"
+                  element={<ScheduleContainer />}
+                />
+                <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+                <Route
+                  path="SessionDetails/:sessionId/"
+                  element={<TrainerScheduleContainer />}
+                />
+                <Route
+                  path="TrainerScheduleContainer"
+                  element={<TrainerScheduleContainer />}
+                />
 
-              {/*Subscriptions*/}
-              <Route path="SubscripedMembers" element={<SubscripedMembers />} />
-              <Route path="AddNewMemberToSub" element={<AddNewMemberToSub />} />
-              <Route
-                path="AddNewSubscription"
-                element={<AddNewSubscription />}
-              />
-              <Route path="AllSubScriptions" element={<AllSubScriptions />} />
-              <Route path="AlmostFinished" element={<AlmostFinished />} />
-              <Route
-                path="ActiveSubScription"
-                element={<ActiveSubScription />}
-              />
-              <Route path="SubscribedMembers" element={<SubscripedMembers />} />
+                {/*Subscriptions*/}
+                <Route
+                  path="SubscripedMembers"
+                  element={<SubscripedMembers />}
+                />
+                <Route
+                  path="AddNewMemberToSub"
+                  element={<AddNewMemberToSub />}
+                />
+                <Route
+                  path="AddNewSubscription"
+                  element={<AddNewSubscription />}
+                />
+                <Route path="AllSubScriptions" element={<AllSubScriptions />} />
+                <Route path="AlmostFinished" element={<AlmostFinished />} />
+                <Route
+                  path="ActiveSubScription"
+                  element={<ActiveSubScription />}
+                />
+                <Route
+                  path="SubscribedMembers"
+                  element={<SubscripedMembers />}
+                />
 
-              <Route
-                path="ExpiredSubScriptions"
-                element={<ExpiredSubscriptions />}
-              />
-              <Route
-                path="SubscripedMembers/:id/"
-                element={<SubscriptionDetail />}
-              />
+                <Route
+                  path="ExpiredSubScriptions"
+                  element={<ExpiredSubscriptions />}
+                />
+                <Route
+                  path="SubscripedMembers/:id/"
+                  element={<SubscriptionDetail />}
+                />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+    </>
   );
 }
 export default App;
