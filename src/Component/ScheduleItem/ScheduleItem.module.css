@@ -27,3 +27,7 @@
   border-radius: 20px;
   border: 1px solid #f0f0f0;
 }
+.subMenu > div:hover {
+  background-color: #f2f4f5;
+  border-radius: 20px;
+}

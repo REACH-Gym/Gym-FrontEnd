@@ -7,9 +7,11 @@ import { useGetSessionsQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Commet } from "react-loading-indicators";
+import { useNavigate } from "react-router-dom";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { data, error, isLoading } = useGetSessionsQuery(
@@ -52,7 +54,12 @@ const ScheduleContainer = () => {
             searchResults={setResults}
             status={false}
           />
-          <ComponentBtns btn1={"+ إضافة موعد جديد "} />
+          <ComponentBtns
+            btn1={"+ إضافة موعد جديد "}
+            onclick={() => {
+              navigate("/Home/AddScheduleForm");
+            }}
+          />
         </div>
         <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
           <table className="w-100">

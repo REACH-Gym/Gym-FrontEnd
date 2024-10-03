@@ -11,6 +11,18 @@ import {
   useGetSessionsQuery,
 } from "../../features/api";
 import { useNavigate } from "react-router-dom";
+import { Commet } from "react-loading-indicators";
+
+const daysOfWeek = [
+  "السبت",
+  "الاحد",
+  "الاثنين",
+  "الثلاثاء",
+  "الاربعاء",
+  "الخميس",
+  "الجمعة",
+];
+
 const AddScheduleForm = () => {
   const validationSchema = Yup.object({
     session: Yup.string().required("هذا الحقل إلزامي"),
@@ -33,6 +45,7 @@ const AddScheduleForm = () => {
     setValuesRef.current(rest);
     setDays((prev) => prev.filter((item, i) => i !== length));
   };
+  const [availableDays, setAvailableDays] = useState([...daysOfWeek]);
   const handleAdd = (setFieldValue) => {
     console.log("Day: ", day);
     console.log("Time: ", time);
@@ -47,6 +60,10 @@ const AddScheduleForm = () => {
     };
     if (day && time) {
       setFieldValue(day, time);
+      console.log(day);
+      setAvailableDays([
+        ...availableDays.filter((dayOfWeek) => dayOfWeek !== weekDays[day]),
+      ]);
       setDays((prev) => [
         ...prev,
         <>
@@ -101,8 +118,7 @@ const AddScheduleForm = () => {
     }
   };
 
-  const [postSchedule, { isLoading: isPostScheduleLoading }] =
-    usePostScheduleMutation();
+  const [postSchedule] = usePostScheduleMutation();
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
     console.log(values);
@@ -129,13 +145,26 @@ const AddScheduleForm = () => {
     data: sessions,
     isLoading: isSessionsLoading,
     error: sessionsError,
-  } = useGetSessionsQuery("?exclude[]=*&include[]=name&include[]=id");
+  } = useGetSessionsQuery(
+    "?exclude[]=*&include[]=name&include[]=id&filter{is_active}=true"
+  );
   console.log(sessions);
+
+  const weekDays = {
+    saturday: "السبت",
+    sunday: "الاحد",
+    monday: "الاثنين",
+    tuesday: "الثلاثاء",
+    wednesday: "الاربعاء",
+    thursday: "الخميس",
+    friday: "الجمعة",
+  };
+  console.log(availableDays);
 
   if (isEmployeesLoading || isSessionsLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }
@@ -179,8 +208,10 @@ const AddScheduleForm = () => {
                       inputType={"select"}
                     >
                       <option value="">إختر</option>
-                      {sessions?.data.sessions.map((session) => (
-                        <option value={session.id}>{session.name}</option>
+                      {sessions?.data.sessions.map((session, index) => (
+                        <option key={index} value={session.id}>
+                          {session.name}
+                        </option>
                       ))}
                     </InputField>
                   </div>
@@ -199,8 +230,10 @@ const AddScheduleForm = () => {
                       inputType={"select"}
                     >
                       <option value={""}> إختر </option>
-                      {trainers?.data?.map((trainer) => (
-                        <option value={trainer.id}>{trainer.name}</option>
+                      {trainers?.data?.map((trainer, index) => (
+                        <option key={index} value={trainer.id}>
+                          {trainer.name}
+                        </option>
                       ))}
                     </InputField>
                   </div>
@@ -225,13 +258,16 @@ const AddScheduleForm = () => {
                       }}
                     >
                       <option value="">اختر</option>
-                      <option value="saturday">السبت</option>
-                      <option value="sunday">الأحد</option>
-                      <option value="monday">الاثنين</option>
-                      <option value="tuesday">الثلاثاء</option>
-                      <option value="wednesday">الأربعاء</option>
-                      <option value="thursday">الخميس</option>
-                      <option value="friday">الجمعة</option>
+                      {availableDays.map((day, index) => (
+                        <option
+                          key={index}
+                          value={Object.keys(weekDays).find(
+                            (key) => weekDays[key] === day
+                          )}
+                        >
+                          {day}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="col-5">

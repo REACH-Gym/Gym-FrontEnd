@@ -72,6 +72,12 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    deleteMeasurement: builder.mutation({
+      query: (id) => ({
+        url: `members/measurements/${id}`,
+        method: "DELETE",
+      }),
+    }),
     loginAdmin: builder.mutation({
       query: (data) => ({
         url: "auth/login",
@@ -96,6 +102,20 @@ export const apis = createApi({
       query: (data) => ({
         url: "members/sessions/",
         method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
+    editSession: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `sessions/${id}`,
+        method: "PUT",
+        body: JSON.stringify(data),
+      }),
+    }),
+    patchSession: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `sessions/${id}`,
+        method: "PATCH",
         body: JSON.stringify(data),
       }),
     }),
@@ -128,4 +148,7 @@ export const {
   useLazyGetSchedulesQuery,
   useLazySearchQuery,
   usePostSessionMemberMutation,
+  useDeleteMeasurementMutation,
+  useEditSessionMutation,
+  usePatchSessionMutation,
 } = apis;

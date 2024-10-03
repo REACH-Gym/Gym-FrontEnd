@@ -82,7 +82,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <th>الخميس</th>
               <th>الجمعة</th>
               <th>الطاقة الحالية</th>
-              <th>خيارات</th>
+              <th className="text-center">خيارات</th>
             </tr>
           </thead>
           <tbody>
@@ -98,7 +98,13 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
                 <td>{schedule.thursday ?? "-"}</td>
                 <td>{schedule.friday ?? "-"}</td>
                 <td>{schedule.max_capacity}</td>
-                <td>---</td>
+                <td
+                  className={`${styles.tableColumn} position-relative p-2 p-2`}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </td>
               </tr>
             ))}
           </tbody>

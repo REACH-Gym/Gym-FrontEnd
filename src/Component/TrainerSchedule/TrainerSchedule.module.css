@@ -13,3 +13,17 @@
 .scheduleRow td {
   padding: 10px;
 }
+.scheduleRow {
+  border-bottom: 1px solid lightgray;
+}
+.scheduleRow td:last-child {
+  cursor: pointer;
+}
+.scheduleRow td:last-child span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: black;
+  margin: 0 auto 2px;
+}
