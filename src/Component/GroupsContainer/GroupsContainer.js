@@ -7,6 +7,7 @@ import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitl
 import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
+import { Commet } from "react-loading-indicators";
 
 // Groups table container and header
 const GroupsContainer = () => {
@@ -33,10 +34,8 @@ const GroupsContainer = () => {
 
   if (isGroupsMembersFetching) {
     return (
-      <div
-        className={`fs-3 fw-bold text-primary d-flex justify-content-center align-items-center`}
-      >
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }

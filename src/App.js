@@ -28,12 +28,16 @@ import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMet
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
 import EditMember from "./Component/Members/Edit Member/EditMember";
+
 import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 import MemberSubscriptionDetail from "./Component/Members/MemberSubcriptions/MemberSubscriptionDetail";
 // import DeleteMember from "./Component/Members/DeleteMember/DeleteMember";
 import EditSub from "./Component/Subscriptions/EditSubscription/EditSub";
 import MemberActivate from "./Component/Members/MemberActivate/MemberActivate";
-import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";
+import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";import EditGroup from "./Component/EditGroup/EditGroup";
+import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
+import EditSchedule from "./Component/EditSchedule/EditSchedule";
+
 function App() {
   return (
     <Provider store={store}>
@@ -75,9 +79,22 @@ function App() {
               />
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
+              <Route path="EditGroup/:GroupId/" element={<EditGroup />} />
               <Route path="AddGroupMember" element={<AddGroupMember />} />
+              <Route
+                path="EditGroupMember/:GroupMemberId/"
+                element={<EditGroupMember />}
+              />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route
+                path="EditSchedule/:ScheduleId/"
+                element={<EditSchedule />}
+              />
+              <Route
+                path="SessionDetails/:sessionId/"
+                element={<TrainerScheduleContainer />}
+              />
               <Route
                 path="TrainerScheduleContainer"
                 element={<TrainerScheduleContainer />}

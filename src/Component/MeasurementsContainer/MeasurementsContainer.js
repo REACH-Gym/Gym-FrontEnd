@@ -1,14 +1,12 @@
 import styles from "./MeasurementsContainer.module.css";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import MeasurementsItem from "../MeasurementsItem/MeasurementsItem";
-import {
-  useGetMeasurementsQuery,
-  useAddMeasurementsMutation,
-} from "../../features/api";
+import { useGetMeasurementsQuery } from "../../features/api";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import Filter from "../../Common Components/Filter/Filter";
+import { Commet } from "react-loading-indicators";
+
 // Measurements table container and header
 const MeasurementsContainer = () => {
   const [page, setPage] = useState(1);
@@ -26,15 +24,17 @@ const MeasurementsContainer = () => {
 
   if (isLoading || isFetching) {
     return (
-      <div
-        className={`fs-3 fw-bold text-primary d-flex justify-content-center align-items-center`}
-      >
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }
   if (error) {
-    return <div>حدث خطأ، برجاء المحاولة مرة أخرى.</div>;
+    return (
+      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+        حدث خطأ، برجاء المحاولة مرة أخرى.
+      </div>
+    );
   }
   return (
     <div className={`${styles.MeasurementsContainer}`}>

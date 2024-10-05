@@ -12,3 +12,22 @@
   background-color: black;
   margin: 0 auto 2px;
 }
+.subMenu {
+  display: none;
+}
+.tableColumn:hover .subMenu {
+  display: block;
+  position: absolute;
+  background-color: white;
+  width: 190px;
+  height: fit-content;
+  z-index: 1000;
+  left: 0;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #f0f0f0;
+}
+.subMenu > div:hover {
+  background-color: #f2f4f5;
+  border-radius: 20px;
+}

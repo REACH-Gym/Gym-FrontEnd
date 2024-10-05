@@ -6,9 +6,12 @@ import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useGetSessionsQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
+import { Commet } from "react-loading-indicators";
+import { useNavigate } from "react-router-dom";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { data, error, isLoading } = useGetSessionsQuery(
@@ -22,8 +25,8 @@ const ScheduleContainer = () => {
   const [results, setResults] = useState([]);
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center text-primary fs-3 fw-bold">
-        جاري التحميل...
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
   }
@@ -51,7 +54,12 @@ const ScheduleContainer = () => {
             searchResults={setResults}
             status={false}
           />
-          <ComponentBtns btn1={"+ إضافة موعد جديد "} />
+          <ComponentBtns
+            btn1={"+ إضافة موعد جديد "}
+            onclick={() => {
+              navigate("/Home/AddScheduleForm");
+            }}
+          />
         </div>
         <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
           <table className="w-100">
