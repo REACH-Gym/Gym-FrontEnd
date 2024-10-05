@@ -151,7 +151,7 @@ function AllMembers() {
                             />
                             {showDropdown === item.id && (
                               <ul className="drop-menu">
-                                {item.is_active ? (
+                                 {item.is_active ? (
                                 <>
                                   <li
                                     onClick={() =>

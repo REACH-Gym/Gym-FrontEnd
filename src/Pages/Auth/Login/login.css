@@ -19,11 +19,13 @@
   outline: none;
   width: 100%;
   border: 1px solid lightgrey;
-  height: 38px;
+  height: 54px;
+  border-radius: 5px;
   padding: 10px;
 }
 .login-btn button {
   width: 100%;
+  height: 54px;
 }
 .forgot-password {
   font-size: 13px;

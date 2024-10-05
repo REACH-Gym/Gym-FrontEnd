@@ -100,10 +100,10 @@ function Container() {
             }}
             className="progressbar"
           />
-          <div className="d-flex align-items-center justify-content-between mt-4">
+          <div className="d-flex justify-content-between mt-4">
             <div>
-              <p className="mb-0 fw-bolder">جميع الأعضاء</p>
-              <p className="fw-lighter">جميع الأعضاء في النادي</p>
+              <p className="mb-0 fw-bolder">أشتراكات أوشكت علي الانتهاء</p>
+              {/* <p className="fw-lighter">جميع الأشتراكات التي أوشكت علي الأنتهاء</p> */}
             </div>
             <div>
               <p className="fw-bolder mt-4" style={{ color: "#FF8080" }}>

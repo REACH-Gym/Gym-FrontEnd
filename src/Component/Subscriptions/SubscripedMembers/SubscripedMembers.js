@@ -96,7 +96,7 @@ function SubscripedMembers() {
               title={"جميع الاعضاء المشتركين"}
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
-            <Filter searchResults={setResults}  options={['فعال','متجمد','أوشك علي الانتهاء','منتهي']} status={false} query={'members/memberships/'}/>
+            <Filter searchResults={setResults}  options={['فعال','متجمد','أوشك علي الانتهاء','منتهي']} status={false} query={'members/memberships'}/>
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
           {results?.data?.user_memberships?.length > 0 ? (

@@ -123,7 +123,7 @@ function EditMember() {
                   name="date_of_birth"
                 />
               </div>
-              <div className="col-4 col-lg-6">
+              {/* <div className="col-4 col-lg-6">
                 <InputField
                   name={"gender"}
                   label={"النوع"}
@@ -133,7 +133,7 @@ function EditMember() {
                   <option value="انثي">{"انثي"}</option>
                   <option value="ذكر">{"ذكر"}</option>
                 </InputField>
-              </div>
+              </div> */}
             </div>
             <div className="editBtn text-center">
               <MainButton

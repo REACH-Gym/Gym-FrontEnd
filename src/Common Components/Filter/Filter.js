@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import MainButton from "../Main Button/MainButton";
 import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
-
 const filters = {
   name: "الاسم",
   "user.name": "اسم المستخدم",
@@ -11,17 +10,15 @@ const filters = {
   "schedule.session.name": "المجموعة",
   "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
-  active:"فعال",
-  freefzed:"متجمد",
-  almost_over:"أوشك علي الانتهاء",
-  expired:"منتهي",
 };
 
 function Filter({ options = [], query, status = true, searchResults }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const navigate = useNavigate();
   const [term, setTerm] = useState("");
   const [debounce, setDebounce] = useState(term);
   const [search, { isLoading }] = useLazySearchQuery();
+
   const [activeFilter, setActiveFilter] = useState(
     Object.keys(filters).find((value) => filters[value] === options[0])
   );
@@ -31,6 +28,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
   };
 
   useEffect(() => {
+    console.log(term);
     const timeout = setTimeout(() => {
       setDebounce(term);
     }, 300);
@@ -40,26 +38,19 @@ function Filter({ options = [], query, status = true, searchResults }) {
   const searchInput = React.useRef(null);
 
   useEffect(() => {
-    const performSearch = async () => {
-      if (activeFilter === "status" && term) {
-        // Handle status-based filtering logic
-        const response = await search(`${query}?filter{status}=${term}`);
-        searchResults(response.data);
-        console.log(response.data);
-      } else if (debounce.length > 0) {
-        // Handle text-based search logic
+    console.log(activeFilter);
+    if (debounce.length > 0) {
+      (async () => {
         const response = await search(
           `${query}?filter{${activeFilter}.istartswith}=${debounce}`
         );
         searchResults(response.data);
         console.log(response.data);
-      } else {
-        searchResults([]);
-      }
-    };
-
-    performSearch();
-  }, [query, debounce, search, activeFilter, searchResults, term]);
+      })();
+    } else {
+      searchResults([]);
+    }
+  }, [query, debounce, search, activeFilter, searchResults]);
 
   return (
     <div className="filterContainer">
@@ -164,7 +155,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
                       <li
                         style={{ borderBottom: "1px solid #ccc" }}
                         className={`${
-                          term === "تم الألغاء"
+                          term === "Almost Finished"
                             ? "bg-primary text-white rounded-2"
                             : null
                         }`}
@@ -199,5 +190,4 @@ function Filter({ options = [], query, status = true, searchResults }) {
     </div>
   );
 }
-
 export default Filter;
