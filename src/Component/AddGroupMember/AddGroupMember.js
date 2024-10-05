@@ -147,7 +147,7 @@ const DynamicComponent = () => {
         <div
           className={`col-6 d-flex justify-content-center align-items-end p-3`}
         >
-          <div className="ms-5 fs-5" style={{ width: 150 }}>
+          <div className="ms-5 fs-5" style={{ minWidth: 150 }}>
             <strong>السعر:</strong>{" "}
             {sessionPrice
               ? `${Number(sessionPrice).toFixed(2)} ريال`

@@ -72,7 +72,31 @@ const GroupsContainer = () => {
             }}
           />
         </div>
-        {!isGroupsMembersFetching ? (
+        {results?.user_sessions?.length > 0 ? (
+          <div
+            className={` ${styles.tableContainer} text-end ps-4 pe-4 ${
+              results?.user_sessions?.length > 0 ? "d-block" : "d-none"
+            }`}
+          >
+            <table className="w-100">
+              <thead>
+                <tr>
+                  <th className={`p-2 pt-3 pb-3`}>#</th>
+                  <th className={`p-2 pt-3 pb-3`}>الإسم</th>
+                  <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
+                  <th className={`p-2 pt-3 pb-3`}>المدرب</th>
+                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
+                  <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results?.user_sessions?.map((item, index) => (
+                  <GroupsItem key={index} index={index + 1} item={item} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
           <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -117,43 +141,7 @@ const GroupsContainer = () => {
               />
             </div>
           </div>
-        ) : (
-          "Loading..."
         )}
-      </div>
-      <div
-        className={`p-3 ${
-          results?.user_sessions?.length > 0 ? "position-fixed" : "d-none"
-        }`}
-        style={{
-          width: "calc(100% - 265px)",
-          margin: "0 0 0 10px",
-          borderRadius: "25px",
-          zIndex: "9999",
-          height: "calc(100vh - 180px)",
-          backgroundColor: "white",
-          overflowY: "auto",
-          bottom: 0,
-          left: 0,
-        }}
-      >
-        <table className="w-100">
-          <thead>
-            <tr>
-              <th className={`p-2 pt-3 pb-3`}>#</th>
-              <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-              <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
-              <th className={`p-2 pt-3 pb-3`}>المدرب</th>
-              <th className={`p-2 pt-3 pb-3`}>الحالة</th>
-              <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results?.user_sessions?.map((item, index) => (
-              <GroupsItem key={index} index={index + 1} item={item} />
-            ))}
-          </tbody>
-        </table>
       </div>
     </>
   );
