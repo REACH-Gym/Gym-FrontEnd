@@ -38,20 +38,27 @@ function Logout({ onClose }) {
     <ModalLogOut>
       <div>
         <div>
-        <button onClick={onClose} className="cancel-button fs-5 fw-bolder">
-           x
-        </button>
-
+          <button onClick={onClose} className="cancel-button fs-5 fw-bolder">
+            x
+          </button>
         </div>
-        <div className="d-flex justify-content-center align-items-center mt-4">
+        <div className="d-flex justify-content-center align-items-center mt-4 mb-4">
           <img src="/assets/image/logout-2-svgrepo-com.png" alt="Logout" />
         </div>
         <div>
-          <p className="fw-bolder mt-5">هل انت متأكد من انك تريد تسجيل الخروج؟</p>
+          <p className="fw-bolder  text-center">
+            هل انت متأكد من انك تريد تسجيل الخروج؟
+          </p>
         </div>
-        <button type="submit" onClick={clearData} className="logout-button mt-5">
-           تسجيل الخروج
-        </button>
+        <div className="text-center">
+          <button
+            type="submit"
+            onClick={clearData}
+            className="logout-button mt-4 mb-4"
+          >
+            تسجيل الخروج
+          </button>
+        </div>
       </div>
       <ToastContainer />
     </ModalLogOut>

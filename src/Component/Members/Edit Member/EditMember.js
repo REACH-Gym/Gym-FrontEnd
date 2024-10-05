@@ -1,87 +1,88 @@
-import React from "react";
-import "./EditMember.css";
-import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Formik, Form } from "formik";
-import MainButton from "../../../Common Components/Main Button/MainButton";
-import InputField from "../../../Common Components/InputField/InputField";
-import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
+import MainButton from "../../../Common Components/Main Button/MainButton";
+import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
+import "./EditMember.css";
+import InputField from "../../../Common Components/InputField/InputField";
+
 function EditMember() {
-  const { id } = useParams();
-  const access_token = localStorage.getItem("access");
-  const handleSubmit = async (value) => {
-    try {
-      const items = {
-        name: value["name"],
-        phone_number: value["phone_number"],
-        national_id: value["national_id"],
-        password: value["password"],
-        notes: value["notes"],
-        date_of_birth: value["date_of_birth"],
-        genderValue: value.gender === "أنثي" ? "F" : "M",
-      };
-      const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/members/${id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(items),
-        }
-      );
-      const result = await response.json();
-      console.log(result);
-      console.log(result.data);
-      if (response.ok) {
-        console.log("successe");
-      } else {
-        console.error("falied");
-      }
-    } catch (error) {
-      console.error("An Error Ocurred!", error);
-    }
-  };
-  const initialValues = {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const member = location.state?.member;
+
+  const [initialValues, setInitialValues] = useState({
     name: "",
     phone_number: "",
     national_id: "",
-    password: "",
-    notes: "",
     date_of_birth: "",
-    gender: "",
-  };
-  const validationSchema = Yup.object({
-    name: Yup.string().required("هذا الحقل الزامي"),
-    phone_number: Yup.string().required("هذا الحقل الزامي"),
-    national_id: Yup.string().required("هذا الحقل الزامي"),
-    password: Yup.string().required("هذا الحقل الزامي"),
-    notes: Yup.string().required("هذا الحقل الزامي"),
-    date_of_birth: Yup.string().required("هذا الحقل الزامي"),
-    gender: Yup.string().required("هذا الحقل الزامي"),
+    gender: "", 
   });
+
+  useEffect(() => {
+    if (member) {
+      setInitialValues({
+        name: member.name,
+        phone_number: member.phone_number,
+        national_id: member.national_id,
+        date_of_birth: member.date_of_birth,
+        gender: member.gender === 'أنثي' ? 'انثي' : 'ذكر',
+      });
+    }
+  }, [member]);
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("مطلوب"),
+    phone_number: Yup.string().required("مطلوب"),
+    national_id: Yup.string().required("مطلوب"),
+    date_of_birth: Yup.date().required("مطلوب"),
+    gender: Yup.string().required("مطلوب"),
+  });
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await fetch(
+        `https://gym-backend-production-65cc.up.railway.app/members/${member.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values), // The values will now include gender
+        }
+      );
+
+      if (response.ok) {
+        const updatedMember = await response.json();
+        navigate("/Home/AllMembers", { state: { updatedMember } });
+      } else {
+        console.error("Failed to update member");
+      }
+    } catch (error) {
+      console.error("Error updating member:", error);
+    }
+  };
+
   return (
-    <div className="addMemberContainer">
+    <div className="editMemberContainer">
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
         <ComponentTitle
           MainIcon={"/assets/image/Vector.png"}
-          title={"تعديل بيانات عضو "}
-          subTitle={"يمكنك تعديل بيانات العضو المطلوب من هنا"}
+          title={" تعديل عضو "}
+          subTitle={"يمكنك تعديل عضو  من هنا"}
         />
       </div>
-      <div className="">
-        <Formik
-          onSubmit={handleSubmit}
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          enableReinitialize={true} // Ensure the form updates with fetched data
-        >
-          <Form className={`addForm mt-3 mb-5`}>
-            {/* upload user image */}
-            <div className="mt-5 d-flex flex-column align-items-center  mb-4 position-relative">
+      <Formik
+        initialValues={initialValues}
+        enableReinitialize
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="editForm">
+            <div className="mt-5 d-flex flex-column align-items-center mb-4 position-relative">
               <div className="position-relative">
                 <img
                   src="/assets/image/user image.png"
@@ -90,7 +91,7 @@ function EditMember() {
                   height={"84.55px"}
                 />
               </div>
-              <div className="position-absolute  upload-image">
+              <div className="position-absolute upload-image">
                 <img
                   src="/assets/image/Frame 119.png"
                   alt="upload img"
@@ -103,46 +104,26 @@ function EditMember() {
                 <p style={{ color: "#3572EF" }}>تعديل الصورة</p>
               </Link>
             </div>
-            {/* end of upload user image */}
-
-            {/* name & number */}
-            <div className={`row g-4 mb-5`}>
-              <div className={`col-4 col-lg-6`}>
-                <InputField name={"name"} label={"الأسم"} />
+            <div className="row g-4 mb-5">
+              <div className="col-4 col-lg-6">
+                <InputField name="name" label={"الأسم"} />
               </div>
-              <div className={`col-4 col-lg-6 phone-number`}>
-                <InputField name={"phone_number"} label={"رقم الهاتف"} />
+              <div className="col-4 col-lg-6">
+                <InputField label={"رقم الهاتف"} name="phone_number" />
               </div>
             </div>
-            {/* end of name & number */}
-
-            {/* nationalId & password */}
-            <div className={`row g-4 mb-5`}>
-              <div className={`col-4 col-lg-6`}>
-                <InputField name={"national_id"} label={"رقم العضوية"} />
+            <div className="row g-4 mb-5">
+              <div className="col-4 col-lg-6">
+                <InputField label={"رقم العضوية"} name="national_id" />
               </div>
-              <div className={`col-4 col-lg-6`}>
+              <div className="col-4 col-lg-6">
                 <InputField
-                  name={"password"}
-                  label={"كلمة السر"}
-                  type="password"
-                />
-              </div>
-            </div>
-            {/* end of nationalId & password */}
-
-            {/* notes & date & gender */}
-            <div className={`row g-4 mb-5`}>
-              <div className={`col-4 col-lg-6`}>
-                <InputField name={"notes"} label={"ملاحظات"} className="note" />
-              </div>
-              <div className={`col-4 col-lg-6`}>
-                <InputField
-                  name={"date_of_birth"}
                   label={"تاريخ الميلاد"}
-                  inputType={"input"}
-                  type={"date"}
+                  type="date"
+                  name="date_of_birth"
                 />
+              </div>
+              <div className="col-4 col-lg-6">
                 <InputField
                   name={"gender"}
                   label={"النوع"}
@@ -150,21 +131,22 @@ function EditMember() {
                 >
                   <option value="">{"أختر نوع"}</option>
                   <option value="انثي">{"انثي"}</option>
-                  <option value="ذكر">{`ذكر`}</option>
+                  <option value="ذكر">{"ذكر"}</option>
                 </InputField>
               </div>
             </div>
-            {/* end of notes & date & gender */}
-
-            {/* button to confirm add member */}
-            <div className={`addmemberBtn m-auto`}>
-              <MainButton text={"تعديل"} btnType={"submit"} />
+            <div className="editBtn text-center">
+              <MainButton
+                text={"حفظ التعديل"}
+                btnType={"submit"}
+                disabled={isSubmitting}
+              />
             </div>
           </Form>
-        </Formik>
-      </div>
-      <ToastContainer />
+        )}
+      </Formik>
     </div>
   );
 }
+
 export default EditMember;

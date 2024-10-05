@@ -1,6 +1,6 @@
 import React from "react";
 import "./Modal.css";
-function Modal({ isOpen, children }) {
+function Modal({ isOpen, children ,onClose}) {
   if (!isOpen) return null;
   return (
     <div className="modal-overlay">

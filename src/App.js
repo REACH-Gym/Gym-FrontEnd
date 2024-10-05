@@ -27,8 +27,13 @@ import PaymentMethodsContainer from "./Component/PaymentMethodsContainer/Payment
 import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMethodForm";
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
-import EditMember from "./Component/Members/Edit Member/EditMember";import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
-
+import EditMember from "./Component/Members/Edit Member/EditMember";
+import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
+import MemberSubscriptionDetail from "./Component/Members/MemberSubcriptions/MemberSubscriptionDetail";
+// import DeleteMember from "./Component/Members/DeleteMember/DeleteMember";
+import EditSub from "./Component/Subscriptions/EditSubscription/EditSub";
+import MemberActivate from "./Component/Members/MemberActivate/MemberActivate";
+import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";
 function App() {
   return (
     <Provider store={store}>
@@ -45,8 +50,13 @@ function App() {
               <Route index element={<Container />} />
               <Route path="AllMembers" element={<AllMembers />} />
               <Route path="AddNewMember" element={<AddNewMember />} />
-              {/* <Route path="EditMember" element={<EditMember />} /> */}
-              <Route path="AllMembers/:id/" element={<EditMember />} />
+              {/* // <Route path="AllMembers/:id/delete" element={<DeleteMember />} /> */}
+              <Route path="AllMembers/:id/edit" element={<EditMember />} />
+              <Route
+                path="AllMembers/:id/subscription-detail/"
+                element={<MemberSubscriptionDetail />}
+              />
+              <Route path="MemberActivate" element={<MemberActivate/>} />
               <Route
                 path="MeasurmentsContainer"
                 element={<MeasurmentsContainer />}
@@ -72,9 +82,12 @@ function App() {
                 path="TrainerScheduleContainer"
                 element={<TrainerScheduleContainer />}
               />
-
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />
+              <Route
+                path="SubscripedMembers/:id/"
+                element={<SubscriptionDetail />}
+              />
               <Route path="AddNewMemberToSub" element={<AddNewMemberToSub />} />
               <Route
                 path="AddNewSubscription"
@@ -87,15 +100,15 @@ function App() {
                 element={<ActiveSubScription />}
               />
               <Route path="SubscribedMembers" element={<SubscripedMembers />} />
-
               <Route
                 path="ExpiredSubScriptions"
                 element={<ExpiredSubscriptions />}
               />
-              <Route
-                path="SubscripedMembers/:id/"
-                element={<SubscriptionDetail />}
-              />
+              <Route path="ActiveSub" element={<ActiveSub/>}/>
+              {/* <Route path="SubscribedMembers/:id/" element={<SubscriptionDetail/>}/> */}
+              {/* <Route path="AllSubScriptions/:id/delete" element={< />} /> */}
+              <Route path="AllSubScriptions/:id/edit" element={<EditSub />} />
+              {/* <Route path="AllSubScriptions/:id/subscription-detail/" element={< />}/> */}
             </Route>
           </Route>
         </Routes>

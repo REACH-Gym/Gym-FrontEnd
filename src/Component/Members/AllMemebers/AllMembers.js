@@ -4,17 +4,12 @@ import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtn
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import SpeedIcon from "@mui/icons-material/Speed";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
-
+import DeleteMember from "../DeleteMember/DeleteMember";
+import MemberActivate from "../MemberActivate/MemberActivate";
 function AllMembers() {
   const navigate = useNavigate();
   const [allMembers, setAllMembers] = useState([]);
@@ -23,8 +18,9 @@ function AllMembers() {
   const [totalPages, setTotalPages] = useState(1);
   const [per_page] = useState(10);
   const access_token = localStorage.getItem("access");
-  const [results , setResults] = useState([]);
-console.log(results)
+  const [results, setResults] = useState([]);
+  console.log(results);
+
   useEffect(() => {
     async function fetchAllMembers() {
       try {
@@ -39,11 +35,9 @@ console.log(results)
           }
         );
         const result = await response.json();
-        console.log(result)
         if (response.ok) {
           setAllMembers(result.data.users);
-          setTotalPages(result.data.meta.total_pages)
-
+          setTotalPages(result.data.meta.total_pages);
         } else {
           console.error("Unexpected response:", response);
         }
@@ -57,7 +51,6 @@ console.log(results)
   const handleAddNewMember = () => {
     navigate("/Home/AddNewMember");
   };
-
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));
   };
@@ -74,6 +67,17 @@ console.log(results)
     }
   };
 
+  const handleDeleteMember = (id) => {
+    setAllMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.id === id ? { ...member, is_active: false } : member
+      )
+    );
+  };
+
+  const handleActiveMember = (id) =>{
+     setAllMembers((prevMembers)=>prevMembers.map((member)=>member.id === id ? {...member, is_active:true}:member))
+  }
   return (
     <div className="allMembereContainer">
       {allMembers.length > 0 ? (
@@ -85,81 +89,213 @@ console.log(results)
                 title={" جميع الأعضاء"}
                 subTitle={"يمكنك متابعة جميع بيانات الأعضاء  من هنا"}
               />
+              <Filter
+                options={["الاسم", "رقم الجوال", "رقم العضوية"]}
+                query={"members/"}
+                searchResults={setResults}
+                status={false}
+              />
               <ComponentBtns
                 btn1={"+ إضافة عضو جديد "}
                 onclick={handleAddNewMember}
               />
-              <Filter options={['الاسم','رقم الجوال','رقم العضوية']}
-              query={'members/'}
-              searchResults={setResults}
-              status={false}/>
-              
             </div>
-            <div className="tableContainer mt-2">
-              <table className="table mt-3">
-                <thead>
-                  <tr className="">
-                    <th scope="col" className="pb-4">#</th>
-                    <th scope="col" className="pb-4">الأسم</th>
-                    <th scope="col" className="pb-4">الجوال</th>
-                    <th scope="col" className="pb-4">رقم العضوية</th>
-                    <th scope="col" className="pb-4">تاريخ التسجيل</th>
-                    <th scope="col" className="pb-4">الرصيد</th>
-                    <th scope="col" className="pb-4">تاريخ الميلاد</th>
-                    <th scope="col" className="pb-4">خيارات</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allMembers.map((member, index) => (
-                    <tr key={member.id} style={{ fontSize: "14px", textAlign: "right" }}>
-                      <th scope="row">{index + 1 + (page - 1) * per_page}</th>
-                      <td>{member.name}</td>
-                      <td>{member.phone_number}</td>
-                      <td>{member.national_id}</td>
-                      <td>{member.created_at.slice(0,10)}</td>
-                      <td>{0}</td>
-                      <td>{member.date_of_birth}</td>
-                      <td className="fs-5 fw-bolder text-center">
-                        <MoreVertIcon onClick={() => toggleDropdown(member.id)} style={{ cursor: "pointer" }} />
-                        {showDropdown === member.id && (
-                          <ul className="drop-menu">
-                            <li><WhatsAppIcon className="dropdown__icon" /> اعادة ارسال</li>
-                            <li><SubscriptionsOutlinedIcon className="dropdown__icon" /> الأشتراكات</li>
-                            <li><ArticleOutlinedIcon className="dropdown__icon" /> السندات</li>
-                            <li><RestoreOutlinedIcon className="dropdown__icon" /> كشف حساب</li>
-                            <li><SpeedIcon className="dropdown__icon" /> القياسات</li>
-                            <li onClick={() => navigate(`/Home/EditMember/${member.id}/`)}><DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" /> تعديل</li>
-                            <li><DeleteOutlineOutlinedIcon className="dropdown__icon" /> حذف</li>
-                          </ul>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {/* Pagination Controls */}
-              <div className="d-flex justify-content-center align-items-center mt-5">
-                <div className="preivous-btn">
-                  <MainButton
-                    text={">>"}
-                    disabled={page === 1}
-                    onClick={handlePrevPage}
-                  />
-                </div>
-                <div className="ms-3 me-3">
-                  <span>
-                    الصفحة {totalPages} من {page}
-                  </span>
-                </div>
-                <div className="next-btn">
-                  <MainButton
-                    text={"<<"}
-                    disabled={page >= totalPages}
-                    onClick={handleNextPage}
-                  />
+
+            {results?.data?.users?.length > 0 ? (
+              <div
+                className="p-3"
+                style={{
+                  margin: "10px 0 0 10px",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                  bottom: 0,
+                  left: 0,
+                }}
+              >
+                <div className="tableContainer">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th className="p-2 pt-3 pb-3">#</th>
+                        <th className="p-2 pt-3 pb-3">الإسم</th>
+                        <th className="p-2 pt-3 pb-3">رقم الجوال</th>
+                        <th className="p-2 pt-3 pb-3">رقم العضوية</th>
+                        <th className="p-2 pt-3 pb-3">تاريخ التسجيل</th>
+                        <th className="p-2 pt-3 pb-3">الرصيد</th>
+                        <th className="p-2 pt-3 pb-3">تاريخ الميلاد</th>
+                        <th className="p-2 pt-3 pb-3">خيارات</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results?.data?.users?.map((item, index) => (
+                        <tr
+                          key={item.id}
+                          className={item.is_active ? "member-active" : "member-inactive"}
+                          style={{
+                            fontSize: "14px",
+                            textAlign: "right",
+                            // backgroundColor: item.is_active ? "white" : "gray",
+                          }}
+                        >
+                          <th scope="row">{index + 1}</th>
+                          <td>{item.name}</td>
+                          <td>{item.phone_number}</td>
+                          <td>{item.national_id}</td>
+                          <td>{item.created_at.slice(0, 10)}</td>
+                          <td>0</td>
+                          <td>{item.date_of_birth}</td>
+                          <td className="fs-5 fw-bolder text-center">
+                            <MoreVertIcon
+                              onClick={() => toggleDropdown(item.id)}
+                              style={{ cursor: "pointer" }}
+                            />
+                            {showDropdown === item.id && (
+                              <ul className="drop-menu">
+                                {item.is_active ? (
+                                <>
+                                  <li
+                                    onClick={() =>
+                                      navigate(
+                                        `/Home/AllMembers/${item.id}/edit`,
+                                        {
+                                          state: { member: item },
+                                        }
+                                      )
+                                    }
+                                  >
+                                    <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />{" "}
+                                    تعديل
+                                  </li>
+                                  <li>
+                                    <DeleteMember
+                                      id={item.id}
+                                      onDelete={handleDeleteMember}
+                                    />
+                                  </li>
+                                </>
+                              ) : (
+                                <MemberActivate id={item.id} onActive={handleActiveMember}/>
+                              )}
+                              </ul>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="tableContainer mt-2">
+                <table className="table mt-3">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="pb-4">
+                        #
+                      </th>
+                      <th scope="col" className="pb-4">
+                        الأسم
+                      </th>
+                      <th scope="col" className="pb-4">
+                        الجوال
+                      </th>
+                      <th scope="col" className="pb-4">
+                        رقم العضوية
+                      </th>
+                      <th scope="col" className="pb-4">
+                        تاريخ التسجيل
+                      </th>
+                      <th scope="col" className="pb-4">
+                        الرصيد
+                      </th>
+                      <th scope="col" className="pb-4">
+                        تاريخ الميلاد
+                      </th>
+                      <th scope="col" className="pb-4">
+                        خيارات
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allMembers.map((member, index) => (
+                      <tr
+                        key={member.id}
+                        className={member.is_active ? "member-active" : "member-inactive"}
+                        style={{
+                          fontSize: "14px",
+                          textAlign: "right",
+                          // backgroundColor: member.is_active ? "white" : "gray",
+                        }}
+                      >
+                        <th scope="row">{index + 1 + (page - 1) * per_page}</th>
+                        <td>{member.name}</td>
+                        <td>{member.phone_number}</td>
+                        <td>{member.national_id}</td>
+                        <td>{member.created_at.slice(0, 10)}</td>
+                        <td>{0}</td>
+                        <td>{member.date_of_birth}</td>
+                        <td className="fs-5 fw-bolder text-center">
+                          <MoreVertIcon
+                            onClick={() => toggleDropdown(member.id)}
+                            style={{ cursor: "pointer" }}
+                          />
+                          {showDropdown === member.id && (
+                            <ul className="drop-menu">
+                              {member.is_active ? (
+                                <>
+                                  <li
+                                    onClick={() =>
+                                      navigate(
+                                        `/Home/AllMembers/${member.id}/edit`,
+                                        {
+                                          state: { member: member },
+                                        }
+                                      )
+                                    }
+                                  >
+                                    <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />{" "}
+                                    تعديل
+                                  </li>
+                                  <li>
+                                    <DeleteMember
+                                      id={member.id}
+                                      onDelete={handleDeleteMember}
+                                    />
+                                  </li>
+                                </>
+                              ) : (
+                                <MemberActivate id={member.id} onActive={handleActiveMember}/>
+                              )}
+                            </ul>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="d-flex justify-content-center align-items-center mt-5">
+                  <div className="preivous-btn">
+                    <MainButton
+                      text={">>"}
+                      onClick={handlePrevPage}
+                      disabled={page === 1}
+                    />
+                  </div>
+                  <div>
+                    <span className="ms-3 me-3">
+                      الصفحة {totalPages} من {page}
+                    </span>
+                  </div>
+                  <div className="next-btn">
+                    <MainButton
+                      text={"<<"}
+                      onClick={handleNextPage}
+                      disabled={page >= totalPages}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (

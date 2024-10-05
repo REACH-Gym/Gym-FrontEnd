@@ -43,8 +43,8 @@
   padding: 8px;
   text-align: right;
   margin: 0;
-  /* left: 6%; */
-  top: 50%;
+  left:6%;
+  /* top: 50%; */
   position: absolute;
   background-color: white;
   border: 1px solid #ddd;
@@ -61,9 +61,6 @@
   font-weight: lighter;
   font-size: 12px;
 }
-.drop-menu li:hover {
-  background-color: #f0f0f0;
-}
 .dropdown__icon {
   font-size: 4x;
   margin-left: 10px;
@@ -78,4 +75,17 @@
 }
 .next-btn button , .preivous-btn button{
   width: 100px;
+}
+.delete button{
+  width: 25%;
+  height: 40px;
+}
+.member-active {
+  background-color: white !important;
+}
+.member-inactive {
+  background-color: gray !important;
+}
+.active-member{
+  cursor: pointer;
 }

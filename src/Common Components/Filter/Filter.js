@@ -2,25 +2,28 @@ import React, { useState, useEffect } from "react";
 import MainButton from "../Main Button/MainButton";
 import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
+
 const filters = {
   name: "الاسم",
   "user.name": "اسم المستخدم",
-  "phone_number": "رقم الجوال",
-  "national_id": "رقم العضوية",
+  phone_number: "رقم الجوال",
+  national_id: "رقم العضوية",
   "schedule.session.name": "المجموعة",
-  "schedule.trainer.name": "اسم المدرب",
   "membership.name": "الباقة",
+  "schedule.trainer.name": "اسم المدرب",
+  active:"فعال",
+  freefzed:"متجمد",
+  almost_over:"أوشك علي الانتهاء",
+  expired:"منتهي",
 };
 
 function Filter({ options = [], query, status = true, searchResults }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const [term, setTerm] = useState("");
   const [debounce, setDebounce] = useState(term);
   const [search, { isLoading }] = useLazySearchQuery();
-
   const [activeFilter, setActiveFilter] = useState(
-    Object.keys(filters).find((key) => filters[key] === options[0])
+    Object.keys(filters).find((value) => filters[value] === options[0])
   );
 
   const toggleDropdown = () => {
@@ -28,7 +31,6 @@ function Filter({ options = [], query, status = true, searchResults }) {
   };
 
   useEffect(() => {
-    console.log(term);
     const timeout = setTimeout(() => {
       setDebounce(term);
     }, 300);
@@ -38,19 +40,26 @@ function Filter({ options = [], query, status = true, searchResults }) {
   const searchInput = React.useRef(null);
 
   useEffect(() => {
-    console.log(activeFilter);
-    if (debounce.length > 0) {
-      (async () => {
+    const performSearch = async () => {
+      if (activeFilter === "status" && term) {
+        // Handle status-based filtering logic
+        const response = await search(`${query}?filter{status}=${term}`);
+        searchResults(response.data);
+        console.log(response.data);
+      } else if (debounce.length > 0) {
+        // Handle text-based search logic
         const response = await search(
           `${query}?filter{${activeFilter}.istartswith}=${debounce}`
         );
-        console.log(response);
-        searchResults(response?.data?.data);
-      })();
-    } else {
-      searchResults([]);
-    }
-  }, [query, debounce, search, activeFilter, searchResults]);
+        searchResults(response.data);
+        console.log(response.data);
+      } else {
+        searchResults([]);
+      }
+    };
+
+    performSearch();
+  }, [query, debounce, search, activeFilter, searchResults, term]);
 
   return (
     <div className="filterContainer">
@@ -125,7 +134,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
                         }`}
                         onClick={() => {
                           setActiveFilter("status");
-                          setTerm("active");
+                          setTerm("فعال");
                           setTimeout(() => {
                             toggleDropdown();
                             clearTimeout();
@@ -142,7 +151,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
                             : null
                         }`}
                         onClick={() => {
-                          setTerm("expired");
+                          setTerm("منتهي");
                           setActiveFilter("status");
                           setTimeout(() => {
                             toggleDropdown();
@@ -155,12 +164,12 @@ function Filter({ options = [], query, status = true, searchResults }) {
                       <li
                         style={{ borderBottom: "1px solid #ccc" }}
                         className={`${
-                          term === "ملغي"
+                          term === "تم الألغاء"
                             ? "bg-primary text-white rounded-2"
                             : null
                         }`}
                         onClick={() => {
-                          setTerm("cancelled");
+                          setTerm("تم الألغاء");
                           setActiveFilter("status");
                           setTimeout(() => {
                             toggleDropdown();
@@ -168,7 +177,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
                           }, 300);
                         }}
                       >
-                        ملغي
+                        تم الألغاء
                       </li>
                     </ul>
                   </div>
@@ -190,4 +199,5 @@ function Filter({ options = [], query, status = true, searchResults }) {
     </div>
   );
 }
+
 export default Filter;

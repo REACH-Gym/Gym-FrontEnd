@@ -7,10 +7,13 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../../../Common Components/Modal/Modal";
+
 function ForgotPassword() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [serverError, setServerError] = useState("");
   const access_token = localStorage.getItem("access");
+
   const handleSubmit = async (values) => {
     try {
       const item = {
@@ -38,17 +41,21 @@ function ForgotPassword() {
           navigate("/ConfirmCode");
         }, 2500);
         setShowModal(true);
+        setServerError("");
       } else {
-        toast.error("Please try again");
+        toast.error("رقم الهاتف غير صحيح برجاءالمحاولة مرة اخري");
+        setServerError("رقم الهاتف غير صحيح برجاء المحاولة مرة أخرى");
+        console.log(data.error.detail);
       }
     } catch (error) {
       console.error("Error occurred:", error);
+      setServerError("حدث خطأ ما، يرجى المحاولة لاحقًا");
     }
   };
 
   const validationSchema = Yup.object({
     phone_number: Yup.string()
-      .matches(/^[0-9]+$/, "رقم الهاتف يجب أن يحتوي على أرقام فقط")
+      .matches(/^[0-9\s]+$/, "رقم الهاتف يجب أن يحتوي على أرقام ومسافات فقط")
       .required("رقم الهاتف مطلوب"),
   });
 
@@ -91,8 +98,11 @@ function ForgotPassword() {
                 <ErrorMessage
                   name="phone_number"
                   component="div"
-                  className="text-danger"
+                  className="text-danger error-message"
                 />
+                {serverError && ( // error is founded
+                  <div className="text-danger mt-2">{serverError}</div>
+                )}
               </div>
               <div className="sendCodeBtn mt-4">
                 <MainButton btnType={"submit"} text={"ارسال رمز"} />
@@ -103,14 +113,25 @@ function ForgotPassword() {
       </div>
       <ToastContainer />
       <Modal isOpen={showModal}>
-        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
-          <div className="modal-img">
-            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="mt-4">
+            <img
+              src="/assets/image/pepicons-pencil_checkmark-outlined.png"
+              alt=""
+              width={"100px"}
+              height={"100px"}
+            />
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">
-          <p className="mt-4" style={{ color: "darkblue" , fontSize:"15px" }}>
-            A verification request has been sent to your number: <span className="fw-bolder">01013585051</span>
+        <div className="d-flex align-items-center justify-content-center fw-bolder fs-6 p-3">
+          <p
+            className="text-center text-dark"
+            style={{ color: "", fontSize: "" }}
+          >
+            لقد تم إرسال طلب التحقق إلى رقمك:
+            <span className="fw-bolder ms-2 me-2">
+              {localStorage.getItem("phone_number")}
+            </span>
           </p>
         </div>
       </Modal>
