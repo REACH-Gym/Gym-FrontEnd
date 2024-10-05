@@ -27,10 +27,7 @@ const DynamicComponent = () => {
     isLoading: isSessionsLoading,
     error: sessionsError,
   } = useGetSessionsQuery("");
-  console.log(sessions?.data);
   const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
-
-  console.log(schedulesData?.data?.schedules);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
   const [sessionPrice, setSessionPrice] = useState(0);
@@ -45,7 +42,7 @@ const DynamicComponent = () => {
       (async () => {
         try {
           const response = await getSchedules(
-            `?filter{session.id}=${values.group}`
+            `?filter{session.id}=${values.group}&filter{is_active}=true`
           );
           console.log(response.data.data.schedules);
           setSesstionSchedules([]);
@@ -61,8 +58,6 @@ const DynamicComponent = () => {
                 key === "thursday" ||
                 key === "friday"
               ) {
-                console.log(key);
-                console.log(response.data.data.schedules[i][key]);
                 if (response.data.data.schedules[i][key]) {
                   newArray.push(
                     ` [${key}: ${response.data.data.schedules[i][key]}] `

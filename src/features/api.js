@@ -114,7 +114,7 @@ export const apis = createApi({
     }),
     patchSession: builder.mutation({
       query: ({ id, data }) => ({
-        url: `sessions/${id}`,
+        url: `sessions/${id}/`,
         method: "PATCH",
         body: JSON.stringify(data),
       }),
@@ -128,6 +128,13 @@ export const apis = createApi({
     }),
     getSchedules: builder.query({
       query: (params) => `schedules/${params}`,
+    }),
+    patchSchedule: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `schedules/${id}/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
     }),
     search: builder.query({
       query: (data) => `${data}`,
@@ -151,4 +158,5 @@ export const {
   useDeleteMeasurementMutation,
   useEditSessionMutation,
   usePatchSessionMutation,
+  usePatchScheduleMutation,
 } = apis;

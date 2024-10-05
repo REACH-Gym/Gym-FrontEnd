@@ -40,6 +40,8 @@ const AddScheduleForm = () => {
   const valuesRef = useRef(null);
   const setValuesRef = useRef(null);
   const handleDelete = (length, day) => {
+    console.log(weekDays[day]);
+    setAvailableDays((prev) => [...prev, weekDays[day]]);
     console.log(valuesRef.current);
     const { [day]: removed, ...rest } = valuesRef.current;
     setValuesRef.current(rest);

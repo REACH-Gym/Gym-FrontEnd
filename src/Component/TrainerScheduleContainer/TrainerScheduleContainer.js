@@ -10,7 +10,7 @@ const TrainerScheduleContainer = () => {
   console.log(sessionId);
   const [
     getSchedules,
-    { isLoading: isTrainerSchedulesLoading, error: trainerScheduleError },
+    { isFetching: isTrainerSchedulesLoading, error: trainerScheduleError },
   ] = useLazyGetSchedulesQuery();
   const [results, setResults] = useState([]);
   useEffect(() => {
@@ -43,7 +43,7 @@ const TrainerScheduleContainer = () => {
 
   if (isTrainerSchedulesLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="d-flex justify-content-center align-items-center w-100">
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );

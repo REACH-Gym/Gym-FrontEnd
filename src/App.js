@@ -31,6 +31,7 @@ import EditMember from "./Component/Members/Edit Member/EditMember";
 import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
+import EditSchedule from "./Component/EditSchedule/EditSchedule";
 
 function App() {
   return (
@@ -76,6 +77,10 @@ function App() {
               />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
+              <Route
+                path="EditSchedule/:ScheduleId/"
+                element={<EditSchedule />}
+              />
               <Route
                 path="SessionDetails/:sessionId/"
                 element={<TrainerScheduleContainer />}
