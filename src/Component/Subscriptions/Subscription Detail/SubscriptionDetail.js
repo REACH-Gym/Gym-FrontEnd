@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./SubscriptionDetail.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Commet } from "react-loading-indicators";
-
 import { useParams } from "react-router-dom";
 
 function SubscriptionDetail() {
@@ -147,7 +146,7 @@ function SubscriptionDetail() {
                   <img src="/assets/image/bx_edit (1).png" alt="" />
                 </div>
                 <div>
-                  <p className="mb-1 fw-bolder">{subDetail.notes}</p>
+                  <p className="mb-1 fw-bolder">{subDetail.notes || "لا يوجد ملاحظات"}</p>
                 </div>
               </div>
             </div>
@@ -159,32 +158,28 @@ function SubscriptionDetail() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">بيان</th>
-                    {/* <th scope="col">عدد</th> */}
                     <th scope="col">سعر</th>
                     <th scope="col">إجمالي</th>
                     <th scope="col">من تاريخ</th>
                     <th scope="col">إلى تاريخ</th>
                     <th scope="col">المدة</th>
                     <th scope="col">المتبقي</th>
-                    {/* <th scope="col">عدد مرات الحجز</th> */}
-                    <th scope="col" className="text-center">خيارات</th>
+                    {/* <th scope="col" className="text-center">خيارات</th> */}
                   </tr>
                 </thead>
                 <tbody>
                   <tr style={{ fontSize: "14px", textAlign: "right" }}>
                     <td>1</td>
                     <td>{subDetail.membership.name}</td>
-                    {/* <td>0</td> */}
                     <td>{subDetail.membership.price}</td>
                     <td>200</td>
                     <td>{subDetail.start_date}</td>
                     <td>{subDetail.end_date}</td>
                     <td>{subDetail.membership.membership_duration}</td>
                     <td>0</td>
-                    {/* <td>0</td> */}
-                    <td className="text-center">
+                    {/* <td className="text-center">
                       <MoreVertIcon />
-                    </td>
+                    </td> */}
                   </tr>
                 </tbody>
               </table>

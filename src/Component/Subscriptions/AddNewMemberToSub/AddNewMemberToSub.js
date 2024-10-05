@@ -5,15 +5,52 @@ import * as Yup from "yup";
 import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
+import { useNavigate } from "react-router-dom";
 
 function AddNewMemberToSub() {
+  const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
   const [users, setUsers] = useState([]);
+  const [membership, setMemberShip] = useState([]);
+  const [subscription,setSubscription] = useState([]);
   useEffect(() => {
+    // get users
     async function fetchData() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
+          "https://gym-backend-production-65cc.up.railway.app/members/",
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization: access_token,
+            },
+          }
+        );
+        const user = await response.json();
+        console.log('users',user);
+
+        if (response.ok) {
+          setUsers(user.data.users);
+          console.log('Usersssssssssssssss',user.data.users);
+          console.log('User data fetched successfully');
+        } else {
+          console.warn("User  data is not available.");
+          setUsers(null)
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+    fetchData();
+  }, [access_token]);
+
+  // to get memberships
+  useEffect(() => {
+    async function fetchMemberShips() {
+      try {
+        const response = await fetch(
+          "https://gym-backend-production-65cc.up.railway.app/memberships/",
           {
             method: "GET",
             headers: {
@@ -24,37 +61,76 @@ function AddNewMemberToSub() {
         );
         const result = await response.json();
         console.log(result);
-
-        if (response) {
-          setUsers(result.data.user_memberships);
-          console.log(result.data.user_memberships);
+        if (response.ok) {
+          console.log("membership fetched successufully");
+          setMemberShip(result.data.memberships);
+          console.log(result.data.memberships);
         } else {
-          console.warn("User memberships data is undefined or not available.");
+          console.error("membership failed to fetch");
+          setMemberShip(null);
         }
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error(error);
       }
     }
-    fetchData();
-  }, [access_token]);
+    fetchMemberShips();
+  }, []);
 
+  // adding member to subscriptions
+  const handleSubmit = async (values) => {
+    console.log(values);
+    try {
+      const items = {
+        user: values["user"],
+        membership: values["membership"],
+        notes: values["notes"],
+        start_date: values["start_date"],
+        discount: values["discount"],
+        status: "active",
+      };
+      const response = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: access_token,
+          },
+          body: JSON.stringify(items),
+        }
+      );
+
+      const subscriptions = await response.json();
+      console.log(subscriptions);
+      if (response.ok) {
+        setSubscription(subscriptions.data)
+        console.log('subbbbbbbb',subscriptions.data)
+        console.log("success");
+        setTimeout(() => {
+            navigate('/Home/SubscripedMembers');
+        }, 1500);
+      } else {
+        console.log("failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const initialValues = {
     user: "",
     membership: "",
     notes: "",
     start_date: "",
-  };
-
-  const handleSubmit = (values) => {
-    console.log(values);
+    discount: "",
+    status: "active",
   };
   const validationSchema = Yup.object({
     user: Yup.string().required("هذا الحقل الزامي"),
     membership: Yup.string().required("هذا الحقل الزامي"),
     notes: Yup.string().required("هذا الحقل الزامي"),
-    Statement: Yup.string().required("هذا الحقل الزامي"),
-    amount: Yup.string().required("هذا الحقل الزامي"),
     start_date: Yup.date().required("هذا الحقل الزامي"),
+    discount: Yup.date().required("هذا الحقل الزامي"),
   });
   return (
     <div className="addNewSubscriptionsContainer mt-5">
@@ -81,10 +157,10 @@ function AddNewMemberToSub() {
                   className="mb-4"
                 >
                   <option value="">اختر العضو</option>
-                  {users.length > 0 ? (
+                  {users?.length > 0 ? (
                     users.map((user, index) => (
                       <option key={user.id} value={user.id}>
-                        {user.user.name}
+                        {user.name}
                       </option>
                     ))
                   ) : (
@@ -100,10 +176,10 @@ function AddNewMemberToSub() {
                   className="mb-4"
                 >
                   <option value="">اختر الاشتراك</option>
-                  {users.length > 0 ? (
-                    users.map((membership, index) => (
-                      <option key={membership.id} value={membership.id}>
-                        {membership.membership.name}
+                  {membership.length > 0 ? (
+                    membership.map((membershipItem, index) => (
+                      <option key={membershipItem.id} value={membershipItem.id}>
+                        {membershipItem.name}
                       </option>
                     ))
                   ) : (
@@ -125,20 +201,6 @@ function AddNewMemberToSub() {
                   className="mt-3"
                 />
               </div>
-              <div className="mt-5 addBtn text-center">
-                <MainButton text={"اضافة"} />
-              </div>
-            </Form>
-          </Formik>
-        </div>
-        {/* second form */}
-        <div className="addNewSubscriptionsContainer__item2">
-          <Formik
-            initialValues={'initialValues__secForm'}
-            validationSchema={'validationSchema__secForm'}
-            onSubmit={'handleSubmit__secForm'}
-          >
-            <Form className="AddNewSubscriptionForm">
               <div>
                 <InputField
                   name={"discount"}
@@ -146,7 +208,7 @@ function AddNewMemberToSub() {
                   className="mb-3"
                 />
               </div>
-              <div>
+              {/* <div>
                 <InputField
                   name={"payment_method"}
                   label={"طريقة الدفع"}
@@ -159,7 +221,7 @@ function AddNewMemberToSub() {
                   <option>طريقة الدفع 3</option>
                   <option>طريقة الدفع 4</option>
                 </InputField>
-              </div>
+              </div> */}
               <div className="d-flex justify-content-between mt-4">
                 <div>
                   <p>الإجمالي قبل الخصم</p>
@@ -170,7 +232,7 @@ function AddNewMemberToSub() {
                   <p>المتبقي</p>
                 </div>
                 <div>
-                  <p>410</p>
+                  <p>400</p>
                   <p>390</p>
                   <p>400</p>
                   <p>10</p>
@@ -178,8 +240,8 @@ function AddNewMemberToSub() {
                   <p>10</p>
                 </div>
               </div>
-              <div className="text-center addBtn disabled">
-                <MainButton text={"حفظ الاشتراك"} />
+              <div className="mt-5 addBtn text-center">
+                <MainButton text={"اضافة"} btnType={"submit"} />
               </div>
             </Form>
           </Formik>

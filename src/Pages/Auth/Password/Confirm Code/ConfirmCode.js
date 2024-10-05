@@ -12,8 +12,8 @@ function ConfirmCode() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
-
-  // Function to handle OTP submission
+  const phone_number = localStorage.getItem('phone_number');
+  const [serverMessage , setServerMessage] = useState("")
   const handleSubmit = async (values) => {
     try {
       const phone_number = localStorage.getItem("phone_number");
@@ -38,6 +38,7 @@ function ConfirmCode() {
       if (response.ok) {
         console.log("OTP Verified", result);
         localStorage.setItem("otp_message", result.message);
+        serverMessage()
         setShowModal(true);
         setTimeout(() => {
           navigate("/CreateNewPassword");
@@ -103,8 +104,8 @@ function ConfirmCode() {
         </div>
         <p className="text-center mt-3">
           لقد قمنا بإرسال رمز التحقق المكون من 4 أرقام إلى رقم <br />
-          الهاتف المنتهي بـ 6559 .{" "}
-          <span className="fw-bolder">
+          الهاتف المنتهي بـ {phone_number.slice(-4)}
+          <span className="fw-bolder me-3">
             يرجي إدخال الرمز لإعادة تعيين كلمة المرور الخاصة بك.
           </span>
         </p>
@@ -115,13 +116,13 @@ function ConfirmCode() {
           onSubmit={handleSubmit}
         >
           <Form className="confirmCodeForm text-center">
-            <div className="confirmCodeForm__inputs mt-5">
-              <Field className="p-2 text-center" name="otp1" />
-              <Field className="p-2 text-center" name="otp2" />
-              <Field className="p-2 text-center" name="otp3" />
-              <Field className="p-2 text-center" name="otp4" />
-              <Field className="p-2 text-center" name="otp5" />
+            <div className="confirmCodeForm__inputs mt-5 " dir="rtl">
               <Field className="p-2 text-center" name="otp6" />
+              <Field className="p-2 text-center" name="otp5" />
+              <Field className="p-2 text-center" name="otp4" />
+              <Field className="p-2 text-center" name="otp3" />
+              <Field className="p-2 text-center" name="otp2" />
+              <Field className="p-2 text-center" name="otp1" />
             </div>
 
             <div className="sendCodeBtn mt-4">
@@ -144,14 +145,14 @@ function ConfirmCode() {
       </div>
       <ToastContainer />
       <Modal isOpen={showModal}>
-        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
-          <div className="modal-img">
-            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="">
+            <img src="/assets/image/pepicons-pencil_checkmark-outlined.png" alt="" width={"100px"} height={'100px'} />
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">
-          <p className="mt-4" style={{ color: "darkblue", fontSize: "17px" }}>
-            01013585051 has been verified
+        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-5 pb-3">
+          <p className="mt-3" style={{ color: "darkblue", fontSize: "17px" }}>
+            01013585051 تم التحقق منه 
           </p>
         </div>
       </Modal>

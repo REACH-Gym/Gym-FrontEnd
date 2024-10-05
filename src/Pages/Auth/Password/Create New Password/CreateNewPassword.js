@@ -30,14 +30,14 @@ function CreateNewPassword() {
         }
       );
       const data = await response.json();
-
+     console.log(data)
       if (response.ok) {
         console.log(data);
         localStorage.setItem("rest_password", data.message);
         console.log(data.message);
         setShowModal(true);
         setTimeout(() => {
-          navigate("/"); // Go to login page again
+          navigate("/"); 
         }, 1500);
       } else {
         toast.error("تأكد أن كلمة المرور متطابقة");
@@ -123,9 +123,9 @@ function CreateNewPassword() {
       </div>
       <ToastContainer />
       <Modal isOpen={showModal}>
-        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
-          <div className="modal-img">
-            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="">
+            <img src="/assets/image/pepicons-pencil_checkmark-outlined.png" alt="" width={"121px"} height={'121px'} />
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">

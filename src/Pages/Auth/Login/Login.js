@@ -117,13 +117,13 @@ function Login() {
       <ToastContainer />
 
       <Modal isOpen={showModal}>
-        <div className="d-flex flex-column align-items-center justify-content-center position-relative">
-          <div className="modal-img">
-            <img src="/assets/image/check-mark.avif" alt="" width={"80px"} />
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="mt-3">
+            <img src="/assets/image/pepicons-pencil_checkmark-outlined.png" alt="" width={"100px"} height={"100px"} />
           </div>
         </div>
-        <div className="text-center mt-5 fw-bolder fs-4">
-          <p className="" style={{color:"darkblue"}}>Login Successful</p>
+        <div className="text-center fw-lighter fs-5">
+          <p className="p-3 text-dark">لقد تم تسجيل دخولك بنجاح</p>
         </div>
       </Modal>
     </div>
