@@ -59,11 +59,11 @@ const GroupsContainer = () => {
             title={"جميع المجموعات"}
             subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
           />
-          <Filter
+          {/* <Filter
             query={"members/sessions/"}
             options={["اسم المستخدم", "المجموعة", "اسم المدرب"]}
             searchResults={setResults}
-          />
+          /> */}
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}
             onclick={() => {
@@ -72,72 +72,72 @@ const GroupsContainer = () => {
             }}
           />
         </div>
-        {results?.data?.user_sessions?.length > 0 ? (
-          <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
-            <table className="w-100">
-              <thead>
-                <tr>
-                  <th className={`p-2 pt-3 pb-3`}>#</th>
-                  <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-                  <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
-                  <th className={`p-2 pt-3 pb-3`}>المدرب</th>
-                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
-                  <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results?.data?.user_sessions?.map((item, index) => (
-                  <GroupsItem key={index} index={index + 1} item={item} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
-            <table className="w-100">
-              <thead className={`fw-bold`}>
+        {/* {results?.data?.user_sessions?.length > 0 ? ( */}
+        {/* <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
+          <table className="w-100">
+            <thead>
+              <tr>
                 <th className={`p-2 pt-3 pb-3`}>#</th>
                 <th className={`p-2 pt-3 pb-3`}>الإسم</th>
                 <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
                 <th className={`p-2 pt-3 pb-3`}>المدرب</th>
                 <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-              </thead>
-              <tbody>
-                {groupsMembers?.data?.user_sessions?.map((item, index) => (
-                  <GroupsItem
-                    key={index}
-                    index={
-                      groupsMembers?.data.user_sessions.indexOf(item) +
-                      (page - 1) * 5 +
-                      1
-                    }
-                    item={item}
-                  />
-                ))}
-              </tbody>
-            </table>
-            <div
-              className={`d-flex justify-content-between align-items-center ${styles.pageBtn}`}
-            >
-              <MainButton
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-                text={"<<"}
-                btnWidth="100px"
-              />
-              <p className={`m-0`}>
-                صفحة {page} من {totalPages}
-              </p>
-              <MainButton
-                onClick={() => setPage(page + 1)}
-                disabled={page === totalPages}
-                text={">>"}
-                btnWidth="100px"
-              />
-            </div>
+              </tr>
+            </thead>
+            <tbody>
+              {results?.data?.user_sessions?.map((item, index) => (
+                <GroupsItem key={index} index={index + 1} item={item} />
+              ))}
+            </tbody>
+          </table>
+        </div> */}
+        {/* ) : ( */}
+        <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+          <table className="w-100">
+            <thead className={`fw-bold`}>
+              <th className={`p-2 pt-3 pb-3`}>#</th>
+              <th className={`p-2 pt-3 pb-3`}>الإسم</th>
+              <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
+              <th className={`p-2 pt-3 pb-3`}>المدرب</th>
+              <th className={`p-2 pt-3 pb-3`}>الحالة</th>
+              <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+            </thead>
+            <tbody>
+              {groupsMembers?.data?.user_sessions?.map((item, index) => (
+                <GroupsItem
+                  key={index}
+                  index={
+                    groupsMembers?.data.user_sessions.indexOf(item) +
+                    (page - 1) * 5 +
+                    1
+                  }
+                  item={item}
+                />
+              ))}
+            </tbody>
+          </table>
+          <div
+            className={`d-flex justify-content-between align-items-center ${styles.pageBtn}`}
+          >
+            <MainButton
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              text={"<<"}
+              btnWidth="100px"
+            />
+            <p className={`m-0`}>
+              صفحة {page} من {totalPages}
+            </p>
+            <MainButton
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+              text={">>"}
+              btnWidth="100px"
+            />
           </div>
-        )}
+        </div>
+        {/* )} */}
       </div>
     </>
   );
