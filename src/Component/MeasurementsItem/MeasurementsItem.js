@@ -2,23 +2,25 @@ import { useDeleteMeasurementMutation } from "../../features/api";
 import styles from "./MeasurementsItem.module.css";
 
 const SubMenu = ({ id }) => {
-  const [
-    deleteMeasurement,
-    { isLoading: isDeleteLoading, error: deleteError },
-  ] = useDeleteMeasurementMutation();
+  const [deleteMeasurement] = useDeleteMeasurementMutation();
   const handleDelete = async () => {
     if (window.confirm("هل تريد حذف هذا القياس؟")) {
-      const response = await deleteMeasurement(id);
-      console.log(response);
-      window.location.reload();
+      try {
+        const response = await deleteMeasurement(id);
+        console.log(response);
+        window.location.reload();
+      } catch (err) {
+        console.error(err);
+        alert("حدث خطأ، برجاء المحاولة لاحقاً.");
+      }
     } else {
-      alert("حدث خطأ، برجاء المحاولة لاحقاً.");
+      alert("تم ألغاء حذف هذا القياس.");
     }
   };
 
   return (
     <div className={`${styles.subMenu}`}>
-      <div
+      {/* <div
         className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
         onClick={() => {}}
       >
@@ -60,7 +62,7 @@ const SubMenu = ({ id }) => {
         </svg>
 
         <div className={`d-inline-block`}>تعديل</div>
-      </div>
+      </div> */}
       <div
         className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
         onClick={handleDelete}
