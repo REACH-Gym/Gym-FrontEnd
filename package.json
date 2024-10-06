@@ -2,7 +2,7 @@
   "homepage": "https://reach-gym.github.io/Gym-FrontEnd",
   "name": "myapp",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@mui/icons-material": "^6.0.2",
     "@mui/x-data-grid": "^7.16.0",
