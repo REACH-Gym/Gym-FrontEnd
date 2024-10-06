@@ -29,7 +29,7 @@ const GroupsContainer = () => {
   }, [groupsMembers]);
 
   useEffect(() => {
-    console.log(results);
+    console.log(results?.data?.user_sessions?.length);
   }, [results]);
 
   if (isGroupsMembersFetching) {
@@ -72,12 +72,8 @@ const GroupsContainer = () => {
             }}
           />
         </div>
-        {results?.user_sessions?.length > 0 ? (
-          <div
-            className={` ${styles.tableContainer} text-end ps-4 pe-4 ${
-              results?.user_sessions?.length > 0 ? "d-block" : "d-none"
-            }`}
-          >
+        {results?.data?.user_sessions?.length > 0 ? (
+          <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead>
                 <tr>
@@ -90,7 +86,7 @@ const GroupsContainer = () => {
                 </tr>
               </thead>
               <tbody>
-                {results?.user_sessions?.map((item, index) => (
+                {results?.data?.user_sessions?.map((item, index) => (
                   <GroupsItem key={index} index={index + 1} item={item} />
                 ))}
               </tbody>
@@ -108,7 +104,7 @@ const GroupsContainer = () => {
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {groupsMembers?.data.user_sessions.map((item, index) => (
+                {groupsMembers?.data?.user_sessions?.map((item, index) => (
                   <GroupsItem
                     key={index}
                     index={
