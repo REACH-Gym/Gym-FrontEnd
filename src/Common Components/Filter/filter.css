@@ -1,0 +1,56 @@
+.btnDiv button {
+  height: 40px;
+}
+.filterContainer {
+  position: relative;
+}
+.searchInputContainer {
+  position: relative;
+  width: 100%;
+}
+.searchInput {
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  padding-left: 50px;
+  outline: none;
+  height: 40px;
+  background: url("/public/assets/image/search.png") no-repeat right #efeeee;
+  background-size: 20px;
+  background-position: calc(100% - 20px) center;
+  padding-right: 50px;
+}
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.dropdownList {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  background-color: rgb(250, 249, 249);
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 70%;
+  overflow-y: auto;
+  margin-left: 30px;
+  display: none;
+  z-index: 10000;
+}
+.dropdownList.open {
+  display: block;
+}
+.dropdownList ul {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+}
+.dropdownList ul li {
+  padding: 8px;
+  cursor: pointer;
+}

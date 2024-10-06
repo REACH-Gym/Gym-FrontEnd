@@ -1,0 +1,35 @@
+.addMemberContainer {
+  width: 100%;
+}
+.addForm {
+  background-color: #fff;
+  padding: 0px 150px 50px 150px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  width: 100%;
+  margin: auto;
+}
+
+.addForm label {
+  color: rgb(98, 98, 98);
+}
+.upload-image {
+  bottom: 50px;
+  left: 50.9%;
+  clear: both;
+}
+.addmemberBtn {
+  width: 30%;
+  margin: auto;
+}
+.addmemberBtn button {
+  width: 100%;
+}
+.addMemberContainer{
+  background-color: #F2F4F5;
+  width: 100%;
+  padding: 90px 20px 20px 20px;
+}
+.note{
+  height: 144px !important;
+}

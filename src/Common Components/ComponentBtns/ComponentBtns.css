@@ -1,0 +1,7 @@
+.buttons button{
+    height: 40px;
+}
+.disabled button{
+    opacity: 0.5;
+    cursor: not-allowed;
+}

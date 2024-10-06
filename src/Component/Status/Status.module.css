@@ -1,0 +1,23 @@
+.confirmedStatus,
+.notConfirmedStatus,
+.closeToFiniteStatus {
+  background-color: #dbf7e9;
+  color: #4ad991;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 4px;
+  width: 80%;
+  text-align: center;
+}
+.confirmedStatus {
+  background-color: #dbf7e9;
+  color: #4ad991;
+}
+.notConfirmedStatus {
+  background-color: #ffe0e0;
+  color: #ff6666;
+}
+.closeToFiniteStatus {
+  background-color: #f1d4ff;
+  color: #ba29ff;
+}

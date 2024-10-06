@@ -1,0 +1,23 @@
+.tableContainer {
+  direction: rtl;
+  padding: 10px;
+  border-radius: 10px;
+  min-height: 500px;
+  height: 90vh;
+  max-height: 1000px;
+  overflow-y: auto;
+  background-color: white;
+  width: 98%;
+  margin: auto;
+}
+.tableContainer thead th:first-child {
+  width: 50px;
+}
+.tableContainer thead th:last-child {
+  width: 100px;
+}
+.PaymentMethodsContainer{
+  background-color: #f2f4f5;
+  padding: 80px 0px 0px 0px;
+  width: 100%;
+}

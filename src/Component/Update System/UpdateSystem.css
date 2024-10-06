@@ -1,0 +1,14 @@
+.updateContainer {
+  background-color: #f2f4f5;
+  padding: 100px 0px 0px 0px;
+  width: 100%;
+}
+.updateContainer__item {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  /* margin-bottom: 20px; */
+  padding: 20px;
+  width: 95%;
+  margin: auto;
+}

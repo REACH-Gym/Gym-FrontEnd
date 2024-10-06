@@ -1,0 +1,12 @@
+.formContainer {
+  background-color: white;
+  border-radius: 25px;
+  width: 98%;
+  margin: auto;
+}
+.AddPaymentMethodForm{
+  background-color: #f2f4f5;
+  padding: 80px 0px 0px 0px;
+  width: 100%;
+
+}
