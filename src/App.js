@@ -28,13 +28,14 @@ import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMet
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
 import EditMember from "./Component/Members/Edit Member/EditMember";
-
+// Edit
 import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 import MemberSubscriptionDetail from "./Component/Members/MemberSubcriptions/MemberSubscriptionDetail";
 // import DeleteMember from "./Component/Members/DeleteMember/DeleteMember";
 import EditSub from "./Component/Subscriptions/EditSubscription/EditSub";
 import MemberActivate from "./Component/Members/MemberActivate/MemberActivate";
-import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";import EditGroup from "./Component/EditGroup/EditGroup";
+import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";
+import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
 
@@ -60,7 +61,7 @@ function App() {
                 path="AllMembers/:id/subscription-detail/"
                 element={<MemberSubscriptionDetail />}
               />
-              <Route path="MemberActivate" element={<MemberActivate/>} />
+              <Route path="MemberActivate" element={<MemberActivate />} />
               <Route
                 path="MeasurmentsContainer"
                 element={<MeasurmentsContainer />}
@@ -121,7 +122,7 @@ function App() {
                 path="ExpiredSubScriptions"
                 element={<ExpiredSubscriptions />}
               />
-              <Route path="ActiveSub" element={<ActiveSub/>}/>
+              <Route path="ActiveSub" element={<ActiveSub />} />
               {/* <Route path="SubscribedMembers/:id/" element={<SubscriptionDetail/>}/> */}
               {/* <Route path="AllSubScriptions/:id/delete" element={< />} /> */}
               <Route path="AllSubScriptions/:id/edit" element={<EditSub />} />
