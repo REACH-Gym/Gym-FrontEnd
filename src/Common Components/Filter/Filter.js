@@ -14,7 +14,6 @@ const filters = {
 
 function Filter({ options = [], query, status = true, searchResults }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const navigate = useNavigate();
   const [term, setTerm] = useState("");
   const [debounce, setDebounce] = useState(term);
   const [search, { isLoading }] = useLazySearchQuery();
@@ -39,7 +38,6 @@ function Filter({ options = [], query, status = true, searchResults }) {
 
   useEffect(() => {
     console.log(activeFilter);
-    // if (debounce.length > 0) {
     (async () => {
       const response = await search(
         `${query}?filter{${activeFilter}.istartswith}=${debounce}`
@@ -47,9 +45,6 @@ function Filter({ options = [], query, status = true, searchResults }) {
       searchResults(response.data);
       console.log(response.data);
     })();
-    // } else {
-    //   searchResults([]);
-    // }
   }, [query, debounce, search, activeFilter, searchResults]);
 
   return (

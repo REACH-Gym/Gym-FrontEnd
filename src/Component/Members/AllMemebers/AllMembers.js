@@ -47,10 +47,7 @@ function AllMembers() {
     }
     fetchAllMembers();
   }, [access_token, page, per_page]);
-
-  const handleAddNewMember = () => {
-    navigate("/Home/AddNewMember");
-  };
+  
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));
   };
@@ -101,10 +98,7 @@ function AllMembers() {
                 searchResults={setResults}
                 status={false}
               />
-              <ComponentBtns
-                btn1={"+ إضافة عضو جديد "}
-                onclick={handleAddNewMember}
-              />
+              <ComponentBtns />
             </div>
 
             {results?.data?.users?.length > 0 ? (

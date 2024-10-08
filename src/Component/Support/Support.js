@@ -42,6 +42,7 @@ function Support() {
             <table className="table">
               <thead>
                 <tr>
+                  <th></th>
                   <th scope="col">رقم الجوال</th>
                   <th scope="col">الملاحظات</th>
                   <th scope="col">التاريخ</th>
@@ -53,6 +54,9 @@ function Support() {
               <tbody>
                 {support.map((support, index) => (
                   <tr>
+                    <td>
+                      <input type="checkbox" className="selectedBox"/>
+                    </td>
                     <td>{support.phone_number}</td>
                     <td>{support.message}</td>
                     <td>{support.created_at.slice(0, 10)}</td>

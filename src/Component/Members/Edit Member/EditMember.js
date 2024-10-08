@@ -17,7 +17,7 @@ function EditMember() {
     phone_number: "",
     national_id: "",
     date_of_birth: "",
-    gender: "", 
+    gender: "",
   });
 
   useEffect(() => {
@@ -27,11 +27,10 @@ function EditMember() {
         phone_number: member.phone_number,
         national_id: member.national_id,
         date_of_birth: member.date_of_birth,
-        gender: member.gender === 'أنثى' ? 'انثى' : 'ذكر',
+        gender: member.gender === "أنثى" ? "انثى" : "ذكر",
       });
     }
   }, [member]);
-  
 
   const validationSchema = Yup.object({
     name: Yup.string().required("مطلوب"),
@@ -109,7 +108,7 @@ function EditMember() {
                   inputType={"select"}
                 >
                   <option value="">{"أختر نوع"}</option>
-                  <option value="انثي">{"انثي"}</option>
+                  <option value="انثى">{"انثى"}</option>
                   <option value="ذكر">{"ذكر"}</option>
                 </InputField>
               </div>
