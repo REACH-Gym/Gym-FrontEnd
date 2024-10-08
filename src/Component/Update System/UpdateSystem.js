@@ -3,7 +3,10 @@ import "./UpdateSystem.css";
 function UpdateSystem() {
   return (
     <div className="updateContainer">
-      <div className="updateContainer__item mb-3">
+      <p className="text-center fs-3" style={{color:"#666666"}}>
+        لايوجد تحديثات
+      </p>
+      {/* <div className="updateContainer__item mb-3">
         <p className="fw-bolder">1.1</p>
         <p style={{ color: "#666666", fontSize: "12px" }}>20/11/2020</p>
         <h5 className="fw-bolder" style={{ fontSize: "16px" }}>
@@ -62,7 +65,7 @@ function UpdateSystem() {
           إصلاح الأخطاء
         </h5>
         <p style={{ color: "#666666", fontSize: "14px" }}>تصحيح بعض الاخطاء</p>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import DeleteSubscripedMember from "./DeleteSubscripedMember";
 import Filter from "../../../Common Components/Filter/Filter";
+import { Active ,AlmostOver,Expired,Freezed } from "../../Status/Status";
 
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
@@ -71,20 +72,20 @@ function SubscripedMembers() {
     setSubscripedMembers((prev) => prev.filter((member) => member.id !== id));
   };
 
-  const getStatusArabicAndClass = (status) => {
-    switch (status) {
-      case "active":
-        return { text: "فعال", className: "status-active" };
-      case "almost over":
-        return { text: "أوشكت علي الأنتهاء", className: "status-almostOver" };
-      case "expired":
-        return { text: "منتهي", className: "status-expired" };
-      case "freezed":
-        return { text: "متجمد", className: "status-freezed" };
-      default:
-        return { text: "غير معروف", className: "status-unknown" };
-    }
-  };
+  // const getStatusArabicAndClass = (status) => {
+  //   switch (status) {
+  //     case "active":
+  //       return { text: "فعال", className: "status-active" };
+  //     case "almost over":
+  //       return { text: "أوشكت علي الأنتهاء", className: "status-almostOver" };
+  //     case "expired":
+  //       return { text: "منتهي", className: "status-expired" };
+  //     case "freezed":
+  //       return { text: "متجمد", className: "status-freezed" };
+  //     default:
+  //       return { text: "غير معروف", className: "status-unknown" };
+  //   }
+  // };
 
   return (
     <div className="allSubscriptionContainer mt-4">
@@ -96,7 +97,7 @@ function SubscripedMembers() {
               title={"جميع الاعضاء المشتركين"}
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
-            <Filter searchResults={setResults}  options={['فعال','متجمد','أوشك علي الانتهاء','منتهي']} status={false} query={'members/memberships'}/>
+            <Filter searchResults={setResults}  query={'members/memberships'}/>
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
           {results?.data?.user_memberships?.length > 0 ? (
@@ -157,6 +158,7 @@ function SubscripedMembers() {
                         <td>0</td>
                         <td>0</td>
                         <td>{item.start_date}</td>
+                        <td>{item.status}</td>
                         <td className="fw-bolder text-center fs-5">
                           <MoreVertIcon
                             onClick={() => handleShowDropMenu(item.id)}
@@ -228,9 +230,9 @@ function SubscripedMembers() {
                 </thead>
                 <tbody>
                   {SubscripedMembers.map((SubscripedMember, index) => {
-                    const { text, className } = getStatusArabicAndClass(
-                      SubscripedMember.status
-                    );
+                    // const { text, className } = (
+                    //   SubscripedMember.status
+                    // );
                     return (
                       <tr
                         style={{ fontSize: "14px" }}
@@ -244,7 +246,12 @@ function SubscripedMembers() {
                         <td>0</td>
                         <td>0</td>
                         <td>{SubscripedMember.start_date}</td>
-                        <td className={className}>{text}</td>
+                        <td className={''}>
+                          {SubscripedMember.status === "active" ? <Active /> : null}
+                          {SubscripedMember.status === "freezed" ? <Freezed/> : null}
+                          {SubscripedMember.status === "almost over" ? <AlmostOver/> : null}
+                          {SubscripedMember.status === "expired" ? <Expired/> : null}
+                        </td>
                         <td className="text-center">
                           <MoreVertIcon
                             onClick={() =>

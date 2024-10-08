@@ -4,7 +4,6 @@ import "./sidebar.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import FingerprintOutlinedIcon from "@mui/icons-material/FingerprintOutlined";
@@ -21,7 +20,7 @@ import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
 import { useNavigate } from "react-router-dom";
 import Logout from "../../Pages/Auth/Logout/Logout";
 import ModalLogOut from "../../Pages/Auth/Logout/ModalLogOut";
-
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 function SidebarBox() {
   const [openItemId, setOpenItemId] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
@@ -66,6 +65,7 @@ function SidebarBox() {
       subItems: [
         { title: "جميع المجموعات", navigateTo: "GroupsContainer" },
         { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
+        { title: "اضافة عضو لمجموعة", navigateTo: "AddGroupMember" },
       ],
     },
     {
@@ -138,10 +138,10 @@ function SidebarBox() {
       navigateTo: "",
     },
     {
-      title: "التنبيهات",
-      icon: <NotificationsNoneOutlinedIcon />,
+      title: "الدعم",
+      icon:<BuildOutlinedIcon/>,
       itemId: "notifications",
-      navigateTo: "",
+      navigateTo: "Support",
     },
     {
       title: "الربط المحسابي",

@@ -1,5 +1,4 @@
 import React from "react";
-import { toast ,ToastContainer } from "react-toastify";
 function MemberActivate({ id, onActive }) {
   const access_token = localStorage.getItem("access");
 
@@ -19,7 +18,6 @@ function MemberActivate({ id, onActive }) {
       if (response.ok) {
         console.log("Member activated successfully");
         onActive(id);
-        toast.success('تم اعادة تفعيل العضو بنجاح');
       } else {
         console.error("Failed to activate member");
       }
@@ -38,7 +36,6 @@ function MemberActivate({ id, onActive }) {
         />
         <li onClick={activeMember}>تفعيل العضو</li>
       </div>
-      <ToastContainer/>
     </>
   );
 }

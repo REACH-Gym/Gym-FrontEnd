@@ -18,7 +18,7 @@ function AddNewMemberToSub() {
     async function fetchData() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/members/",
+          "https://gym-backend-production-65cc.up.railway.app/members/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -226,18 +226,18 @@ function AddNewMemberToSub() {
                 <div>
                   <p>الإجمالي قبل الخصم</p>
                   <p>الخصم</p>
-                  <p>الإجمالي قبل الضريبة</p>
+                  {/* <p>الإجمالي قبل الضريبة</p> */}
                   <p>الضريبة</p>
                   <p>الإجمالي</p>
-                  <p>المتبقي</p>
+                  {/* <p>المتبقي</p> */}
                 </div>
                 <div>
                   <p>400</p>
                   <p>390</p>
-                  <p>400</p>
-                  <p>10</p>
+                  {/* <p>400</p> */}
+                  <p>15%</p>
                   <p>390</p>
-                  <p>10</p>
+                  {/* <p>10</p> */}
                 </div>
               </div>
               <div className="mt-5 addBtn text-center">

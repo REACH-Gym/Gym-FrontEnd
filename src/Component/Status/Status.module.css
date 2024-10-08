@@ -1,6 +1,7 @@
 .confirmedStatus,
 .notConfirmedStatus,
-.closeToFiniteStatus {
+.closeToFiniteStatus,
+.freezedStatus {
   background-color: #dbf7e9;
   color: #4ad991;
   font-weight: bold;
@@ -20,4 +21,8 @@
 .closeToFiniteStatus {
   background-color: #f1d4ff;
   color: #ba29ff;
+}
+.freezedStatus {
+  background-color:  rgba(0, 106, 234,0.2);
+  color: #006AEA;
 }

@@ -33,3 +33,6 @@
 .note{
   height: 144px !important;
 }
+.error-message{
+  color: rgb(241, 68, 68);
+}

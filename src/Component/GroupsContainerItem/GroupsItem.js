@@ -1,5 +1,5 @@
 import styles from "./GroupsItem.module.css";
-import { Active, Expired, Cancled } from "../Status/Status";
+import { Active, Expired } from "../Status/Status";
 import { useNavigate } from "react-router-dom";
 const SubMenu = ({ id }) => {
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ const GroupsItem = ({ index, item }) => {
       <td className="table-column p-2">
         {item.status === "active" ? <Active /> : null}
         {item.status === "expired" ? <Expired /> : null}
-        {item.status === "cancelled" ? <Cancled /> : null}
+        {/* {item.status === "cancelled" ? <Cancled /> : null} */}
       </td>
       <td className={`${styles.tableColumn} position-relative p-2`}>
         <span></span>

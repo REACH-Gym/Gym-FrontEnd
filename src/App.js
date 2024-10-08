@@ -28,16 +28,15 @@ import AddPaymentMethodForm from "./Component/AddPaymentMethodForm/AddPaymentMet
 import SubscriptionDetail from "./Component/Subscriptions/Subscription Detail/SubscriptionDetail";
 import TrainerScheduleContainer from "./Component/TrainerScheduleContainer/TrainerScheduleContainer";
 import EditMember from "./Component/Members/Edit Member/EditMember";
-
 import AddGroupMember from "./Component/AddGroupMember/AddGroupMember";
 import MemberSubscriptionDetail from "./Component/Members/MemberSubcriptions/MemberSubscriptionDetail";
-// import DeleteMember from "./Component/Members/DeleteMember/DeleteMember";
 import EditSub from "./Component/Subscriptions/EditSubscription/EditSub";
 import MemberActivate from "./Component/Members/MemberActivate/MemberActivate";
-import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";import EditGroup from "./Component/EditGroup/EditGroup";
+import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";
+import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
-
+import Support from "./Component/Support/Support";
 function App() {
   return (
     <Provider store={store}>
@@ -50,17 +49,17 @@ function App() {
             <Route path="CreateNewPassword" element={<CreateNewPassword />} />
 
             <Route path="Home" element={<Home />}>
+              <Route path="Support" element={<Support />} />
               <Route path="UpdateSystem" element={<UpdateSystem />} />
               <Route index element={<Container />} />
               <Route path="AllMembers" element={<AllMembers />} />
               <Route path="AddNewMember" element={<AddNewMember />} />
-              {/* // <Route path="AllMembers/:id/delete" element={<DeleteMember />} /> */}
               <Route path="AllMembers/:id/edit" element={<EditMember />} />
               <Route
                 path="AllMembers/:id/subscription-detail/"
                 element={<MemberSubscriptionDetail />}
               />
-              <Route path="MemberActivate" element={<MemberActivate/>} />
+              <Route path="MemberActivate" element={<MemberActivate />} />
               <Route
                 path="MeasurmentsContainer"
                 element={<MeasurmentsContainer />}
@@ -121,11 +120,8 @@ function App() {
                 path="ExpiredSubScriptions"
                 element={<ExpiredSubscriptions />}
               />
-              <Route path="ActiveSub" element={<ActiveSub/>}/>
-              {/* <Route path="SubscribedMembers/:id/" element={<SubscriptionDetail/>}/> */}
-              {/* <Route path="AllSubScriptions/:id/delete" element={< />} /> */}
+              <Route path="ActiveSub" element={<ActiveSub />} />
               <Route path="AllSubScriptions/:id/edit" element={<EditSub />} />
-              {/* <Route path="AllSubScriptions/:id/subscription-detail/" element={< />}/> */}
             </Route>
           </Route>
         </Routes>

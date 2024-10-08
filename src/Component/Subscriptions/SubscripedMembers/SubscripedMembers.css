@@ -12,7 +12,7 @@
   margin: auto;
 }
 .table {
-  border-collapse:separate;
+  /* border-collapse:separate; */
   border-spacing: 10px 0px 0px 0px;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .table tr td {
-  margin: 30px;
-  text-align: center;
+  /* padding: 30px; */
+  /* text-align: center; */
 }
 
 .delete-btn:hover {

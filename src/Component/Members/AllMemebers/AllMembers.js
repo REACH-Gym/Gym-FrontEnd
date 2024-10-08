@@ -73,11 +73,17 @@ function AllMembers() {
         member.id === id ? { ...member, is_active: false } : member
       )
     );
+    window.location.reload();
   };
 
-  const handleActiveMember = (id) =>{
-     setAllMembers((prevMembers)=>prevMembers.map((member)=>member.id === id ? {...member, is_active:true}:member))
-  }
+  const handleActiveMember = (id) => {
+    setAllMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.id === id ? { ...member, is_active: true } : member
+      )
+    );
+    window.location.reload();
+  };
   return (
     <div className="allMembereContainer">
       {allMembers.length > 0 ? (
@@ -130,11 +136,11 @@ function AllMembers() {
                       {results?.data?.users?.map((item, index) => (
                         <tr
                           key={item.id}
-                          className={item.is_active ? "member-active" : "member-inactive"}
+                          className={
+                            item.is_active ? "member-active" : "member-inactive"
+                          }
                           style={{
                             fontSize: "14px",
-                            textAlign: "right",
-                            // backgroundColor: item.is_active ? "white" : "gray",
                           }}
                         >
                           <th scope="row">{index + 1}</th>
@@ -151,31 +157,34 @@ function AllMembers() {
                             />
                             {showDropdown === item.id && (
                               <ul className="drop-menu">
-                                 {item.is_active ? (
-                                <>
-                                  <li
-                                    onClick={() =>
-                                      navigate(
-                                        `/Home/AllMembers/${item.id}/edit`,
-                                        {
-                                          state: { member: item },
-                                        }
-                                      )
-                                    }
-                                  >
-                                    <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />{" "}
-                                    تعديل
-                                  </li>
-                                  <li>
-                                    <DeleteMember
-                                      id={item.id}
-                                      onDelete={handleDeleteMember}
-                                    />
-                                  </li>
-                                </>
-                              ) : (
-                                <MemberActivate id={item.id} onActive={handleActiveMember}/>
-                              )}
+                                {item.is_active ? (
+                                  <>
+                                    <li
+                                      onClick={() =>
+                                        navigate(
+                                          `/Home/AllMembers/${item.id}/edit`,
+                                          {
+                                            state: { member: item },
+                                          }
+                                        )
+                                      }
+                                    >
+                                      <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />
+                                      تعديل
+                                    </li>
+                                    <li>
+                                      <DeleteMember
+                                        id={item.id}
+                                        onDelete={handleDeleteMember}
+                                      />
+                                    </li>
+                                  </>
+                                ) : (
+                                  <MemberActivate
+                                    id={item.id}
+                                    onActive={handleActiveMember}
+                                  />
+                                )}
                               </ul>
                             )}
                           </td>
@@ -220,11 +229,12 @@ function AllMembers() {
                     {allMembers.map((member, index) => (
                       <tr
                         key={member.id}
-                        className={member.is_active ? "member-active" : "member-inactive"}
+                        className={
+                          member.is_active ? "member-active" : "member-inactive"
+                        }
                         style={{
                           fontSize: "14px",
                           textAlign: "right",
-                          // backgroundColor: member.is_active ? "white" : "gray",
                         }}
                       >
                         <th scope="row">{index + 1 + (page - 1) * per_page}</th>
@@ -264,7 +274,10 @@ function AllMembers() {
                                   </li>
                                 </>
                               ) : (
-                                <MemberActivate id={member.id} onActive={handleActiveMember}/>
+                                <MemberActivate
+                                  id={member.id}
+                                  onActive={handleActiveMember}
+                                />
                               )}
                             </ul>
                           )}

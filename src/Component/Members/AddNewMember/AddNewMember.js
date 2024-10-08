@@ -2,7 +2,7 @@ import React from "react";
 import "./AddNewMember.css";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import InputField from "../../../Common Components/InputField/InputField";
@@ -22,7 +22,7 @@ function AddNewMember() {
         password: value["password"],
         notes: value["notes"],
         date_of_birth: value["date_of_birth"],
-        gender:genderValue,
+        gender: genderValue,
       };
 
       const data = await fetch(
@@ -31,7 +31,7 @@ function AddNewMember() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:access_token,
+            Authorization: access_token,
             accept: "application/json",
           },
           body: JSON.stringify(items),
@@ -62,7 +62,7 @@ function AddNewMember() {
     national_id: Yup.string().required("هذا الحقل الزامي"),
     password: Yup.string().required("هذا الحقل الزامي"),
     notes: Yup.string().required("هذا الحقل الزامي"),
-    date_of_birth: Yup.date().required("هذا الحقل الزامي"),
+    date_of_birth: Yup.date().required("هذا الحقل الزامي").max("2-5-3000"),
     gender: Yup.string().required("هذا الحقل الزامي"),
   });
 
@@ -92,30 +92,7 @@ function AddNewMember() {
           validationSchema={validationSchema}
         >
           <Form className={`addForm mt-3 mb-5`}>
-            {/* upload user image */}
-            <div className="mt-5 d-flex flex-column align-items-center  mb-4 position-relative">
-              <div className="position-relative">
-                <img
-                  src="/assets/image/user image.png"
-                  alt="user img"
-                  width={"84.55px"}
-                  height={"84.55px"}
-                />
-              </div>
-              <div className="position-absolute  upload-image">
-                <img
-                  src="/assets/image/Frame 119.png"
-                  alt="upload img"
-                  className="mb-1"
-                  width={"25px"}
-                  height={"25px"}
-                />
-              </div>
-              <Link to={"/"} className="text-decoration-none mt-3">
-                <p style={{ color: "#3572EF" }}>تعديل الصورة</p>
-              </Link>
-            </div>
-            <div className={`row g-4 mb-5`}>
+            <div className={`row g-4 mb-5 mt-5`}>
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"name"} label={"الأسم"} />
               </div>
@@ -146,9 +123,13 @@ function AddNewMember() {
                   inputType={"input"}
                   type={"date"}
                 />
-                <InputField name={"gender"} label={"النوع"} inputType={"select"}>
-                  <option value="">{'أختر نوع'}</option>
-                  <option value="انثي">{'انثي'}</option>
+                <InputField
+                  name={"gender"}
+                  label={"النوع"}
+                  inputType={"select"}
+                >
+                  <option value="">{"أختر نوع"}</option>
+                  <option value="انثي">{"انثي"}</option>
                   <option value="ذكر">{`ذكر`}</option>
                 </InputField>
               </div>

@@ -13,7 +13,7 @@ function ConfirmCode() {
   const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
   const phone_number = localStorage.getItem('phone_number');
-  const [serverMessage , setServerMessage] = useState("")
+  // const [serverMessage , setServerMessage] = useState("")
   const handleSubmit = async (values) => {
     try {
       const phone_number = localStorage.getItem("phone_number");
@@ -38,7 +38,7 @@ function ConfirmCode() {
       if (response.ok) {
         console.log("OTP Verified", result);
         localStorage.setItem("otp_message", result.message);
-        serverMessage()
+        // serverMessage()
         setShowModal(true);
         setTimeout(() => {
           navigate("/CreateNewPassword");
@@ -67,6 +67,7 @@ function ConfirmCode() {
       });
 
       const result = await response.json();
+      console.log(result);
       if (response.ok) {
         toast.success("تم إرسال رمز التحقق مرة أخرى");
       } else {
@@ -116,13 +117,13 @@ function ConfirmCode() {
           onSubmit={handleSubmit}
         >
           <Form className="confirmCodeForm text-center">
-            <div className="confirmCodeForm__inputs mt-5 " dir="rtl">
-              <Field className="p-2 text-center" name="otp6" />
-              <Field className="p-2 text-center" name="otp5" />
-              <Field className="p-2 text-center" name="otp4" />
-              <Field className="p-2 text-center" name="otp3" />
-              <Field className="p-2 text-center" name="otp2" />
+            <div className="confirmCodeForm__inputs mt-5 " >
               <Field className="p-2 text-center" name="otp1" />
+              <Field className="p-2 text-center" name="otp2" />
+              <Field className="p-2 text-center" name="otp3" />
+              <Field className="p-2 text-center" name="otp4" />
+              <Field className="p-2 text-center" name="otp5" />
+              <Field className="p-2 text-center" name="otp6" />
             </div>
 
             <div className="sendCodeBtn mt-4">
@@ -159,5 +160,4 @@ function ConfirmCode() {
     </div>
   );
 }
-
 export default ConfirmCode;

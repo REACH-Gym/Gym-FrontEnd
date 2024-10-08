@@ -27,10 +27,11 @@ function EditMember() {
         phone_number: member.phone_number,
         national_id: member.national_id,
         date_of_birth: member.date_of_birth,
-        gender: member.gender === 'أنثي' ? 'انثي' : 'ذكر',
+        gender: member.gender === 'أنثى' ? 'انثى' : 'ذكر',
       });
     }
   }, [member]);
+  
 
   const validationSchema = Yup.object({
     name: Yup.string().required("مطلوب"),
@@ -82,29 +83,7 @@ function EditMember() {
       >
         {({ isSubmitting }) => (
           <Form className="editForm">
-            <div className="mt-5 d-flex flex-column align-items-center mb-4 position-relative">
-              <div className="position-relative">
-                <img
-                  src="/assets/image/user image.png"
-                  alt="user img"
-                  width={"84.55px"}
-                  height={"84.55px"}
-                />
-              </div>
-              <div className="position-absolute upload-image">
-                <img
-                  src="/assets/image/Frame 119.png"
-                  alt="upload img"
-                  className="mb-1"
-                  width={"25px"}
-                  height={"25px"}
-                />
-              </div>
-              <Link to={"/"} className="text-decoration-none mt-3">
-                <p style={{ color: "#3572EF" }}>تعديل الصورة</p>
-              </Link>
-            </div>
-            <div className="row g-4 mb-5">
+            <div className="row g-4 mb-5 mt-5">
               <div className="col-4 col-lg-6">
                 <InputField name="name" label={"الأسم"} />
               </div>
@@ -123,7 +102,7 @@ function EditMember() {
                   name="date_of_birth"
                 />
               </div>
-              {/* <div className="col-4 col-lg-6">
+              <div className="col-4 col-lg-6">
                 <InputField
                   name={"gender"}
                   label={"النوع"}
@@ -133,7 +112,7 @@ function EditMember() {
                   <option value="انثي">{"انثي"}</option>
                   <option value="ذكر">{"ذكر"}</option>
                 </InputField>
-              </div> */}
+              </div>
             </div>
             <div className="editBtn text-center">
               <MainButton

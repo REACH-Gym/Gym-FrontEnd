@@ -9,9 +9,6 @@ function DeleteMember({ id, onDelete }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = async () => {
-    // const item = {
-    //   is_active:values[false],
-    // }
     try {
       const response = await fetch(
         `https://gym-backend-production-65cc.up.railway.app/members/deactivate/${id}`,
@@ -21,13 +18,11 @@ function DeleteMember({ id, onDelete }) {
             accept: "*/*",
             Authorization: access_token,
           },
-          // body:JSON.stringify(item)
         }
       );
       console.log(id)
 
       if (response.ok) {
-        toast.success("Member deleted successfully");
         onDelete(id);
 
       } else {
@@ -46,7 +41,7 @@ function DeleteMember({ id, onDelete }) {
   };
   return (
     <>
-      <p onClick={handleShowModal} style={{ cursor: "pointer" }}>
+      <p onClick={handleShowModal} style={{ cursor: "pointer" }} className="m-0">
         <DeleteOutlineOutlinedIcon className="dropdown__icon" /> حذف
       </p>
       {showModal && (

@@ -119,13 +119,13 @@ function Filter({ options = [], query, status = true, searchResults }) {
                       <li
                         style={{ borderBottom: "1px solid #ccc" }}
                         className={`${
-                          term === "فعال"
+                          term === "active"
                             ? "bg-primary text-white rounded-2"
                             : null
                         }`}
                         onClick={() => {
                           setActiveFilter("status");
-                          setTerm("فعال");
+                          setTerm("active");
                           setTimeout(() => {
                             toggleDropdown();
                             clearTimeout();
@@ -137,12 +137,12 @@ function Filter({ options = [], query, status = true, searchResults }) {
                       <li
                         style={{ borderBottom: "1px solid #ccc" }}
                         className={`${
-                          term === "منتهي"
+                          term === "expired"
                             ? "bg-primary text-white rounded-2"
                             : null
                         }`}
                         onClick={() => {
-                          setTerm("منتهي");
+                          setTerm("expired");
                           setActiveFilter("status");
                           setTimeout(() => {
                             toggleDropdown();
@@ -155,12 +155,12 @@ function Filter({ options = [], query, status = true, searchResults }) {
                       <li
                         style={{ borderBottom: "1px solid #ccc" }}
                         className={`${
-                          term === "Almost Finished"
+                          term === "almost over"
                             ? "bg-primary text-white rounded-2"
                             : null
                         }`}
                         onClick={() => {
-                          setTerm("تم الألغاء");
+                          setTerm("almost over");
                           setActiveFilter("status");
                           setTimeout(() => {
                             toggleDropdown();
@@ -168,7 +168,26 @@ function Filter({ options = [], query, status = true, searchResults }) {
                           }, 300);
                         }}
                       >
-                        تم الألغاء
+                        أوشك علي الأنتهاء
+                      </li>
+
+                      <li
+                        style={{ borderBottom: "1px solid #ccc" }}
+                        className={`${
+                          term === "freezed"
+                            ? "bg-primary text-white rounded-2"
+                            : null
+                        }`}
+                        onClick={() => {
+                          setTerm("freezed");
+                          setActiveFilter("status");
+                          setTimeout(() => {
+                            toggleDropdown();
+                            clearTimeout();
+                          }, 300);
+                        }}
+                      >
+                        متجمد
                       </li>
                     </ul>
                   </div>
