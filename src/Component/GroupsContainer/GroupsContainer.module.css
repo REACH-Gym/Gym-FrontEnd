@@ -5,8 +5,8 @@
   padding: 10px;
   border-radius: 10px;
   min-height: 500px;
-  height: 70vh;
-  overflow-y: auto;
+  /* height: 70vh;
+  overflow-y: auto; */
 }
 .tableContainer thead th:first-child {
   width: 50px;

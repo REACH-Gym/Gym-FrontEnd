@@ -38,13 +38,17 @@ function Filter({ options = [], query, status = true, searchResults }) {
 
   useEffect(() => {
     console.log(activeFilter);
-    (async () => {
-      const response = await search(
-        `${query}?filter{${activeFilter}.istartswith}=${debounce}`
-      );
-      searchResults(response.data);
-      console.log(response.data);
-    })();
+    if (debounce.length > 0) {
+      (async () => {
+        const response = await search(
+          `${query}?filter{${activeFilter}.istartswith}=${debounce}`
+        );
+        searchResults(response.data);
+        console.log(response.data);
+      })();
+    } else {
+      searchResults([]);
+    }
   }, [query, debounce, search, activeFilter, searchResults]);
 
   return (
