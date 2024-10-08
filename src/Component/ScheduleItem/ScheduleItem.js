@@ -46,7 +46,7 @@ const SubMenu = ({ id, isSessionActive }) => {
       {isSessionActive ? (
         <>
           <div
-            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
+            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
             onClick={() => {
               navigate(`/Home/SessionDetails/${id}/`);
             }}
@@ -67,7 +67,7 @@ const SubMenu = ({ id, isSessionActive }) => {
             <div className={`d-inline-block`}>التفاصيل</div>
           </div>
           <div
-            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
+            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
             onClick={() => {
               navigate(`/Home/EditGroup/${id}/`);
             }}
@@ -96,7 +96,7 @@ const SubMenu = ({ id, isSessionActive }) => {
       ) : null}
       {isSessionActive ? (
         <div
-          className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
+          className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
           onClick={handleDelete}
         >
           <svg
@@ -116,7 +116,7 @@ const SubMenu = ({ id, isSessionActive }) => {
         </div>
       ) : (
         <div
-          className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center fs-5"
+          className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
           onClick={handleActivate}
         >
           <svg

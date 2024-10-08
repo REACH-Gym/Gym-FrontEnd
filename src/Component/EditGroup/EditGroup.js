@@ -116,6 +116,7 @@ const EditGroup = () => {
         console.log(response);
         localStorage.setItem("groupId", response.data.name);
         navigate("/Home/ScheduleContainer");
+        window.location.reload();
       } catch (error) {
         console.log(error);
         alert("حدث خطأ، برجاء المحاولة لاحقاً.");

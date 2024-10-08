@@ -3,7 +3,7 @@
   background-color: white;
   direction: rtl;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 10px;
   min-height: 500px;
   max-height: 70vh;
   overflow-y: auto;
@@ -17,6 +17,6 @@
 }
 .scheduleContainer {
   background-color: #f2f4f5;
-  padding: 80px 0px 0px 0px;
+  padding: 80px 20px 20px 20px;
   width: 100%;
 }

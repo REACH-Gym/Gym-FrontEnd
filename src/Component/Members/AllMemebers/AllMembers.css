@@ -90,10 +90,3 @@
 .active-member {
   cursor: pointer;
 }
-.active-member:hover{
-  background-color: #f2f4f5;
-}
-.tableContainer tr td,
-.tableContainer tr th {
-  background-color: transparent;
-}

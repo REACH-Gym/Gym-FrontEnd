@@ -10,6 +10,7 @@ import {
 import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import { Commet } from "react-loading-indicators";
 
 // Add Measurements Form Container And Controller
 const AddMeasurementForm = () => {
@@ -87,6 +88,16 @@ const AddMeasurementForm = () => {
     setFilteredData(filteredData);
   };
 
+  if (isMembersLoading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
+      </div>
+    );
+  }
   return (
     <div className={`${styles.AddMeasurementFormContainer}`}>
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
@@ -107,44 +118,42 @@ const AddMeasurementForm = () => {
               <div className={`row g-4 d-flex align-items-end w-100`}>
                 <div className={`col-5`}>
                   <div className={`row g-4`}>
-                    {!isMembersLoading ? (
-                      <div className={`col-12 ${styles.membersSearch}`}>
-                        <InputField
-                          name="member"
-                          label={"العضو"}
-                          onFocus={() => {
-                            setFilteredData(data?.data.users)
-                            setActive(true);
-                          }}
-                          onBlur={() => {
-                            setTimeout(() => {
-                              setActive(false);
-                            }, 200);
-                          }}
-                          onChange={(e) => {
-                            handleChange(e, setFieldValue);
-                          }}
-                          value={values.member}
-                        />
-                        {active ? (
-                          <div className={`${styles.membersDropdown}`}>
-                            {filteredData?.map((member, i) => (
-                              <div
-                                key={member.id}
-                                value={member.id}
-                                onClick={() => {
-                                  setFieldValue("member", member.name);
-                                  setFieldValue("user_id", member.id);
-                                  console.log(member.name);
-                                }}
-                              >
-                                {member.name}
-                              </div>
-                            ))}
-                          </div>
-                        ) : null}
-                      </div>
-                    ) : null}
+                    <div className={`col-12 ${styles.membersSearch}`}>
+                      <InputField
+                        name="member"
+                        label={"العضو"}
+                        onFocus={() => {
+                          setFilteredData(data?.data.users);
+                          setActive(true);
+                        }}
+                        onBlur={() => {
+                          setTimeout(() => {
+                            setActive(false);
+                          }, 200);
+                        }}
+                        onChange={(e) => {
+                          handleChange(e, setFieldValue);
+                        }}
+                        value={values.member}
+                      />
+                      {active ? (
+                        <div className={`${styles.membersDropdown}`}>
+                          {filteredData?.map((member, i) => (
+                            <div
+                              key={member.id}
+                              value={member.id}
+                              onClick={() => {
+                                setFieldValue("member", member.name);
+                                setFieldValue("user_id", member.id);
+                                console.log(member.name);
+                              }}
+                            >
+                              {member.name}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
                     <div className={`col-12`}>
                       <InputField
                         name="month"

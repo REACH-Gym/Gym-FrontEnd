@@ -28,13 +28,16 @@ const GroupsContainer = () => {
     console.log(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
 
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
+  // useEffect(() => {
+  //   console.log(results?.data?.user_sessions?.length);
+  // }, [results]);
 
   if (isGroupsMembersFetching) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
@@ -72,12 +75,8 @@ const GroupsContainer = () => {
             }}
           />
         </div>
-        {results?.user_sessions?.length > 0 ? (
-          <div
-            className={` ${styles.tableContainer} text-end ps-4 pe-4 ${
-              results?.user_sessions?.length > 0 ? "d-block" : "d-none"
-            }`}
-          >
+        {results?.data?.user_sessions?.length > 0 ? (
+          <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead>
                 <tr>
@@ -90,7 +89,7 @@ const GroupsContainer = () => {
                 </tr>
               </thead>
               <tbody>
-                {results?.user_sessions?.map((item, index) => (
+                {results?.data?.user_sessions?.map((item, index) => (
                   <GroupsItem key={index} index={index + 1} item={item} />
                 ))}
               </tbody>
@@ -108,7 +107,7 @@ const GroupsContainer = () => {
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {groupsMembers?.data.user_sessions.map((item, index) => (
+                {groupsMembers?.data?.user_sessions?.map((item, index) => (
                   <GroupsItem
                     key={index}
                     index={

@@ -31,7 +31,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
     console.log(term);
     const timeout = setTimeout(() => {
       setDebounce(term);
-    }, 300);
+    }, 200);
     return () => clearTimeout(timeout);
   }, [term]);
 
@@ -39,17 +39,17 @@ function Filter({ options = [], query, status = true, searchResults }) {
 
   useEffect(() => {
     console.log(activeFilter);
-    if (debounce.length > 0) {
-      (async () => {
-        const response = await search(
-          `${query}?filter{${activeFilter}.istartswith}=${debounce}`
-        );
-        searchResults(response.data);
-        console.log(response.data);
-      })();
-    } else {
-      searchResults([]);
-    }
+    // if (debounce.length > 0) {
+    (async () => {
+      const response = await search(
+        `${query}?filter{${activeFilter}.istartswith}=${debounce}`
+      );
+      searchResults(response.data);
+      console.log(response.data);
+    })();
+    // } else {
+    //   searchResults([]);
+    // }
   }, [query, debounce, search, activeFilter, searchResults]);
 
   return (

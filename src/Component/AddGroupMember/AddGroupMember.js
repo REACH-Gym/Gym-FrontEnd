@@ -76,7 +76,10 @@ const DynamicComponent = () => {
 
   if (isSessionsLoading || isMembersLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center">
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );

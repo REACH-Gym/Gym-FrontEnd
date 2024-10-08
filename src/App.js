@@ -33,6 +33,7 @@ import MemberSubscriptionDetail from "./Component/Members/MemberSubcriptions/Mem
 import EditSub from "./Component/Subscriptions/EditSubscription/EditSub";
 import MemberActivate from "./Component/Members/MemberActivate/MemberActivate";
 import ActiveSub from "./Component/Subscriptions/DeleteSub/ActivateSub";
+
 import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
@@ -59,6 +60,7 @@ function App() {
                 path="AllMembers/:id/subscription-detail/"
                 element={<MemberSubscriptionDetail />}
               />
+              <Route path="MemberActivate" element={<MemberActivate />} />
               <Route path="MemberActivate" element={<MemberActivate />} />
               <Route
                 path="MeasurmentsContainer"

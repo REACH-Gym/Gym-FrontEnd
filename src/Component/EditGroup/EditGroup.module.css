@@ -12,6 +12,7 @@
 .groupFormContainer {
   background-color: #f2f4f5;
   width: 100%;
+  border-radius: 10px;
   /* padding: 0px 20px 20px 20px; */
 }
 @media (max-width: 768px) {
