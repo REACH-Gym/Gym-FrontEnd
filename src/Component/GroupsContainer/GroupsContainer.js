@@ -27,6 +27,7 @@ const GroupsContainer = () => {
     setTotalPages(groupsMembers?.data.meta?.total_pages);
     console.log(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
+  console.log(results?.data?.user_sessions?.length);
 
   // useEffect(() => {
   //   console.log(results?.data?.user_sessions?.length);
