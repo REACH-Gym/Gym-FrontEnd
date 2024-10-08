@@ -49,12 +49,12 @@ const ScheduleContainer = () => {
             title={" جميع المواعيد"}
             subTitle={"يمكنك متابعة جميع االمواعيد  من هنا"}
           />
-          {/* <Filter
+          <Filter
             query={"sessions/"}
             options={["الاسم"]}
             searchResults={setResults}
-            status={false} */}
-          {/* /> */}
+            status={false}
+          />
           <ComponentBtns
             btn1={"+ إضافة موعد جديد "}
             onclick={() => {
@@ -62,56 +62,8 @@ const ScheduleContainer = () => {
             }}
           />
         </div>
-        {/* {results?.sessions?.length < 0 ? ( */}
-        <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
-          <table className="w-100">
-            <thead className={`fw-bold`}>
-              <th className={`p-2 pt-3 pb-3`}>#</th>
-              <th className={`p-2 pt-3 pb-3`}>المجموعة</th>
-              <th className={`p-2 pt-3 pb-3`}>السعر</th>
-              <th className={`p-2 pt-3 pb-3`}>المدة</th>
-              <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
-              <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-            </thead>
-            <tbody>
-              {data?.data.sessions.map((session, index) => (
-                <ScheduleItem
-                  key={index}
-                  index={
-                    data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
-                  }
-                  session={session}
-                />
-              ))}
-            </tbody>
-          </table>
-          <div
-            className={`d-flex justify-content-between m-auto mt-5 align-items-center`}
-            style={{ width: "350px" }}
-          >
-            <MainButton
-              onClick={() => setPage(page - 1)}
-              text="<<"
-              disabled={page === 1}
-              btnWidth="100px"
-            />
-            <p className="m-0">
-              الصفحة {page} من {totalPages}
-            </p>
-            <MainButton
-              onClick={() => setPage(page + 1)}
-              text=">>"
-              disabled={page === totalPages}
-              btnWidth="100px"
-            />
-          </div>
-        </div>
-        {/* ) : (
-          <div
-            className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4 ${
-              results?.sessions?.length > 0 ? "d-block" : "d-none"
-            }`}
-          >
+        {results?.data?.sessions?.length > 0 ? (
+          <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead>
                 <tr>
@@ -124,13 +76,57 @@ const ScheduleContainer = () => {
                 </tr>
               </thead>
               <tbody>
-                {results?.sessions?.map((item, index) => (
+                {results?.data?.sessions?.map((item, index) => (
                   <ScheduleItem key={index} index={index + 1} session={item} />
                 ))}
               </tbody>
             </table>
           </div>
-        )} */}
+        ) : (
+          <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
+            <table className="w-100">
+              <thead className={`fw-bold`}>
+                <th className={`p-2 pt-3 pb-3`}>#</th>
+                <th className={`p-2 pt-3 pb-3`}>المجموعة</th>
+                <th className={`p-2 pt-3 pb-3`}>السعر</th>
+                <th className={`p-2 pt-3 pb-3`}>المدة</th>
+                <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
+                <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+              </thead>
+              <tbody>
+                {data?.data?.sessions?.map((session, index) => (
+                  <ScheduleItem
+                    key={index}
+                    index={
+                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
+                    }
+                    session={session}
+                  />
+                ))}
+              </tbody>
+            </table>
+            <div
+              className={`d-flex justify-content-between m-auto mt-5 align-items-center`}
+              style={{ width: "350px" }}
+            >
+              <MainButton
+                onClick={() => setPage(page - 1)}
+                text="<<"
+                disabled={page === 1}
+                btnWidth="100px"
+              />
+              <p className="m-0">
+                الصفحة {page} من {totalPages}
+              </p>
+              <MainButton
+                onClick={() => setPage(page + 1)}
+                text=">>"
+                disabled={page === totalPages}
+                btnWidth="100px"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
