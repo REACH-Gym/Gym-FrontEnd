@@ -29,10 +29,6 @@ const GroupsContainer = () => {
   }, [groupsMembers]);
   console.log(results?.data?.user_sessions?.length);
 
-  // useEffect(() => {
-  //   console.log(results?.data?.user_sessions?.length);
-  // }, [results]);
-
   if (isGroupsMembersFetching) {
     return (
       <div
@@ -108,7 +104,7 @@ const GroupsContainer = () => {
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {groupsMembers?.data?.user_sessions?.map((item, index) => (
+                {groupsMembers?.data.user_sessions.map((item, index) => (
                   <GroupsItem
                     key={index}
                     index={

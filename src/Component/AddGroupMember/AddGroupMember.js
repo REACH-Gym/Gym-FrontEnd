@@ -13,6 +13,8 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
+import Error from "../../Common Components/Error/Error";
+import Success from "../../Common Components/Success/Success";
 
 const DynamicComponent = () => {
   const { values } = useFormikContext();
@@ -44,7 +46,6 @@ const DynamicComponent = () => {
           const response = await getSchedules(
             `?filter{session.id}=${values.group}&filter{is_active}=true`
           );
-          console.log(response.data.data.schedules);
           setSesstionSchedules([]);
           for (let i = 0; i < response?.data.data?.schedules.length; i++) {
             const newArray = [];
@@ -68,11 +69,11 @@ const DynamicComponent = () => {
             setSesstionSchedules((prev) => [...prev, newArray]);
           }
         } catch (error) {
-          console.error(error.message);
+          console.log(error.message);
         }
       })();
     }
-  }, [values.group, getSchedules]);
+  }, [values.group, getSchedules, sessions?.data?.sessions]);
 
   if (isSessionsLoading || isMembersLoading) {
     return (
@@ -190,8 +191,11 @@ const AddGroupMember = () => {
     start_date: Yup.date().required("هذا الحقل الزامي"),
   });
 
-  const [postSessionMember] = usePostSessionMemberMutation();
+  const [postSessionMember, { isError: isSchedulesError }] =
+    usePostSessionMemberMutation();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const handleSubmit = async (values) => {
     console.log(values);
     const data = {
@@ -203,44 +207,58 @@ const AddGroupMember = () => {
       end_date: values.end_date,
     };
     try {
-      const response = await postSessionMember(data);
+      const response = await postSessionMember(data).unwrap();
       console.log(response);
-      navigate("/Home/GroupsContainer");
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        navigate("/Home/GroupsContainer");
+      }, 1200);
     } catch (err) {
-      console.error(err.message);
+      if (err.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+      } else if (err.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+      }
     }
   };
 
   return (
-    <div className={`${styles.addGroupMemberForm}`}>
-      <ComponentTitle
-        MainIcon={"/assets/image/groups.png"}
-        title={"إضافة عضو للمجموعة"}
-        subTitle={"يمكنك إضافة عضو لمجموعة من هنا"}
-      />
-      <div className="container bg-white p-4 rounded-4">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ values }) => {
-            return (
-              <Form className={`d-grid gap-3`}>
-                <DynamicComponent />
-                <div className="row text-center mt-4">
-                  <MainButton
-                    text={"اضافة"}
-                    btnWidth={"200px"}
-                    btnType={"submit"}
-                  />
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
+    <>
+      {success && <Success text={"تم إضافة عضو إلى المجموعة بنجاح! "} />}
+      {isSchedulesError && <Error text={error} show={isSchedulesError} />}
+      <div className={`${styles.addGroupMemberForm}`}>
+        <ComponentTitle
+          MainIcon={"/assets/image/groups.png"}
+          title={"إضافة عضو للمجموعة"}
+          subTitle={"يمكنك إضافة عضو لمجموعة من هنا"}
+        />
+        <div className="container bg-white p-4 rounded-4">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ values }) => {
+              return (
+                <Form className={`d-grid gap-3`}>
+                  <DynamicComponent />
+                  <div className="row text-center mt-4">
+                    <MainButton
+                      text={"اضافة"}
+                      btnWidth={"200px"}
+                      btnType={"submit"}
+                    />
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

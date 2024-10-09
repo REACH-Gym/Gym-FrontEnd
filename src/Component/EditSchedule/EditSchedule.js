@@ -210,7 +210,10 @@ const EditSchedule = () => {
 
   if (employeesError || scheduleError) {
     return (
-      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold">
+      <div
+        className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold"
+        style={{ height: "100vh" }}
+      >
         حدث خطأ، برجاء المحاولة مرة أخرى.
       </div>
     );
