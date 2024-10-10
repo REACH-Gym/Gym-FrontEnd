@@ -4,9 +4,9 @@ import styles from "./Success.module.css";
 const Success = ({ text, show }) => {
   const [warn, setWarn] = useState(show);
   useEffect(() => {
-    setWarn(!show);
+    setWarn(show);
   }, [show]);
-  if (warn) {
+  if (warn === false) {
     return null;
   }
   return (

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styles from "./Warning.module.css";
 
 const Warning = ({ text, handleConfirm, handleCancel }) => {

@@ -13,22 +13,15 @@ const ScheduleItem = ({ index, session }) => {
   const [popup, setPopup] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  // const options = useRef(null);
   const options = useRef(null);
-  const animation = [{ opacity: 0 }, { opacity: 1 }];
-  const animationDuration = {
-    duration: 200,
-    iterations: 1,
-  };
   const handleOptions = () => {
     document.addEventListener("click", (e) => {
       console.log(e.target);
       if (!e.target.classList.contains(`tableColumn${index}`)) {
-        console.log("1");
         setShowOptions(false);
         document.removeEventListener("click", handleOptions);
       } else {
-        console.log("2");
-        options.current.animate(animation, animationDuration);
         setShowOptions(true);
         document.removeEventListener("click", handleOptions);
       }
@@ -36,10 +29,6 @@ const ScheduleItem = ({ index, session }) => {
   };
   const navigate = useNavigate();
   const [deleteSession, { isError: isDeleteError }] = usePatchSessionMutation();
-
-  useEffect(() => {
-    console.log(popup);
-  }, [popup]);
 
   const handleCancel = () => {
     setPopup(false);
@@ -54,7 +43,7 @@ const ScheduleItem = ({ index, session }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 200);
+      }, 300);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
@@ -76,7 +65,7 @@ const ScheduleItem = ({ index, session }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 200);
+      }, 300);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
@@ -100,7 +89,7 @@ const ScheduleItem = ({ index, session }) => {
         <Warning
           text={
             session.is_active
-              ? "هل تريد حذف هذه المجموعة باكامل؟"
+              ? "هل تريد حذف هذه المجموعة بالكامل؟"
               : "هل تريد تفعيل هذه المجموعة؟"
           }
           handleCancel={handleCancel}
@@ -109,7 +98,7 @@ const ScheduleItem = ({ index, session }) => {
       )}
       <tr
         className={`${styles.tableRow}`}
-        style={!session.is_active ? { backgroundColor: "#6c757d45" } : null}
+        style={!session.is_active ? { backgroundColor: "#F0F0F0" } : null}
       >
         <td className="table-column p-2">{index}</td>
         <td className="table-column p-2">{session.name}</td>

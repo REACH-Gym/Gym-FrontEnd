@@ -213,7 +213,7 @@ const AddGroupMember = () => {
       setTimeout(() => {
         setSuccess(false);
         navigate("/Home/GroupsContainer");
-      }, 1200);
+      }, 300);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");

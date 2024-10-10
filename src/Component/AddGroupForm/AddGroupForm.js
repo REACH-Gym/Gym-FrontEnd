@@ -50,7 +50,7 @@ const AddGroupForm = () => {
       setTimeout(() => {
         setSuccess(false);
         navigate("/Home/ScheduleContainer");
-      }, 1200);
+      }, 300);
     } catch (error) {
       if (error.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");

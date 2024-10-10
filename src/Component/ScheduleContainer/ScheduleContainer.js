@@ -25,7 +25,7 @@ const ScheduleContainer = () => {
     setTotalPages(data?.data.meta?.total_pages);
   }, [data]);
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
   console.log(results);
   if (isLoading) {
     return (

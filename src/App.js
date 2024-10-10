@@ -38,6 +38,7 @@ import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
 import Support from "./Component/Support/Support";
+import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
 function App() {
   return (
     <Provider store={store}>
@@ -85,6 +86,10 @@ function App() {
               <Route
                 path="EditGroupMember/:GroupMemberId/"
                 element={<EditGroupMember />}
+              />
+              <Route
+                path="GroupMemberMembership/:memberMembershipID"
+                element={<GroupMemberMembership />}
               />
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />

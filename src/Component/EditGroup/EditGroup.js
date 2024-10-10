@@ -9,8 +9,10 @@ import {
   useGetSessionsQuery,
 } from "../../features/api";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Commet } from "react-loading-indicators";
+import Success from "../../Common Components/Success/Success";
+import Error from "../../Common Components/Error/Error";
 
 const DynamicComponent = () => {
   const { GroupId } = useParams();
@@ -35,7 +37,10 @@ const DynamicComponent = () => {
 
   if (isSessionLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
@@ -97,8 +102,9 @@ const EditGroup = () => {
     freeze_duration: "",
   };
 
-  const [editSession] = useEditSessionMutation();
-
+  const [editSession, { isError: isSessionsError }] = useEditSessionMutation();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
     const newSession = {
@@ -110,45 +116,57 @@ const EditGroup = () => {
     };
 
     console.log(newSession);
-    if (window.confirm("هل تريد تأكيد هذه التعديلات؟")) {
-      try {
-        const response = await editSession({ id: GroupId, data: newSession });
-        console.log(response);
-        localStorage.setItem("groupId", response.data.name);
+    try {
+      const response = await editSession({
+        id: GroupId,
+        data: newSession,
+      }).unwrap();
+      console.log(response);
+      localStorage.setItem("groupId", response.data.name);
+      setSuccess(true);
+      setTimeout(() => {
         navigate("/Home/ScheduleContainer");
         window.location.reload();
-      } catch (error) {
-        console.log(error);
-        alert("حدث خطأ، برجاء المحاولة لاحقاً.");
+      }, 300);
+    } catch (error) {
+      if (error.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+      } else if (error.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
       }
-    } else {
-      alert("تم إلغاء التعديلات.");
-      navigate("/Home/ScheduleContainer");
     }
   };
   return (
-    <div className={`${styles.groupFormContainer}`}>
-      <div className="allSubscriptionContainer mt-4">
-        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
-          <ComponentTitle
-            MainIcon={"/assets/image/groups.png"}
-            title={"اضافة مجموعة جديدة"}
-            subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
-          />
-        </div>
-        <div className="">
-          <div className={`${styles.addgroupContainer}`}>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              <DynamicComponent />
-            </Formik>
+    <>
+      {success && (
+        <Success text={"تم تعديل بيانات المجموعة بنجاح"} show={success} />
+      )}
+      {isSessionsError && <Error text={error} show={isSessionsError} />}
+      <div className={`${styles.groupFormContainer}`}>
+        <div className="allSubscriptionContainer mt-4">
+          <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+            <ComponentTitle
+              MainIcon={"/assets/image/groups.png"}
+              title={"اضافة مجموعة جديدة"}
+              subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
+            />
+          </div>
+          <div className="">
+            <div className={`${styles.addgroupContainer}`}>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                <DynamicComponent />
+              </Formik>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

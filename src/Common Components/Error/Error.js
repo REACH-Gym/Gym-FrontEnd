@@ -4,9 +4,9 @@ import styles from "./Error.module.css";
 const Error = ({ text, show }) => {
   const [error, setError] = useState(show);
   useEffect(() => {
-    setError(!show);
+    setError(show);
   }, [show]);
-  if (error) {
+  if (error === false) {
     return null;
   }
   return (

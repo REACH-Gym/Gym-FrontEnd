@@ -25,9 +25,7 @@ const GroupsContainer = () => {
   console.log(groupsMembers);
   useEffect(() => {
     setTotalPages(groupsMembers?.data.meta?.total_pages);
-    console.log(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
-  console.log(results?.data?.user_sessions?.length);
 
   if (isGroupsMembersFetching) {
     return (
@@ -56,7 +54,7 @@ const GroupsContainer = () => {
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/groups.png"}
-            title={"جميع المجموعات"}
+            title={"أعضاء المجموعات"}
             subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
           />
           <Filter
