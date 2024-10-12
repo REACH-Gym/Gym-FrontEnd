@@ -27,6 +27,7 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
     "sass": "^1.78.0",
+    "serve": "^14.2.3",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
