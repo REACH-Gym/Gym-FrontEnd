@@ -109,8 +109,27 @@ function AddNewMember() {
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"name"} label={"الأسم"} />
               </div>
-              <div className={`col-4 col-lg-6 phone-number`}>
+              <div className={`col-4 col-lg-6 phone-number position-relative`}>
                 <InputField name={"phone_number"} label={"رقم الهاتف"} />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 49,
+                    left: 20,
+                    zIndex: 1000,
+                    backgroundColor: "white",
+                    padding: 5,
+                    borderRadius: 5,
+                  }}
+                  dir="ltr"
+                >
+                  <img
+                    src="/assets/image/counrty code.png"
+                    alt="flag"
+                    className="me-2"
+                  />
+                  +966
+                </span>
               </div>
             </div>
             <div className={`row g-4 mb-5`}>

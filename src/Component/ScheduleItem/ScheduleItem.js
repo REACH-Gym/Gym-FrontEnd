@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Warning from "../../Common Components/Warning/Warning";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
+import { Active, Deleted } from "../Status/Status";
 
 // Measurements table item
 // props --> object that has: number of the row, member name, measurement date, height, register date
@@ -96,15 +97,15 @@ const ScheduleItem = ({ index, session }) => {
           handleConfirm={session.is_active ? handleDelete : handleActivate}
         />
       )}
-      <tr
-        className={`${styles.tableRow}`}
-        style={!session.is_active ? { backgroundColor: "#F0F0F0" } : null}
-      >
+      <tr className={`${styles.tableRow}`}>
         <td className="table-column p-2">{index}</td>
         <td className="table-column p-2">{session.name}</td>
         <td className="table-column p-2">{session.price}</td>
         <td className="table-column p-2">{session.duration}</td>
         <td className="table-column p-2">{session.description}</td>
+        <td className="table-column p-2">
+          {session.is_active === false ? <Deleted /> : <Active />}
+        </td>
         <td
           className={`${styles.tableColumn} tableColumn${index} position-relative p-2 p-2`}
           onClick={handleOptions}

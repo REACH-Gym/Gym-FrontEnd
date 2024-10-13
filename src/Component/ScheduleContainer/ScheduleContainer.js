@@ -84,6 +84,7 @@ const ScheduleContainer = () => {
                   <th className={`p-2 pt-3 pb-3`}>السعر</th>
                   <th className={`p-2 pt-3 pb-3`}>المدة</th>
                   <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
+                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                   <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
                 </tr>
               </thead>
@@ -103,6 +104,7 @@ const ScheduleContainer = () => {
                 <th className={`p-2 pt-3 pb-3`}>السعر</th>
                 <th className={`p-2 pt-3 pb-3`}>المدة</th>
                 <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
+                <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>

@@ -33,7 +33,7 @@ import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
 import Support from "./Component/Support/Support";
-import SupportDetails from "./Component/Support/SupportDetails"
+import SupportDetails from "./Component/Support/SupportDetails";
 import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
 import UsersContainer from "./Component/UsersContainer/UsersContainer";
 
@@ -68,35 +68,69 @@ function App() {
               {/* end of members */}
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />
-              <Route path="SubscripedMembers/:id/" element={<SubscriptionDetail />}/>
+              <Route
+                path="SubscripedMembers/:id/"
+                element={<SubscriptionDetail />}
+              />
               <Route path="AddNewMemberToSub" element={<AddNewMemberToSub />} />
-              <Route path="AddNewSubscription" element={<AddNewSubscription />}/>
+              <Route
+                path="AddNewSubscription"
+                element={<AddNewSubscription />}
+              />
               <Route path="AllSubScriptions" element={<AllSubScriptions />} />
               <Route path="SubscribedMembers" element={<SubscripedMembers />} />
               <Route path="ActiveSub" element={<ActiveSub />} />
               <Route path="AllSubScriptions/:id/edit" element={<EditSub />} />
               {/* end of subcriptions */}
               {/* measurement */}
-              <Route path="MeasurmentsContainer" element={<MeasurmentsContainer />}/>
-              <Route path="AddMeasurementForm" element={<AddMeasurementForm />}/>
+              <Route
+                path="MeasurmentsContainer"
+                element={<MeasurmentsContainer />}
+              />
+              <Route
+                path="AddMeasurementForm"
+                element={<AddMeasurementForm />}
+              />
               {/* end of measurement */}
               {/* payment */}
-              <Route path="PaymentMethodsContainer" element={<PaymentMethodsContainer />}/>
-              <Route path="AddPaymentMethodForm" element={<AddPaymentMethodForm />}/>
+              <Route
+                path="PaymentMethodsContainer"
+                element={<PaymentMethodsContainer />}
+              />
+              <Route
+                path="AddPaymentMethodForm"
+                element={<AddPaymentMethodForm />}
+              />
               {/* end of payment */}
               {/* groups */}
               <Route path="GroupsContainer" element={<GroupsContainer />} />
               <Route path="AddGroupForm" element={<AddGroupForm />} />
               <Route path="EditGroup/:GroupId/" element={<EditGroup />} />
               <Route path="AddGroupMember" element={<AddGroupMember />} />
-              <Route path="EditGroupMember/:GroupMemberId/" element={<EditGroupMember />}/>
+              <Route
+                path="EditGroupMember/:GroupMemberId/"
+                element={<EditGroupMember />}
+              />
+              <Route
+                path="GroupMemberMembership/:memberMembershipID/"
+                element={<GroupMemberMembership />}
+              />
               {/* end fo groups */}
               {/* schedule */}
               <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
-              <Route path="EditSchedule/:ScheduleId/" element={<EditSchedule />}/>
-              <Route path="SessionDetails/:sessionId/" element={<TrainerScheduleContainer />}/>
-              <Route path="TrainerScheduleContainer" element={<TrainerScheduleContainer />}/>
+              <Route
+                path="EditSchedule/:ScheduleId/"
+                element={<EditSchedule />}
+              />
+              <Route
+                path="SessionDetails/:sessionId/"
+                element={<TrainerScheduleContainer />}
+              />
+              <Route
+                path="TrainerScheduleContainer"
+                element={<TrainerScheduleContainer />}
+              />
               {/* end of schedule */}
             </Route>
           </Route>

@@ -10,6 +10,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
+import { Active, Deleted } from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -43,14 +44,14 @@ function AllMembers() {
         console.log("Fetched result:", result);
 
         // if (response.ok && result.status === "success") {
-          // if (result.data && result.data.users.length > 0) {
-            setAllMembers(result.data.users);
-            setTotalPages(result.data.meta.total_pages);
-          // } else {
-            // setError("لا يوجد أعضاء");
-          // }
-        
-          // setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
+        // if (result.data && result.data.users.length > 0) {
+        setAllMembers(result.data.users);
+        setTotalPages(result.data.meta.total_pages);
+        // } else {
+        // setError("لا يوجد أعضاء");
+        // }
+
+        // setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
         // }
       } catch (error) {
         setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
@@ -62,7 +63,6 @@ function AllMembers() {
 
     fetchAllMembers();
   }, [access_token, page, per_page]);
-
 
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));
@@ -125,7 +125,10 @@ function AllMembers() {
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
       ) : error ? (
-        <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center" style={{height:"50vh" }}>
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
           لا يوجد اعضاء
         </div>
       ) : (
@@ -192,7 +195,13 @@ function AllMembers() {
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                          <td>
+                            {item.is_active === false ? (
+                              <Deleted />
+                            ) : (
+                              <Active />
+                            )}
+                          </td>
                           <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}
@@ -286,7 +295,9 @@ function AllMembers() {
                         <td>{item.created_at.slice(0, 10)}</td>
                         <td>0</td>
                         <td>{item.date_of_birth}</td>
-                        <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                        <td>
+                          {item.is_active === false ? <Deleted /> : <Active />}
+                        </td>
                         <td className="text-center">
                           <MoreVertIcon
                             onClick={() => toggleDropdown(item.id)}
@@ -379,4 +390,3 @@ function AllMembers() {
 }
 
 export default AllMembers;
-
