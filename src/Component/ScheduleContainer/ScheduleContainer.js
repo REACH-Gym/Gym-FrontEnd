@@ -58,8 +58,8 @@ const ScheduleContainer = () => {
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/appointments.png"}
-            title={" جميع المواعيد"}
-            subTitle={"يمكنك متابعة جميع االمواعيد  من هنا"}
+            title={"جميع المجموعات"}
+            subTitle={"يمكنك متابعة جميع المجموعات  من هنا"}
           />
           <Filter
             query={"sessions/"}

@@ -1,27 +1,13 @@
-import styles from "./GroupsItem.module.css";
+import styles from "./UsersItem.module.css";
 import { Active, AlmostOver, Expired, Freezed } from "../Status/Status";
-import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Measurements table item
-// props --> object that has: number of the row, member name, measurement date, height, register date
-const GroupsItem = ({ index, item }) => {
-  const navigate = useNavigate();
+const UsersItem = ({ index, item }) => {
   const [showOptions, setShowOptions] = useState(false);
   const options = useRef(null);
-  const handleOptions = () => {
-    document.addEventListener("click", (e) => {
-      console.log(e.target);
-      if (!e.target.classList.contains(`tableColumn${index}`)) {
-        setShowOptions(false);
-        document.removeEventListener("click", handleOptions);
-      } else {
-        setShowOptions(true);
-        document.removeEventListener("click", handleOptions);
-      }
-    });
-  };
-
+  const navigate = useNavigate();
+  const handleOptions = () => {};
   return (
     <tr className={`${styles.tableRow}`}>
       <td className="table-column p-2">{index}</td>
@@ -114,4 +100,4 @@ const GroupsItem = ({ index, item }) => {
   );
 };
 
-export default GroupsItem;
+export default UsersItem;

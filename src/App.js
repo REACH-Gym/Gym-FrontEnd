@@ -39,6 +39,7 @@ import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
 import Support from "./Component/Support/Support";
 import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
+import UsersContainer from "./Component/UsersContainer/UsersContainer";
 function App() {
   return (
     <Provider store={store}>
@@ -129,6 +130,7 @@ function App() {
               />
               <Route path="ActiveSub" element={<ActiveSub />} />
               <Route path="AllSubScriptions/:id/edit" element={<EditSub />} />
+              <Route path="UsersContainer" element={<UsersContainer />} />
             </Route>
           </Route>
         </Routes>

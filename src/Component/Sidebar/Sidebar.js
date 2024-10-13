@@ -20,7 +20,7 @@ import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
 import { useNavigate } from "react-router-dom";
 import Logout from "../../Pages/Auth/Logout/Logout";
 import ModalLogOut from "../../Pages/Auth/Logout/ModalLogOut";
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 function SidebarBox() {
   const [openItemId, setOpenItemId] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
@@ -63,7 +63,8 @@ function SidebarBox() {
       icon: <Diversity2OutlinedIcon />,
       itemId: "groups",
       subItems: [
-        { title: "جميع المجموعات", navigateTo: "GroupsContainer" },
+        { title: "جميع المجموعات", navigateTo: "ScheduleContainer" },
+        { title: "أعضاء المجموعات", navigateTo: "GroupsContainer" },
         { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
         { title: "اضافة عضو لمجموعة", navigateTo: "AddGroupMember" },
       ],
@@ -102,7 +103,7 @@ function SidebarBox() {
       itemId: "users",
       icon: <ManageAccountsOutlinedIcon />,
       subItems: [
-        { title: "جميع المستخدمين", navigateTo: "" },
+        { title: "جميع المستخدمين", navigateTo: "UsersContainer" },
         { title: "اضافة مستخدم جديد", navigateTo: "" },
       ],
     },
@@ -139,7 +140,7 @@ function SidebarBox() {
     },
     {
       title: "الدعم",
-      icon:<BuildOutlinedIcon/>,
+      icon: <BuildOutlinedIcon />,
       itemId: "notifications",
       navigateTo: "Support",
     },
@@ -182,18 +183,21 @@ function SidebarBox() {
       <ul className="menu">
         {menuItems.map((item) =>
           item.isLogout ? (
-            <li key={item.itemId || item.title} className="menu-item logout-item">
-              <div
-                className="menu-item-header"
-                onClick={openLogoutModal}
-              >
+            <li
+              key={item.itemId || item.title}
+              className="menu-item logout-item"
+            >
+              <div className="menu-item-header" onClick={openLogoutModal}>
                 <span>
                   <span className="menu-item-icon">{item.icon}</span>
                   {item.title}
                 </span>
               </div>
-              {isLogoutModalOpen && ( 
-                <ModalLogOut isOpen={isLogoutModalOpen} onClose={closeLogoutModal}>
+              {isLogoutModalOpen && (
+                <ModalLogOut
+                  isOpen={isLogoutModalOpen}
+                  onClose={closeLogoutModal}
+                >
                   <Logout onClose={closeLogoutModal} />
                 </ModalLogOut>
               )}

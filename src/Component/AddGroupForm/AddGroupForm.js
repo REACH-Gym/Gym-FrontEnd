@@ -13,7 +13,7 @@ import Error from "../../Common Components/Error/Error";
 const AddGroupForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
-    notes: Yup.string().required("هذا الحقل إلزامي"),
+    notes: Yup.string(),
     duration: Yup.number().required("هذا الحقل إلزامي"),
     price: Yup.number().required("هذا الحقل إلزامي"),
   });
@@ -87,7 +87,10 @@ const AddGroupForm = () => {
                       <InputField name="name" label="الإسم" />
                     </div>
                     <div className="col-6">
-                      <InputField name="duration" label="المدة (بالشهر)" />
+                      <InputField
+                        name="duration"
+                        label="مدة الجلسة (بالدقيقة)"
+                      />
                     </div>
                   </div>
                   <div className="row mb-4 g-5">

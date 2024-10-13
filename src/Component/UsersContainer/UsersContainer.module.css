@@ -1,0 +1,26 @@
+.tableContainer {
+  width: 98%;
+  background-color: #fff;
+  direction: rtl;
+  padding: 10px;
+  border-radius: 10px;
+  min-height: 500px;
+  /* height: 70vh;
+  overflow-y: auto; */
+}
+.tableContainer thead th:first-child {
+  width: 50px;
+}
+.tableContainer thead th:last-child {
+  width: 100px;
+}
+.pageBtn {
+  width: 350px;
+  margin: auto;
+  margin-top: 30px;
+}
+.groupsContainer {
+  background-color: #f2f4f5;
+  width: 100%;
+  padding: 90px 20px 20px 20px;
+}
