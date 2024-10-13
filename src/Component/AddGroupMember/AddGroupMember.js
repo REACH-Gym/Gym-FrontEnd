@@ -22,7 +22,7 @@ const DynamicComponent = () => {
     data: members,
     isLoading: isMembersLoading,
     error: membersError,
-  } = useGetAllMembersQuery("?filter{is_active}=true");
+  } = useGetAllMembersQuery("/?filter{is_active}=true");
   console.log(members);
 
   const {

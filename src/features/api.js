@@ -53,7 +53,7 @@ export const apis = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     getAllMembers: builder.query({
-      query: () => `members`,
+      query: (params) => `members${params}`,
     }),
     getEmployees: builder.query({
       query: (params) => `employee${params}`,

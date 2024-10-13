@@ -38,13 +38,12 @@ function SubscripedMembers() {
         );
         const result = await response.json();
         if (response.ok) {
-          if(result.data.user_memberships.length > 0){
-            setSubscripedMembers(result.data.user_memberships);
-            setTotalPages(result.data.meta.total_pages);
-          }else{
-            setError("لا يوجد أعضاء مشتركين")
-          }
-         
+          // if(result.data.user_memberships.length > 0){
+          setSubscripedMembers(result.data.user_memberships);
+          setTotalPages(result.data.meta.total_pages);
+          // }else{
+          // setError("لا يوجد أعضاء مشتركين")
+          // }
         } else {
           setError("Failed to fetch members.");
         }
@@ -80,14 +79,14 @@ function SubscripedMembers() {
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد أعضاء مشتركين
-        </div>
       ) : (
+        // ) : error ? (
+        //   <div
+        //     className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+        //     style={{ height: "50vh" }}
+        //   >
+        //     لا يوجد أعضاء مشتركين
+        //   </div>
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
@@ -112,16 +111,37 @@ function SubscripedMembers() {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col" className="pb-4">#</th>
-                      <th scope="col" className="pb-4">اسم العضو</th>
-                      <th scope="col" className="pb-4">رقم العضوية</th>
-                      <th scope="col" className="pb-4">الإجمالي</th>
-                      <th scope="col" className="pb-4">المدفوع</th>
-                      <th scope="col" className="pb-4"> المتبقي</th>
-                      <th scope="col" className="pb-4">الخصم</th>
-                      <th scope="col" className="pb-4">تاريخ الاشتراك</th>
-                      <th scope="col" className="pb-4 text-center">الحالة</th>
-                      <th scope="col" className="pb-4 text-center">خيارات</th>
+                      <th scope="col" className="pb-4">
+                        #
+                      </th>
+                      <th scope="col" className="pb-4">
+                        اسم العضو
+                      </th>
+                      <th scope="col" className="pb-4">
+                        رقم العضوية
+                      </th>
+                      <th scope="col" className="pb-4">
+                        الإجمالي
+                      </th>
+                      <th scope="col" className="pb-4">
+                        المدفوع
+                      </th>
+                      <th scope="col" className="pb-4">
+                        {" "}
+                        المتبقي
+                      </th>
+                      <th scope="col" className="pb-4">
+                        الخصم
+                      </th>
+                      <th scope="col" className="pb-4">
+                        تاريخ الاشتراك
+                      </th>
+                      <th scope="col" className="pb-4 text-center">
+                        الحالة
+                      </th>
+                      <th scope="col" className="pb-4 text-center">
+                        خيارات
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -145,7 +165,9 @@ function SubscripedMembers() {
                             <ul className="drop-menu">
                               <li
                                 onClick={() =>
-                                  navigate(`/Home/SubscripedMembers/${item.id}/`)
+                                  navigate(
+                                    `/Home/SubscripedMembers/${item.id}/`
+                                  )
                                 }
                               >
                                 <InfoOutlinedIcon /> تفاصيل
@@ -164,16 +186,36 @@ function SubscripedMembers() {
               <table className="table border-1 mt-3">
                 <thead>
                   <tr>
-                    <th scope="col" className="pb-4">#</th>
-                    <th scope="col" className="pb-4">اسم العضو</th>
-                    <th scope="col" className="pb-4">رقم العضوية</th>
-                    <th scope="col" className="pb-4">الإجمالي</th>
-                    <th scope="col" className="pb-4">المدفوع</th>
-                    <th scope="col" className="pb-4">المتبقي</th>
-                    <th scope="col" className="pb-4">الخصم</th>
-                    <th scope="col" className="pb-4">تاريخ الاشتراك</th>
-                    <th scope="col" className="pb-4">الحالة</th>
-                    <th scope="col" className="pb-4 text-center">خيارات</th>
+                    <th scope="col" className="pb-4">
+                      #
+                    </th>
+                    <th scope="col" className="pb-4">
+                      اسم العضو
+                    </th>
+                    <th scope="col" className="pb-4">
+                      رقم العضوية
+                    </th>
+                    <th scope="col" className="pb-4">
+                      الإجمالي
+                    </th>
+                    <th scope="col" className="pb-4">
+                      المدفوع
+                    </th>
+                    <th scope="col" className="pb-4">
+                      المتبقي
+                    </th>
+                    <th scope="col" className="pb-4">
+                      الخصم
+                    </th>
+                    <th scope="col" className="pb-4">
+                      تاريخ الاشتراك
+                    </th>
+                    <th scope="col" className="pb-4">
+                      الحالة
+                    </th>
+                    <th scope="col" className="pb-4 text-center">
+                      خيارات
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,7 +225,9 @@ function SubscripedMembers() {
                         style={{ fontSize: "14px" }}
                         key={SubscripedMember.id}
                       >
-                        <td className="fw-bolder">{index + 1 + (page - 1) * per_page}</td>
+                        <td className="fw-bolder">
+                          {index + 1 + (page - 1) * per_page}
+                        </td>
                         <td>{SubscripedMember.user.name}</td>
                         <td>{SubscripedMember.user.national_id}</td>
                         <td>{SubscripedMember.membership.price}</td>
@@ -191,15 +235,25 @@ function SubscripedMembers() {
                         <td>0</td>
                         <td>0</td>
                         <td>{SubscripedMember.start_date}</td>
-                        <td className={''}>
-                          {SubscripedMember.status === "active" ? <Active /> : null}
-                          {SubscripedMember.status === "freezed" ? <Freezed /> : null}
-                          {SubscripedMember.status === "almost over" ? <AlmostOver /> : null}
-                          {SubscripedMember.status === "expired" ? <Expired /> : null}
+                        <td className={""}>
+                          {SubscripedMember.status === "active" ? (
+                            <Active />
+                          ) : null}
+                          {SubscripedMember.status === "freezed" ? (
+                            <Freezed />
+                          ) : null}
+                          {SubscripedMember.status === "almost over" ? (
+                            <AlmostOver />
+                          ) : null}
+                          {SubscripedMember.status === "expired" ? (
+                            <Expired />
+                          ) : null}
                         </td>
                         <td className="text-center">
                           <MoreVertIcon
-                            onClick={() => handleShowDropMenu(SubscripedMember.id)}
+                            onClick={() =>
+                              handleShowDropMenu(SubscripedMember.id)
+                            }
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === SubscripedMember.id && (
@@ -242,10 +296,8 @@ function SubscripedMembers() {
                   />
                 </div>
               </div>
-
             </div>
           )}
-         
         </div>
       )}
     </div>

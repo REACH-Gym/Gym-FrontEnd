@@ -99,14 +99,14 @@ function AllSubScriptions() {
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد أشتراكات
-        </div>
       ) : (
+        // ) : error ? (
+        //   <div
+        //     className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+        //     style={{ height: "50vh" }}
+        //   >
+        //     لا يوجد أشتراكات
+        //   </div>
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3 mt-3">
             <ComponentTitle
@@ -127,16 +127,13 @@ function AllSubScriptions() {
           </div>
           {results?.data?.memberships?.length === 0 ? (
             <div
-            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-            style={{ color: "red", height: "60vh" }}
-          >
-            لم يتم العثور علي نتائج مطابقة
-          </div>
-          ):
-          results?.data?.memberships?.length > 0 ? (
-            <div
-              className="pt-3 pb-3"
+              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+              style={{ color: "red", height: "60vh" }}
             >
+              لم يتم العثور علي نتائج مطابقة
+            </div>
+          ) : results?.data?.memberships?.length > 0 ? (
+            <div className="pt-3 pb-3">
               <div className="tableContainer">
                 <table className="table">
                   <thead>

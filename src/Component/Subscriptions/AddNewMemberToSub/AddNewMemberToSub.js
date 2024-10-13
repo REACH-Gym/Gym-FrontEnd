@@ -176,7 +176,7 @@ function AddNewMemberToSub() {
                     className="mb-4"
                   >
                     <option value="">اختر الاشتراك</option>
-                    {membership.length > 0 ? (
+                    {membership?.length > 0 ? (
                       membership.map((membershipItem, index) => (
                         <option
                           key={membershipItem.id}
