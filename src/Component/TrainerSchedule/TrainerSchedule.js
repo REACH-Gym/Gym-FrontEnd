@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./TrainerSchedule.module.css";
 import { usePatchScheduleMutation } from "../../features/api";
 import { useRef, useState } from "react";
+import { Active, Deleted } from "../Status/Status";
 
 const TrainerScheduleItem = ({ index, schedule }) => {
   const navigate = useNavigate();
@@ -56,10 +57,7 @@ const TrainerScheduleItem = ({ index, schedule }) => {
     });
   };
   return (
-    <tr
-      className={`${styles.scheduleRow}`}
-      style={!schedule.is_active ? { backgroundColor: "#F4F4F4" } : null}
-    >
+    <tr className={`${styles.scheduleRow}`}>
       <td>{index + 1}</td>
       <td>{schedule.session.name}</td>
       <td>{schedule.saturday ?? "-"}</td>
@@ -69,6 +67,7 @@ const TrainerScheduleItem = ({ index, schedule }) => {
       <td>{schedule.wednesday ?? "-"}</td>
       <td>{schedule.thursday ?? "-"}</td>
       <td>{schedule.friday ?? "-"}</td>
+      <td>{schedule.is_active === false ? <Deleted /> : <Active />}</td>
       <td>{schedule.max_capacity}</td>
       <td
         className={`${styles.tableColumn} tableColumn${index} position-relative p-2 p-2`}
@@ -247,6 +246,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <th>الأربعاء</th>
               <th>الخميس</th>
               <th>الجمعة</th>
+              <th>الحالة</th>
               <th>الطاقة الحالية</th>
               <th className="text-center">خيارات</th>
             </tr>

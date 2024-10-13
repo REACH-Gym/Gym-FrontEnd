@@ -36,6 +36,7 @@ import Support from "./Component/Support/Support";
 import SupportDetails from "./Component/Support/SupportDetails";
 import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
 import UsersContainer from "./Component/UsersContainer/UsersContainer";
+import AllSchedules from "./Component/AllSchedules/AllSchedules";
 
 function App() {
   return (
@@ -115,9 +116,10 @@ function App() {
                 path="GroupMemberMembership/:memberMembershipID/"
                 element={<GroupMemberMembership />}
               />
+              <Route path="ScheduleContainer" element={<ScheduleContainer />} />
               {/* end fo groups */}
               {/* schedule */}
-              <Route path="ScheduleContainer" element={<ScheduleContainer />} />
+              <Route path="AllSchedules" element={<AllSchedules />} />
               <Route path="AddScheduleForm" element={<AddScheduleForm />} />
               <Route
                 path="EditSchedule/:ScheduleId/"
