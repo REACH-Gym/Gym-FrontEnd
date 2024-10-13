@@ -8,9 +8,6 @@ export const Expired = () => {
 export const Deleted = () => {
   return <div className={`${styles.notConfirmedStatus}`}>محذوف</div>;
 };
-export const Deleted = () => {
-  return <div className={`${styles.notConfirmedStatus}`}>محذوف</div>;
-};
 export const AlmostOver = () => {
   return (
     <div className={`${styles.closeToFiniteStatus}`}>أوشك علي الأنتهاء</div>

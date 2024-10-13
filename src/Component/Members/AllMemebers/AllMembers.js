@@ -10,7 +10,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
-import { Active , Deleted} from "../../Status/Status";
+import { Active, Deleted } from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -44,17 +44,18 @@ function AllMembers() {
         console.log("Fetched result:", result);
 
         if (response.ok && result.status === "success") {
-          if (result.data && result.data.users.length > 0) {
-            setAllMembers(result.data.users);
-            setTotalPages(result.data.meta.total_pages);
-          } else {
-            setError("لا يوجد أعضاء");
-          }
-        
-          setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
+          // if (result.data.users.length > 0) {
+          setAllMembers(result.data.users);
+
+          setTotalPages(result.data.meta.total_pages);
+          // } else {
+          // setError("لا يوجد أعضاء");
+          // }
+
+          // setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
         }
       } catch (error) {
-        setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
+        // setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
         console.error("error Occurred:", error);
       } finally {
         setLoading(false);
@@ -124,10 +125,6 @@ function AllMembers() {
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
-        <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center" style={{height:"50vh" }}>
-          لا يوجد أعضاء
-        </div>
       ) : (
         <div className="allMembereContainer__items">
           <div>
@@ -187,7 +184,13 @@ function AllMembers() {
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td>{item.is_active === false ? (<Deleted/>) :(<Active/>)}</td>
+                          <td>
+                            {item.is_active === false ? (
+                              <Deleted />
+                            ) : (
+                              <Active />
+                            )}
+                          </td>
                           <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}
@@ -276,7 +279,13 @@ function AllMembers() {
                         <td>{member.created_at.slice(0, 10)}</td>
                         <td>0</td>
                         <td>{member.date_of_birth}</td>
-                        <td>{member.is_active === false ? (<Deleted/>) : (<Active/>)}</td>
+                        <td>
+                          {member.is_active === false ? (
+                            <Deleted />
+                          ) : (
+                            <Active />
+                          )}
+                        </td>
                         <td className="text-center">
                           <MoreVertIcon
                             onClick={() => toggleDropdown(member.id)}
