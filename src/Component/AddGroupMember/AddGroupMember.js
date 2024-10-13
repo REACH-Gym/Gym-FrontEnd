@@ -22,14 +22,16 @@ const DynamicComponent = () => {
     data: members,
     isLoading: isMembersLoading,
     error: membersError,
-  } = useGetAllMembersQuery();
+  } = useGetAllMembersQuery("?filter{is_active}=true");
+  console.log(members);
 
   const {
     data: sessions,
     isLoading: isSessionsLoading,
     error: sessionsError,
-  } = useGetSessionsQuery("");
+  } = useGetSessionsQuery("?filter{is_active}=true");
   const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
+  console.log(sessions);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
   const [sessionPrice, setSessionPrice] = useState(0);

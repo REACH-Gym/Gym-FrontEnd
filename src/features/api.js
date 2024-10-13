@@ -98,6 +98,9 @@ export const apis = createApi({
     getSessions: builder.query({
       query: (params) => `sessions/${params}`,
     }),
+    getSessionsWithSchedules: builder.query({
+      query: (params) => `sessions-with-schedules/${params}`,
+    }),
     postSessionMember: builder.mutation({
       query: (data) => ({
         url: "members/sessions/",
@@ -159,4 +162,5 @@ export const {
   useEditSessionMutation,
   usePatchSessionMutation,
   usePatchScheduleMutation,
+  useGetSessionsWithSchedulesQuery,
 } = apis;

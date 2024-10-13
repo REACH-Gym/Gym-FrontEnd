@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./ScheduleItem.module.css";
+import styles from "./AllScheduleItem.module.css";
 import { usePatchSessionMutation } from "../../features/api";
 import { useEffect, useRef, useState } from "react";
 import Warning from "../../Common Components/Warning/Warning";
@@ -9,7 +9,7 @@ import { Active, Deleted } from "../Status/Status";
 
 // Measurements table item
 // props --> object that has: number of the row, member name, measurement date, height, register date
-const ScheduleItem = ({ index, session }) => {
+const AllScheduleItem = ({ index, session, schedulesLength }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [popup, setPopup] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -102,6 +102,7 @@ const ScheduleItem = ({ index, session }) => {
         <td className="table-column p-2">{session.name}</td>
         <td className="table-column p-2">{session.price}</td>
         <td className="table-column p-2">{session.duration}</td>
+        <td className="table-column p-2">{schedulesLength}</td>
         <td className="table-column p-2">{session.description}</td>
         <td className="table-column p-2">
           {session.is_active === false ? <Deleted /> : <Active />}
@@ -226,4 +227,4 @@ const ScheduleItem = ({ index, session }) => {
   );
 };
 
-export default ScheduleItem;
+export default AllScheduleItem;

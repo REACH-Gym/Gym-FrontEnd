@@ -1,28 +1,40 @@
-import styles from "./ScheduleContainer.module.css";
+import styles from "./AllSchedules.module.css";
 import ScheduleItem from "../ScheduleItem/ScheduleItem";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
-import { useGetSessionsQuery } from "../../features/api";
+import {
+  useGetSessionsQuery,
+  useGetSessionsWithSchedulesQuery,
+} from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";
+import AllScheduleItem from "../AllScheduleItem/AllScheduleItem";
 
 // Schedule table container and header
-const ScheduleContainer = () => {
+const AllSchedules = () => {
   const navigate = useNavigate();
   const [confirmation, setConfirmation] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const { data, error, isLoading } = useGetSessionsQuery(
+  const { data, error, isLoading } = useGetSessionsWithSchedulesQuery(
     `?page=${page}&per_page=20&sort[]=-id`
   );
   console.log(data);
+  const [sessions, setSessions] = useState([]);
+
   useEffect(() => {
     setTotalPages(data?.data.meta?.total_pages);
+    setSessions([]);
+    for (let i = 0; data?.data?.sessions?.length > i; i++) {
+      if (data?.data?.sessions[i].schedules?.length > 0) {
+        setSessions((prev) => [...prev, data?.data?.sessions[i]]);
+      }
+    }
   }, [data]);
 
   const [results, setResults] = useState();
@@ -58,11 +70,11 @@ const ScheduleContainer = () => {
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/appointments.png"}
-            title={"جميع المجموعات"}
-            subTitle={"يمكنك متابعة جميع المجموعات  من هنا"}
+            title={"جميع المواعيد"}
+            subTitle={"يمكنك متابعة جميع المواعيد  من هنا"}
           />
           <Filter
-            query={"sessions/"}
+            query={"sessions-with-schedules/"}
             options={["الاسم"]}
             searchResults={setResults}
             status={false}
@@ -83,6 +95,7 @@ const ScheduleContainer = () => {
                   <th className={`p-2 pt-3 pb-3`}>المجموعة</th>
                   <th className={`p-2 pt-3 pb-3`}>السعر</th>
                   <th className={`p-2 pt-3 pb-3`}>المدة</th>
+                  <th className={`p-2 pt-3 pb-3`}>عدد المواعيد</th>
                   <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
                   <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                   <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
@@ -90,7 +103,12 @@ const ScheduleContainer = () => {
               </thead>
               <tbody>
                 {results?.data?.sessions?.map((item, index) => (
-                  <ScheduleItem key={index} index={index + 1} session={item} />
+                  <AllScheduleItem
+                    schedulesLength={item.schedules.length}
+                    key={index}
+                    index={index + 1}
+                    session={item}
+                  />
                 ))}
               </tbody>
             </table>
@@ -103,18 +121,18 @@ const ScheduleContainer = () => {
                 <th className={`p-2 pt-3 pb-3`}>المجموعة</th>
                 <th className={`p-2 pt-3 pb-3`}>السعر</th>
                 <th className={`p-2 pt-3 pb-3`}>المدة</th>
+                <th className={`p-2 pt-3 pb-3`}>عدد المواعيد</th>
                 <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
                 <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {data?.data?.sessions?.map((session, index) => (
-                  <ScheduleItem
+                {sessions?.map((session, index) => (
+                  <AllScheduleItem
                     key={index}
-                    index={
-                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
-                    }
+                    index={sessions.indexOf(session) + (page - 1) * 5 + 1}
                     session={session}
+                    schedulesLength={session.schedules.length}
                     deleteConfirmation={confirmed}
                     confirmation={setConfirmation}
                   />
@@ -147,4 +165,4 @@ const ScheduleContainer = () => {
     </>
   );
 };
-export default ScheduleContainer;
+export default AllSchedules;

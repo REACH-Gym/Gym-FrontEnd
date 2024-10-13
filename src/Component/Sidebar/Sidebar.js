@@ -74,7 +74,7 @@ function SidebarBox() {
       itemId: "times",
       icon: <DateRangeOutlinedIcon />,
       subItems: [
-        { title: "جميع المواعيد", navigateTo: "ScheduleContainer" },
+        { title: "جميع المواعيد", navigateTo: "AllSchedules" },
         { title: "اضافة موعد جديد", navigateTo: "AddScheduleForm" },
       ],
     },

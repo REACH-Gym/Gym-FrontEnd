@@ -14,6 +14,8 @@ const GroupMemberMembership = () => {
     error: memberMembershipError,
   } = useGetGroupsMembersQuery(`${memberMembershipID}`);
 
+  console.log(memberMembership);
+
   // const handleDelete = async () => {
   //   if (window.confirm("هل تريد خذف هذا الموعد؟")) {
   //     try {
@@ -171,8 +173,13 @@ const GroupMemberMembership = () => {
                   </svg>
                 </span>
                 <div className="me-2">
-                  <div className="mb-2 fw-bold">الإجمالي الفرعي</div>
-                  <div className="">{}</div>
+                  <div className="mb-2 fw-bold">السعر الأصلي</div>
+                  <div className="">
+                    {
+                      memberMembership?.data?.user_session?.schedule?.session
+                        ?.price
+                    }
+                  </div>
                 </div>
               </div>
               <div className={`col-2 d-flex justify-content-start gap-2`}>
@@ -236,13 +243,18 @@ const GroupMemberMembership = () => {
                   </svg>
                 </span>
                 <div className="me-2">
-                  <div className="mb-2 fw-bold">الإجمالي النهائي</div>
-                  <div className="">{}</div>
+                  <div className="mb-2 fw-bold">الإجمالي</div>
+                  <div className="">
+                    {
+                      memberMembership?.data?.user_session?.schedule?.session
+                        ?.price_after_discount
+                    }
+                  </div>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              {/* <div className={`col-2 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/date.png"}
@@ -254,8 +266,8 @@ const GroupMemberMembership = () => {
                   <div className="mb-2 fw-bold">تاريخ التجميد</div>
                   <div className="">-</div>
                 </div>
-              </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              </div> */}
+              {/* <div className={`col-2 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/date.png"}
@@ -267,7 +279,7 @@ const GroupMemberMembership = () => {
                   <div className="mb-2 fw-bold">باقي التجميد</div>
                   <div className="">-</div>
                 </div>
-              </div>
+              </div> */}
               <div className={`col-2 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
@@ -294,12 +306,12 @@ const GroupMemberMembership = () => {
                 <tr>
                   <th>#</th>
                   <th>بيان</th>
-                  <th>سعر</th>
-                  <th>إجمال</th>
+                  <th>اجمالي</th>
+                  <th>خصم فردي</th>
+                  <th>اجمالي نهائي</th>
                   <th>من تاريخ</th>
                   <th>إلى تاريخ</th>
                   <th>المدة</th>
-                  <th>المتبقي</th>
                   <th>حالة الإشتراك</th>
                   {/* <th className="text-center">خيارات</th> */}
                 </tr>
@@ -313,13 +325,23 @@ const GroupMemberMembership = () => {
                         ?.name
                     }
                   </td>
-                  <td>{memberMembership?.data?.user_session?.actual_price}</td>
                   <td>
-                    {(
+                    {
+                      memberMembership?.data?.user_session?.schedule?.session
+                        ?.price_after_discount
+                    }
+                  </td>
+                  <td>
+                    {/* {(
                       memberMembership?.data?.user_session?.actual_price *
                       (1 - memberMembership?.data?.user_session?.discount / 100)
-                    ).toFixed(2)}
+                    ).toFixed(2)} */}
+                    {Number.parseInt(
+                      memberMembership?.data?.user_session?.discount
+                    )}
+                    %
                   </td>
+                  <td>{memberMembership?.data?.user_session?.actual_price}</td>
                   <td>{memberMembership?.data?.user_session?.start_date}</td>
                   <td>{memberMembership?.data?.user_session?.end_date}</td>
                   <td>
@@ -328,7 +350,6 @@ const GroupMemberMembership = () => {
                         ?.duration
                     }
                   </td>
-                  <td>{"-"}</td>
                   <td>
                     {memberMembership?.data?.user_session?.status ===
                     "active" ? (

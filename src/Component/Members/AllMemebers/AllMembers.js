@@ -64,7 +64,6 @@ function AllMembers() {
     fetchAllMembers();
   }, [access_token, page, per_page]);
 
-
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));
   };
