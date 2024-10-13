@@ -21,7 +21,7 @@ function AllSubScriptions() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchAllSubscriptionS() {
-      setLoading(true);
+      // setLoading(true);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/memberships/?page=${page}&per_page=${per_page}`,
@@ -35,7 +35,7 @@ function AllSubScriptions() {
         );
         const result = await response.json();
         console.log(result);
-        setLoading(false);
+        // setLoading(false);
         if (response.ok) {
           setAllSubscriptions(result.data.memberships);
           setTotalPages(result.data.meta.total_pages);

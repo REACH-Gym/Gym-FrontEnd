@@ -33,9 +33,10 @@ import EditGroup from "./Component/EditGroup/EditGroup";
 import EditGroupMember from "./Component/EditGroupMember/EditGroupMember";
 import EditSchedule from "./Component/EditSchedule/EditSchedule";
 import Support from "./Component/Support/Support";
-import SupportDetails from "./Component/Support/SupportDetails";
+import SupportDetails from "./Component/Support/SupportDetails"
 import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
 import UsersContainer from "./Component/UsersContainer/UsersContainer";
+
 function App() {
   return (
     <Provider store={store}>

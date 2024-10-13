@@ -42,19 +42,19 @@ function AllMembers() {
         const result = await response.json();
         console.log("Fetched result:", result);
 
-        if (response.ok && result.status === "success") {
-          if (result.data && result.data.users.length > 0) {
+        // if (response.ok && result.status === "success") {
+          // if (result.data && result.data.users.length > 0) {
             setAllMembers(result.data.users);
             setTotalPages(result.data.meta.total_pages);
-          } else {
-            setError("لا يوجد أعضاء");
-          }
-        } else {
-          setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
-        }
-      } catch (networkError) {
+          // } else {
+            // setError("لا يوجد أعضاء");
+          // }
+        
+          // setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
+        // }
+      } catch (error) {
         setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
-        console.error("Network error:", networkError);
+        console.error("error Occurred:", error);
       } finally {
         setLoading(false);
       }
@@ -173,9 +173,9 @@ function AllMembers() {
                       {results?.data?.users?.map((item, index) => (
                         <tr
                           key={item.id}
-                          className={
-                            item.is_active ? "member-active" : "member-inactive"
-                          }
+                          // className={
+                          //   item.is_active ? "member-active" : "member-inactive"
+                          // }
                         >
                           <th
                             scope="row"
@@ -275,9 +275,9 @@ function AllMembers() {
                     {allMembers.map((item, index) => (
                       <tr
                         key={item.id}
-                        className={
-                          item.is_active ? "member-active" : "member-inactive"
-                        }
+                        // className={
+                        //   item.is_active ? "member-active" : "member-inactive"
+                        // }
                       >
                         <th scope="row">{index + 1}</th>
                         <td>{item.name}</td>
