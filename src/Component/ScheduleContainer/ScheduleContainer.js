@@ -8,10 +8,13 @@ import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
+import Warning from "../../Common Components/Warning/Warning";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
   const navigate = useNavigate();
+  const [confirmation, setConfirmation] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { data, error, isLoading } = useGetSessionsQuery(
@@ -22,11 +25,14 @@ const ScheduleContainer = () => {
     setTotalPages(data?.data.meta?.total_pages);
   }, [data]);
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
   console.log(results);
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
@@ -42,12 +48,18 @@ const ScheduleContainer = () => {
 
   return (
     <>
+      {confirmation && (
+        <Warning
+          text={"هل تريد حذف هذا الموعد؟"}
+          handleConfirm={setConfirmed}
+        />
+      )}
       <div className={`${styles.scheduleContainer}`}>
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/appointments.png"}
-            title={" جميع المواعيد"}
-            subTitle={"يمكنك متابعة جميع االمواعيد  من هنا"}
+            title={"جميع المجموعات"}
+            subTitle={"يمكنك متابعة جميع المجموعات  من هنا"}
           />
           <Filter
             query={"sessions/"}
@@ -101,6 +113,8 @@ const ScheduleContainer = () => {
                       data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
                     }
                     session={session}
+                    deleteConfirmation={confirmed}
+                    confirmation={setConfirmation}
                   />
                 ))}
               </tbody>

@@ -38,7 +38,8 @@ function Filter({ options = [], query, status = true, searchResults }) {
 
   useEffect(() => {
     console.log(activeFilter);
-    if (debounce.length > 0) {
+    console.log(debounce.length);
+    if (debounce.length > 0 && debounce) {
       (async () => {
         const response = await search(
           `${query}?filter{${activeFilter}.istartswith}=${debounce}`
@@ -49,7 +50,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
     } else {
       searchResults([]);
     }
-  }, [query, debounce, search, activeFilter, searchResults]);
+  }, [activeFilter, debounce, query, search, searchResults]);
 
   return (
     <div className="filterContainer">

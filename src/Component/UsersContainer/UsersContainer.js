@@ -1,33 +1,27 @@
-import { useEffect, useState } from "react";
-import { useGetGroupsMembersQuery } from "../../features/api";
-import GroupsItem from "../GroupsContainerItem/GroupsItem";
-import styles from "./GroupsContainer.module.css";
-import MainButton from "../../Common Components/Main Button/MainButton";
+import styles from "./UsersContainer.module.css";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
+import MainButton from "../../Common Components/Main Button/MainButton";
+import { useState } from "react";
+import { useGetEmployeesQuery } from "../../features/api";
+import UsersItem from "../UsersItem/UsersItem";
 import { Commet } from "react-loading-indicators";
 
-// Groups table container and header
-const GroupsContainer = () => {
-  const navigate = useNavigate();
+const UsersContainer = () => {
   const [results, setResults] = useState([]);
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const {
-    data: groupsMembers,
-    isFetching: isGroupsMembersFetching,
-    error: groupsMembersError,
-  } = useGetGroupsMembersQuery(
-    `?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=schedule.session.name&include[]=schedule.trainer.name&include[]=user.name&page=${page}&per_page=20&sort[]=-id`
-  );
-  console.log(groupsMembers);
-  useEffect(() => {
-    setTotalPages(groupsMembers?.data.meta?.total_pages);
-  }, [groupsMembers]);
+    data: emplyees,
+    isFetching: isEmployeesLoading,
+    error: employeesError,
+  } = useGetEmployeesQuery(`/?page=${page}&per_page=20`);
 
-  if (isGroupsMembersFetching) {
+  console.log(emplyees);
+
+  if (isEmployeesLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -38,12 +32,10 @@ const GroupsContainer = () => {
     );
   }
 
-  if (groupsMembersError) {
+  if (employeesError) {
     return (
-      <div
-        className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
-      >
-        حدث خطأ، برجاء المحاولة مرة أخرى.
+      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+        حدث خطأ، برجاء المحاولة مرة أخرى.
       </div>
     );
   }
@@ -77,17 +69,20 @@ const GroupsContainer = () => {
                 <tr>
                   <th className={`p-2 pt-3 pb-3`}>#</th>
                   <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-                  <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
-                  <th className={`p-2 pt-3 pb-3`}>المدرب</th>
-                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
+                  <th className={`p-2 pt-3 pb-3`}>الجوال</th>
+                  <th className={`p-2 pt-3 pb-3`}>رقم العضوية</th>
+                  <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
+                  <th className={`p-2 pt-3 pb-3`}>النوع</th>
+                  <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
+                  <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
                   <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {results?.data?.user_sessions?.map((item, index) => (
                   <GroupsItem key={index} index={index + 1} item={item} />
                 ))}
-              </tbody>
+              </tbody> */}
             </table>
           </div>
         ) : (
@@ -96,20 +91,19 @@ const GroupsContainer = () => {
               <thead className={`fw-bold`}>
                 <th className={`p-2 pt-3 pb-3`}>#</th>
                 <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-                <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
-                <th className={`p-2 pt-3 pb-3`}>المدرب</th>
-                <th className={`p-2 pt-3 pb-3`}>الحالة</th>
+                <th className={`p-2 pt-3 pb-3`}>الجوال</th>
+                <th className={`p-2 pt-3 pb-3`}>رقم العضوية</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
+                <th className={`p-2 pt-3 pb-3`}>النوع</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
+                <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {groupsMembers?.data.user_sessions.map((item, index) => (
-                  <GroupsItem
+                {emplyees?.data?.map((item, index) => (
+                  <UsersItem
                     key={index}
-                    index={
-                      groupsMembers?.data.user_sessions.indexOf(item) +
-                      (page - 1) * 5 +
-                      1
-                    }
+                    index={emplyees?.data?.indexOf(item) + (page - 1) * 5 + 1}
                     item={item}
                   />
                 ))}
@@ -118,7 +112,7 @@ const GroupsContainer = () => {
             <div
               className={`d-flex justify-content-between align-items-center ${styles.pageBtn}`}
             >
-              <MainButton
+              {/* <MainButton
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 text={"<<"}
@@ -132,7 +126,7 @@ const GroupsContainer = () => {
                 disabled={page === totalPages}
                 text={">>"}
                 btnWidth="100px"
-              />
+              /> */}
             </div>
           </div>
         )}
@@ -141,4 +135,4 @@ const GroupsContainer = () => {
   );
 };
 
-export default GroupsContainer;
+export default UsersContainer;

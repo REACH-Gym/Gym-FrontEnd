@@ -1,15 +1,7 @@
-@keyframes showUp {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 .trainer {
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   background-color: white;
-  padding: 50px 20px;
+  padding: 30px;
   border-radius: 25px;
   font-size: 16px;
 }
@@ -17,7 +9,8 @@
   padding: 10px;
   border-bottom: 1px solid #f0f0f0;
 }
-.scheduleRow td {
+.scheduleRow td,
+th {
   padding: 10px;
 }
 .scheduleRow {
@@ -35,19 +28,26 @@
   margin: 0 auto 2px;
 }
 .subMenu {
+  display: none;
+}
+.tableColumn:hover .subMenu {
+  display: block;
   position: absolute;
   background-color: white;
   width: 190px;
   height: fit-content;
   z-index: 1000;
   left: 0;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 18px;
+  padding: 20px;
+  border-radius: 20px;
   border: 1px solid #f0f0f0;
-  animation: showUp 0.2s forwards;
 }
 .subMenu > div:hover {
   background-color: #f2f4f5;
-  border-radius: 10px;
+  border-radius: 20px;
+}
+.GroupMemberMembership {
+  background-color: #f2f4f5;
+  width: 100%;
+  padding: 90px 20px 20px 20px;
 }

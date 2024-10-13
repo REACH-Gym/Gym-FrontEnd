@@ -3,6 +3,7 @@ import "./AddNewMember.css";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
@@ -59,9 +60,17 @@ function AddNewMember() {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
     phone_number: Yup.string().required("هذا الحقل الزامي"),
-    national_id: Yup.string().required("هذا الحقل الزامي"),
-    password: Yup.string().required("هذا الحقل الزامي"),
-    notes: Yup.string().required("هذا الحقل الزامي"),
+    national_id: Yup.string()
+      .matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10أرقام")
+      .required("هذا الحقل الزامي"),
+    password: Yup.string()
+      .min(8, "يحب أن تكون كلمة السر اكثر من 7 أرقام")
+      .matches(/[A-Z]/, "يجب أن تحتوي على حروف كبيرة")
+      .matches(/[a-z]/, "يجب أن تحتوي على حروف صغيرة")
+      .matches(/\d/, "يجب أن تحتوي على أرقام")
+      .matches(/[!@#$%^&*]/, "يجب أن تحتوي على رموز")
+      .required("هذا الحقل الزامي"),
+    notes: Yup.string(),
     date_of_birth: Yup.date().required("هذا الحقل الزامي").max("2-5-3000"),
     gender: Yup.string().required("هذا الحقل الزامي"),
   });

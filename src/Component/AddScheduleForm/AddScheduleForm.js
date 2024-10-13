@@ -12,6 +12,8 @@ import {
 } from "../../features/api";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
+import Success from "../../Common Components/Success/Success";
+import Error from "../../Common Components/Error/Error";
 
 const daysOfWeek = [
   "السبت",
@@ -120,19 +122,31 @@ const AddScheduleForm = () => {
     }
   };
 
-  const [postSchedule] = usePostScheduleMutation();
+  const [postSchedule, { isError: isScheduleError }] =
+    usePostScheduleMutation();
   const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const handleSubmit = async (values) => {
     console.log(values);
     if (Object.keys(values).length < 4) {
       alert("يجب أدخال اليوم والوقت والمجموعة");
     } else {
       try {
-        const response = await postSchedule(values);
+        const response = await postSchedule(values).unwrap();
         console.log(response);
-        navigate("/Home/ScheduleContainer");
+        setSuccess(true);
+        setTimeout(() => {
+          navigate("/Home/ScheduleContainer");
+        }, 2000);
       } catch (e) {
-        console.log(e);
+        if (e.originalStatus === 403) {
+          setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        } else if (e.originalStatus === 401) {
+          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        } else {
+          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        }
       }
     }
   };
@@ -165,7 +179,10 @@ const AddScheduleForm = () => {
 
   if (isEmployeesLoading || isSessionsLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
@@ -180,139 +197,149 @@ const AddScheduleForm = () => {
   }
 
   return (
-    <div className={`${styles.schedulFormeContainer}`}>
-      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
-        <ComponentTitle
-          MainIcon={"/assets/image/appointments.png"}
-          title={"اضافه موعد جديد"}
-          subTitle={"يمكنك اضافه موعد جديد من هنا"}
-        />
-      </div>
-      <div
-        style={{ height: "100%" }}
-        className="  justify-content-center align-items-center mt-3"
-      >
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+    <>
+      {success && (
+        <Success text={"تم إضافة الموعد إلى المجموعة بنجاح"} show={success} />
+      )}
+      {isScheduleError && <Error text={error} show={isScheduleError} />}
+      <div className={`${styles.schedulFormeContainer}`}>
+        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+          <ComponentTitle
+            MainIcon={"/assets/image/appointments.png"}
+            title={"اضافه موعد جديد"}
+            subTitle={"يمكنك اضافه موعد جديد من هنا"}
+          />
+        </div>
+        <div
+          style={{ height: "100%" }}
+          className="  justify-content-center align-items-center mt-3"
         >
-          {({ setFieldValue, values, setValues }) => {
-            valuesRef.current = values;
-            setValuesRef.current = setValues;
-            return (
-              <Form className={`${styles.groupForm} d-grid gap-3 p-4`}>
-                <div className="row">
-                  <div className="col-6">
-                    <InputField
-                      name="session"
-                      label="المجموعة"
-                      inputType={"select"}
-                    >
-                      <option value="">إختر</option>
-                      {sessions?.data.sessions.map((session, index) => (
-                        <option key={index} value={session.id}>
-                          {session.name}
-                        </option>
-                      ))}
-                    </InputField>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ setFieldValue, values, setValues }) => {
+              valuesRef.current = values;
+              setValuesRef.current = setValues;
+              return (
+                <Form className={`${styles.groupForm} d-grid gap-3 p-4`}>
+                  <div className="row">
+                    <div className="col-6">
+                      <InputField
+                        name="session"
+                        label="المجموعة"
+                        inputType={"select"}
+                      >
+                        <option value="">إختر</option>
+                        {sessions?.data.sessions.map((session, index) => (
+                          <option key={index} value={session.id}>
+                            {session.name}
+                          </option>
+                        ))}
+                      </InputField>
+                    </div>
+                    <div className="col-6">
+                      <InputField
+                        name="max_capacity"
+                        label="الطاقة الإستيعابية"
+                      />
+                    </div>
                   </div>
-                  <div className="col-6">
-                    <InputField
-                      name="max_capacity"
-                      label="الطاقة الإستيعابية"
+                  <div className={`row`}>
+                    <div className="col-6">
+                      <InputField
+                        name={"trainer"}
+                        label={"المدرب"}
+                        inputType={"select"}
+                      >
+                        <option value={""}> إختر </option>
+                        {trainers?.data?.map((trainer, index) => (
+                          <option key={index} value={trainer.id}>
+                            {trainer.name}
+                          </option>
+                        ))}
+                      </InputField>
+                    </div>
+                  </div>
+                  <div className={`row mt-4`}>
+                    <div className="col-12 fw-bold fs-5">الموعد</div>
+                  </div>
+                  <div className={`row`}>
+                    <div className="col-6">
+                      <label className={`text-secondary mb-2 mt-2`}>
+                        اليوم
+                      </label>
+                      <select
+                        onChange={(e) => setDay(e.target.value)}
+                        value={day}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#F4F4F4",
+                          border: "none",
+                          borderRadius: "5px",
+                          padding: "10px",
+                          outline: "none",
+                          height: "52px",
+                        }}
+                      >
+                        <option value="">اختر</option>
+                        {availableDays.map((day, index) => (
+                          <option
+                            key={index}
+                            value={Object.keys(weekDays).find(
+                              (key) => weekDays[key] === day
+                            )}
+                          >
+                            {day}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-5">
+                      <label className={`text-secondary mb-2 mt-2`}>
+                        الساعة
+                      </label>
+                      <input
+                        type="time"
+                        onChange={(e) => setTime(e.target.value)}
+                        value={time}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#F4F4F4",
+                          border: "none",
+                          borderRadius: "5px",
+                          padding: "10px",
+                          outline: "none",
+                          height: "52px",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className="col-1 fs-3 fw-bold text-primary d-flex justify-content-center align-items-end pb-2"
+                      onClick={() => handleAdd(setFieldValue)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      +
+                    </div>
+                  </div>
+                  <div className="row" id="days">
+                    {days}
+                  </div>
+                  <div className="row text-center">
+                    <MainButton
+                      text="إضافة"
+                      btnType="submit"
+                      btnWidth={"200px"}
                     />
                   </div>
-                </div>
-                <div className={`row`}>
-                  <div className="col-6">
-                    <InputField
-                      name={"trainer"}
-                      label={"المدرب"}
-                      inputType={"select"}
-                    >
-                      <option value={""}> إختر </option>
-                      {trainers?.data?.map((trainer, index) => (
-                        <option key={index} value={trainer.id}>
-                          {trainer.name}
-                        </option>
-                      ))}
-                    </InputField>
-                  </div>
-                </div>
-                <div className={`row mt-4`}>
-                  <div className="col-12 fw-bold fs-5">الموعد</div>
-                </div>
-                <div className={`row`}>
-                  <div className="col-6">
-                    <label className={`text-secondary mb-2 mt-2`}>اليوم</label>
-                    <select
-                      onChange={(e) => setDay(e.target.value)}
-                      value={day}
-                      style={{
-                        width: "100%",
-                        backgroundColor: "#F4F4F4",
-                        border: "none",
-                        borderRadius: "5px",
-                        padding: "10px",
-                        outline: "none",
-                        height: "52px",
-                      }}
-                    >
-                      <option value="">اختر</option>
-                      {availableDays.map((day, index) => (
-                        <option
-                          key={index}
-                          value={Object.keys(weekDays).find(
-                            (key) => weekDays[key] === day
-                          )}
-                        >
-                          {day}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="col-5">
-                    <label className={`text-secondary mb-2 mt-2`}>الساعة</label>
-                    <input
-                      type="time"
-                      onChange={(e) => setTime(e.target.value)}
-                      value={time}
-                      style={{
-                        width: "100%",
-                        backgroundColor: "#F4F4F4",
-                        border: "none",
-                        borderRadius: "5px",
-                        padding: "10px",
-                        outline: "none",
-                        height: "52px",
-                      }}
-                    />
-                  </div>
-                  <div
-                    className="col-1 fs-3 fw-bold text-primary d-flex justify-content-center align-items-end pb-2"
-                    onClick={() => handleAdd(setFieldValue)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    +
-                  </div>
-                </div>
-                <div className="row" id="days">
-                  {days}
-                </div>
-                <div className="row text-center">
-                  <MainButton
-                    text="إضافة"
-                    btnType="submit"
-                    btnWidth={"200px"}
-                  />
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

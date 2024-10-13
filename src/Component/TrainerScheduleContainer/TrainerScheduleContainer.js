@@ -43,7 +43,10 @@ const TrainerScheduleContainer = () => {
 
   if (isTrainerSchedulesLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );

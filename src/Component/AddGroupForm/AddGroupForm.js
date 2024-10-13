@@ -6,11 +6,14 @@ import InputField from "../../Common Components/InputField/InputField";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { usePostSessionMutation } from "../../features/api";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Success from "../../Common Components/Success/Success";
+import Error from "../../Common Components/Error/Error";
 
 const AddGroupForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
-    notes: Yup.string().required("هذا الحقل إلزامي"),
+    notes: Yup.string(),
     duration: Yup.number().required("هذا الحقل إلزامي"),
     price: Yup.number().required("هذا الحقل إلزامي"),
   });
@@ -21,10 +24,15 @@ const AddGroupForm = () => {
     notes: "",
   };
 
-  const [postSession, { isLoading: isSessionsLoading }] =
-    usePostSessionMutation();
+  const [
+    postSession,
+    { isLoading: isSessionsLoading, isError: isSessionsError },
+  ] = usePostSessionMutation();
 
   const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
   const handleSubmit = async (values) => {
     const newSession = {
       name: values["name"],
@@ -35,57 +43,74 @@ const AddGroupForm = () => {
 
     console.log(newSession);
     try {
-      const response = await postSession(newSession);
+      const response = await postSession(newSession).unwrap();
       console.log(response);
       localStorage.setItem("groupId", response.data.name);
-      navigate("/Home/ScheduleContainer");
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        navigate("/Home/ScheduleContainer");
+      }, 300);
     } catch (error) {
-      console.log(error);
+      if (error.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+      } else if (error.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+      }
     }
   };
   return (
-    <div className={`${styles.groupFormContainer}`}>
-      <div className="allSubscriptionContainer mt-4">
-        <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
-          <ComponentTitle
-            MainIcon={"/assets/image/groups.png"}
-            title={"اضافة مجموعة جديدة"}
-            subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
-          />
-        </div>
-        <div className="">
-          <div className={`${styles.addgroupContainer}`}>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              <Form className={`${styles.groupForm} p-4`}>
-                <div className="row mb-4 g-5">
-                  <div className="col-6">
-                    <InputField name="name" label="الإسم" />
+    <>
+      {success && <Success text={"تم إضافة المجموعة! "} />}
+      {isSessionsError && <Error text={error} show={isSessionsError} />}
+      <div className={`${styles.groupFormContainer}`}>
+        <div className="allSubscriptionContainer mt-4">
+          <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+            <ComponentTitle
+              MainIcon={"/assets/image/groups.png"}
+              title={"اضافة مجموعة جديدة"}
+              subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
+            />
+          </div>
+          <div className="">
+            <div className={`${styles.addgroupContainer}`}>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                <Form className={`${styles.groupForm} p-4`}>
+                  <div className="row mb-4 g-5">
+                    <div className="col-6">
+                      <InputField name="name" label="الإسم" />
+                    </div>
+                    <div className="col-6">
+                      <InputField
+                        name="duration"
+                        label="مدة الجلسة (بالدقيقة)"
+                      />
+                    </div>
                   </div>
-                  <div className="col-6">
-                    <InputField name="duration" label="المدة (بالشهر)" />
+                  <div className="row mb-4 g-5">
+                    <div className="col-6">
+                      <InputField name="price" label="السعر" />
+                    </div>
+                    <div className="col-6">
+                      <InputField name="notes" label="ملاحظات" />
+                    </div>
                   </div>
-                </div>
-                <div className="row mb-4 g-5">
-                  <div className="col-6">
-                    <InputField name="price" label="السعر" />
+                  <div className={`${styles.addgroupBtn} text-center`}>
+                    <MainButton text={"اضافة"} btnType={"submit"} />
                   </div>
-                  <div className="col-6">
-                    <InputField name="notes" label="ملاحظات" />
-                  </div>
-                </div>
-                <div className={`${styles.addgroupBtn} text-center`}>
-                  <MainButton text={"اضافة"} btnType={"submit"} />
-                </div>
-              </Form>
-            </Formik>
+                </Form>
+              </Formik>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default AddGroupForm;
