@@ -12,67 +12,16 @@
   margin: auto;
 }
 .table {
-  /* border-collapse:separate; */
   border-spacing: 10px 0px 0px 0px;
 }
-
 .table tr {
   height: 30px;
 }
-
-.table tr td {
-  /* padding: 30px; */
-  /* text-align: center; */
+.delete-btn,.canel-delete{
+  border-radius: 5px;
 }
-
-.delete-btn:hover {
-  background-color: rgb(255, 102, 102);
+.delete-btn {
+  background-color: #FF6666;
   color: #fff;
   font-weight: bolder;
-}
-.canel-delete:hover {
-  background-color: rgb(26, 212, 26);
-  color: #fff;
-  font-weight: bolder;
-}
-.status-active {
-  background-color: rgba(74, 217, 145, 0.2) !important;
-  color: #4ad991 !important;
-  font-weight: bolder !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  margin: 20px !important;
-  width: 150px !important;
-}
-.status-cancel {
-  background-color: rgba(237, 199, 10,0.2) !important;
-  color: #EDC70A !important;
-  font-weight: bolder !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  margin: 20px !important;
-}
-.status-expired {
-  background-color: rgba(255, 102, 102, 0.2) !important;
-  color: #ff6666 !important;
-  font-weight: bolder !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  margin: 20px !important;
-}
-.status-almostOver {
-  background-color:rgba(237, 199, 10,0.2)!important;
-  color: #EDC70A !important;
-  font-weight: bolder !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  margin: 20px !important;
-}
-.status-freezed {
-  background-color: rgba(0, 106, 234,0.2) !important;
-  color: #006AEA !important;
-  font-weight: bolder !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  margin: 20px !important;
 }

@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AddNewSubscription.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import { Formik, Form } from "formik";
 import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../../Common Components/Modal/Modal";
 function AddNewSubscription() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const handleSubmit = async (values) => {
     try {
       const items = {
@@ -34,14 +36,15 @@ function AddNewSubscription() {
       const result = await response.json();
       if (response.ok) {
         console.log("Response data:", result);
-        toast.success("Done! Subscription Added Successfully");
+        setShowModal(true);
         setTimeout(() => {
           navigate("/Home/AllSubScriptions");
-        }, 1500);
+        }, 5000);
       } else {
         console.error("Response status:", response.status);
         console.error("Response body:", result);
         console.log("Failed to add new Subscription");
+        setShowModalError(true);
       }
     } catch (error) {
       console.error("Error during submission:", error);
@@ -61,6 +64,12 @@ function AddNewSubscription() {
     membership_duration: "",
     freeze_duration: "",
   };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleCloseModalError = () => {
+    setShowModalError(false);
+  };
   return (
     <div className="AddNewSubscriptionContainer">
       <div className="pe-4">
@@ -71,7 +80,7 @@ function AddNewSubscription() {
         />
       </div>
 
-      <div className="addSubFormContainer mt-4">
+      <div className="addSubFormContainer mt-3">
         <Formik
           onSubmit={handleSubmit}
           initialValues={intialValues}
@@ -107,7 +116,56 @@ function AddNewSubscription() {
           </Form>
         </Formik>
       </div>
-      <ToastContainer />
+      {/* success add sub */}
+      <Modal isOpen={showModal}>
+        <div className="d-flex justify-content-end">
+          <button
+            onClick={handleCloseModal}
+            className="border-0 pt-4 ps-4 failed"
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/weui_done2-outlined.png"
+            alt=""
+            width={"100px"}
+            height={"100px"}
+            style={{padding:"12px"}}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            تم اضافة الأشتراك بنجاح
+          </p>
+        </div>
+      </Modal>
+      {/* failed add sub */}
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end">
+          <button
+            onClick={handleCloseModalError}
+            className="border-0 pt-4 ps-4 failed"
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt=""
+            width={"100px"}
+            height={"100px"}
+            style={{padding:"12px"}}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            حدث خطأ أثناء حذف هذا الأشتراك
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

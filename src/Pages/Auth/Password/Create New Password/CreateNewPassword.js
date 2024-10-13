@@ -124,12 +124,12 @@ function CreateNewPassword() {
       <ToastContainer />
       <Modal isOpen={showModal}>
         <div className="d-flex flex-column align-items-center justify-content-center">
-          <div className="">
-            <img src="/assets/image/pepicons-pencil_checkmark-outlined.png" alt="" width={"121px"} height={'121px'} />
+          <div className="mt-3">
+            <img src="/assets/image/weui_done2-outlined.png" alt="" width={"121px"} height={'121px'} />
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-center mt-5 fw-bolder fs-4 pb-3">
-          <p className="mt-4" style={{ color: "darkblue", fontSize: "17px" }}>
+        <div className="d-flex align-items-center justify-content-center fw-bolder fs-4 pb-3">
+          <p className="mt-4" style={{}}>
             01013585051 has been verified
           </p>
         </div>

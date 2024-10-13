@@ -1,20 +1,20 @@
 .AddNewSubscriptionContainer {
   background-color: #f2f4f5;
-  padding: 70px 0px 0px 0px;
+  padding: 80px 0px 0px 0px;
   width: 100%;
 }
-.addSubFormContainer{
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-    width: 97%;
-    margin: auto;
-    padding: 20px;
+.addSubFormContainer {
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  width: 97%;
+  margin: auto;
+  padding: 20px;
 }
-.addSubForm{
-    width: 70%;
-    margin: auto;
+.addSubForm {
+  width: 70%;
+  margin: auto;
 }
-.add-note{
-    height: 80px;
+.add-note {
+  height: 80px;
 }

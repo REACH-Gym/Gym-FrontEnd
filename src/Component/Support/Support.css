@@ -3,6 +3,41 @@
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
-input [type = "checkbox"]{
-  border-color: blue;
+.dropmenu {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  list-style-type: none;
+  padding: 5px;
+  position: absolute;
+  right: 81.5%;
+  width: 150px;
+}
+.dropmenu ul li {
+  padding: 8px;
+}
+.delete-support {
+  padding: 5px;
+  cursor: pointer;
+}
+.delete-support:hover {
+  background-color: #f2f4f5;
+  border-radius: 5px;
+}
+.tr {
+  cursor: pointer;
+}
+.tr:hover {
+  background-color: #f2f4f5;
+}
+.supportDetailContainer{
+  background-color: #f2f4f5;
+  width: 100%;
+  padding: 80px 20px 20px 20px;
+}
+.supportDetailContainer__item{
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 30px;
 }

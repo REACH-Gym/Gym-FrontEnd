@@ -4,13 +4,13 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import MainButton from "../../../../Common Components/Main Button/MainButton";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../../../Common Components/Modal/Modal";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const [serverError, setServerError] = useState("");
   const access_token = localStorage.getItem("access");
 
@@ -37,13 +37,13 @@ function ForgotPassword() {
       if (response.ok) {
         localStorage.setItem("message", data.message);
         localStorage.setItem("phone_number", values["phone_number"]);
+        setShowModal(true);
         setTimeout(() => {
           navigate("/ConfirmCode");
-        }, 2500);
-        setShowModal(true);
-        setServerError("");
+        }, 3500);
+        setServerError(""); //no server error
       } else {
-        toast.error("رقم الهاتف غير صحيح برجاءالمحاولة مرة اخري");
+        setShowModalError(true);
         setServerError("رقم الهاتف غير صحيح برجاء المحاولة مرة أخرى");
         console.log(data.error.detail);
       }
@@ -62,6 +62,9 @@ function ForgotPassword() {
   const initialValues = {
     phone_number: "",
   };
+  const handleCloseModalError = ()=>{
+    setShowModalError(false);
+  }
 
   return (
     <div className="forgotPasswordContainer">
@@ -111,15 +114,15 @@ function ForgotPassword() {
           </Formik>
         </div>
       </div>
-      <ToastContainer />
+      {/* success send code to phone number */}
       <Modal isOpen={showModal}>
         <div className="d-flex flex-column align-items-center justify-content-center">
           <div className="mt-4">
             <img
-              src="/assets/image/pepicons-pencil_checkmark-outlined.png"
+              src="/assets/image/weui_done2-outlined.png"
               alt=""
-              width={"100px"}
-              height={"100px"}
+              width={"90px"}
+              height={"90px"}
             />
           </div>
         </div>
@@ -129,11 +132,28 @@ function ForgotPassword() {
             style={{ color: "", fontSize: "" }}
           >
             لقد تم إرسال طلب التحقق إلى رقمك:
-            <span className="fw-bolder ms-2 me-2">
+            <span className=" ms-2 me-2">
               {localStorage.getItem("phone_number")}
             </span>
           </p>
         </div>
+      </Modal>
+      {/* failed to send code to phone number */}
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end fw-bolder">
+          <button onClick={handleCloseModalError} className="border-0 pt-4 ps-4 failed">X</button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt=""
+            width={"100px"}
+            height={"100px"}
+            style={{padding:"12px"}}
+          />
+        </div>
+        <p className="text-center mt-2  text-dark fw-bolder mb-5">
+        فشل في إرسال OTP، تحقق من رقم هاتفك</p>
       </Modal>
     </div>
   );

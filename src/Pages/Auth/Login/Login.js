@@ -5,13 +5,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../../Common Components/Modal/Modal";
 
 function Login() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const handleSubmit = async (values) => {
     try {
       const items = {
@@ -43,10 +43,10 @@ function Login() {
           navigate("/Home");
         }, 2500);
       } else {
-        toast.error("Login failed. Please check your phone or password.");
+        setShowModalError(true);
       }
     } catch (error) {
-      toast.error("Phone or password is not correct , please try again");
+      setShowModalError(true);
     }
   };
 
@@ -60,7 +60,9 @@ function Login() {
     phone_number: Yup.string().required("هذا الحقل إلزامي"),
     password: Yup.string().required("هذا الحقل إلزامي"),
   });
-
+  const handleCloseModal = () => {
+    setShowModalError(false);
+  };
   return (
     <div className="login d-flex">
       <aside className="left-side d-flex justify-content-center align-items-center">
@@ -114,17 +116,43 @@ function Login() {
           </Form>
         </Formik>
       </aside>
-      <ToastContainer />
-
       <Modal isOpen={showModal}>
         <div className="d-flex flex-column align-items-center justify-content-center">
           <div className="mt-3">
-            <img src="/assets/image/pepicons-pencil_checkmark-outlined.png" alt="" width={"100px"} height={"100px"} />
+            <img
+              src="/assets/image/weui_done2-outlined.png"
+              alt=""
+              width={"100px"}
+              height={"100px"}
+            />
           </div>
         </div>
         <div className="text-center fw-lighter fs-5">
           <p className="p-3 text-dark">لقد تم تسجيل دخولك بنجاح</p>
         </div>
+      </Modal>
+      {/* failed to login */}
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end">
+          <button
+            onClick={handleCloseModal}
+            className="border-0 pt-4 ps-4 failed fw-bolder"
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt=""
+            width={"100px"}
+            height={"100px"}
+            style={{ padding: "12px" }}
+          />
+        </div>
+        <p className="text-center mt-2  text-dark fw-bolder mb-5">
+          رقم الهاتف أو كلمة المرور غير صحيحة
+        </p>
       </Modal>
     </div>
   );

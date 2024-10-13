@@ -6,10 +6,13 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import "./EditSub.css";
 import InputField from "../../../Common Components/InputField/InputField";
+import Modal from "../../../Common Components/Modal/Modal";
 
 function EditSub() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const membership = location.state?.membership;
 
   const [initialValues, setInitialValues] = useState({
@@ -57,9 +60,14 @@ function EditSub() {
 
       if (response.ok) {
         const updateSub = await response.json();
-        navigate("/Home/AllSubscriptions", { state: { updateSub } });
+        setShowModal(true);
+        setTimeout(() => {
+          navigate("/Home/AllSubscriptions", { state: { updateSub } });
+        }, 3000);
       } else {
         console.error("Failed to update subscription");
+        setShowModal(false);
+        setShowModalError(true);
       }
     } catch (error) {
       console.error("Error updating subscription:", error);
@@ -67,7 +75,12 @@ function EditSub() {
       setSubmitting(false);
     }
   };
-
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const hanldleShowModalError = () => {
+    setShowModalError(false);
+  };
   return (
     <div className="editMemberContainer">
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
@@ -102,8 +115,8 @@ function EditSub() {
               </div>
             </div>
             <div className="col-6 col-lg-6 w-100">
-                <InputField label={"ملاحظات"} name="description"/>
-              </div>
+              <InputField label={"ملاحظات"} name="description" />
+            </div>
             <div className="editBtn text-center mt-5">
               <MainButton
                 text={"حفظ التعديل"}
@@ -114,6 +127,54 @@ function EditSub() {
           </Form>
         )}
       </Formik>
+      {/* success edit subscription */}
+      <Modal isOpen={showModal}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed"
+            onClick={handleCloseModal}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/weui_done2-outlined.png"
+            alt=""
+            height={"100px"}
+            width={"100px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            تم تعديل هذا الأشتراك بنجاح
+          </p>
+        </div>
+      </Modal>
+      {/* failed edit subscription */}
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed"
+            onClick={hanldleShowModalError}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt=""
+            height={"100px"}
+            width={"100px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            حدث خطأ أثناء تعديل هذا الأشتراك
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

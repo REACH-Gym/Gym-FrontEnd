@@ -3,9 +3,12 @@ import "./Support.css";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { Commet } from "react-loading-indicators";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
+import DeleteSupport from "./DeleteSupport";
+import { useNavigate } from "react-router-dom";
 function Support() {
   const [support, setSupport] = useState([]);
+  const [showDropdown , setShowDropdown] = useState(null);
+  const navigate =  useNavigate();
   useEffect(() => {
     async function supportData() {
       const response = await fetch(
@@ -27,6 +30,16 @@ function Support() {
     }
     supportData();
   }, []);
+  const handleToggleDropMenu = (id) =>{
+    if(showDropdown === id){
+      setShowDropdown(null);
+    }else{
+      setShowDropdown(id);
+    }
+  }
+  const handleDeleteSupport = (id)=>{
+    setSupport((prevSupport)=>prevSupport.filter((item)=>item.id !== id))
+  }
   return (
     <div className="supportContainer">
       {support.length > 0 ? (
@@ -34,15 +47,14 @@ function Support() {
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
               title={"جميع رسائل الدعم"}
-              subTitle={"لديك 7 رسائل جديدة"}
-              MainIcon={"/assets/image/subscriptions.png"}
+              MainIcon={"/assets/image/support-music-listen-headphone-earphone-headset-svgrepo-com.png"}
             />
           </div>
           <div className="tableContainer mt-2">
             <table className="table">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>#</th>
                   <th scope="col">رقم الجوال</th>
                   <th scope="col">الملاحظات</th>
                   <th scope="col">التاريخ</th>
@@ -53,15 +65,23 @@ function Support() {
               </thead>
               <tbody>
                 {support.map((support, index) => (
-                  <tr>
-                    <td>
-                      <input type="checkbox" className="selectedBox"/>
-                    </td>
+                  <tr className="tr" key={support.id} >
+                    <td className="fw-bolder">{index + 1}</td>
                     <td>{support.phone_number}</td>
-                    <td>{support.message}</td>
+                    <td onClick={()=>navigate(`/Home/Support/${support.id}`)} >{support.message.slice(0,50)}</td>
                     <td>{support.created_at.slice(0, 10)}</td>
                     <td className="text-center">
-                      <MoreVertIcon />
+                      <MoreVertIcon 
+                      onClick={()=>handleToggleDropMenu(support.id)} style={{cursor:"pointer"}}
+                      />
+                      {showDropdown === support.id && (
+                        <ul className="dropmenu">
+                          <li>
+                            <DeleteSupport id={support.id} 
+                            onDelete={handleDeleteSupport}/>
+                          </li>
+                        </ul>
+                      )}
                     </td>
                   </tr>
                 ))}

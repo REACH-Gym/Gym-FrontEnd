@@ -6,16 +6,11 @@
 .editForm {
   background-color: #fff;
   padding: 0px 150px 50px 150px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: 1px solid lightgray;
   width: 100%;
   margin: auto;
 }
 .editBtn button {
-  width: 20%;
-}
-.edit-img {
-  bottom: -5%;
-  right: 46%;
-  cursor: pointer;
+  width: 25%;
 }

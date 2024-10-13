@@ -9,7 +9,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
-import DeleteSubscripedMember from "./DeleteSubscripedMember";
 import Filter from "../../../Common Components/Filter/Filter";
 import { Active ,AlmostOver,Expired,Freezed } from "../../Status/Status";
 
@@ -67,26 +66,6 @@ function SubscripedMembers() {
       setPage((prev) => prev - 1);
     }
   };
-
-  const handleDelete = (id) => {
-    setSubscripedMembers((prev) => prev.filter((member) => member.id !== id));
-  };
-
-  // const getStatusArabicAndClass = (status) => {
-  //   switch (status) {
-  //     case "active":
-  //       return { text: "فعال", className: "status-active" };
-  //     case "almost over":
-  //       return { text: "أوشكت علي الأنتهاء", className: "status-almostOver" };
-  //     case "expired":
-  //       return { text: "منتهي", className: "status-expired" };
-  //     case "freezed":
-  //       return { text: "متجمد", className: "status-freezed" };
-  //     default:
-  //       return { text: "غير معروف", className: "status-unknown" };
-  //   }
-  // };
-
   return (
     <div className="allSubscriptionContainer mt-4">
       {SubscripedMembers.length > 0 ? (
@@ -115,36 +94,16 @@ function SubscripedMembers() {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col" className="pb-4">
-                        #
-                      </th>
-                      <th scope="col" className="pb-4">
-                        اسم العضو
-                      </th>
-                      <th scope="col" className="pb-4">
-                        رقم العضوية
-                      </th>
-                      <th scope="col" className="pb-4">
-                        الإجمالي
-                      </th>
-                      <th scope="col" className="pb-4">
-                        المدفوع
-                      </th>
-                      <th scope="col" className="pb-4">
-                        المتبقي
-                      </th>
-                      <th scope="col" className="pb-4">
-                        الخصم
-                      </th>
-                      <th scope="col" className="pb-4">
-                        تاريخ الاشتراك
-                      </th>
-                      <th scope="col" className="pb-4 text-center">
-                        الحالة
-                      </th>
-                      <th scope="col" className="pb-4 text-center">
-                        خيارات
-                      </th>
+                      <th scope="col" className="pb-4">#</th>
+                      <th scope="col" className="pb-4">اسم العضو</th>
+                      <th scope="col" className="pb-4">رقم العضوية</th>
+                      <th scope="col" className="pb-4">الإجمالي</th>
+                      <th scope="col" className="pb-4">المدفوع</th>
+                      <th scope="col" className="pb-4"> المتبقي</th>
+                      <th scope="col" className="pb-4">الخصم</th>
+                      <th scope="col" className="pb-4">تاريخ الاشتراك</th>
+                      <th scope="col" className="pb-4 text-center">الحالة</th>
+                      <th scope="col" className="pb-4 text-center">خيارات</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -196,49 +155,26 @@ function SubscripedMembers() {
               <table className="table border-1 mt-3">
                 <thead>
                   <tr>
-                    <th scope="col" className="pb-4">
-                      #
-                    </th>
-                    <th scope="col" className="pb-4">
-                      اسم العضو
-                    </th>
-                    <th scope="col" className="pb-4">
-                      رقم العضوية
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الإجمالي
-                    </th>
-                    <th scope="col" className="pb-4">
-                      المدفوع
-                    </th>
-                    <th scope="col" className="pb-4">
-                      المتبقي
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الخصم
-                    </th>
-                    <th scope="col" className="pb-4">
-                      تاريخ الاشتراك
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الحالة
-                    </th>
-                    <th scope="col" className="pb-4 text-center">
-                      خيارات
-                    </th>
+                    <th scope="col" className="pb-4">#</th>
+                    <th scope="col" className="pb-4">اسم العضو</th>
+                    <th scope="col" className="pb-4">رقم العضوية</th>
+                    <th scope="col" className="pb-4">الإجمالي</th>
+                    <th scope="col" className="pb-4">المدفوع</th>
+                    <th scope="col" className="pb-4">المتبقي</th>
+                    <th scope="col" className="pb-4">الخصم</th>
+                    <th scope="col" className="pb-4">تاريخ الاشتراك</th>
+                    <th scope="col" className="pb-4">الحالة</th>
+                    <th scope="col" className="pb-4 text-center">خيارات</th>
                   </tr>
                 </thead>
                 <tbody>
                   {SubscripedMembers.map((SubscripedMember, index) => {
-                    // const { text, className } = (
-                    //   SubscripedMember.status
-                    // );
                     return (
                       <tr
                         style={{ fontSize: "14px" }}
                         key={SubscripedMember.id}
                       >
-                        <td>{index + 1 + (page - 1) * per_page}</td>
+                        <td className="fw-bolder">{index + 1 + (page - 1) * per_page}</td>
                         <td>{SubscripedMember.user.name}</td>
                         <td>{SubscripedMember.user.national_id}</td>
                         <td>{SubscripedMember.membership.price}</td>
@@ -261,9 +197,6 @@ function SubscripedMembers() {
                           />
                           {showDropdown === SubscripedMember.id && (
                             <ul className="drop-menu">
-                              <li>
-                                <WhatsAppIcon /> اعادة ارسال
-                              </li>
                               <li
                                 onClick={() =>
                                   navigate(
@@ -272,15 +205,6 @@ function SubscripedMembers() {
                                 }
                               >
                                 <InfoOutlinedIcon /> تفاصيل
-                              </li>
-                              <li>
-                                <DriveFileRenameOutlineOutlinedIcon /> تعديل
-                              </li>
-                              <li>
-                                <DeleteSubscripedMember
-                                  member={SubscripedMember}
-                                  onDelete={handleDelete}
-                                />
                               </li>
                             </ul>
                           )}
@@ -322,5 +246,4 @@ function SubscripedMembers() {
     </div>
   );
 }
-
 export default SubscripedMembers;

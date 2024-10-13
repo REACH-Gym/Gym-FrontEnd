@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 import Modal from "../../../Common Components/Modal/Modal";
-
 function DeleteMember({ id, onDelete }) {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
-
+  const [openFailedDeletModal, setOpenFailedDeletModal] = useState(false);
   const handleDelete = async () => {
     try {
       const response = await fetch(
@@ -20,17 +17,17 @@ function DeleteMember({ id, onDelete }) {
           },
         }
       );
-      console.log(id)
+      console.log(id);
 
       if (response.ok) {
         onDelete(id);
-
       } else {
-        toast.error("Failed to delete member");
+        console.log("failed to deactive this member!");
+        setShowModal(false);
+        setOpenFailedDeletModal(true);
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while deleting the member");
     }
   };
   const handleShowModal = () => {
@@ -39,23 +36,39 @@ function DeleteMember({ id, onDelete }) {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  const handleShowFailedModal = () => {
+    setOpenFailedDeletModal(false);
+  };
   return (
     <>
-      <p onClick={handleShowModal} style={{ cursor: "pointer" }} className="m-0">
+      <p
+        onClick={handleShowModal}
+        style={{ cursor: "pointer" }}
+        className="m-0"
+      >
         <DeleteOutlineOutlinedIcon className="dropdown__icon" /> حذف
       </p>
       {showModal && (
-        <Modal isOpen={showModal} onClose={handleCloseModal}>
+        <Modal isOpen={showModal}>
           <div>
-            <p className="text-center mt-4 fs-5 text-dark fw-bolder">
+            <div className="text-center mt-4">
+              <img
+                src="/assets/image/ph_warning-bold.png"
+                alt="delete-img"
+                width={"`100px"}
+                height={"100px"}
+                style={{padding:"12px"}}
+              />
+            </div>
+            <p className="text-center mt-2  text-dark fw-bolder">
               هل انت متأكد انك تريد حذف هذا العضو؟
             </p>
-            <div className="text-center delete mt-5 mb-4">
+            <div className="text-center delete mt-3 mb-4 ">
               <button
                 onClick={handleDelete}
                 className="border-0 text-center fw-bolder tetx-dark p-2 rounded ms-3 delete-btn"
               >
-                نعم, حذف
+                تأكيد
               </button>
               <button
                 onClick={handleCloseModal}
@@ -65,9 +78,33 @@ function DeleteMember({ id, onDelete }) {
               </button>
             </div>
           </div>
-          <ToastContainer/>
         </Modal>
       )}
+
+      <Modal isOpen={openFailedDeletModal}>
+        <div>
+          <div className="d-flex justify-content-end">
+            <button
+              className="border-0 pt-4 ps-4 failed fw-bolder"
+              onClick={handleShowFailedModal}
+            >
+              X
+            </button>
+          </div>
+          <div className="text-center mt-4">
+            <img
+              src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+              alt="delete-img"
+              width={"100px"}
+              height={"100px"}
+              style={{padding:"12px"}}
+            />
+          </div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            حدث خظأ أثناء حذف هذا العضو
+          </p>
+        </div>
+      </Modal>
     </>
   );
 }

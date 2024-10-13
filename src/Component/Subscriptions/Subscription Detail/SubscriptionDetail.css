@@ -5,7 +5,7 @@
 }
 .subscriptionDetailContainer__items {
   border: 1px solid lightgray;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #fff;
   height: 100vh;
   padding: 20px;

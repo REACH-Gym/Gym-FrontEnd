@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { toast, ToastContainer } from "react-toastify";
 import Modal from "../../../Common Components/Modal/Modal";
 function ActiveSub({ id, onActive }) {
   const access_token = localStorage.getItem("access");
@@ -16,22 +14,18 @@ function ActiveSub({ id, onActive }) {
             "Content-Type": "application/json",
             Authorization: access_token,
           },
+          body:JSON.stringify({is_active:true}),
         }
       );
       if (response.ok) {
-        toast.success("Subscription Activated successfully");
+        setShowModal(true);
         console.log("Subscription Activated successfully");
         onActive(id);
       } else {
-        toast.error("Failed to Activated Subscription");
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while Activating the Subscription");
     }
-  };
-  const handleShowModal = () => {
-    setShowModal(true);
   };
   const handleCloseModal = () => {
     setShowModal(false);
@@ -47,6 +41,18 @@ function ActiveSub({ id, onActive }) {
         />
         <li onClick={handleActive}>تفعيل الاشتراك</li>
       </div>
+
+      <Modal isOpen={showModal}>
+        <div>
+          <button onClick={handleCloseModal}>X</button>
+        </div>
+        <div>
+          <img src="/assets/image/weui_done2-outlined.png" alt="" />
+        </div>
+        <div>
+          <p>تم اعادة تفعيل هذا الأشتراك بنجاح</p>
+        </div>
+      </Modal>
     </div>
   );
 }

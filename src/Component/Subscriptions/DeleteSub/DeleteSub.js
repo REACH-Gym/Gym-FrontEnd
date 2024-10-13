@@ -16,6 +16,7 @@ function DeleteSub({id , onDelete}) {
             "Content-Type": "application/json",
             Authorization: access_token,
           },
+          body:JSON.stringify({is_active:false}),
         }
       );
       if (response.ok) {
@@ -38,14 +39,17 @@ function DeleteSub({id , onDelete}) {
   }
   return (
     <div>
-      <p onClick={handleShowModal} >
-        <DeleteOutlineOutlinedIcon className="dropdown__icon" /> حذف
+      <p onClick={handleShowModal} className="m-0">
+        <DeleteOutlineOutlinedIcon className="dropdown__icon " /> حذف
       </p>
       <ToastContainer/>
      {showModal && (
       <Modal isOpen={showModal} onClose={handleCloseModal}>
-         <p className="text-center mt-5 fs-6 text-dark ">هل أنت متأكد من انك تريد حذف هذا الأشتراك؟</p>
-         <div className="mb-4 mt-4 delete text-center">
+        <div className="text-center mt-4">
+          <img src="/assets/image/ph_warning-bold.png" alt="delete subscription"/>
+        </div>
+         <p className="text-center mt-3 fs-6 text-dark fw-bolder ">هل أنت متأكد من انك تريد حذف هذا الأشتراك؟</p>
+         <div className="mb-4 delete text-center">
           <button onClick={handleDelete} className="border-0 text-center fw-bolder tetx-dark p-2 rounded ms-3 delete-btn">نعم, حذف</button>
           <button onClick={handleCloseModal} className="border-0 text-center fw-bolder tetx-dark p-2 rounded ms-3 canel-delete">الغاء</button>
          </div>

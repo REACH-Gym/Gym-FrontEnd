@@ -10,6 +10,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
+
 function AllMembers() {
   const navigate = useNavigate();
   const [allMembers, setAllMembers] = useState([]);
@@ -19,10 +20,13 @@ function AllMembers() {
   const [per_page] = useState(10);
   const access_token = localStorage.getItem("access");
   const [results, setResults] = useState([]);
-  console.log(results);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchAllMembers() {
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/members/?page=${page}&per_page=${per_page}`,
@@ -34,20 +38,31 @@ function AllMembers() {
             },
           }
         );
+        console.log("Response status:", response.status);
         const result = await response.json();
-        if (response.ok) {
-          setAllMembers(result.data.users);
-          setTotalPages(result.data.meta.total_pages);
+        console.log("Fetched result:", result);
+
+        if (response.ok && result.status === "success") {
+          if (result.data && result.data.users.length > 0) {
+            setAllMembers(result.data.users);
+            setTotalPages(result.data.meta.total_pages);
+          } else {
+            setError("لا يوجد أعضاء");
+          }
         } else {
-          console.error("Unexpected response:", response);
+          setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
         }
-      } catch (error) {
-        console.error("Error fetching members:", error);
+      } catch (networkError) {
+        setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
+        console.error("Network error:", networkError);
+      } finally {
+        setLoading(false);
       }
     }
+
     fetchAllMembers();
   }, [access_token, page, per_page]);
-  
+
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));
   };
@@ -70,7 +85,6 @@ function AllMembers() {
         member.id === id ? { ...member, is_active: false } : member
       )
     );
-    window.location.reload();
   };
 
   const handleActiveMember = (id) => {
@@ -79,11 +93,41 @@ function AllMembers() {
         member.id === id ? { ...member, is_active: true } : member
       )
     );
-    window.location.reload();
   };
+
+  const handleDeleteMemberInFilter = (id) => {
+    setAllMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.id === id ? { ...member, is_active: false } : member
+      )
+    );
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+  };
+
+  const handleActiveMemberInFilter = (id) => {
+    setAllMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.id === id ? { ...member, is_active: true } : member
+      )
+    );
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+  };
+
   return (
     <div className="allMembereContainer">
-      {allMembers.length > 0 ? (
+      {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : error ? (
+        <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center" style={{height:"50vh" }}>
+          لا يوجد اعضاء
+        </div>
+      ) : (
         <div className="allMembereContainer__items">
           <div>
             <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
@@ -100,18 +144,15 @@ function AllMembers() {
               />
               <ComponentBtns />
             </div>
-
-            {results?.data?.users?.length > 0 ? (
+            {results?.data?.users?.length === 0 ? (
               <div
-                className="p-3"
-                style={{
-                  margin: "10px 0 0 10px",
-                  borderRadius: "10px",
-                  backgroundColor: "white",
-                  bottom: 0,
-                  left: 0,
-                }}
+                className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+                style={{ color: "red", height: "60vh" }}
               >
+                لم يتم العثور علي نتائج مطابقة
+              </div>
+            ) : results?.data?.users?.length > 0 ? (
+              <div className="p-3">
                 <div className="tableContainer">
                   <table className="table">
                     <thead>
@@ -123,6 +164,7 @@ function AllMembers() {
                         <th className="p-2 pt-3 pb-3">تاريخ التسجيل</th>
                         <th className="p-2 pt-3 pb-3">الرصيد</th>
                         <th className="p-2 pt-3 pb-3">تاريخ الميلاد</th>
+                        <th className="p-2 pt-3 pb-3">حالة العضو</th>
                         <th className="p-2 pt-3 pb-3">خيارات</th>
                       </tr>
                     </thead>
@@ -133,18 +175,24 @@ function AllMembers() {
                           className={
                             item.is_active ? "member-active" : "member-inactive"
                           }
-                          style={{
-                            fontSize: "14px",
-                          }}
                         >
-                          <th scope="row">{index + 1}</th>
+                          <th
+                            scope="row"
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: "lighter",
+                            }}
+                          >
+                            {index + 1}
+                          </th>
                           <td>{item.name}</td>
                           <td>{item.phone_number}</td>
                           <td>{item.national_id}</td>
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td className="fs-5 fw-bolder text-center">
+                          <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                          <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}
                               style={{ cursor: "pointer" }}
@@ -169,14 +217,14 @@ function AllMembers() {
                                     <li>
                                       <DeleteMember
                                         id={item.id}
-                                        onDelete={handleDeleteMember}
+                                        onDelete={handleDeleteMemberInFilter}
                                       />
                                     </li>
                                   </>
                                 ) : (
                                   <MemberActivate
                                     id={item.id}
-                                    onActive={handleActiveMember}
+                                    onActive={handleActiveMemberInFilter}
                                   />
                                 )}
                               </ul>
@@ -200,7 +248,7 @@ function AllMembers() {
                         الأسم
                       </th>
                       <th scope="col" className="pb-4">
-                        الجوال
+                        رقم الجوال
                       </th>
                       <th scope="col" className="pb-4">
                         رقم العضوية
@@ -215,61 +263,61 @@ function AllMembers() {
                         تاريخ الميلاد
                       </th>
                       <th scope="col" className="pb-4">
+                        حالة العضو
+                      </th>
+                      <th scope="col" className="pb-4">
                         خيارات
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {allMembers.map((member, index) => (
+                    {allMembers.map((item, index) => (
                       <tr
-                        key={member.id}
+                        key={item.id}
                         className={
-                          member.is_active ? "member-active" : "member-inactive"
+                          item.is_active ? "member-active" : "member-inactive"
                         }
-                        style={{
-                          fontSize: "14px",
-                          textAlign: "right",
-                        }}
                       >
-                        <th scope="row">{index + 1 + (page - 1) * per_page}</th>
-                        <td>{member.name}</td>
-                        <td>{member.phone_number}</td>
-                        <td>{member.national_id}</td>
-                        <td>{member.created_at.slice(0, 10)}</td>
-                        <td>{0}</td>
-                        <td>{member.date_of_birth}</td>
-                        <td className="fs-5 fw-bolder text-center">
+                        <th scope="row">{index + 1}</th>
+                        <td>{item.name}</td>
+                        <td>{item.phone_number}</td>
+                        <td>{item.national_id}</td>
+                        <td>{item.created_at.slice(0, 10)}</td>
+                        <td>0</td>
+                        <td>{item.date_of_birth}</td>
+                        <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                        <td className="text-center">
                           <MoreVertIcon
-                            onClick={() => toggleDropdown(member.id)}
+                            onClick={() => toggleDropdown(item.id)}
                             style={{ cursor: "pointer" }}
                           />
-                          {showDropdown === member.id && (
+                          {showDropdown === item.id && (
                             <ul className="drop-menu">
-                              {member.is_active ? (
+                              {item.is_active ? (
                                 <>
                                   <li
                                     onClick={() =>
                                       navigate(
-                                        `/Home/AllMembers/${member.id}/edit`,
+                                        `/Home/AllMembers/${item.id}/edit`,
                                         {
-                                          state: { member: member },
+                                          state: { member: item },
                                         }
                                       )
                                     }
                                   >
-                                    <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />{" "}
+                                    <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />
                                     تعديل
                                   </li>
                                   <li>
                                     <DeleteMember
-                                      id={member.id}
+                                      id={item.id}
                                       onDelete={handleDeleteMember}
                                     />
                                   </li>
                                 </>
                               ) : (
                                 <MemberActivate
-                                  id={member.id}
+                                  id={item.id}
                                   onActive={handleActiveMember}
                                 />
                               )}
@@ -280,6 +328,23 @@ function AllMembers() {
                     ))}
                   </tbody>
                 </table>
+                {/* <div className="pagination">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={page === 1}
+                    className="btn btn-primary"
+                  >
+                    السابق
+                  </button>
+                  <span className="page-number">{`صفحة ${page} من ${totalPages}`}</span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={page === totalPages}
+                    className="btn btn-primary"
+                  >
+                    التالي
+                  </button>
+                </div> */}
                 <div className="d-flex justify-content-center align-items-center mt-5">
                   <div className="preivous-btn">
                     <MainButton
@@ -302,15 +367,14 @@ function AllMembers() {
                   </div>
                 </div>
               </div>
+
+              // </div>
             )}
           </div>
-        </div>
-      ) : (
-        <div className="loader">
-          <Commet color="#316dcc" size="medium" text="" textColor="" />
         </div>
       )}
     </div>
   );
 }
+
 export default AllMembers;

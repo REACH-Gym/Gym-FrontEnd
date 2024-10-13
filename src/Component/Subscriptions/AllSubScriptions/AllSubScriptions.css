@@ -3,3 +3,13 @@
   padding: 80px 0px 0px 0px;
   width: 100%;
 }
+.active-subscription {
+  background-color: white !important;
+}
+.inactive-subscription {
+  background-color: #f0f0f0 !important;
+}
+.tableContainer th,
+.tableContainer td {
+  background-color: transparent;
+}

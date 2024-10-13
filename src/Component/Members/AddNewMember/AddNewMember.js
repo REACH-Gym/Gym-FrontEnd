@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AddNewMember.css";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import {useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
+import Modal from "../../../Common Components/Modal/Modal";
 function AddNewMember() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
-
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const handleSubmit = async (value) => {
     try {
       const genderValue = value.gender === "انثي" ? "F" : "M";
@@ -25,7 +26,7 @@ function AddNewMember() {
         gender: genderValue,
       };
 
-      const data = await fetch(
+      const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/members",
         {
           method: "POST",
@@ -38,21 +39,20 @@ function AddNewMember() {
         }
       );
 
-      const result = await data.json();
-      console.log("Response status:", data.status);
+      const result = await response.json();
+      console.log("Response status:", response.status);
       console.log("Response result:", result);
 
-      if (data.ok) {
-        toast.success("Member Added Successfully");
+      if (response.ok) {
+        setShowModal(true);
         setTimeout(() => {
           navigate("/Home/AllMembers");
-        }, 1500);
+        }, 3000);
       } else {
-        toast.error("Failed. Please check your credentials.");
+        setShowModalError(true);
       }
     } catch (error) {
       console.error("Error during submission:", error);
-      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -75,10 +75,15 @@ function AddNewMember() {
     date_of_birth: "",
     gender: "",
   };
-
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleCloseModalError = () => {
+    setShowModalError(false);
+  };
   return (
     <div className="addMemberContainer">
-      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+      <div className="d-flex align-items-center justify-content-between pe-2">
         <ComponentTitle
           MainIcon={"/assets/image/Vector.png"}
           title={"اضافة عضو "}
@@ -140,7 +145,54 @@ function AddNewMember() {
           </Form>
         </Formik>
       </div>
-      <ToastContainer />
+      {/* suucess ading member */}
+      <Modal isOpen={showModal}>
+        <div>
+          <div className="d-flex justify-content-end">
+            <button
+              className="border-0 pt-4 ps-4 failed fw-bolder"
+              onClick={handleCloseModal}
+            >
+              X
+            </button>
+          </div>
+          <div className="text-center mt-4">
+            <img
+              src="/assets/image/weui_done2-outlined.png"
+              alt="add memeber"
+              width={"90px"}
+              height={"90px"}
+            />
+          </div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            لقد تم إضافة العضو بنجاح
+          </p>
+        </div>
+      </Modal>
+      {/* failed adding member */}
+      <Modal isOpen={showModalError}>
+        <div>
+          <div className="d-flex justify-content-end">
+            <button
+              className="border-0 pt-4 ps-4 failed fw-bolder"
+              onClick={handleCloseModalError}
+            >
+              X
+            </button>
+          </div>
+          <div className="text-center mt-4">
+            <img
+              src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+              alt="delete member"
+              width={"100px"}
+              height={"100px"}
+            />
+          </div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            فشلت محاولة إضافة العضو
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

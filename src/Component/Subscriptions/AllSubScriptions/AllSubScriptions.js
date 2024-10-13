@@ -9,6 +9,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteSub from "../DeleteSub/DeleteSub";
 import ActiveSub from "../DeleteSub/ActivateSub";
+import "./AllSubScriptions.css";
 function AllSubScriptions() {
   const [allSubscription, setAllSubscriptions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -18,8 +19,6 @@ function AllSubScriptions() {
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
-  console.log(results);
-  console.log("lenghttttt", results?.length);
   useEffect(() => {
     async function fetchAllSubscriptionS() {
       try {
@@ -82,6 +81,25 @@ function AllSubScriptions() {
     );
   };
 
+  // const handleDeActiveSubsription = (id) => {
+  //   setAllSubscriptions((prevSub) =>
+  //     prevSub.map((subscription) =>
+  //       subscription.id === id
+  //         ? { ...subscription, is_active: false }
+  //         : subscription
+  //     )
+  //   );
+  // };
+  // const handleActiveSub = (id) => {
+  //   setAllSubscriptions((prevSub) =>
+  //     prevSub.map((subscription) =>
+  //       subscription.id === id
+  //         ? { ...subscription, is_active: true }
+  //         : subscription
+  //     )
+  //   );
+  // };
+
   return (
     <div className="allSubscriptionContainer">
       {allSubscription.length > 0 ? (
@@ -134,7 +152,11 @@ function AllSubScriptions() {
                     {results?.data?.memberships?.map((item, index) => (
                       <tr
                         key={item.id}
-                        style={{ fontSize: "14px", textAlign: "right" }}
+                        className={
+                          item.is_active
+                            ? "active-subscription"
+                            : "inactive-subscription"
+                        }
                       >
                         <th scope="row">{index + 1 + (page - 1) * per_page}</th>
                         <td>{item.name}</td>
@@ -164,8 +186,8 @@ function AllSubScriptions() {
                               </li>
                               <li>
                                 <DeleteSub
-                                // onDelete={handleDeleteSub}
-                                // id={item.id}
+                                  onDelete={handleDeActiveSubsription}
+                                  id={item.id}
                                 />
                               </li>
                             </ul>
@@ -196,7 +218,11 @@ function AllSubScriptions() {
                 <tbody>
                   {allSubscription.map((subscription, index) => (
                     <tr
-                      style={{ fontSize: "14px", textAlign: "right" }}
+                      className={
+                        subscription.is_active
+                          ? "active-subscription"
+                          : "inactive-subscription"
+                      }
                       key={subscription.id}
                     >
                       <th scope="row">{index + 1 + (page - 1) * per_page}</th>

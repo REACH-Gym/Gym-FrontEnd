@@ -12,9 +12,10 @@ function AddNewMemberToSub() {
   const access_token = localStorage.getItem("access");
   const [users, setUsers] = useState([]);
   const [membership, setMemberShip] = useState([]);
-  const [subscription,setSubscription] = useState([]);
+  const [subscription, setSubscription] = useState([]);
+  const [memberShipPrice, setMemberShipPrice] = useState(0);
   useEffect(() => {
-    // get users
+    // fetch users
     async function fetchData() {
       try {
         const response = await fetch(
@@ -28,15 +29,14 @@ function AddNewMemberToSub() {
           }
         );
         const user = await response.json();
-        console.log('users',user);
+        console.log("users", user);
 
         if (response.ok) {
           setUsers(user.data.users);
-          console.log('Usersssssssssssssss',user.data.users);
-          console.log('User data fetched successfully');
+          console.log("User data fetched successfully");
         } else {
           console.warn("User  data is not available.");
-          setUsers(null)
+          setUsers(null);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -64,7 +64,6 @@ function AddNewMemberToSub() {
         if (response.ok) {
           console.log("membership fetched successufully");
           setMemberShip(result.data.memberships);
-          console.log(result.data.memberships);
         } else {
           console.error("membership failed to fetch");
           setMemberShip(null);
@@ -74,7 +73,7 @@ function AddNewMemberToSub() {
       }
     }
     fetchMemberShips();
-  }, []);
+  }, [access_token]);
 
   // adding member to subscriptions
   const handleSubmit = async (values) => {
@@ -104,12 +103,12 @@ function AddNewMemberToSub() {
       const subscriptions = await response.json();
       console.log(subscriptions);
       if (response.ok) {
-        setSubscription(subscriptions.data)
-        console.log('subbbbbbbb',subscriptions.data)
+        setSubscription(subscriptions.data);
+        console.log("subbbbbbbb", subscriptions.data);
         console.log("success");
         setTimeout(() => {
-            navigate('/Home/SubscripedMembers');
-        }, 1500);
+          navigate("/Home/SubscripedMembers");
+        }, 3000);
       } else {
         console.log("failed");
       }
@@ -122,7 +121,7 @@ function AddNewMemberToSub() {
     membership: "",
     notes: "",
     start_date: "",
-    discount: "",
+    discount: 0,
     status: "active",
   };
   const validationSchema = Yup.object({
@@ -130,7 +129,7 @@ function AddNewMemberToSub() {
     membership: Yup.string().required("هذا الحقل الزامي"),
     notes: Yup.string().required("هذا الحقل الزامي"),
     start_date: Yup.date().required("هذا الحقل الزامي"),
-    discount: Yup.date().required("هذا الحقل الزامي"),
+    discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
   });
   return (
     <div className="addNewSubscriptionsContainer mt-5">
@@ -148,102 +147,103 @@ function AddNewMemberToSub() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className="AddNewSubscriptionForm">
-              <div>
-                <InputField
-                  name={"user"}
-                  label={"اسم العضو"}
-                  inputType={"select"}
-                  className="mb-4"
-                >
-                  <option value="">اختر العضو</option>
-                  {users?.length > 0 ? (
-                    users.map((user, index) => (
-                      <option key={user.id} value={user.id}>
-                        {user.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option>لا يوجد أعضاء متاحين</option>
-                  )}
-                </InputField>
-              </div>
-              <div>
-                <InputField
-                  name={"membership"}
-                  label={"نوع الأشتراك"}
-                  inputType={"select"}
-                  className="mb-4"
-                >
-                  <option value="">اختر الاشتراك</option>
-                  {membership.length > 0 ? (
-                    membership.map((membershipItem, index) => (
-                      <option key={membershipItem.id} value={membershipItem.id}>
-                        {membershipItem.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option>لاتوجد اشتراكات متاحة</option>
-                  )}
-                </InputField>
-              </div>
-              <div>
-                <InputField
-                  name={"start_date"}
-                  label={"تاريخ البداية"}
-                  type="date"
-                />
-              </div>
-              <div>
-                <InputField
-                  name={"notes"}
-                  label={"الملاحظات"}
-                  className="mt-3"
-                />
-              </div>
-              <div>
-                <InputField
-                  name={"discount"}
-                  label={"الخصم"}
-                  className="mb-3"
-                />
-              </div>
-              {/* <div>
-                <InputField
-                  name={"payment_method"}
-                  label={"طريقة الدفع"}
-                  inputType={"select"}
-                  className="mb-3"
-                >
-                  <option value="">اختر طريقة الدفع</option>
-                  <option>طريقة الدفع 1</option>
-                  <option>طريقة الدفع 2</option>
-                  <option>طريقة الدفع 3</option>
-                  <option>طريقة الدفع 4</option>
-                </InputField>
-              </div> */}
-              <div className="d-flex justify-content-between mt-4">
+            {({ values, setFieldValue }) => (
+              <Form className="AddNewSubscriptionForm">
                 <div>
-                  <p>الإجمالي قبل الخصم</p>
-                  <p>الخصم</p>
-                  {/* <p>الإجمالي قبل الضريبة</p> */}
-                  <p>الضريبة</p>
-                  <p>الإجمالي</p>
-                  {/* <p>المتبقي</p> */}
+                  <InputField
+                    name={"user"}
+                    label={"اسم العضو"}
+                    inputType={"select"}
+                    className="mb-4"
+                  >
+                    <option value="">اختر العضو</option>
+                    {users?.length > 0 ? (
+                      users.map((user, index) => (
+                        <option key={user.id} value={user.id}>
+                          {user.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option>لا يوجد أعضاء متاحين</option>
+                    )}
+                  </InputField>
                 </div>
                 <div>
-                  <p>400</p>
-                  <p>390</p>
-                  {/* <p>400</p> */}
-                  <p>15%</p>
-                  <p>390</p>
-                  {/* <p>10</p> */}
+                  <InputField
+                    name={"membership"}
+                    label={"نوع الأشتراك"}
+                    inputType={"select"}
+                    className="mb-4"
+                  >
+                    <option value="">اختر الاشتراك</option>
+                    {membership.length > 0 ? (
+                      membership.map((membershipItem, index) => (
+                        <option
+                          key={membershipItem.id}
+                          value={membershipItem.id}
+                        >
+                          {membershipItem.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option>لاتوجد اشتراكات متاحة</option>
+                    )}
+                  </InputField>
                 </div>
-              </div>
-              <div className="mt-5 addBtn text-center">
-                <MainButton text={"اضافة"} btnType={"submit"} />
-              </div>
-            </Form>
+                <div>
+                  <InputField
+                    name={"start_date"}
+                    label={"تاريخ البداية"}
+                    type="date"
+                  />
+                </div>
+                <div>
+                  <InputField
+                    name={"notes"}
+                    label={"الملاحظات"}
+                    className="mt-3"
+                  />
+                </div>
+                <div>
+                  <InputField
+                    name={"discount"}
+                    label={"الخصم"}
+                    className="mb-3"
+                    onChange={(e) => {
+                      const discount = parseFloat(e.target.value) || 0;
+                      setFieldValue("discount", discount);
+                      setFieldValue(
+                        "totalPrice",
+                        (setMemberShipPrice * (1 - discount / 100)).toFixed(2)
+                      );
+                    }}
+                  />
+                </div>
+                <div className="d-flex justify-content-between mt-4">
+                  <div>
+                    <p>الإجمالي قبل الخصم</p>
+                    <p>الخصم</p>
+                    <p>الضريبة</p>
+                    <p>الإجمالي</p>
+                  </div>
+                  <div>
+                    <p>{subscription.actual_price}</p>
+                    <p>{values.discount || 0}</p>
+                    <p>15%</p>
+                    <p>
+                      {(
+                        memberShipPrice *
+                        (1 - values.discount / 100) *
+                        1.15
+                      ).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 addBtn text-center">
+                  <MainButton text={"اضافة"} btnType={"submit"} />
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>

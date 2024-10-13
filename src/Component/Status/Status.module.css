@@ -19,8 +19,8 @@
   color: #ff6666;
 }
 .closeToFiniteStatus {
-  background-color: #f1d4ff;
-  color: #ba29ff;
+  background-color:rgba(237, 199, 10,0.2);
+  color: #EDC70A;
 }
 .freezedStatus {
   background-color:  rgba(0, 106, 234,0.2);

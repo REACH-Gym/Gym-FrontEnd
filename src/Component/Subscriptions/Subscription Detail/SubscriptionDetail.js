@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SubscriptionDetail.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Commet } from "react-loading-indicators";
 import { useParams } from "react-router-dom";
 
@@ -50,7 +49,7 @@ function SubscriptionDetail() {
               MainIcon={"/assets/image/subscriptions.png"}
             />
           </div>
-          <div className="subscriptionDetailContainer__items">
+          <div className="subscriptionDetailContainer__items mt-3">
             <div className="mt-4">
               <img src="/assets/image/logo(1).png" alt="" />
             </div>
@@ -61,7 +60,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">اسم العميل</p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.user.name}</p>{" "}
+                  <p style={{ fontSize: "13px" }}>{subDetail.user.name}</p>
                 </div>
               </div>
               <div className="d-flex">
@@ -100,7 +99,7 @@ function SubscriptionDetail() {
                   <img src="/assets/image/ph_money (1).png" alt="" />
                 </div>
                 <div>
-                  <p className="mb-1 fw-bolder">الاجمالي الفرعي</p>
+                  <p className="mb-1 fw-bolder">السعر الأصلي </p>
                   <p style={{ fontSize: "13px" }}>{subDetail.actual_price} ريال</p>
                 </div>
               </div>
@@ -111,7 +110,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">الخصم (%)</p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.discount} ريال</p>
+                  <p style={{ fontSize: "13px" }}>{subDetail.discount}</p>
                 </div>
               </div>
               <div className="d-flex">
@@ -120,7 +119,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">الضريبة (10%)</p>
-                  <p style={{ fontSize: "13px" }}>0 ريال</p>
+                  <p style={{ fontSize: "13px" }}>15%</p>
                 </div>
               </div>
               <div className="d-flex">
@@ -128,11 +127,11 @@ function SubscriptionDetail() {
                   <img src="/assets/image/ph_money (1).png" alt="" />
                 </div>
                 <div>
-                  <p className="mb-1 fw-bolder">الإجمالي النهائي</p>
+                  <p className="mb-1 fw-bolder">الإجمالي النهائي  </p>
                   <p style={{ fontSize: "13px" }}>0 ريال</p>
                 </div>
               </div>
-              <div className="d-flex">
+              {/* <div className="d-flex">
                 <div className="ms-3">
                   <img src="/assets/image/ph_money (1).png" alt="" />
                 </div>
@@ -140,7 +139,7 @@ function SubscriptionDetail() {
                   <p className="mb-1 fw-bolder">مدى</p>
                   <p style={{ fontSize: "13px" }}>0 ريال</p>
                 </div>
-              </div>
+              </div> */}
               <div className="d-flex">
                 <div className="ms-3">
                   <img src="/assets/image/bx_edit (1).png" alt="" />

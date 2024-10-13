@@ -63,7 +63,7 @@ function SidebarBox() {
       icon: <Diversity2OutlinedIcon />,
       itemId: "groups",
       subItems: [
-        { title: "جميع المجموعات", navigateTo: "GroupsContainer" },
+        { title: "أعضاء المجموعات", navigateTo: "GroupsContainer" },
         { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
         { title: "اضافة عضو لمجموعة", navigateTo: "AddGroupMember" },
       ],

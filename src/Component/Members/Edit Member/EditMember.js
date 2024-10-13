@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import "./EditMember.css";
 import InputField from "../../../Common Components/InputField/InputField";
+import Modal from "../../../Common Components/Modal/Modal";
 
 function EditMember() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
   const member = location.state?.member;
 
   const [initialValues, setInitialValues] = useState({
@@ -27,7 +30,7 @@ function EditMember() {
         phone_number: member.phone_number,
         national_id: member.national_id,
         date_of_birth: member.date_of_birth,
-        gender: member.gender === "أنثى" ? "انثى" : "ذكر",
+        gender: member.gender === "F" ? "انثي" : "ذكر",
       });
     }
   }, [member]);
@@ -40,34 +43,50 @@ function EditMember() {
     gender: Yup.string().required("مطلوب"),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values) => {
+    const formattedValues = {
+      ...values,
+      gender: values.gender === "انثي" ? "F" : "M",
+      date_of_birth: new Date(values.date_of_birth).toISOString().split("T")[0],
+    };
     try {
       const response = await fetch(
         `https://gym-backend-production-65cc.up.railway.app/members/${member.id}`,
         {
           method: "PATCH",
           headers: {
-            Authorization: localStorage.getItem("access"),
+            Authorization:localStorage.getItem("access"),
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(values), // The values will now include gender
+          body: JSON.stringify(formattedValues),
         }
       );
-
+      const updatedMember = await response.json();
       if (response.ok) {
-        const updatedMember = await response.json();
-        navigate("/Home/AllMembers", { state: { updatedMember } });
+        setShowModal(true);
+        setTimeout(() => {
+          navigate("/Home/AllMembers", { state: { updatedMember } });
+        }, 3000);
       } else {
-        console.error("Failed to update member");
+        console.error("Failed to update member", updatedMember);
+        setShowModalError(true);
       }
     } catch (error) {
       console.error("Error updating member:", error);
     }
   };
+  
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCloseModalError = () => {
+    setShowModalError(false);
+  };
 
   return (
     <div className="editMemberContainer">
-      <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+      <div className="d-flex align-items-center justify-content-between pe-2">
         <ComponentTitle
           MainIcon={"/assets/image/Vector.png"}
           title={" تعديل عضو "}
@@ -80,7 +99,6 @@ function EditMember() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
           <Form className="editForm">
             <div className="row g-4 mb-5 mt-5">
               <div className="col-4 col-lg-6">
@@ -108,7 +126,7 @@ function EditMember() {
                   inputType={"select"}
                 >
                   <option value="">{"أختر نوع"}</option>
-                  <option value="انثى">{"انثى"}</option>
+                  <option value="انثي">{"انثي"}</option>
                   <option value="ذكر">{"ذكر"}</option>
                 </InputField>
               </div>
@@ -117,14 +135,58 @@ function EditMember() {
               <MainButton
                 text={"حفظ التعديل"}
                 btnType={"submit"}
-                disabled={isSubmitting}
               />
             </div>
           </Form>
-        )}
       </Formik>
+
+      <Modal isOpen={showModal}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed fw-bolder"
+            onClick={handleCloseModal}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/weui_done2-outlined.png"
+            alt="edit member"
+            height={"90px"}
+            width={"90px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            تم تعديل العضو بنجاح
+          </p>
+        </div>
+      </Modal>
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed fw-bolder"
+            onClick={handleCloseModalError}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt="edit member"
+            height={"90px"}
+            width={"90px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            حدث خطأ أثناء تعديل هذا العضو
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }
-
 export default EditMember;

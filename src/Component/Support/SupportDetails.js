@@ -1,0 +1,82 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+function SupportDetails() {
+  const { id } = useParams();
+  const [supportDetail, setSupportDetail] = useState([]);
+  useEffect(() => {
+    async function fetchSupportDetails() {
+      try {
+        const response = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/support/${id}/`,
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization: localStorage.getItem("access"),
+            },
+          }
+        );
+        const successGetDetails = await response.json();
+        console.log(successGetDetails);
+        if (response.ok) {
+          console.log("success get details");
+          setSupportDetail(successGetDetails.data);
+        } else {
+          console.log("failed get details");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchSupportDetails();
+  }, [id]);
+  return (
+    <div className="supportDetailContainer">
+      <div className="d-flex align-items-center justify-content-between pe-2">
+        <ComponentTitle
+          title={"التفاصيل الخاصة برسالة الدعم"}
+          MainIcon={
+            "/assets/image/support-music-listen-headphone-earphone-headset-svgrepo-com.png"
+          }
+        />
+      </div>
+      <div className="supportDetailContainer__item">
+        <div>
+          <img src="/assets/image/logo(1).png" alt="gym logo" />
+        </div>
+        <div className="mt-5">
+          <div>
+            <div className="d-flex align-items-center">
+              <img src="/assets/image/Vector (2).png" alt="phone number" />
+              <p className="mt-2 me-3 fw-bolder">رقم الجوال</p>
+            </div>
+            <p className="me-4" style={{ fontSize: "14px" }}>
+              {supportDetail.phone_number}
+            </p>
+          </div>
+          <div>
+            <div className="d-flex align-items-center">
+              <img src="/assets/image/Vector (3).png" alt="date" />
+              <p className="mt-2 me-3 fw-bolder">التاريخ</p>
+            </div>
+            <p className="me-4" style={{ fontSize: "14px" }}>
+              {supportDetail.created_at}
+            </p>
+          </div>
+          <div>
+            <div className="d-flex align-items-center">
+              <img src="/assets/image/Vector (4).png" alt="message" />
+              <p className="mt-2 me-3 fw-bolder">الأستفسار</p>
+            </div>
+            <p className="me-4" style={{ fontSize: "14px" }}>
+              {supportDetail.message}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default SupportDetails;
