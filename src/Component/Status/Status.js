@@ -5,6 +5,9 @@ export const Active = () => {
 export const Expired = () => {
   return <div className={`${styles.notConfirmedStatus}`}>منتهي</div>;
 };
+export const Deleted = () => {
+  return <div className={`${styles.notConfirmedStatus}`}>محذوف</div>;
+};
 export const AlmostOver = () => {
   return <div className={`${styles.closeToFiniteStatus}`}>أوشك علي الأنتهاء</div>;
 };

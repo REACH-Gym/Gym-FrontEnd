@@ -3,6 +3,7 @@ import "./SubscriptionDetail.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import { Commet } from "react-loading-indicators";
 import { useParams } from "react-router-dom";
+import { Active , Deleted } from "../../Status/Status";
 
 function SubscriptionDetail() {
   const access_token = localStorage.getItem("access");
@@ -100,7 +101,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">السعر الأصلي </p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.actual_price} ريال</p>
+                  <p style={{ fontSize: "13px" }}>{subDetail.membership.price} ريال</p>
                 </div>
               </div>
 
@@ -127,19 +128,10 @@ function SubscriptionDetail() {
                   <img src="/assets/image/ph_money (1).png" alt="" />
                 </div>
                 <div>
-                  <p className="mb-1 fw-bolder">الإجمالي النهائي  </p>
-                  <p style={{ fontSize: "13px" }}>0 ريال</p>
+                  <p className="mb-1 fw-bolder">الإجمالي</p>
+                  <p style={{ fontSize: "13px" }}>{subDetail.membership.price_after_discount} ريال</p>
                 </div>
               </div>
-              {/* <div className="d-flex">
-                <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
-                </div>
-                <div>
-                  <p className="mb-1 fw-bolder">مدى</p>
-                  <p style={{ fontSize: "13px" }}>0 ريال</p>
-                </div>
-              </div> */}
               <div className="d-flex">
                 <div className="ms-3">
                   <img src="/assets/image/bx_edit (1).png" alt="" />
@@ -157,28 +149,26 @@ function SubscriptionDetail() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">بيان</th>
-                    <th scope="col">سعر</th>
-                    <th scope="col">إجمالي</th>
+                    <th scope="col">اجمالي</th>
+                    <th scope="col">الخصم الفردي</th>
+                    <th scope="col"> الأجمالي النهائي</th>
                     <th scope="col">من تاريخ</th>
-                    <th scope="col">إلى تاريخ</th>
+                    <th scope="col">الي تاريخ</th>
                     <th scope="col">المدة</th>
-                    <th scope="col">المتبقي</th>
-                    {/* <th scope="col" className="text-center">خيارات</th> */}
+                    <th scope="col">حالة الأشتراك</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr style={{ fontSize: "14px", textAlign: "right" }}>
                     <td>1</td>
                     <td>{subDetail.membership.name}</td>
-                    <td>{subDetail.membership.price}</td>
-                    <td>200</td>
+                    <td>{subDetail.membership.price_after_discount}</td>
+                    <td>{subDetail.discount}</td>
+                    <td>{subDetail.actual_price}</td>
                     <td>{subDetail.start_date}</td>
                     <td>{subDetail.end_date}</td>
                     <td>{subDetail.membership.membership_duration}</td>
-                    <td>0</td>
-                    {/* <td className="text-center">
-                      <MoreVertIcon />
-                    </td> */}
+                    <td>{subDetail.status=== "active" ? (<Active/>) : (<Deleted/>)}</td>
                   </tr>
                 </tbody>
               </table>

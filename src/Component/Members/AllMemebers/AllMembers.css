@@ -89,12 +89,6 @@
   width: 25%;
   height: 40px;
 }
-.member-active {
-  background-color: #fff !important;
-}
-.member-inactive {
-  background-color: #F0F0F0 !important;
-}
 .active-member {
   cursor: pointer;
 }

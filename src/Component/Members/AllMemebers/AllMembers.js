@@ -10,6 +10,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
+import { Active , Deleted} from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function AllMembers() {
   useEffect(() => {
     async function fetchAllMembers() {
       setLoading(true);
-      setError(null);
+      // setError(null);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/members/?page=${page}&per_page=${per_page}`,
@@ -42,16 +43,16 @@ function AllMembers() {
         const result = await response.json();
         console.log("Fetched result:", result);
 
-        // if (response.ok && result.status === "success") {
-          // if (result.data && result.data.users.length > 0) {
+        if (response.ok && result.status === "success") {
+          if (result.data && result.data.users.length > 0) {
             setAllMembers(result.data.users);
             setTotalPages(result.data.meta.total_pages);
-          // } else {
-            // setError("لا يوجد أعضاء");
-          // }
+          } else {
+            setError("لا يوجد أعضاء");
+          }
         
-          // setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
-        // }
+          setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
+        }
       } catch (error) {
         setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
         console.error("error Occurred:", error);
@@ -126,7 +127,7 @@ function AllMembers() {
         </div>
       ) : error ? (
         <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center" style={{height:"50vh" }}>
-          لا يوجد اعضاء
+          لا يوجد أعضاء
         </div>
       ) : (
         <div className="allMembereContainer__items">
@@ -171,12 +172,7 @@ function AllMembers() {
                     </thead>
                     <tbody>
                       {results?.data?.users?.map((item, index) => (
-                        <tr
-                          key={item.id}
-                          // className={
-                          //   item.is_active ? "member-active" : "member-inactive"
-                          // }
-                        >
+                        <tr key={item.id}>
                           <th
                             scope="row"
                             style={{
@@ -192,7 +188,7 @@ function AllMembers() {
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                          <td>{item.is_active === false ? (<Deleted/>) :(<Active/>)}</td>
                           <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}
@@ -272,36 +268,31 @@ function AllMembers() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allMembers.map((item, index) => (
-                      <tr
-                        key={item.id}
-                        // className={
-                        //   item.is_active ? "member-active" : "member-inactive"
-                        // }
-                      >
+                    {allMembers.map((member, index) => (
+                      <tr key={member.id}>
                         <th scope="row">{index + 1}</th>
-                        <td>{item.name}</td>
-                        <td>{item.phone_number}</td>
-                        <td>{item.national_id}</td>
-                        <td>{item.created_at.slice(0, 10)}</td>
+                        <td>{member.name}</td>
+                        <td>{member.phone_number}</td>
+                        <td>{member.national_id}</td>
+                        <td>{member.created_at.slice(0, 10)}</td>
                         <td>0</td>
-                        <td>{item.date_of_birth}</td>
-                        <td>{item.is_active === false ? "محذوف" : "فعال"}</td>
+                        <td>{member.date_of_birth}</td>
+                        <td>{member.is_active === false ? (<Deleted/>) : (<Active/>)}</td>
                         <td className="text-center">
                           <MoreVertIcon
-                            onClick={() => toggleDropdown(item.id)}
+                            onClick={() => toggleDropdown(member.id)}
                             style={{ cursor: "pointer" }}
                           />
-                          {showDropdown === item.id && (
+                          {showDropdown === member.id && (
                             <ul className="drop-menu">
-                              {item.is_active ? (
+                              {member.is_active ? (
                                 <>
                                   <li
                                     onClick={() =>
                                       navigate(
-                                        `/Home/AllMembers/${item.id}/edit`,
+                                        `/Home/AllMembers/${member.id}/edit`,
                                         {
-                                          state: { member: item },
+                                          state: { member: member },
                                         }
                                       )
                                     }
@@ -311,14 +302,14 @@ function AllMembers() {
                                   </li>
                                   <li>
                                     <DeleteMember
-                                      id={item.id}
+                                      id={member.id}
                                       onDelete={handleDeleteMember}
                                     />
                                   </li>
                                 </>
                               ) : (
                                 <MemberActivate
-                                  id={item.id}
+                                  id={member.id}
                                   onActive={handleActiveMember}
                                 />
                               )}
@@ -329,23 +320,6 @@ function AllMembers() {
                     ))}
                   </tbody>
                 </table>
-                {/* <div className="pagination">
-                  <button
-                    onClick={handlePrevPage}
-                    disabled={page === 1}
-                    className="btn btn-primary"
-                  >
-                    السابق
-                  </button>
-                  <span className="page-number">{`صفحة ${page} من ${totalPages}`}</span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={page === totalPages}
-                    className="btn btn-primary"
-                  >
-                    التالي
-                  </button>
-                </div> */}
                 <div className="d-flex justify-content-center align-items-center mt-5">
                   <div className="preivous-btn">
                     <MainButton
@@ -368,8 +342,6 @@ function AllMembers() {
                   </div>
                 </div>
               </div>
-
-              // </div>
             )}
           </div>
         </div>
@@ -377,6 +349,4 @@ function AllMembers() {
     </div>
   );
 }
-
 export default AllMembers;
-

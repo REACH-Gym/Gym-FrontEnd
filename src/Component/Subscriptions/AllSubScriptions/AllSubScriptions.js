@@ -10,6 +10,8 @@ import Filter from "../../../Common Components/Filter/Filter";
 import DeleteSub from "../DeleteSub/DeleteSub";
 import ActiveSub from "../DeleteSub/ActivateSub";
 import "./AllSubScriptions.css";
+import { Active, Deleted } from "../../Status/Status";
+
 function AllSubScriptions() {
   const [allSubscription, setAllSubscriptions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -18,10 +20,13 @@ function AllSubScriptions() {
   const [per_page] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchAllSubscriptionS() {
-      // setLoading(true);
+      setLoading(true);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/memberships/?page=${page}&per_page=${per_page}`,
@@ -35,35 +40,39 @@ function AllSubScriptions() {
         );
         const result = await response.json();
         console.log(result);
-        // setLoading(false);
         if (response.ok) {
-          setAllSubscriptions(result.data.memberships);
-          setTotalPages(result.data.meta.total_pages);
+          if (result.data.memberships.length > 0) {
+            setAllSubscriptions(result.data.memberships);
+            setTotalPages(result.data.meta.total_pages);
+          } else {
+            setError("لا يوجد أشتراكات");
+          }
         }
       } catch (error) {
-        console.error("an error ocurred");
+        console.error("An error occurred:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchAllSubscriptionS();
   }, [access_token, page, per_page]);
 
   const handleShowDropMenu = (id) => {
-    if (showDropdown === id) {
-      setShowDropdown(null);
-    } else {
-      setShowDropdown(id);
-    }
+    setShowDropdown(showDropdown === id ? null : id);
   };
+
   const handleNextPage = () => {
     if (page < totalPages) {
       setPage((prev) => prev + 1);
     }
   };
+
   const handlePrevPage = () => {
     if (page > 1) {
       setPage((prev) => prev - 1);
     }
   };
+
   const handleDeActiveSubsription = (id) => {
     setAllSubscriptions((prevSub) =>
       prevSub.map((subscription) =>
@@ -73,6 +82,7 @@ function AllSubScriptions() {
       )
     );
   };
+
   const handleActiveSub = (id) => {
     setAllSubscriptions((prevSub) =>
       prevSub.map((subscription) =>
@@ -83,28 +93,20 @@ function AllSubScriptions() {
     );
   };
 
-  // const handleDeActiveSubsription = (id) => {
-  //   setAllSubscriptions((prevSub) =>
-  //     prevSub.map((subscription) =>
-  //       subscription.id === id
-  //         ? { ...subscription, is_active: false }
-  //         : subscription
-  //     )
-  //   );
-  // };
-  // const handleActiveSub = (id) => {
-  //   setAllSubscriptions((prevSub) =>
-  //     prevSub.map((subscription) =>
-  //       subscription.id === id
-  //         ? { ...subscription, is_active: true }
-  //         : subscription
-  //     )
-  //   );
-  // };
-
   return (
     <div className="allSubscriptionContainer">
-      {allSubscription.length > 0 ? (
+      {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : error ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد أشتراكات
+        </div>
+      ) : (
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3 mt-3">
             <ComponentTitle
@@ -123,17 +125,17 @@ function AllSubScriptions() {
               onclick={() => navigate("/Home/AddNewSubscription")}
             />
           </div>
-          {results?.data?.memberships?.length > 0 ? (
+          {results?.data?.memberships?.length === 0 ? (
+            <div
+            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+            style={{ color: "red", height: "60vh" }}
+          >
+            لم يتم العثور علي نتائج مطابقة
+          </div>
+          ):
+          results?.data?.memberships?.length > 0 ? (
             <div
               className="pt-3 pb-3"
-              style={{
-                margin: "10px auto",
-                borderRadius: "10px",
-                backgroundColor: "white",
-                bottom: 0,
-                left: 0,
-                maxWidth: "98%",
-              }}
             >
               <div className="tableContainer">
                 <table className="table">
@@ -145,27 +147,24 @@ function AllSubScriptions() {
                       <th scope="col">المدة</th>
                       <th scope="col">أقصي فترة تجميد</th>
                       <th scope="col">ملاحظات</th>
+                      <th scope="col">الحالة</th>
                       <th scope="col" className="text-center">
                         خيارات
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {results?.data?.memberships?.map((item, index) => (
-                      <tr
-                        key={item.id}
-                        className={
-                          item.is_active
-                            ? "active-subscription"
-                            : "inactive-subscription"
-                        }
-                      >
+                    {results.data.memberships.map((item, index) => (
+                      <tr key={item.id}>
                         <th scope="row">{index + 1 + (page - 1) * per_page}</th>
                         <td>{item.name}</td>
                         <td>{item.price}</td>
                         <td>{item.duration}</td>
                         <td>{item.freeze_duration}</td>
                         <td>{item.description}</td>
+                        <td>
+                          {item.is_active === false ? <Deleted /> : <Active />}
+                        </td>
                         <td className="fs-5 fw-bolder text-center">
                           <MoreVertIcon
                             onClick={() => handleShowDropMenu(item.id)}
@@ -212,6 +211,7 @@ function AllSubScriptions() {
                     <th scope="col">المدة</th>
                     <th scope="col">أقصي فترة تجميد</th>
                     <th scope="col">ملاحظات</th>
+                    <th scope="col">حالة الأشتراك</th>
                     <th scope="col" className="text-center">
                       خيارات
                     </th>
@@ -219,20 +219,20 @@ function AllSubScriptions() {
                 </thead>
                 <tbody>
                   {allSubscription.map((subscription, index) => (
-                    <tr
-                      className={
-                        subscription.is_active
-                          ? "active-subscription"
-                          : "inactive-subscription"
-                      }
-                      key={subscription.id}
-                    >
+                    <tr key={subscription.id}>
                       <th scope="row">{index + 1 + (page - 1) * per_page}</th>
                       <td>{subscription.name}</td>
                       <td>{subscription.price}</td>
                       <td>{subscription.duration}</td>
                       <td>{subscription.freeze_duration}</td>
                       <td>{subscription.description}</td>
+                      <td>
+                        {subscription.is_active === false ? (
+                          <Deleted />
+                        ) : (
+                          <Active />
+                        )}
+                      </td>
                       <td className="fw-bolder text-center fs-5">
                         <MoreVertIcon
                           onClick={() => handleShowDropMenu(subscription.id)}
@@ -298,46 +298,6 @@ function AllSubScriptions() {
               </div>
             </div>
           )}
-        </div>
-      ) : (
-        <div className="allSubscriptionContainer__item">
-          <div className="d-flex align-items-center justify-content-between ps-3 pe-3 mt-3">
-            <ComponentTitle
-              MainIcon={"/assets/image/subscriptions.png"}
-              title={"جميع الاشتراكات"}
-              subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
-            />
-            <Filter
-              options={["الاسم"]}
-              query={"memberships/"}
-              searchResults={setResults}
-              status={false}
-            />
-            <ComponentBtns
-              btn1={"+ إضافة اشتراك جديد "}
-              onclick={() => navigate("/Home/AddNewSubscription")}
-            />
-          </div>
-          ={" "}
-          <div
-            className="pt-3 pb-3"
-            style={{
-              margin: "10px auto",
-              borderRadius: "10px",
-              backgroundColor: "white",
-              bottom: 0,
-              left: 0,
-              maxWidth: "98%",
-            }}
-          >
-            <div className="tableContainer">
-              <div
-                className="text-center text-danger fs-1 fw-bold d-flex justify-content-center align-content-center"
-                style={{ height: "100vh", padding: "100px 0 0 0 " }}
-              ></div>
-            </div>
-          </div>
-          )
         </div>
       )}
     </div>

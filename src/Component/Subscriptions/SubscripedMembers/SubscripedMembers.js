@@ -3,14 +3,12 @@ import "./SubscripedMembers.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
-import { Active ,AlmostOver,Expired,Freezed } from "../../Status/Status";
+import { Active, AlmostOver, Expired, Freezed } from "../../Status/Status";
 
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
@@ -21,9 +19,12 @@ function SubscripedMembers() {
   const [total_pages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchSubscripedMember() {
+      setLoading(true);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/members/memberships?page=${page}&per_page=${per_page}`,
@@ -37,22 +38,28 @@ function SubscripedMembers() {
         );
         const result = await response.json();
         if (response.ok) {
-          setSubscripedMembers(result.data.user_memberships);
-          setTotalPages(result.data.meta.total_pages);
+          if(result.data.user_memberships.length > 0){
+            setSubscripedMembers(result.data.user_memberships);
+            setTotalPages(result.data.meta.total_pages);
+          }else{
+            setError("لا يوجد أعضاء مشتركين")
+          }
+         
+        } else {
+          setError("Failed to fetch members.");
         }
       } catch (error) {
         console.error(error);
+        setError("An error occurred while fetching members.");
+      } finally {
+        setLoading(false);
       }
     }
     fetchSubscripedMember();
   }, [per_page, page, access_token]);
 
   const handleShowDropMenu = (id) => {
-    if (showDropdown === id) {
-      setShowDropdown(null);
-    } else {
-      setShowDropdown(id);
-    }
+    setShowDropdown((prev) => (prev === id ? null : id));
   };
 
   const handleNextPage = () => {
@@ -66,9 +73,21 @@ function SubscripedMembers() {
       setPage((prev) => prev - 1);
     }
   };
+
   return (
     <div className="allSubscriptionContainer mt-4">
-      {SubscripedMembers.length > 0 ? (
+      {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : error ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد أعضاء مشتركين
+        </div>
+      ) : (
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
@@ -76,20 +95,19 @@ function SubscripedMembers() {
               title={"جميع الاعضاء المشتركين"}
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
-            <Filter searchResults={setResults}  query={'members/memberships'}/>
+            <Filter searchResults={setResults} query={"members/memberships"} />
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
-          {results?.data?.user_memberships?.length > 0 ? (
+
+          {results?.data?.user_memberships?.length === 0 ? (
             <div
-              className="p-3"
-              style={{
-                margin: "10px 0 0 0 10px",
-                borderRadius: "10px",
-                backgroundColor: "white",
-                bottom: 0,
-                left: 0,
-              }}
+              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+              style={{ color: "red", height: "60vh" }}
             >
+              لم يتم العثور علي نتائج مطابقة
+            </div>
+          ) : results?.data?.user_memberships?.length > 0 ? (
+            <div className="p-3">
               <div className="tableContainer">
                 <table className="table">
                   <thead>
@@ -125,22 +143,13 @@ function SubscripedMembers() {
                           />
                           {showDropdown === item.id && (
                             <ul className="drop-menu">
-                              <li>
-                                <WhatsAppIcon /> اعادة ارسال
-                              </li>
                               <li
                                 onClick={() =>
-                                  navigate(
-                                    `/Home/SubscripedMembers/${item.id}/`
-                                  )
+                                  navigate(`/Home/SubscripedMembers/${item.id}/`)
                                 }
                               >
                                 <InfoOutlinedIcon /> تفاصيل
                               </li>
-                              <li>
-                                <DriveFileRenameOutlineOutlinedIcon /> تعديل
-                              </li>
-                              <li></li>
                             </ul>
                           )}
                         </td>
@@ -184,15 +193,13 @@ function SubscripedMembers() {
                         <td>{SubscripedMember.start_date}</td>
                         <td className={''}>
                           {SubscripedMember.status === "active" ? <Active /> : null}
-                          {SubscripedMember.status === "freezed" ? <Freezed/> : null}
-                          {SubscripedMember.status === "almost over" ? <AlmostOver/> : null}
-                          {SubscripedMember.status === "expired" ? <Expired/> : null}
+                          {SubscripedMember.status === "freezed" ? <Freezed /> : null}
+                          {SubscripedMember.status === "almost over" ? <AlmostOver /> : null}
+                          {SubscripedMember.status === "expired" ? <Expired /> : null}
                         </td>
                         <td className="text-center">
                           <MoreVertIcon
-                            onClick={() =>
-                              handleShowDropMenu(SubscripedMember.id)
-                            }
+                            onClick={() => handleShowDropMenu(SubscripedMember.id)}
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === SubscripedMember.id && (
@@ -222,8 +229,8 @@ function SubscripedMembers() {
                     disabled={page === 1}
                   />
                 </div>
-                <div className="ms-3 me-3">
-                  <span className="">
+                <div>
+                  <span className="ms-3 me-3">
                     الصفحة {total_pages} من {page}
                   </span>
                 </div>
@@ -235,15 +242,14 @@ function SubscripedMembers() {
                   />
                 </div>
               </div>
+
             </div>
           )}
-        </div>
-      ) : (
-        <div className="loader">
-          <Commet color="#316dcc" size="medium" text="" textColor="" />
+         
         </div>
       )}
     </div>
   );
 }
+
 export default SubscripedMembers;

@@ -11,9 +11,10 @@
 .item {
   background-color: #fff;
   width: 290px;
-  height: 220px;
+  height: 180px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   padding: 20px;
+  border-radius: 10px;
 }
 .progressbar {
   width: 100px;

@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./container.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 
 function Container() {
+  const [status, setStatus] = useState([]);
+  useEffect(() => {
+    async function fetchStatus() {
+      try {
+        const response = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/dashboard-stats/`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("access"),
+              accept: "*/*",
+            },
+          }
+        );
+        const result = await response.json();
+        console.log(result);
+        if (response.ok) {
+          setStatus(result.data);
+          console.log("success");
+        } else {
+          console.log("failed");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchStatus();
+  });
   return (
     <div className="container">
       <div className="d-flex pe-3">
@@ -17,100 +45,74 @@ function Container() {
       </div>
       <div className="items mt-4">
         <div className="item">
-          <CircularProgressbar
-            value={70}
-            text="70%"
-            strokeWidth={10}
-            styles={{
-              path: { stroke: "#BF2EF0" },
-              trail: { stroke: "#eee" },
-              text: { fill: "#000", fontSize: "23px", fontWeight: "bolder" },
-            }}
-            className="progressbar"
-          />
-          <div className="d-flex align-items-center justify-content-between mt-4">
+          <div className="d-flex justify-content-between">
             <div>
-              <p className="mb-0 fw-bolder">حجوزات اليوم</p>
-              <p className="fw-lighter">الحجوزات منذ بداية اليوم</p>
+              <img src="/assets/image/Icon (3).png" alt="" />
             </div>
-            <div>
-              <p className="fw-bolder mt-4" style={{ color: "#BF2EF0" }}>
-                500
+            <div className="d-flex flex-column align-items-end">
+              <p style={{ color: "#666666" }} className="mb-0">
+                جميع الاعضاء
               </p>
+              <p className="fw-bolder fs-2">{status.all_members}</p>
             </div>
           </div>
+          <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            جميع اعضاء النادي
+          </p>
         </div>
         <div className="item ">
-          <CircularProgressbar
-            value={100}
-            text="100%"
-            strokeWidth={10}
-            styles={{
-              path: { stroke: "#8576FF" },
-              trail: { stroke: "#eee" },
-              text: { fill: "#000", fontSize: "23px", fontWeight: "bolder" },
-            }}
-            className="progressbar"
-          />
-          <div className="d-flex align-items-center justify-content-between mt-4">
+          <div className="d-flex justify-content-between">
             <div>
-              <p className="mb-0 fw-bolder">جميع الأعضاء</p>
-              <p className="fw-lighter">جميع الأعضاء في النادي</p>
+              <img src="/assets/image/Icon (5).png" alt="" />
             </div>
-            <div>
-              <p className="fw-bolder mt-4" style={{ color: "#8576FF" }}>
-                973
+            <div className="d-flex flex-column align-items-end">
+              <p style={{ color: "#666666" }} className="mb-0">
+                حجوزات اليوم
+              </p>
+              <p className="fw-bolder fs-2">
+                {status.today_memberships_and_sessions}
               </p>
             </div>
           </div>
+          <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            الحجوزات منذ بداية اليوم
+          </p>
         </div>
         <div className="item">
-          <CircularProgressbar
-            value={20.5}
-            text="20.5%"
-            strokeWidth={10}
-            styles={{
-              path: { stroke: "#4CCD99" },
-              trail: { stroke: "#eee" },
-              text: { fill: "#000", fontSize: "23px", fontWeight: "bolder" },
-            }}
-            className="progressbar"
-          />
-          <div className="d-flex align-items-center justify-content-between mt-4">
+          <div className="d-flex justify-content-between">
             <div>
-              <p className="mb-0 fw-bolder">الاشتراكات الفعالة</p>
-              <p className="fw-lighter">جميع الاشتراكات الفعالة</p>
+              <img src="/assets/image/Icon (2).png" alt="" />
             </div>
-            <div>
-              <p className="fw-bolder mt-4" style={{ color: "#4CCD99" }}>
-                288
+            <div className="d-flex flex-column align-items-end">
+              <p style={{ color: "#666666" }} className="mb-0">
+                الاشتراكات الفعالة
+              </p>
+              <p className="fw-bolder fs-2">
+                {status.active_memberships_and_sessions}
               </p>
             </div>
           </div>
+          <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            جميع الاشتراكات الفعالة
+          </p>
         </div>
         <div className="item">
-          <CircularProgressbar
-            value={3.45}
-            text="3.45%"
-            strokeWidth={10}
-            styles={{
-              path: { stroke: "#FF8080" },
-              trail: { stroke: "#eee" },
-              text: { fill: "#000", fontSize: "23px", fontWeight: "bolder" },
-            }}
-            className="progressbar"
-          />
-          <div className="d-flex justify-content-between mt-4">
+          <div className="d-flex justify-content-between">
             <div>
-              <p className="mb-0 fw-bolder">أشتراكات أوشكت علي الانتهاء</p>
-              {/* <p className="fw-lighter">جميع الأشتراكات التي أوشكت علي الأنتهاء</p> */}
+              <img src="/assets/image/Icon.png" alt="" />
             </div>
-            <div>
-              <p className="fw-bolder mt-4" style={{ color: "#FF8080" }}>
-                30
+            <div className="d-flex flex-column align-items-end">
+              <p style={{ color: "#666666" }} className="mb-0">
+                  أوشكت علي الأنتهاء
+              </p>
+              <p className="fw-bolder fs-2">
+                {status.almost_over_memberships_and_sessions}
               </p>
             </div>
           </div>
+          <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            جميع الاشتراكات المنتهية
+          </p>
         </div>
       </div>
     </div>

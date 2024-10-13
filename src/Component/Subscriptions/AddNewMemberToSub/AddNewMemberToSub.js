@@ -50,7 +50,7 @@ function AddNewMemberToSub() {
     async function fetchMemberShips() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/memberships/",
+          "https://gym-backend-production-65cc.up.railway.app/memberships/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -219,7 +219,7 @@ function AddNewMemberToSub() {
                     }}
                   />
                 </div>
-                <div className="d-flex justify-content-between mt-4">
+                {/* <div className="d-flex justify-content-between mt-4">
                   <div>
                     <p>الإجمالي قبل الخصم</p>
                     <p>الخصم</p>
@@ -227,7 +227,7 @@ function AddNewMemberToSub() {
                     <p>الإجمالي</p>
                   </div>
                   <div>
-                    <p>{subscription.actual_price}</p>
+                    <p>{subscription.price_after_discount}</p>
                     <p>{values.discount || 0}</p>
                     <p>15%</p>
                     <p>
@@ -238,7 +238,7 @@ function AddNewMemberToSub() {
                       ).toFixed(2)}
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div className="mt-5 addBtn text-center">
                   <MainButton text={"اضافة"} btnType={"submit"} />
                 </div>
