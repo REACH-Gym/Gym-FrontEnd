@@ -112,78 +112,104 @@ const DynamicComponent = () => {
 
   return (
     <>
-      <div className={`row`}>
-        <div className={`col-12`}>
-          <InputField name="name" label="اسم العضو" inputType={"select"}>
-            <option value={""}>اختر</option>
-            {members?.data?.users?.map((member, i) => (
-              <option value={member.id} key={i}>
-                {member.name}
-              </option>
-            ))}
-          </InputField>
-        </div>
-        <div className={`col-6`}></div>
-      </div>
-      <div className={`row`}>
+      <div className="row">
         <div className={`col-6`}>
-          <InputField name="group" label="اسم المجموعة" inputType={"select"}>
-            <option value={""}>اختر</option>
-            {sessionsWithSchedules?.map((session, i) => (
-              <option value={session.id} key={i}>
-                {session.name}
-              </option>
-            ))}
-          </InputField>
-        </div>
-        <div className={`col-6`}>
-          <InputField name="schedule" label="الموعد" inputType={"select"}>
-            <option value={""}>اختر</option>
-            {sessionSchedules?.map((schedule, i) => (
-              <option value={schedulesData?.data?.schedules[i]?.id} key={i}>
-                {schedule}
-              </option>
-            ))}
-          </InputField>
-        </div>
-      </div>
-      <div className={`row`}>
-        <div className={`col-6`}>
-          <InputField
-            name="start_date"
-            label="تاريخ البداية"
-            inputType={"input"}
-            type={"date"}
-          />
-        </div>
-        <div className={`col-6`}>
-          <InputField name="discount" label="الخصم (%)" />
-        </div>
-      </div>
-      <div
-        className={`row`}
-        style={{ border: "1px solid #f0f0f0", borderRadius: 10 }}
-      >
-        <div
-          className={`col-6 d-flex justify-content-center align-items-end p-3`}
-        >
-          <div className="ms-5 fs-5" style={{ minWidth: 150 }}>
-            <strong>السعر:</strong>{" "}
-            {sessionPrice
-              ? `${Number(sessionPrice).toFixed(2)} ريال`
-              : " لا يوجد "}
+          <div
+            className={`${styles.section} col-12 rounded-2 pb-5 pt-3 pe-5 ps-5`}
+            style={{
+              backgroundColor: "white",
+              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+            }}
+          >
+            <div className={`col-12`}>
+              <InputField name="name" label="اسم العضو" inputType={"select"}>
+                <option value={""}>اختر</option>
+                {members?.data?.users?.map((member, i) => (
+                  <option value={member.id} key={i}>
+                    {member.name}
+                  </option>
+                ))}
+              </InputField>
+            </div>
+            <div className={`col-12`}>
+              <InputField
+                name="group"
+                label="اسم المجموعة"
+                inputType={"select"}
+              >
+                <option value={""}>اختر</option>
+                {sessionsWithSchedules?.map((session, i) => (
+                  <option value={session.id} key={i}>
+                    {session.name}
+                  </option>
+                ))}
+              </InputField>
+            </div>
+            <div className={`col-12`}>
+              <InputField name="schedule" label="الموعد" inputType={"select"}>
+                <option value={""}>اختر</option>
+                {sessionSchedules?.map((schedule, i) => (
+                  <option value={schedulesData?.data?.schedules[i]?.id} key={i}>
+                    {schedule}
+                  </option>
+                ))}
+              </InputField>
+            </div>
+            <div className={`col-12`}>
+              <InputField
+                name="start_date"
+                label="تاريخ البداية"
+                inputType={"input"}
+                type={"date"}
+              />
+            </div>
           </div>
         </div>
-        <div
-          className={`col-6 d-flex justify-content-center align-items-end p-3 fs-5`}
-        >
-          <div style={{ minWidth: 200 }}>
-            <strong>السعر بعد الخصم:</strong>
-            {sessionPrice > 0 && values.discount > 0
-              ? ` ${(sessionPrice * (1 - values.discount / 100)).toFixed(
-                  2
-                )} ريال`
-              : " لا يوجد "}
+        <div className={`col-6`}>
+          <div
+            className={`${styles.section} col-12 rounded-2 pb-5 pt-3 pe-5 ps-5`}
+            style={{
+              backgroundColor: "white",
+              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+            }}
+          >
+            <div className={`col-12`}>
+              <InputField name="discount" label="الخصم (%)" />
+            </div>
+            <div className={`col-12`}>
+              <InputField name="promo_code" label="برومو كود" />
+            </div>
+            <div className={`col-12`}>
+              <InputField name="payment_method" label="طريقة الدفع" />
+            </div>
+            <div className={`col-12 mt-4 ps-2 pe-2`}>
+              <div className="row gap-3 text-secondary">
+                <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>الإجمالي قبل الخصم</span>
+                  <span>{sessionPrice} ريال</span>
+                </div>
+                <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>الخصم</span>
+                  <span>{values.discount}%</span>
+                </div>
+                <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>الإجمالي قبل الضريبة</span>
+                  <span>{sessionPrice} ريال</span>
+                </div>
+                <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>الضريبة</span>
+                  <span>15%</span>
+                </div>
+                <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>الاجمالي</span>
+                  <span>
+                    {(sessionPrice * (1 - values.discount / 100)).toFixed(2) > 0
+                      ? (sessionPrice * (1 - values.discount / 100)).toFixed(2)
+                      : "-"}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -256,7 +282,7 @@ const AddGroupMember = () => {
           title={"إضافة عضو للمجموعة"}
           subTitle={"يمكنك إضافة عضو لمجموعة من هنا"}
         />
-        <div className="container bg-white p-4 rounded-4">
+        <div className="container p-4">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

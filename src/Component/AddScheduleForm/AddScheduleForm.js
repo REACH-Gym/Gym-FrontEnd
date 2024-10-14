@@ -127,19 +127,19 @@ const AddScheduleForm = () => {
     }
   };
 
-  const [postSchedule, { isError: isScheduleError }] =
-    usePostScheduleMutation();
+  const [
+    postSchedule,
+    { isError: isScheduleError, isLoading: isScheduleLoading },
+  ] = usePostScheduleMutation();
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  // const [err, setErr] = useState
   const handleSubmit = async (values) => {
     console.log(values);
     if (Object.keys(values).length < 4) {
       setError("يجب ادخال اليوم والوقت والمجموعة");
       setTimeout(() => {
         setError("");
-        //End Timeout function
         clearTimeout();
       }, 2000);
       console.log("first");
@@ -349,6 +349,7 @@ const AddScheduleForm = () => {
                       text="إضافة"
                       btnType="submit"
                       btnWidth={"200px"}
+                      isLoading={isScheduleLoading}
                     />
                   </div>
                 </Form>

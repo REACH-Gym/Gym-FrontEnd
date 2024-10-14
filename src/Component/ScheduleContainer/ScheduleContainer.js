@@ -18,7 +18,7 @@ const ScheduleContainer = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { data, error, isLoading } = useGetSessionsQuery(
-    `?page=${page}&per_page=20&sort[]=-id`
+    `?page=${page}&per_page=20&sort[]=-created_at&sort[]=-is_active`
   );
   console.log(data);
   useEffect(() => {
@@ -57,7 +57,7 @@ const ScheduleContainer = () => {
       <div className={`${styles.scheduleContainer}`}>
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
-            MainIcon={"/assets/image/appointments.png"}
+            MainIcon={"/assets/image/groups.png"}
             title={"جميع المجموعات"}
             subTitle={"يمكنك متابعة جميع المجموعات  من هنا"}
           />

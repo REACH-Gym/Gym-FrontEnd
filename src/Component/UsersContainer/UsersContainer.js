@@ -51,14 +51,15 @@ const UsersContainer = () => {
       <div className={`${styles.groupsContainer}`}>
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
-            MainIcon={"/assets/image/groups.png"}
-            title={"أعضاء المجموعات"}
-            subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
+            MainIcon={"/assets/image/Users.png"}
+            title={"جميع المستخدمين"}
+            subTitle={"يمكنك متابعة جميع المستخدمين من هنا"}
           />
           <Filter
             query={"members/sessions/"}
-            options={["اسم المستخدم", "المجموعة", "اسم المدرب"]}
+            options={["اسم المستخدم"]}
             searchResults={setResults}
+            status={false}
           />
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}

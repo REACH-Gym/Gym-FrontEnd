@@ -1,8 +1,11 @@
 .addMeasurmentsContainer {
   padding: 20px 0px 0px 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
 }
 .formContainer {
-  background-color: #fff;
   width: 100%;
   margin: auto;
 }
@@ -21,11 +24,11 @@
   right: 0;
   background-color: #f4f4f4;
 }
-.AddMeasurement button{
+.AddMeasurement button {
   width: 25%;
 }
-.AddMeasurementFormContainer{
-  background-color: #F2F4F5;
+.AddMeasurementFormContainer {
+  background-color: #f2f4f5;
   width: 100%;
   padding: 90px 20px 20px 20px;
 }

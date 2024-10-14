@@ -6,6 +6,7 @@
   border-radius: 10px;
   min-height: 500px;
   margin: auto;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .tableContainer thead th:first-child {
   width: 50px;

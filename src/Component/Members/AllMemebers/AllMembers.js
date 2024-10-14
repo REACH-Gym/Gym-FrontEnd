@@ -201,6 +201,13 @@ function AllMembers() {
                               <Active />
                             )}
                           </td>
+                          <td>
+                            {item.is_active === false ? (
+                              <Deleted />
+                            ) : (
+                              <Active />
+                            )}
+                          </td>
                           <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}

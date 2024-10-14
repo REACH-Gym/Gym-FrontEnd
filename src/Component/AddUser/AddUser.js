@@ -194,7 +194,9 @@ const AddUser = () => {
         window.location.reload();
       }, 300);
     } catch (err) {
-      if (err.originalStatus === 403) {
+      if (err.originalStatus === 400) {
+        console.log(err);
+      } else if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
@@ -204,16 +206,16 @@ const AddUser = () => {
     }
   };
 
-  if (isEmployeeLoading) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <Commet color="#316dcc" size="medium" text="" textColor="" />
-      </div>
-    );
-  }
+  // if (isEmployeeLoading) {
+  //   return (
+  //     <div
+  //       className="d-flex justify-content-center align-items-center"
+  //       style={{ height: "100vh" }}
+  //     >
+  //       <Commet color="#316dcc" size="medium" text="" textColor="" />
+  //     </div>
+  //   );
+  // }
 
   if (employeeError) {
     return (
@@ -229,7 +231,7 @@ const AddUser = () => {
       {isEmployeeError && <Error text={error} show={isEmployeeError} />}
       <div className={`${styles.addGroupMemberForm}`}>
         <ComponentTitle
-          MainIcon={"/assets/image/groups.png"}
+          MainIcon={"/assets/image/Users.png"}
           title={"إضافة مستخدم"}
           subTitle={"يمكنك إضافة مستخدم من هنا"}
         />
@@ -249,6 +251,7 @@ const AddUser = () => {
                       text={"اضافة"}
                       btnWidth={"200px"}
                       btnType={"submit"}
+                      isLoading={isEmployeeLoading}
                     />
                   </div>
                 </Form>
