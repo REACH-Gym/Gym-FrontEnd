@@ -209,8 +209,10 @@ const AddGroupMember = () => {
     start_date: Yup.date().required("هذا الحقل الزامي"),
   });
 
-  const [postSessionMember, { isError: isSchedulesError }] =
-    usePostSessionMemberMutation();
+  const [
+    postSessionMember,
+    { isError: isSchedulesError, isLoading: isSchedulesLoading },
+  ] = usePostSessionMemberMutation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -269,6 +271,7 @@ const AddGroupMember = () => {
                       text={"اضافة"}
                       btnWidth={"200px"}
                       btnType={"submit"}
+                      isLoading={isSchedulesLoading}
                     />
                   </div>
                 </Form>

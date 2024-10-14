@@ -159,7 +159,6 @@ function AllMembers() {
               >
                 لم يتم العثور علي نتائج مطابقة
               </div>
-              
             ) : results?.data?.users?.length > 0 ? (
               <div className="p-3">
                 <div className="tableContainer">
@@ -208,10 +207,7 @@ function AllMembers() {
                               style={{ cursor: "pointer" }}
                             />
                             {showDropdown === item.id && (
-                              <ul
-                                className="drop-menu"
-                                ref={dropdownRef} 
-                              >
+                              <ul className="drop-menu" ref={dropdownRef}>
                                 {item.is_active ? (
                                   <>
                                     <li
@@ -302,10 +298,7 @@ function AllMembers() {
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === item.id && (
-                            <ul
-                              className="drop-menu"
-                              ref={dropdownRef}
-                            >
+                            <ul className="drop-menu" ref={dropdownRef}>
                               {item.is_active ? (
                                 <>
                                   <li
