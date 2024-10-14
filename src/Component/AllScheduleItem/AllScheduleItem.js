@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./AllScheduleItem.module.css";
 import { usePatchSessionMutation } from "../../features/api";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Warning from "../../Common Components/Warning/Warning";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
@@ -140,7 +140,7 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
                 </svg>
                 <div className={`d-inline-block`}>التفاصيل</div>
               </div>
-              <div
+              {/* <div
                 className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
                 onClick={() => {
                   navigate(`/Home/EditGroup/${session.id}/`);
@@ -165,7 +165,7 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
                 </svg>
 
                 <div className={`d-inline-block`}>تعديل</div>
-              </div>
+              </div> */}
               {session.is_active ? (
                 <div
                   className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"

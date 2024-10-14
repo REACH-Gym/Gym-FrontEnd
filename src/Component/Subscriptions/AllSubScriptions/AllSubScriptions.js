@@ -139,16 +139,13 @@ function AllSubScriptions() {
           </div>
           {results?.data?.memberships?.length === 0 ? (
             <div
-            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-            style={{ color: "red", height: "60vh" }}
-          >
-            لم يتم العثور علي نتائج مطابقة
-          </div>
-          ):
-          results?.data?.memberships?.length > 0 ? (
-            <div
-              className="pt-3 pb-3"
+              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+              style={{ color: "red", height: "60vh" }}
             >
+              لم يتم العثور علي نتائج مطابقة
+            </div>
+          ) : results?.data?.memberships?.length > 0 ? (
+            <div className="pt-3 pb-3">
               <div className="tableContainer">
                 <table className="table">
                   <thead>

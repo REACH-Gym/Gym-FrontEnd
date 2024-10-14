@@ -62,7 +62,7 @@ const DynamicComponent = () => {
           <InputField name="name" label="الإسم" />
         </div>
         <div className="col-6">
-          <InputField name="duration" label="مدة الجلسة (بالساعة)" />
+          <InputField name="duration" label="مدة الجلسة (بالدقيقة)" />
         </div>
       </div>
       <div className="row mb-4 g-5">
@@ -89,8 +89,10 @@ const EditGroup = () => {
   const { GroupId } = useParams();
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل إلزامي"),
-    notes: Yup.string().required("هذا الحقل إلزامي"),
-    duration: Yup.number().required("هذا الحقل إلزامي").max(8),
+    notes: Yup.string(),
+    duration: Yup.number()
+      .required("هذا الحقل إلزامي")
+      .min(0, "مدة الجلسة لا يجب أن تكون أقل من صفر"),
     price: Yup.number().required("هذا الحقل إلزامي"),
     freeze_duration: Yup.number().required("هذا الحقل إلزامي"),
   });
@@ -149,8 +151,8 @@ const EditGroup = () => {
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
               MainIcon={"/assets/image/groups.png"}
-              title={"اضافة مجموعة جديدة"}
-              subTitle={"يمكنك   اضافة مجموهة جديدة من هنا"}
+              title={"تعديل مجموعة"}
+              subTitle={"يمكنك  تعديل المجموعة من هنا"}
             />
           </div>
           <div className="">

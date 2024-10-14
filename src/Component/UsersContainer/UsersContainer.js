@@ -4,7 +4,7 @@ import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetEmployeesQuery } from "../../features/api";
 import UsersItem from "../UsersItem/UsersItem";
 import { Commet } from "react-loading-indicators";
@@ -17,9 +17,15 @@ const UsersContainer = () => {
     data: emplyees,
     isFetching: isEmployeesLoading,
     error: employeesError,
-  } = useGetEmployeesQuery(`/?page=${page}&per_page=20`);
+  } = useGetEmployeesQuery(`?page=${page}&per_page=20`);
 
   console.log(emplyees);
+  const [total_pages, setTotalPages] = useState(0);
+  useEffect(() => {
+    if (emplyees) {
+      setTotalPages(emplyees?.data?.meta?.total_pages);
+    }
+  }, [emplyees]);
 
   if (isEmployeesLoading) {
     return (
@@ -78,11 +84,11 @@ const UsersContainer = () => {
                   <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
                 </tr>
               </thead>
-              {/* <tbody>
-                {results?.data?.user_sessions?.map((item, index) => (
-                  <GroupsItem key={index} index={index + 1} item={item} />
+              <tbody>
+                {results?.data?.users?.map((item, index) => (
+                  <UsersItem key={index} index={index + 1} item={item} />
                 ))}
-              </tbody> */}
+              </tbody>
             </table>
           </div>
         ) : (
@@ -97,13 +103,15 @@ const UsersContainer = () => {
                 <th className={`p-2 pt-3 pb-3`}>النوع</th>
                 <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
                 <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
-                <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+                {/* <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th> */}
               </thead>
               <tbody>
-                {emplyees?.data?.map((item, index) => (
+                {emplyees?.data?.users?.map((item, index) => (
                   <UsersItem
                     key={index}
-                    index={emplyees?.data?.indexOf(item) + (page - 1) * 5 + 1}
+                    index={
+                      emplyees?.data?.users?.indexOf(item) + (page - 1) * 5 + 1
+                    }
                     item={item}
                   />
                 ))}
@@ -112,21 +120,21 @@ const UsersContainer = () => {
             <div
               className={`d-flex justify-content-between align-items-center ${styles.pageBtn}`}
             >
-              {/* <MainButton
+              <MainButton
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 text={"<<"}
                 btnWidth="100px"
               />
               <p className={`m-0`}>
-                صفحة {page} من {totalPages}
+                صفحة {page} من {total_pages}
               </p>
               <MainButton
                 onClick={() => setPage(page + 1)}
-                disabled={page === totalPages}
+                disabled={page === total_pages}
                 text={">>"}
                 btnWidth="100px"
-              /> */}
+              />
             </div>
           </div>
         )}

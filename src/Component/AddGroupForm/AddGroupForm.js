@@ -16,12 +16,17 @@ const AddGroupForm = () => {
     notes: Yup.string(),
     duration: Yup.number().required("هذا الحقل إلزامي"),
     price: Yup.number().required("هذا الحقل إلزامي"),
+    freeze_duration: Yup.number().min(
+      0,
+      "يجب أن تسكون قيمة التحميد أكثر من صفر"
+    ),
   });
   const initialValues = {
     name: "",
     price: "",
     duration: "",
     notes: "",
+    freeze_duration: 0,
   };
 
   const [
@@ -39,6 +44,7 @@ const AddGroupForm = () => {
       description: values["notes"],
       price: values["price"],
       duration: values["duration"],
+      freeze_duration: values["freeze_duration"],
     };
 
     console.log(newSession);
@@ -50,6 +56,7 @@ const AddGroupForm = () => {
       setTimeout(() => {
         setSuccess(false);
         navigate("/Home/ScheduleContainer");
+        window.location.reload();
       }, 300);
     } catch (error) {
       if (error.originalStatus === 403) {
@@ -99,6 +106,14 @@ const AddGroupForm = () => {
                     </div>
                     <div className="col-6">
                       <InputField name="notes" label="ملاحظات" />
+                    </div>
+                  </div>
+                  <div className="row mb-4 g-5">
+                    <div className="col-6">
+                      <InputField
+                        name="freeze_duration"
+                        label="أقصى حد للتجميد (بالأيام)"
+                      />
                     </div>
                   </div>
                   <div className={`${styles.addgroupBtn} text-center`}>

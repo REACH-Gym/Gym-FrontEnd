@@ -1,12 +1,8 @@
 import styles from "./AllSchedules.module.css";
-import ScheduleItem from "../ScheduleItem/ScheduleItem";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
-import {
-  useGetSessionsQuery,
-  useGetSessionsWithSchedulesQuery,
-} from "../../features/api";
+import { useGetSessionsWithSchedulesQuery } from "../../features/api";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { Commet } from "react-loading-indicators";

@@ -42,6 +42,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     } else {
       // If refreshing the token fails, log the user out or handle the failure
       // Optionally, you could dispatch an action to clear auth state
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 300);
     }
   }
 
@@ -53,10 +56,17 @@ export const apis = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     getAllMembers: builder.query({
-      query: () => `members`,
+      query: (params) => `members${params}`,
     }),
     getEmployees: builder.query({
       query: (params) => `employee${params}`,
+    }),
+    postEmployee: builder.mutation({
+      query: (data) => ({
+        url: "employee",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
     }),
     getAllMembersAtOnce: builder.query({
       query: () => `members?paginate=false`,
@@ -163,4 +173,5 @@ export const {
   usePatchSessionMutation,
   usePatchScheduleMutation,
   useGetSessionsWithSchedulesQuery,
+  usePostEmployeeMutation,
 } = apis;

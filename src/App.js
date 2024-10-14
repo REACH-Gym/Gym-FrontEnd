@@ -37,6 +37,7 @@ import SupportDetails from "./Component/Support/SupportDetails";
 import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMemberMembership";
 import UsersContainer from "./Component/UsersContainer/UsersContainer";
 import AllSchedules from "./Component/AllSchedules/AllSchedules";
+import AddUser from "./Component/AddUser/AddUser";
 
 function App() {
   return (
@@ -134,6 +135,10 @@ function App() {
                 element={<TrainerScheduleContainer />}
               />
               {/* end of schedule */}
+              {/* start users */}
+              <Route path="UsersContainer" element={<UsersContainer />} />
+              <Route path="AddUser" element={<AddUser />} />
+              {/* end users */}
             </Route>
           </Route>
         </Routes>

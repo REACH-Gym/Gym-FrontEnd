@@ -118,7 +118,12 @@ const AddScheduleForm = () => {
       ]);
       console.log(days);
     } else {
-      alert("يجب إدخال اليوم والوقت");
+      setError("يجب إدخال اليوم والوقت");
+      setTimeout(() => {
+        setError("");
+        //End Timeout function
+        clearTimeout();
+      }, 2000);
     }
   };
 
@@ -127,17 +132,24 @@ const AddScheduleForm = () => {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  // const [err, setErr] = useState
   const handleSubmit = async (values) => {
     console.log(values);
     if (Object.keys(values).length < 4) {
-      alert("يجب أدخال اليوم والوقت والمجموعة");
+      setError("يجب ادخال اليوم والوقت والمجموعة");
+      setTimeout(() => {
+        setError("");
+        //End Timeout function
+        clearTimeout();
+      }, 2000);
+      console.log("first");
     } else {
       try {
         const response = await postSchedule(values).unwrap();
         console.log(response);
         setSuccess(true);
         setTimeout(() => {
-          navigate("/Home/ScheduleContainer");
+          navigate("/Home/AllSchedules");
         }, 2000);
       } catch (e) {
         if (e.originalStatus === 403) {
@@ -155,7 +167,7 @@ const AddScheduleForm = () => {
     data: trainers,
     isLoading: isEmployeesLoading,
     error: employeesError,
-  } = useGetEmployeesQuery("?role=T");
+  } = useGetEmployeesQuery("?filter{role}=T");
 
   const {
     data: sessions,
@@ -201,7 +213,9 @@ const AddScheduleForm = () => {
       {success && (
         <Success text={"تم إضافة الموعد إلى المجموعة بنجاح"} show={success} />
       )}
-      {isScheduleError && <Error text={error} show={isScheduleError} />}
+      {isScheduleError || error.length > 1 ? (
+        <Error text={error} show={isScheduleError || error.length > 1} />
+      ) : null}
       <div className={`${styles.schedulFormeContainer}`}>
         <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
           <ComponentTitle
@@ -254,7 +268,7 @@ const AddScheduleForm = () => {
                         inputType={"select"}
                       >
                         <option value={""}> إختر </option>
-                        {trainers?.data?.map((trainer, index) => (
+                        {trainers?.data?.users?.map((trainer, index) => (
                           <option key={index} value={trainer.id}>
                             {trainer.name}
                           </option>
@@ -316,11 +330,15 @@ const AddScheduleForm = () => {
                       />
                     </div>
                     <div
-                      className="col-1 fs-3 fw-bold text-primary d-flex justify-content-center align-items-end pb-2"
+                      className="col-1 fs-3 fw-bold text-primary d-flex justify-content-center align-items-end pb-3"
                       onClick={() => handleAdd(setFieldValue)}
                       style={{ cursor: "pointer" }}
                     >
-                      +
+                      <img
+                        src="/assets/image/correct-signal-svgrepo-com.png"
+                        alt="Confirm"
+                        width={"25px"}
+                      />
                     </div>
                   </div>
                   <div className="row" id="days">

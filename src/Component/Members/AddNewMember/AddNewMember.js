@@ -76,7 +76,7 @@ function AddNewMember() {
         console.log(response)
         setShowModal(true);
         setTimeout(() => {
-          navigate("/Home/AllMembers");
+          // navigate("/Home/AllMembers");
         }, 3000);
       } else {
         console.log(response)

@@ -105,7 +105,7 @@ function SidebarBox() {
       icon: <ManageAccountsOutlinedIcon />,
       subItems: [
         { title: "جميع المستخدمين", navigateTo: "UsersContainer" },
-        { title: "اضافة مستخدم جديد", navigateTo: "" },
+        { title: "اضافة مستخدم جديد", navigateTo: "AddUser" },
       ],
     },
     {
