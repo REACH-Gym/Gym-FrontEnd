@@ -12,9 +12,11 @@ function ForgotPassword() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [loading , setLoading] = useState(false);
   const access_token = localStorage.getItem("access");
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const item = {
         phone_number: values["phone_number"],
@@ -108,7 +110,7 @@ function ForgotPassword() {
                 )}
               </div>
               <div className="sendCodeBtn mt-4">
-                <MainButton btnType={"submit"} text={"ارسال رمز"} />
+                <MainButton btnType={"submit"} text={"ارسال رمز"} isLoading={loading} />
               </div>
             </Form>
           </Formik>

@@ -14,6 +14,7 @@ function EditSub() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const membership = location.state?.membership;
+  const [loading ,setLoading] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -44,6 +45,7 @@ function EditSub() {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://gym-backend-production-65cc.up.railway.app/memberships/${membership.id}/`,
@@ -122,6 +124,7 @@ function EditSub() {
                 text={"حفظ التعديل"}
                 btnType={"submit"}
                 disabled={isSubmitting}
+                isLoading={loading}
               />
             </div>
           </Form>
@@ -131,7 +134,7 @@ function EditSub() {
       <Modal isOpen={showModal}>
         <div className="d-flex justify-content-end">
           <button
-            className="border-0 pt-4 ps-4 failed"
+            className="border-0 pt-4 ps-4 failed fw-bolder"
             onClick={handleCloseModal}
           >
             X
@@ -155,7 +158,7 @@ function EditSub() {
       <Modal isOpen={showModalError}>
         <div className="d-flex justify-content-end">
           <button
-            className="border-0 pt-4 ps-4 failed"
+            className="border-0 pt-4 ps-4 failed fw-bolder"
             onClick={hanldleShowModalError}
           >
             X

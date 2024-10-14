@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./mainButton.css";
+import { OrbitProgress } from "react-loading-indicators";
 function MainButton({
   text,
   onClick,
   btnWidth = "",
   btnType,
   disabled = false,
+  isLoading = false,
 }) {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
   return (
     <div>
       <button
@@ -14,9 +20,9 @@ function MainButton({
         style={{ width: btnWidth }}
         onClick={onClick}
         type={btnType}
-        disabled={disabled}
+        disabled={disabled || loading}
       >
-        {text}
+        {loading  ? <OrbitProgress color="#fff" size="small" width="6px" height="4px"/> : text }
       </button>
     </div>
   );

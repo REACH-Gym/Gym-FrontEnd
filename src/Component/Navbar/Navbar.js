@@ -17,7 +17,7 @@ function Navbar() {
     <div className="navbarContainer">
       <nav className="navbar bg-body-tertiary fixed-top">
         <div className="container-fluid">
-          <div>
+          <div className="mt-4">
             <img src="/assets/image/logo(1).png" alt="" />
           </div>
           <div className="d-flex align-items-center ">
@@ -25,8 +25,8 @@ function Navbar() {
               <p className="mb-5 fw-bolder text-light">{firstChar}</p>
             </div>
             <div>
-              <p className="mb-0 fw-lighter fs-6 mt-4 ">Admin</p>
-              <p className="admin-name text-center">{adminName}</p>
+              <p className="mb-0 fw-lighter fs-6">Admin</p>
+              {/* <p className="admin-name text-center">{adminName}</p> */}
             </div>
           </div>
         </div>

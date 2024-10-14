@@ -6,17 +6,21 @@ import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import { useNavigate } from "react-router-dom";
-
+import Modal from "../../../Common Components/Modal/Modal";
 function AddNewMemberToSub() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
   const [users, setUsers] = useState([]);
   const [membership, setMemberShip] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError , setShowModalModalError] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
   useEffect(() => {
     // fetch users
     async function fetchData() {
+      // setLoading(true);
       try {
         const response = await fetch(
           "https://gym-backend-production-65cc.up.railway.app/members/?filter{is_active}=true",
@@ -77,6 +81,7 @@ function AddNewMemberToSub() {
 
   // adding member to subscriptions
   const handleSubmit = async (values) => {
+    setLoading(true);
     console.log(values);
     try {
       const items = {
@@ -104,6 +109,7 @@ function AddNewMemberToSub() {
       console.log(subscriptions);
       if (response.ok) {
         setSubscription(subscriptions.data);
+        setShowModal(true);
         console.log("subbbbbbbb", subscriptions.data);
         console.log("success");
         setTimeout(() => {
@@ -111,6 +117,7 @@ function AddNewMemberToSub() {
         }, 3000);
       } else {
         console.log("failed");
+        setShowModalModalError(true);
       }
     } catch (error) {
       console.error(error);
@@ -127,10 +134,16 @@ function AddNewMemberToSub() {
   const validationSchema = Yup.object({
     user: Yup.string().required("هذا الحقل الزامي"),
     membership: Yup.string().required("هذا الحقل الزامي"),
-    notes: Yup.string().required("هذا الحقل الزامي"),
+    notes: Yup.string(),
     start_date: Yup.date().required("هذا الحقل الزامي"),
     discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
   });
+  const handlCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleCloseModalError = ()=>{
+    setShowModalModalError(false);
+  }
   return (
     <div className="addNewSubscriptionsContainer mt-5">
       <div className="pe-4">
@@ -240,13 +253,61 @@ function AddNewMemberToSub() {
                   </div>
                 </div> */}
                 <div className="mt-5 addBtn text-center">
-                  <MainButton text={"اضافة"} btnType={"submit"} />
+                  <MainButton text={"اضافة"} btnType={"submit"} isLoading={loading} />
                 </div>
               </Form>
             )}
           </Formik>
         </div>
       </div>
+      {/* succeess */}
+      <Modal isOpen={showModal}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed fw-bolder"
+            onClick={handlCloseModal}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/weui_done2-outlined.png"
+            alt=""
+            height={"100px"}
+            width={"100px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            تم اضافة عضو للأشتراك بنجاح
+          </p>
+        </div>
+      </Modal>
+      {/* failed */}
+      <Modal isOpen={showModalError}>
+        <div className="d-flex justify-content-end">
+          <button
+            className="border-0 pt-4 ps-4 failed fw-bolder"
+            onClick={handleCloseModalError}
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+            alt=""
+            height={"100px"}
+            width={"100px"}
+          />
+        </div>
+        <div>
+          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+            حدث خطأ ! هذا العضو مشترك من قبل 
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

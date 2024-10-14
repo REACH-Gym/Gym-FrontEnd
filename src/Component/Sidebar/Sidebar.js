@@ -17,6 +17,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
+import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined';
 import { useNavigate } from "react-router-dom";
 import Logout from "../../Pages/Auth/Logout/Logout";
 import ModalLogOut from "../../Pages/Auth/Logout/ModalLogOut";
@@ -163,6 +164,15 @@ function SidebarBox() {
       subItems: [
         { title: "رابط التطبيق", navigateTo: "" },
         { title: "كود الأستجابة السريع", navigateTo: "" },
+      ],
+    },
+    {
+      title: "أكواد الخصم",
+      icon: <PercentOutlinedIcon/>,
+      itemId: "discount code",
+      subItems: [
+        { title: "جميع أكواد الخصم ", navigateTo: "" },
+        { title: "اضافة كود خصم  ", navigateTo: "" },
       ],
     },
     {

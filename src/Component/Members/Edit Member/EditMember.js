@@ -14,6 +14,7 @@ function EditMember() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const member = location.state?.member;
+  const [loading , setLoading] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -44,6 +45,7 @@ function EditMember() {
   });
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     const formattedValues = {
       ...values,
       gender: values.gender === "انثي" ? "F" : "M",
@@ -135,6 +137,7 @@ function EditMember() {
               <MainButton
                 text={"حفظ التعديل"}
                 btnType={"submit"}
+                isLoading={loading}
               />
             </div>
           </Form>

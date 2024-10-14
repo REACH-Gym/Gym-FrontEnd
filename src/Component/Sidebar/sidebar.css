@@ -1,11 +1,14 @@
 .sidebarContainer {
   width: 300px;
   padding: 100px 10px;
+  /* overflow-y:scroll; */
+  /* height: 60vh; */
 }
 .menu {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  /* overflow-y:  scroll; */
 }
 .menu-item {
   margin-bottom: 10px;

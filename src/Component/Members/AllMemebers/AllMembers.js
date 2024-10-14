@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./AllMembers.css";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
@@ -10,7 +10,7 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
-import { Active , Deleted} from "../../Status/Status";
+import { Active, Deleted } from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -22,12 +22,11 @@ function AllMembers() {
   const access_token = localStorage.getItem("access");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     async function fetchAllMembers() {
       setLoading(true);
-      // setError(null);
       try {
         const response = await fetch(
           `https://gym-backend-production-65cc.up.railway.app/members/?page=${page}&per_page=${per_page}`,
@@ -43,18 +42,11 @@ function AllMembers() {
         const result = await response.json();
         console.log("Fetched result:", result);
 
-        if (response.ok && result.status === "success") {
-          if (result.data && result.data.users.length > 0) {
-            setAllMembers(result.data.users);
-            setTotalPages(result.data.meta.total_pages);
-          } else {
-            setError("لا يوجد أعضاء");
-          }
-        
-          setError(result.message || "حدث خطأ غير متوقع أثناء جلب الأعضاء.");
+        if (response.ok) {
+          setAllMembers(result.data.users);
+          setTotalPages(result.data.meta.total_pages);
         }
       } catch (error) {
-        setError("خطأ في الشبكة: فشل في جلب الأعضاء.");
         console.error("error Occurred:", error);
       } finally {
         setLoading(false);
@@ -118,14 +110,29 @@ function AllMembers() {
     }, 3000);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="allMembereContainer">
       {loading ? (
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
-        <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center" style={{height:"50vh" }}>
+      ) : allMembers.length === 0 ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
           لا يوجد أعضاء
         </div>
       ) : (
@@ -152,6 +159,7 @@ function AllMembers() {
               >
                 لم يتم العثور علي نتائج مطابقة
               </div>
+              
             ) : results?.data?.users?.length > 0 ? (
               <div className="p-3">
                 <div className="tableContainer">
@@ -187,14 +195,23 @@ function AllMembers() {
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td>{item.is_active === false ? (<Deleted/>) :(<Active/>)}</td>
+                          <td>
+                            {item.is_active === false ? (
+                              <Deleted />
+                            ) : (
+                              <Active />
+                            )}
+                          </td>
                           <td className="text-center">
                             <MoreVertIcon
                               onClick={() => toggleDropdown(item.id)}
                               style={{ cursor: "pointer" }}
                             />
                             {showDropdown === item.id && (
-                              <ul className="drop-menu">
+                              <ul
+                                className="drop-menu"
+                                ref={dropdownRef} 
+                              >
                                 {item.is_active ? (
                                   <>
                                     <li
@@ -241,7 +258,7 @@ function AllMembers() {
                         #
                       </th>
                       <th scope="col" className="pb-4">
-                        الأسم
+                        الإسم
                       </th>
                       <th scope="col" className="pb-4">
                         رقم الجوال
@@ -267,31 +284,36 @@ function AllMembers() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allMembers.map((member, index) => (
-                      <tr key={member.id}>
+                    {allMembers?.map((item, index) => (
+                      <tr key={item.id}>
                         <th scope="row">{index + 1}</th>
-                        <td>{member.name}</td>
-                        <td>{member.phone_number}</td>
-                        <td>{member.national_id}</td>
-                        <td>{member.created_at.slice(0, 10)}</td>
+                        <td>{item.name}</td>
+                        <td>{item.phone_number}</td>
+                        <td>{item.national_id}</td>
+                        <td>{item.created_at.slice(0, 10)}</td>
                         <td>0</td>
-                        <td>{member.date_of_birth}</td>
-                        <td>{member.is_active === false ? (<Deleted/>) : (<Active/>)}</td>
+                        <td>{item.date_of_birth}</td>
+                        <td>
+                          {item.is_active === false ? <Deleted /> : <Active />}
+                        </td>
                         <td className="text-center">
                           <MoreVertIcon
-                            onClick={() => toggleDropdown(member.id)}
+                            onClick={() => toggleDropdown(item.id)}
                             style={{ cursor: "pointer" }}
                           />
-                          {showDropdown === member.id && (
-                            <ul className="drop-menu">
-                              {member.is_active ? (
+                          {showDropdown === item.id && (
+                            <ul
+                              className="drop-menu"
+                              ref={dropdownRef}
+                            >
+                              {item.is_active ? (
                                 <>
                                   <li
                                     onClick={() =>
                                       navigate(
-                                        `/Home/AllMembers/${member.id}/edit`,
+                                        `/Home/AllMembers/${item.id}/edit`,
                                         {
-                                          state: { member: member },
+                                          state: { member: item },
                                         }
                                       )
                                     }
@@ -301,14 +323,14 @@ function AllMembers() {
                                   </li>
                                   <li>
                                     <DeleteMember
-                                      id={member.id}
+                                      id={item.id}
                                       onDelete={handleDeleteMember}
                                     />
                                   </li>
                                 </>
                               ) : (
                                 <MemberActivate
-                                  id={member.id}
+                                  id={item.id}
                                   onActive={handleActiveMember}
                                 />
                               )}

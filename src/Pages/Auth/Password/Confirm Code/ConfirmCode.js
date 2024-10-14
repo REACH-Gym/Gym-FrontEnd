@@ -13,8 +13,10 @@ function ConfirmCode() {
   const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
   const phone_number = localStorage.getItem("phone_number");
-  // const [serverMessage , setServerMessage] = useState("")
+  const [loading , setLoading] = useState(false);
+
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const phone_number = localStorage.getItem("phone_number");
       const otp =
@@ -25,10 +27,7 @@ function ConfirmCode() {
         values.otp5 +
         values.otp6;
 
-      const item = {
-        otp,
-        phone_number,
-      };
+      const item = { otp, phone_number };
 
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/auth/verify-otp",
@@ -47,24 +46,20 @@ function ConfirmCode() {
       if (response.ok) {
         console.log("OTP Verified", result);
         localStorage.setItem("otp_message", result.message);
-        // serverMessage()
         setShowModal(true);
         setTimeout(() => {
           navigate("/CreateNewPassword");
         }, 1500);
       } else {
         console.log("OTP Verification Failed");
-        console.log(otp);
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
   };
 
-  // Function to handle OTP resend
   const handleResendCode = async () => {
     try {
-      const phone_number = localStorage.getItem("phone_number");
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
         {
@@ -79,7 +74,6 @@ function ConfirmCode() {
       );
 
       const result = await response.json();
-      console.log(result);
       if (response.ok) {
         toast.success("تم إرسال رمز التحقق مرة أخرى");
       } else {
@@ -92,24 +86,12 @@ function ConfirmCode() {
   };
 
   const validationSchema = Yup.object({
-    otp1: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
-    otp2: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
-    otp3: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
-    otp4: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
-    otp5: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
-    otp6: Yup.string()
-      .required("من فضلك قم بادخال رمز التأكيد")
-      .length(1, "رمز التأكيد مكون من رقم واحد فقط"),
+    otp1: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
+    otp2: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
+    otp3: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
+    otp4: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
+    otp5: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
+    otp6: Yup.string().required("من فضلك قم بادخال رمز التأكيد").length(1),
   });
 
   const initialValues = {
@@ -119,6 +101,12 @@ function ConfirmCode() {
     otp4: "",
     otp5: "",
     otp6: "",
+  };
+
+  const handleKeyUp = (event, nextField) => {
+    if (event.target.value.length === 1 && nextField) {
+      nextField.focus();
+    }
   };
 
   return (
@@ -145,32 +133,63 @@ function ConfirmCode() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className="confirmCodeForm text-center">
-            <div className="confirmCodeForm__inputs mt-5 ">
-              <Field className="p-2 text-center" name="otp1"/>
-              <Field className="p-2 text-center" name="otp2" />
-              <Field className="p-2 text-center" name="otp3" />
-              <Field className="p-2 text-center" name="otp4" />
-              <Field className="p-2 text-center" name="otp5" />
-              <Field className="p-2 text-center" name="otp6" />
-            </div>
+          {({ values }) => (
+            <Form className="confirmCodeForm text-center">
+              <div className="confirmCodeForm__inputs mt-5">
+                <Field
+                  className="p-2 text-center"
+                  name="otp1"
+                  maxLength="1"
+                  onKeyUp={(e) => handleKeyUp(e, document.getElementsByName("otp2")[0])}
+                />
+                <Field
+                  className="p-2 text-center"
+                  name="otp2"
+                  maxLength="1"
+                  onKeyUp={(e) => handleKeyUp(e, document.getElementsByName("otp3")[0])}
+                />
+                <Field
+                  className="p-2 text-center"
+                  name="otp3"
+                  maxLength="1"
+                  onKeyUp={(e) => handleKeyUp(e, document.getElementsByName("otp4")[0])}
+                />
+                <Field
+                  className="p-2 text-center"
+                  name="otp4"
+                  maxLength="1"
+                  onKeyUp={(e) => handleKeyUp(e, document.getElementsByName("otp5")[0])}
+                />
+                <Field
+                  className="p-2 text-center"
+                  name="otp5"
+                  maxLength="1"
+                  onKeyUp={(e) => handleKeyUp(e, document.getElementsByName("otp6")[0])}
+                />
+                <Field
+                  className="p-2 text-center"
+                  name="otp6"
+                  maxLength="1"
+                />
+              </div>
 
-            <div className="sendCodeBtn mt-4">
-              <MainButton text={"تأكيد"} btnType={"submit"} />
-            </div>
+              <div className="sendCodeBtn mt-4">
+                <MainButton text={"تأكيد"} btnType={"submit"} isLoading={loading} />
+              </div>
 
-            <p className="mt-3 fw-bolder">لم تقم باستلام الرمز؟</p>
-            <p>
-              ارسال الرمز مرة اخرى{" "}
-              <button
-                className="resend-button fw-bolder text-primary me-2"
-                type="button"
-                onClick={handleResendCode}
-              >
-                اعادة الارسال
-              </button>
-            </p>
-          </Form>
+              <p className="mt-3 fw-bolder">لم تقم باستلام الرمز؟</p>
+              <p>
+                ارسال الرمز مرة اخرى{" "}
+                <button
+                  className="resend-button fw-bolder text-primary me-2"
+                  type="button"
+                  onClick={handleResendCode}
+                >
+                  اعادة الارسال
+                </button>
+              </p>
+            </Form>
+          )}
         </Formik>
       </div>
       <ToastContainer />
@@ -186,12 +205,11 @@ function ConfirmCode() {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center fw-bolder fs-6 p-3">
-          <p className="text-dark" style={{}}>
-            01013585051 تم التحقق منه
-          </p>
+          <p className="text-dark">تم التحقق من الرقم</p>
         </div>
       </Modal>
     </div>
   );
 }
+
 export default ConfirmCode;

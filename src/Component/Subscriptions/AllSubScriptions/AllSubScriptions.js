@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef } from "react";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -21,7 +21,8 @@ function AllSubScriptions() {
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,12 +42,12 @@ function AllSubScriptions() {
         const result = await response.json();
         console.log(result);
         if (response.ok) {
-          if (result.data.memberships.length > 0) {
+          // if (result.data.memberships.length > 0) {
             setAllSubscriptions(result.data.memberships);
             setTotalPages(result.data.meta.total_pages);
-          } else {
-            setError("لا يوجد أشتراكات");
-          }
+          // } else {
+            // setError("لا يوجد أشتراكات");
+          // }
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -93,13 +94,24 @@ function AllSubScriptions() {
     );
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="allSubscriptionContainer">
       {loading ? (
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
+      ) : allSubscription.length === 0 ? (
         <div
           className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
           style={{ height: "50vh" }}
@@ -171,7 +183,7 @@ function AllSubScriptions() {
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === item.id && (
-                            <ul className="drop-menu">
+                            <ul className="drop-menu" ref={dropdownRef}>
                               <li
                                 onClick={() =>
                                   navigate(
@@ -239,7 +251,7 @@ function AllSubScriptions() {
                           style={{ cursor: "pointer" }}
                         />
                         {showDropdown === subscription.id && (
-                          <ul className="drop-menu">
+                          <ul className="drop-menu" ref={dropdownRef}>
                             {subscription.is_active ? (
                               <>
                                 <li

@@ -12,7 +12,9 @@ function AddNewSubscription() {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
+  const [loading , setLoading] = useState(false);
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const items = {
         name: values["name"],
@@ -55,7 +57,7 @@ function AddNewSubscription() {
     price: Yup.string().required("هذا الحقل الزامي"),
     membership_duration: Yup.string().required("هذا الحقل الزامي"),
     freeze_duration: Yup.string().required("هذا الحقل الزامي"),
-    description: Yup.string().required("هذا الحقل الزامي"),
+    description: Yup.string(),
   });
   const intialValues = {
     name: "",
@@ -111,7 +113,7 @@ function AddNewSubscription() {
               />
             </div>
             <div className="addmemberBtn mt-5">
-              <MainButton text={"اضافة"} btnType={"submit"} />
+              <MainButton text={"اضافة"} btnType={"submit"} isLoading={loading} />
             </div>
           </Form>
         </Formik>
@@ -121,7 +123,7 @@ function AddNewSubscription() {
         <div className="d-flex justify-content-end">
           <button
             onClick={handleCloseModal}
-            className="border-0 pt-4 ps-4 failed"
+            className="border-0 pt-4 ps-4 failed fw-bolder"
           >
             X
           </button>
@@ -146,7 +148,7 @@ function AddNewSubscription() {
         <div className="d-flex justify-content-end">
           <button
             onClick={handleCloseModalError}
-            className="border-0 pt-4 ps-4 failed"
+            className="border-0 pt-4 ps-4 failed fw-bolder"
           >
             X
           </button>

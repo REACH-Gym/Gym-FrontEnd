@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./SubscripedMembers.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
@@ -19,8 +19,8 @@ function SubscripedMembers() {
   const [total_pages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
+  const dropdownRef = useRef();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchSubscripedMember() {
@@ -38,19 +38,11 @@ function SubscripedMembers() {
         );
         const result = await response.json();
         if (response.ok) {
-          if(result.data.user_memberships.length > 0){
             setSubscripedMembers(result.data.user_memberships);
             setTotalPages(result.data.meta.total_pages);
-          }else{
-            setError("لا يوجد أعضاء مشتركين")
-          }
-         
-        } else {
-          setError("Failed to fetch members.");
         }
       } catch (error) {
         console.error(error);
-        setError("An error occurred while fetching members.");
       } finally {
         setLoading(false);
       }
@@ -73,6 +65,17 @@ function SubscripedMembers() {
       setPage((prev) => prev - 1);
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="allSubscriptionContainer mt-4">
@@ -80,7 +83,7 @@ function SubscripedMembers() {
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
         </div>
-      ) : error ? (
+      ) : SubscripedMembers.length === 0 ? (
         <div
           className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
           style={{ height: "50vh" }}
@@ -100,6 +103,7 @@ function SubscripedMembers() {
           </div>
 
           {results?.data?.user_memberships?.length === 0 ? (
+            
             <div
               className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
               style={{ color: "red", height: "60vh" }}
@@ -135,14 +139,19 @@ function SubscripedMembers() {
                         <td>0</td>
                         <td>0</td>
                         <td>{item.start_date}</td>
-                        <td>{item.status}</td>
+                        <td className={''}>
+                          {item.status === "active" ? <Active /> : null}
+                          {item.status === "freezed" ? <Freezed /> : null}
+                          {item.status === "almost over" ? <AlmostOver /> : null}
+                          {item.status === "expired" ? <Expired /> : null}
+                        </td>
                         <td className="fw-bolder text-center fs-5">
                           <MoreVertIcon
                             onClick={() => handleShowDropMenu(item.id)}
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === item.id && (
-                            <ul className="drop-menu">
+                            <ul className="drop-menu" ref={dropdownRef}>
                               <li
                                 onClick={() =>
                                   navigate(`/Home/SubscripedMembers/${item.id}/`)
@@ -203,7 +212,7 @@ function SubscripedMembers() {
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === SubscripedMember.id && (
-                            <ul className="drop-menu">
+                            <ul className="drop-menu" ref={dropdownRef}>
                               <li
                                 onClick={() =>
                                   navigate(

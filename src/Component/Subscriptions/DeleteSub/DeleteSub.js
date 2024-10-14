@@ -5,7 +5,9 @@ import Modal from "../../../Common Components/Modal/Modal";
 function DeleteSub({id , onDelete}) {
   const access_token = localStorage.getItem("access");
   const [showModal,setShowModal] = useState(false);
+  const [loading,setLoading] = useState(false);
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://gym-backend-production-65cc.up.railway.app/memberships/${id}/`,

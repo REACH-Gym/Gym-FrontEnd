@@ -4,10 +4,12 @@
 .addForm {
   background-color: #fff;
   padding: 0px 150px 50px 150px;
-  border-radius: 10px;
-  border: 1px solid lightgray;
+  border-radius: 5px;
+  /* border: 1px solid lightgray; */
   width: 100%;
   margin: auto;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
 }
 .addForm label {
   color: rgb(98, 98, 98);

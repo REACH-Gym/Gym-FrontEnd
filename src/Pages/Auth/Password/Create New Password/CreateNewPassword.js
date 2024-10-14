@@ -11,7 +11,9 @@ function CreateNewPassword() {
   const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
   const phone_number = localStorage.getItem("phone_number");
+  const [loading ,setLoading] = useState(false)
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const items = {
         phone_number: phone_number,
@@ -115,7 +117,7 @@ function CreateNewPassword() {
                 />
               </div>
               <div className="mt-4 sendCodeBtn">
-                <MainButton text={"تأكيد"} btnType={"submit"} />
+                <MainButton text={"تأكيد"} btnType={"submit"} isLoading={loading}/>
               </div>
             </Form>
           </Formik>

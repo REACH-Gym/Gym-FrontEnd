@@ -3,7 +3,8 @@ import "./UpdateSystem.css";
 function UpdateSystem() {
   return (
     <div className="updateContainer">
-      <p className="text-center fs-3" style={{color:"#666666"}}>
+      <p className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+        style={{ height: "50vh" }}>
         لايوجد تحديثات
       </p>
       {/* <div className="updateContainer__item mb-3">
