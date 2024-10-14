@@ -11,7 +11,6 @@ import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
 import { Active, Deleted } from "../../Status/Status";
-import { Active, Deleted } from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -160,7 +159,6 @@ function AllMembers() {
               >
                 لم يتم العثور علي نتائج مطابقة
               </div>
-              
             ) : results?.data?.users?.length > 0 ? (
               <div className="p-3">
                 <div className="tableContainer">
@@ -216,10 +214,7 @@ function AllMembers() {
                               style={{ cursor: "pointer" }}
                             />
                             {showDropdown === item.id && (
-                              <ul
-                                className="drop-menu"
-                                ref={dropdownRef} 
-                              >
+                              <ul className="drop-menu" ref={dropdownRef}>
                                 {item.is_active ? (
                                   <>
                                     <li
@@ -310,10 +305,7 @@ function AllMembers() {
                             style={{ cursor: "pointer" }}
                           />
                           {showDropdown === item.id && (
-                            <ul
-                              className="drop-menu"
-                              ref={dropdownRef}
-                            >
+                            <ul className="drop-menu" ref={dropdownRef}>
                               {item.is_active ? (
                                 <>
                                   <li

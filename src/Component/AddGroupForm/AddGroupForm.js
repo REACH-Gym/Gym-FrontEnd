@@ -117,7 +117,11 @@ const AddGroupForm = () => {
                     </div>
                   </div>
                   <div className={`${styles.addgroupBtn} text-center`}>
-                    <MainButton text={"اضافة"} btnType={"submit"} />
+                    <MainButton
+                      text={"اضافة"}
+                      btnType={"submit"}
+                      isLoading={isSessionsLoading}
+                    />
                   </div>
                 </Form>
               </Formik>
