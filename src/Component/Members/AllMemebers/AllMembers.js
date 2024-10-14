@@ -11,7 +11,6 @@ import Filter from "../../../Common Components/Filter/Filter";
 import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
 import { Active, Deleted } from "../../Status/Status";
-import { Active, Deleted } from "../../Status/Status";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -196,13 +195,6 @@ function AllMembers() {
                           <td>{item.created_at.slice(0, 10)}</td>
                           <td>0</td>
                           <td>{item.date_of_birth}</td>
-                          <td>
-                            {item.is_active === false ? (
-                              <Deleted />
-                            ) : (
-                              <Active />
-                            )}
-                          </td>
                           <td>
                             {item.is_active === false ? (
                               <Deleted />
