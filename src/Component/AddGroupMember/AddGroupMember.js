@@ -7,8 +7,8 @@ import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitl
 import {
   useGetAllMembersQuery,
   useLazyGetSchedulesQuery,
-  useGetSessionsQuery,
   usePostSessionMemberMutation,
+  useGetSessionsWithSchedulesQuery,
 } from "../../features/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,9 +29,24 @@ const DynamicComponent = () => {
     data: sessions,
     isLoading: isSessionsLoading,
     error: sessionsError,
-  } = useGetSessionsQuery("?filter{is_active}=true");
+  } = useGetSessionsWithSchedulesQuery("?filter{is_active}=true");
   const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
   console.log(sessions);
+  const [sessionsWithSchedules, setSessionsWithSchedules] = useState([]);
+
+  useEffect(() => {
+    if (sessions) {
+      setSessionsWithSchedules([]);
+      for (let i = 0; i < sessions?.data?.sessions?.length; i++) {
+        if (sessions?.data?.sessions[i].schedules?.length > 0) {
+          setSessionsWithSchedules((prev) => [
+            ...prev,
+            sessions?.data?.sessions[i],
+          ]);
+        }
+      }
+    }
+  }, [sessions]);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
   const [sessionPrice, setSessionPrice] = useState(0);
@@ -39,9 +54,8 @@ const DynamicComponent = () => {
   useEffect(() => {
     if (values.group !== "") {
       setSessionPrice(
-        sessions?.data?.sessions?.find(
-          (session) => +session.id === +values.group
-        )?.price
+        sessionsWithSchedules?.find((session) => +session.id === +values.group)
+          ?.price
       );
       (async () => {
         try {
@@ -75,7 +89,7 @@ const DynamicComponent = () => {
         }
       })();
     }
-  }, [values.group, getSchedules, sessions?.data?.sessions]);
+  }, [values.group, getSchedules, sessionsWithSchedules]);
 
   if (isSessionsLoading || isMembersLoading) {
     return (
@@ -115,7 +129,7 @@ const DynamicComponent = () => {
         <div className={`col-6`}>
           <InputField name="group" label="اسم المجموعة" inputType={"select"}>
             <option value={""}>اختر</option>
-            {sessions?.data?.sessions?.map((session, i) => (
+            {sessionsWithSchedules?.map((session, i) => (
               <option value={session.id} key={i}>
                 {session.name}
               </option>
@@ -189,7 +203,9 @@ const AddGroupMember = () => {
     name: Yup.string().required("هذا الحقل الزامي"),
     group: Yup.string().required("هذا الحقل الزامي"),
     schedule: Yup.string().required("هذا الحقل الزامي"),
-    discount: Yup.number().required("هذا الحقل الزامي").max(100),
+    discount: Yup.number()
+      .max(100, `يجب أن يكون الخصم أقل من 100`)
+      .min(1, `يجب أن يكون الخصم أكبر من 0`),
     start_date: Yup.date().required("هذا الحقل الزامي"),
   });
 
@@ -215,6 +231,7 @@ const AddGroupMember = () => {
       setTimeout(() => {
         setSuccess(false);
         navigate("/Home/GroupsContainer");
+        window.location.reload();
       }, 300);
     } catch (err) {
       if (err.originalStatus === 403) {

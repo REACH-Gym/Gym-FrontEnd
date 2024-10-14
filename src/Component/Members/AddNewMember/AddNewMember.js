@@ -43,10 +43,16 @@ function AddNewMember() {
       console.log("Response status:", response.status);
       console.log("Response result:", result);
 
+      if (response?.status === 400) {
+        for (let i = 0; i < Object.keys(result?.error).length; i++) {
+          console.log(Object.keys(result?.error)[i]);
+        }
+      }
+
       if (response.ok) {
         setShowModal(true);
         setTimeout(() => {
-          navigate("/Home/AllMembers");
+          // navigate("/Home/AllMembers");
         }, 3000);
       } else {
         setShowModalError(true);

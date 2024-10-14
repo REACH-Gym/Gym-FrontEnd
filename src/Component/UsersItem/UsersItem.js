@@ -11,16 +11,25 @@ const UsersItem = ({ index, item }) => {
   return (
     <tr className={`${styles.tableRow}`}>
       <td className="table-column p-2">{index}</td>
-      <td className="table-column p-2">{item.user.name}</td>
-      <td className="table-column p-2">{item.schedule.session.name}</td>
-      <td className="table-column p-2">{item.schedule.trainer.name}</td>
+      <td className="table-column p-2">{item.name}</td>
+      <td className="table-column p-2">{item.phone_number}</td>
+      <td className="table-column p-2">{item.national_id}</td>
+      <td className="table-column p-2">{item.date_of_birth}</td>
+      <td className="table-column p-2">{item.gender}</td>
+      <td className="table-column p-2">{item.date_of_birth}</td>
       <td className="table-column p-2">
+        {item.role === "S" && "مشرف عام"}
+        {item.role === "T" && "مدرب"}
+        {item.role === "R" && "موظف استقبال"}
+        {item.role === "A" && "محاسب"}
+      </td>
+      {/* <td className="table-column p-2">
         {item.status === "active" ? <Active /> : null}
         {item.status === "expired" ? <Expired /> : null}
         {item.status === "freezed" ? <Freezed /> : null}
         {item.status === "almost over" ? <AlmostOver /> : null}
-      </td>
-      <td
+      </td> */}
+      {/* <td
         className={`${styles.tableColumn} tableColumn${index} position-relative p-2`}
         onClick={handleOptions}
       >
@@ -95,7 +104,7 @@ const UsersItem = ({ index, item }) => {
             <div className={`d-inline-block`}>حذف</div>
           </div>
         </div>
-      </td>
+      </td> */}
     </tr>
   );
 };
