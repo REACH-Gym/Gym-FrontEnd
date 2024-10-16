@@ -25,13 +25,7 @@ const GroupsContainer = () => {
   console.log(groupsMembers);
   useEffect(() => {
     setTotalPages(groupsMembers?.data.meta?.total_pages);
-    console.log(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
-  console.log(results?.data?.user_sessions?.length);
-
-  // useEffect(() => {
-  //   console.log(results?.data?.user_sessions?.length);
-  // }, [results]);
 
   if (isGroupsMembersFetching) {
     return (
@@ -60,7 +54,7 @@ const GroupsContainer = () => {
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/groups.png"}
-            title={"اعضاء المجموعات"}
+            title={"أعضاء المجموعات"}
             subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
           />
           <Filter
@@ -108,7 +102,7 @@ const GroupsContainer = () => {
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
-                {groupsMembers?.data?.user_sessions?.map((item, index) => (
+                {groupsMembers?.data.user_sessions.map((item, index) => (
                   <GroupsItem
                     key={index}
                     index={

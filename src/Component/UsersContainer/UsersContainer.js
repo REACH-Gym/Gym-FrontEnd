@@ -19,7 +19,6 @@ const UsersContainer = () => {
     error: employeesError,
   } = useGetEmployeesQuery(`?page=${page}&per_page=20`);
 
-  console.log(emplyees);
   const [total_pages, setTotalPages] = useState(0);
   useEffect(() => {
     if (emplyees) {
@@ -56,7 +55,7 @@ const UsersContainer = () => {
             subTitle={"يمكنك متابعة جميع المستخدمين من هنا"}
           />
           <Filter
-            query={"members/sessions/"}
+            query={"employee"}
             options={["اسم المستخدم"]}
             searchResults={setResults}
             status={false}
@@ -69,7 +68,7 @@ const UsersContainer = () => {
             }}
           />
         </div>
-        {results?.data?.user_sessions?.length > 0 ? (
+        {results?.data?.users?.length > 0 ? (
           <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead>
@@ -82,6 +81,7 @@ const UsersContainer = () => {
                   <th className={`p-2 pt-3 pb-3`}>النوع</th>
                   <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
                   <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
+                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                   <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
                 </tr>
               </thead>
@@ -104,7 +104,8 @@ const UsersContainer = () => {
                 <th className={`p-2 pt-3 pb-3`}>النوع</th>
                 <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
                 <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
-                {/* <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th> */}
+                <th className={`p-2 pt-3 pb-3`}>الحالة</th>
+                <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
               <tbody>
                 {emplyees?.data?.users?.map((item, index) => (

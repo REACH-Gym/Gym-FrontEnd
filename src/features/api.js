@@ -68,6 +68,13 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    patchEmployee: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `employee/${id}`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
     getAllMembersAtOnce: builder.query({
       query: () => `members?paginate=false`,
     }),
@@ -174,4 +181,5 @@ export const {
   usePatchScheduleMutation,
   useGetSessionsWithSchedulesQuery,
   usePostEmployeeMutation,
+  usePatchEmployeeMutation,
 } = apis;

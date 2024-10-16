@@ -38,6 +38,7 @@ import GroupMemberMembership from "./Component/GroupMemberMembership/GroupMember
 import UsersContainer from "./Component/UsersContainer/UsersContainer";
 import AllSchedules from "./Component/AllSchedules/AllSchedules";
 import AddUser from "./Component/AddUser/AddUser";
+import EditUser from "./Component/EditUser/EditUser";
 
 function App() {
   return (
@@ -138,6 +139,7 @@ function App() {
               {/* start users */}
               <Route path="UsersContainer" element={<UsersContainer />} />
               <Route path="AddUser" element={<AddUser />} />
+              <Route path={"EditUser/:userId"} element={<EditUser />} />
               {/* end users */}
             </Route>
           </Route>

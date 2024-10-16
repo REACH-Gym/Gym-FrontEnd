@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
-
 const DynamicComponent = () => {
   const { values } = useFormikContext();
   const {
@@ -91,6 +90,13 @@ const DynamicComponent = () => {
     }
   }, [values.group, getSchedules, sessionsWithSchedules]);
 
+  const [price, setPrice] = useState(0);
+  useEffect(() => {
+    if (sessionPrice) {
+      setPrice(sessionPrice * (1 - values.discount / 100) * (15 / 100));
+    }
+  }, [sessionPrice, values.discount]);
+
   if (isSessionsLoading || isMembersLoading) {
     return (
       <div
@@ -115,7 +121,7 @@ const DynamicComponent = () => {
       <div className="row">
         <div className={`col-6`}>
           <div
-            className={`${styles.section} col-12 rounded-2 pb-5 pt-3 pe-5 ps-5`}
+            className={`${styles.section} col-12 d-grid gap-3 rounded-2 pb-5 pt-3 pe-5 ps-5`}
             style={{
               backgroundColor: "white",
               boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
@@ -126,7 +132,7 @@ const DynamicComponent = () => {
                 <option value={""}>اختر</option>
                 {members?.data?.users?.map((member, i) => (
                   <option value={member.id} key={i}>
-                    {member.name}
+                    {member.name} - {member.phone_number}
                   </option>
                 ))}
               </InputField>
@@ -177,10 +183,18 @@ const DynamicComponent = () => {
               <InputField name="discount" label="الخصم (%)" />
             </div>
             <div className={`col-12`}>
-              <InputField name="promo_code" label="برومو كود" />
+              <InputField name="promo_code" disabled label="برومو كود" />
             </div>
             <div className={`col-12`}>
-              <InputField name="payment_method" label="طريقة الدفع" />
+              <InputField
+                name="payment_method"
+                label="طريقة الدفع"
+                inputType={"select"}
+              >
+                <option value={""}>اختر</option>
+                <option value={"cash"}>نقدي</option>
+                <option value={"mada"}>مدى</option>
+              </InputField>
             </div>
             <div className={`col-12 mt-4 ps-2 pe-2`}>
               <div className="row gap-3 text-secondary">
@@ -194,17 +208,24 @@ const DynamicComponent = () => {
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الضريبة</span>
-                  <span>{sessionPrice} ريال</span>
+                  <span>
+                    {(sessionPrice * (1 - values.discount / 100)).toFixed(2) > 0
+                      ? (sessionPrice * (1 - values.discount / 100)).toFixed(2)
+                      : "-"}{" "}
+                    ريال
+                  </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
-                  <span>الضريبة</span>
-                  <span>15%</span>
+                  <span>الضريبة (15%) </span>
+                  <span>{price > 0 ? price : "-"}</span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الاجمالي</span>
                   <span>
-                    {(sessionPrice * (1 - values.discount / 100)).toFixed(2) > 0
-                      ? (sessionPrice * (1 - values.discount / 100)).toFixed(2)
+                    {+price +
+                    +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
+                      ? +price +
+                        +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
                       : "-"}
                   </span>
                 </div>
@@ -224,6 +245,8 @@ const AddGroupMember = () => {
     schedule: 0,
     discount: 0,
     start_date: "",
+    promo_code: "",
+    payment_method: "",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
@@ -233,6 +256,8 @@ const AddGroupMember = () => {
       .max(100, `يجب أن يكون الخصم أقل من 100`)
       .min(1, `يجب أن يكون الخصم أكبر من 0`),
     start_date: Yup.date().required("هذا الحقل الزامي"),
+    promo_code: Yup.string().max(20, `يجب أن يكون الكود أقل من 20`),
+    payment_method: Yup.string().required("هذا الحقل الزامي"),
   });
 
   const [
@@ -243,6 +268,7 @@ const AddGroupMember = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const handleSubmit = async (values) => {
+    // window.print();
     console.log(values);
     const data = {
       schedule: values.schedule,
@@ -270,6 +296,29 @@ const AddGroupMember = () => {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
       }
     }
+  };
+
+  const handlePrint = () => {
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(
+      "<html><head><title>Print</title><style>@page {size: A5;}</style>"
+    );
+    printWindow.document.write("</head><body>");
+    printWindow.document.write(
+      `
+        <div className={'d-grid'}>
+          <div className={'row'}>
+            <img src="../../../public/assets/image/Group 1000011709.png" alt="Logo" />
+          </div>
+          <div className={'row'}>
+            <div className={'col-6'}></div>
+          </div>
+        </div>
+      `
+    );
+    printWindow.document.write("</body></html>");
+    printWindow.document.close();
+    printWindow.print();
   };
 
   return (

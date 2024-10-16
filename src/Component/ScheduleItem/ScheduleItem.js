@@ -29,7 +29,10 @@ const ScheduleItem = ({ index, session }) => {
     });
   };
   const navigate = useNavigate();
-  const [deleteSession, { isError: isDeleteError }] = usePatchSessionMutation();
+  const [
+    deleteSession,
+    { isError: isDeleteError, isLoading: isDeleteLoading },
+  ] = usePatchSessionMutation();
 
   const handleCancel = () => {
     setPopup(false);
@@ -95,6 +98,7 @@ const ScheduleItem = ({ index, session }) => {
           }
           handleCancel={handleCancel}
           handleConfirm={session.is_active ? handleDelete : handleActivate}
+          isLoading={isDeleteLoading}
         />
       )}
       <tr className={`${styles.tableRow}`}>
