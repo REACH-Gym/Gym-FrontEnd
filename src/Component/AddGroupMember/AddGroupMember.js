@@ -15,8 +15,201 @@ import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
+
+import React from "react";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  pdf,
+  Image,
+  Font,
+} from "@react-pdf/renderer";
+
+// Define styles
+Font.register({
+  family: "Almarai",
+  src: "/assets/fonts/Almarai-Regular.ttf",
+});
+const style = StyleSheet.create({
+  page: {
+    width: "80mm", // Set width for receipt printer paper
+    padding: 1,
+    fontFamily: "Almarai",
+    fontSize: 5,
+    textAlign: "right", // Align text to the right for RTL
+    direction: "rtl", // Set text direction to RTL
+  },
+  section: {
+    margin: 1,
+    padding: 1,
+  },
+  logo: {
+    width: 30, // Set the width of the image
+    height: 30, // Set the height of the image
+    marginBottom: 5, // Add spacing below the image
+    marginRight: "auto", // Add spacing to the right of the image
+    marginLeft: "auto", // Add spacing to the right of the image
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: 3,
+    fontSize: 4,
+    padding: "2px 0",
+    borderBottom: "0.5px dashed #000",
+  },
+  text: {
+    fontSize: 3.5,
+    marginBottom: 3,
+  },
+  table: {
+    display: "table",
+    width: "auto",
+    marginBottom: 5,
+    borderStyle: "solid",
+    borderWidth: 0.2,
+    borderColor: "#000",
+    fontSize: 3.5,
+  },
+  tableRow: {
+    margin: "auto",
+    flexDirection: "row",
+  },
+  tableCol: {
+    width: "25%", // Adjust the width as needed
+    borderStyle: "solid",
+    borderWidth: 0.2,
+    borderColor: "#000",
+    padding: 1,
+    textAlign: "center",
+  },
+  tableHeader: {
+    backgroundColor: "#f0f0f0",
+  },
+  footer: {
+    fontSize: 3.5,
+    padding: 2,
+    borderTop: "0.5px solid #000",
+    width: "100%",
+    marginTop: 18,
+    textAlign: "center",
+  },
+});
+// Create the PDF document component
+const arabicRegex = /[\u0600-\u06FF]/;
+const englishRegex = /[A-Za-z]/;
+const ReceiptDocument = ({
+  customerName,
+  phone_number,
+  group,
+  discount,
+  totalBT,
+  taxes,
+  fTotal,
+  total,
+  startDate,
+  national_id,
+}) => {
+  const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
+  const [hasEnglishC, setHasEnglishC] = useState(
+    englishRegex.test(customerName)
+  );
+  function addMonthToDate(startDate) {
+    const date = new Date(startDate); // Create a new Date object from the starting date
+    date.setMonth(date.getMonth() + 1); // Add one month to the current month
+    return date; // Return the new date
+  }
+
+  useEffect(() => {
+    setHasArabicC(arabicRegex.test(customerName));
+    setHasEnglishC(englishRegex.test(customerName));
+  }, [customerName, group]);
+  const now = new Date();
+
+  console.log(now);
+
+  const formattedDate = now.toISOString();
+  console.log(formattedDate);
+
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  const readableDate = now.toLocaleString("en-US", options);
+
+  return (
+    <Document>
+      <Page size={[80, 200]} style={style.page}>
+        <View style={style.section}>
+          <Image style={style.logo} src={"/assets/image/Logo1.png"} />
+          <Text style={{ textAlign: "center", fontSize: 4, marginBottom: 2 }}>
+            (فاتورة ضريبية مبسطة)
+          </Text>
+          <Text style={{ textAlign: "center" }}>Balance Fitness Complix</Text>
+          <Text style={style.title}>0543842672</Text>
+          <Text style={style.text}>التاريخ والوقت: {readableDate}</Text>
+          <Text style={style.text}>
+            {hasArabicC && !hasEnglishC
+              ? `اسم العضو: ${customerName}`
+              : `${customerName} :اسم العضو`}
+          </Text>
+          <Text style={style.text}>رقم الهاتف: {phone_number}</Text>
+          <Text style={style.text}>الرقم الضريبي: 311051035700003</Text>
+          <Text style={style.text}>رقم العضوية: {national_id}</Text>
+          <Text style={style.text}></Text>
+          <View style={style.table}>
+            {/* Table Header */}
+            <View style={[style.tableRow, style.tableHeader]}>
+              <Text style={style.tableCol}>الإجمالي</Text>
+              <Text style={style.tableCol}>الى</Text>
+              <Text style={style.tableCol}>من</Text>
+              <Text style={style.tableCol}>البيان</Text>
+            </View>
+            {/* Table Rows */}
+            <View style={style.tableRow}>
+              <Text style={style.tableCol}>{total}</Text>
+              <Text style={style.tableCol}>
+                {addMonthToDate(startDate).toISOString().split("T")[0]}
+              </Text>
+              <Text style={style.tableCol}>{startDate}</Text>
+              <Text style={style.tableCol}>{group}</Text>
+            </View>
+          </View>
+          <Text style={style.text}>
+            الخصم (%{discount}): {(total * (discount / 100)).toFixed(2)}ريال
+          </Text>
+          <Text style={style.text}>الإجمالي قبل الضريبة: {totalBT}ريال</Text>
+          <Text style={style.text}>الضريبة (%15): {taxes}ريال</Text>
+          <Text style={style.text}>الإجمالي: {fTotal}ريال</Text>
+          <Text
+            style={{
+              fontSize: 4,
+              textDecoration: "underline",
+              textAlign: "center",
+              marginTop: 10,
+              marginBottom: 2,
+            }}
+          >
+            الإجمالي النهائي يشمل ضريبة القيمة المضافة
+          </Text>
+          <Text style={{ fontSize: 3.5, textAlign: "center" }}>
+            سجل تجاري / 4030431805
+          </Text>
+          <Text style={style.footer}>Balance Fitness Complix ©</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+};
+
 const DynamicComponent = () => {
-  const { values } = useFormikContext();
+  const { values, isSubmitting, isValid } = useFormikContext();
   const {
     data: members,
     isLoading: isMembersLoading,
@@ -29,8 +222,9 @@ const DynamicComponent = () => {
     isLoading: isSessionsLoading,
     error: sessionsError,
   } = useGetSessionsWithSchedulesQuery("?filter{is_active}=true");
-  const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
   console.log(sessions);
+
+  const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
   const [sessionsWithSchedules, setSessionsWithSchedules] = useState([]);
 
   useEffect(() => {
@@ -96,6 +290,59 @@ const DynamicComponent = () => {
       setPrice(sessionPrice * (1 - values.discount / 100) * (15 / 100));
     }
   }, [sessionPrice, values.discount]);
+
+  useEffect(() => {
+    console.log(isValid, isSubmitting);
+    if (isValid && isSubmitting) {
+      const doc = (
+        <ReceiptDocument
+          customerName={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.name
+          }
+          phone_number={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.phone_number
+          }
+          group={
+            sessions?.data?.sessions?.find(
+              (session) => +session.id === +values.group
+            )?.name
+          }
+          total={`${sessionPrice}`}
+          discount={`${values.discount}`}
+          totalBT={(sessionPrice * (1 - values.discount / 100)).toFixed(2)}
+          taxes={`${sessionPrice * (1 - values.discount / 100) * (15 / 100)}`}
+          fTotal={
+            +price + +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
+          }
+          startDate={values.start_date}
+          national_id={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.national_id
+          }
+        />
+      );
+      // Generate PDF blob
+      (async () => {
+        const blob = await pdf(doc).toBlob();
+        // Open in new tab and trigger print dialog
+        const blobURL = URL.createObjectURL(blob);
+        window.open(blobURL);
+      })();
+    }
+  }, [
+    isSubmitting,
+    isValid,
+    members?.data?.users,
+    price,
+    sessionPrice,
+    sessions?.data?.sessions,
+    values.discount,
+    values.group,
+    values.name,
+    values.start_date,
+  ]);
 
   if (isSessionsLoading || isMembersLoading) {
     return (
@@ -203,8 +450,13 @@ const DynamicComponent = () => {
                   <span>{sessionPrice} ريال</span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
-                  <span>الخصم</span>
-                  <span>{values.discount}%</span>
+                  <span>الخصم ({values.discount}%)</span>
+                  <span>
+                    {(sessionPrice * (values.discount / 100)).toFixed(2) > 0
+                      ? (sessionPrice * (values.discount / 100)).toFixed(2)
+                      : "-"}{" "}
+                    ريال
+                  </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الضريبة</span>
@@ -217,7 +469,7 @@ const DynamicComponent = () => {
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الضريبة (15%) </span>
-                  <span>{price > 0 ? price : "-"}</span>
+                  <span>{price > 0 ? price : "-"} ريال</span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الاجمالي</span>
@@ -226,7 +478,8 @@ const DynamicComponent = () => {
                     +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
                       ? +price +
                         +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
-                      : "-"}
+                      : "-"}{" "}
+                    ريال
                   </span>
                 </div>
               </div>
@@ -267,9 +520,10 @@ const AddGroupMember = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const handleSubmit = async (values) => {
-    // window.print();
+
+  const handleSubmit = async (values, { setStatus }) => {
     console.log(values);
+    setStatus(true);
     const data = {
       schedule: values.schedule,
       user: values.name,
@@ -297,30 +551,6 @@ const AddGroupMember = () => {
       }
     }
   };
-
-  const handlePrint = () => {
-    const printWindow = window.open("", "_blank");
-    printWindow.document.write(
-      "<html><head><title>Print</title><style>@page {size: A5;}</style>"
-    );
-    printWindow.document.write("</head><body>");
-    printWindow.document.write(
-      `
-        <div className={'d-grid'}>
-          <div className={'row'}>
-            <img src="../../../public/assets/image/Group 1000011709.png" alt="Logo" />
-          </div>
-          <div className={'row'}>
-            <div className={'col-6'}></div>
-          </div>
-        </div>
-      `
-    );
-    printWindow.document.write("</body></html>");
-    printWindow.document.close();
-    printWindow.print();
-  };
-
   return (
     <>
       {success && <Success text={"تم إضافة عضو إلى المجموعة بنجاح! "} />}
@@ -337,7 +567,7 @@ const AddGroupMember = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ values }) => {
+            {({ values, setStatus }) => {
               return (
                 <Form className={`d-grid gap-3`}>
                   <DynamicComponent />

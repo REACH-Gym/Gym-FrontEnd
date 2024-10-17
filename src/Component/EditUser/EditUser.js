@@ -133,14 +133,8 @@ const EditUser = () => {
       .matches(/[!@#$%^&*]/, "يجب أن تحتوي على رموز"),
   });
 
-  const [
-    editEmployee,
-    {
-      isLoading: isEmployeeLoading,
-      error: employeeError,
-      isError: isEmployeeError,
-    },
-  ] = usePatchEmployeeMutation("/?filter{is_active}=true");
+  const [editEmployee, { isLoading: isEmployeeLoading }] =
+    usePatchEmployeeMutation("/?filter{is_active}=true");
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -148,12 +142,15 @@ const EditUser = () => {
   const handleSubmit = async (values) => {
     console.log(values);
     const data = {
-      name: values["name"],
-      phone_number: values["phone_number"],
-      national_id: values["national_id"],
-      date_of_birth: values["date_of_birth"],
-      role: values["role"],
-      gender: values["gender"],
+      [values["name"].length > 0 ? "name" : null]: values["name"],
+      [values["national_id"].length > 0 ? "national_id" : null]:
+        values["national_id"],
+      [values["date_of_birth"].length > 0 ? "date_of_birth" : null]:
+        values["date_of_birth"],
+      [values["role"].length > 0 ? "role" : null]: values["role"],
+      [values["gender"].length > 0 ? "gender" : null]: values["gender"],
+      [values["phone_number"].length > 0 ? "phone_number" : null]:
+        values["phone_number"],
       [values["password"].length > 0 ? "password" : null]: values["password"],
     };
     console.log(data);
@@ -167,7 +164,10 @@ const EditUser = () => {
         window.location.reload();
       }, 300);
     } catch (err) {
-      if (Object.keys(err.data.error).includes("national_id")) {
+      if (
+        Object.keys(err.data.error).includes("national_id") &&
+        Object.keys(err.data.error).includes("phone_number")
+      ) {
         setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
@@ -177,10 +177,7 @@ const EditUser = () => {
         setTimeout(() => {
           setError("");
         }, 2000);
-      } else if (
-        Object.keys(err.data.error).includes("national_id") &&
-        Object.keys(err.data.error).includes("phone_number")
-      ) {
+      } else if (Object.keys(err.data.error).includes("national_id")) {
         setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");

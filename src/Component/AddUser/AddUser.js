@@ -1,22 +1,16 @@
 import InputField from "../../Common Components/InputField/InputField";
 import styles from "./AddUser.module.css";
-import { Formik, Form, useFormikContext, ErrorMessage, Field } from "formik";
+import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import {
-  usePostSessionMemberMutation,
-  usePostEmployeeMutation,
-} from "../../features/api";
-import { useEffect, useState } from "react";
+import { usePostEmployeeMutation } from "../../features/api";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Commet } from "react-loading-indicators";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
-import { Password } from "@mui/icons-material";
 
 const DynamicComponent = () => {
-  const { values } = useFormikContext();
   const [show, setShow] = useState(false);
 
   return (
@@ -162,14 +156,8 @@ const AddUser = () => {
     gender: Yup.string().required("هذا الحقل الزامي"),
   });
 
-  const [
-    postEmployee,
-    {
-      isLoading: isEmployeeLoading,
-      error: employeeError,
-      isError: isEmployeeError,
-    },
-  ] = usePostEmployeeMutation("/?filter{is_active}=true");
+  const [postEmployee, { isLoading: isEmployeeLoading }] =
+    usePostEmployeeMutation("/?filter{is_active}=true");
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -194,7 +182,10 @@ const AddUser = () => {
         window.location.reload();
       }, 300);
     } catch (err) {
-      if (Object.keys(err.data.error).includes("national_id")) {
+      if (
+        Object.keys(err.data.error).includes("national_id") &&
+        Object.keys(err.data.error).includes("phone_number")
+      ) {
         setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
@@ -204,10 +195,7 @@ const AddUser = () => {
         setTimeout(() => {
           setError("");
         }, 2000);
-      } else if (
-        Object.keys(err.data.error).includes("national_id") &&
-        Object.keys(err.data.error).includes("phone_number")
-      ) {
+      } else if (Object.keys(err.data.error).includes("national_id")) {
         setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");

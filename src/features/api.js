@@ -76,7 +76,7 @@ export const apis = createApi({
       }),
     }),
     getAllMembersAtOnce: builder.query({
-      query: () => `members?paginate=false`,
+      query: () => `members?paginate=false&filter{is_active}=true`,
     }),
     getMeasurements: builder.query({
       query: ({ page, page_size }) =>
