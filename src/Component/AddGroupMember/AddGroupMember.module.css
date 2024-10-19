@@ -1,5 +1,9 @@
 .addGroupMemberForm {
   width: 100%;
-  background-color: #f2f4f5;
   padding: 70px 20px 20px;
+  background-color: #f2f4f5;
+}
+.section {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  height: 550px;
 }

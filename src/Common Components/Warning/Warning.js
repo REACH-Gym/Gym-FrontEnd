@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import styles from "./Warning.module.css";
 
-const Warning = ({ text, handleConfirm, handleCancel }) => {
+const Warning = ({ text, handleConfirm, handleCancel, isLoading = false }) => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
   return (
     <>
       <div className={`${styles.overlay}`}></div>
@@ -23,7 +29,15 @@ const Warning = ({ text, handleConfirm, handleCancel }) => {
         <div
           className={`${styles.buttons} d-flex justify-content-center gap-4 mt-4`}
         >
-          <button onClick={handleConfirm}>تأكيد</button>
+          <button onClick={handleConfirm} disabled={loading}>
+            {loading ? (
+              <div className={`${styles.loadingContainer}`}>
+                <div className={`${styles.customLoader}`}></div>
+              </div>
+            ) : (
+              "تأكيد"
+            )}
+          </button>
           <button onClick={handleCancel}>إلغاء</button>
         </div>
       </div>

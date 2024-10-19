@@ -61,7 +61,6 @@ const AddMeasurementForm = () => {
     try {
       const response = await addMeasuremenst(data);
       console.log(response);
-      console.log(isLoading);
       navigate("/Home/MeasurmentsContainer");
     } catch (error) {
       console.log(error.message);
@@ -205,6 +204,7 @@ const AddMeasurementForm = () => {
                   text={"حفظ القياس"}
                   btnType={"submit"}
                   btnWidth="200px"
+                  isLoading={isLoading}
                 />
               </div>
             </Form>

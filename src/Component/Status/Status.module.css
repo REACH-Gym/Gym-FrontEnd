@@ -9,6 +9,8 @@
   padding: 4px;
   width: 80%;
   text-align: center;
+  max-width: 200px;
+  min-width: 80px;
 }
 .confirmedStatus {
   background-color: #dbf7e9;
@@ -19,10 +21,10 @@
   color: #ff6666;
 }
 .closeToFiniteStatus {
-  background-color:rgba(237, 199, 10,0.2);
-  color: #EDC70A;
+  background-color: rgba(237, 199, 10, 0.2);
+  color: #edc70a;
 }
 .freezedStatus {
-  background-color:  rgba(0, 106, 234,0.2);
-  color: #006AEA;
+  background-color: rgba(0, 106, 234, 0.2);
+  color: #006aea;
 }

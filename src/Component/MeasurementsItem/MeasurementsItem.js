@@ -12,8 +12,10 @@ const MeasurementsItem = ({ index, item }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  const [deleteMeasurement, { isError: isDeleteError }] =
-    useDeleteMeasurementMutation();
+  const [
+    deleteMeasurement,
+    { isError: isDeleteError, isLoading: isDeleteLoading },
+  ] = useDeleteMeasurementMutation();
   const handleDelete = async () => {
     try {
       const response = await deleteMeasurement(item.id).unwrap();
@@ -63,6 +65,7 @@ const MeasurementsItem = ({ index, item }) => {
             setPopup(false);
           }}
           handleConfirm={handleDelete}
+          isLoading={isDeleteLoading}
         />
       )}
       <tr className={`${styles.tableRow}`}>

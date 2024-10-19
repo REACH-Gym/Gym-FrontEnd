@@ -68,8 +68,15 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    patchEmployee: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `employee/${id}`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
     getAllMembersAtOnce: builder.query({
-      query: () => `members?paginate=false`,
+      query: () => `members?paginate=false&filter{is_active}=true`,
     }),
     getMeasurements: builder.query({
       query: ({ page, page_size }) =>
@@ -174,4 +181,5 @@ export const {
   usePatchScheduleMutation,
   useGetSessionsWithSchedulesQuery,
   usePostEmployeeMutation,
+  usePatchEmployeeMutation,
 } = apis;

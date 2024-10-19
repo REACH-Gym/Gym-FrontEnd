@@ -5,6 +5,7 @@
   padding: 10px;
   border-radius: 10px;
   min-height: 500px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* height: 70vh;
   overflow-y: auto; */
 }
@@ -24,3 +25,18 @@
   width: 100%;
   padding: 90px 20px 20px 20px;
 }
+/* @page {
+  size: A5;
+  margin: 0.5cm;
+}
+@media print {
+  .printable {
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+    border: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+} */

@@ -42,7 +42,8 @@ import Logs from "./Component/Blog/Logs";
 import PersonalSettings from "./Component/Settings/PersonalSettings";
 import ChangePassword from "./Component/Settings/ChangePassword";
 import ChagePhoneNumber from './Component/Settings/ChangePhoneNumber';
-import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
+import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";import EditUser from "./Component/EditUser/EditUser";
+
 function App() {
   return (
     <Provider store={store}>
@@ -151,6 +152,7 @@ function App() {
               {/* start users */}
               <Route path="UsersContainer" element={<UsersContainer />} />
               <Route path="AddUser" element={<AddUser />} />
+              <Route path={"EditUser/:userId"} element={<EditUser />} />
               {/* end users */}
             </Route>
           </Route>

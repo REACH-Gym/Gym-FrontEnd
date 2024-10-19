@@ -14,8 +14,12 @@ import { Commet } from "react-loading-indicators";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
 
-const DynamicComponent = () => {
+const DynamicComponent = ({ isSessionsLoading }) => {
   const { GroupId } = useParams();
+  const [loading, setLoading] = useState(isSessionsLoading);
+  useEffect(() => {
+    setLoading(isSessionsLoading);
+  }, [isSessionsLoading]);
   console.log(GroupId);
   const { setFieldValue } = useFormikContext();
   const {
@@ -79,7 +83,7 @@ const DynamicComponent = () => {
         </div>
       </div>
       <div className={`${styles.addgroupBtn} text-center`}>
-        <MainButton text={"تعديل"} btnType={"submit"} />
+        <MainButton text={"تعديل"} btnType={"submit"} isLoading={loading} />
       </div>
     </Form>
   );
@@ -104,7 +108,10 @@ const EditGroup = () => {
     freeze_duration: "",
   };
 
-  const [editSession, { isError: isSessionsError }] = useEditSessionMutation();
+  const [
+    editSession,
+    { isError: isSessionsError, isLoading: isSessionsLoading },
+  ] = useEditSessionMutation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -131,6 +138,7 @@ const EditGroup = () => {
         window.location.reload();
       }, 300);
     } catch (error) {
+      console.log(error);
       if (error.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
       } else if (error.originalStatus === 401) {
@@ -162,7 +170,7 @@ const EditGroup = () => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                <DynamicComponent />
+                <DynamicComponent isSessionsLoading={isSessionsLoading} />
               </Formik>
             </div>
           </div>
