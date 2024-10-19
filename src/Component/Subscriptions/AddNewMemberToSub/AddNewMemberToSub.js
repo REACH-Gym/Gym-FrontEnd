@@ -199,7 +199,7 @@ function AddNewMemberToSub() {
                           );
                           if (selectedMembership) {
                             setMemberShipPrice(selectedMembership.price); // Set the membership price
-                            setFieldValue("price", selectedMembership.price); // Store price 
+                            setFieldValue("price", selectedMembership.price); // Store price
                           }
                         }}
                       >
@@ -263,7 +263,11 @@ function AddNewMemberToSub() {
                         inputType={"select"}
                         name={"payment_method"}
                         label={"طريقة الدفع"}
-                      />
+                      >
+                        <option>أختر طريقة دفع</option>
+                        <option>مدي</option>
+                        <option>نقدي</option>
+                      </InputField>
                     </div>
                     <div className="d-flex justify-content-between mt-4">
                       <div>
@@ -274,18 +278,15 @@ function AddNewMemberToSub() {
                         <p>الإجمالي</p>
                       </div>
                       <div>
-                        <p>{memberShipPrice || 0}</p>
-                        <p>
-                          {subscription.user_membership
-                            ? subscription.user_membership.discount
-                            : 0}
-                        </p>
-                        <p>{discountedTotal.toFixed(2)}</p>
+                        <p>{memberShipPrice || 0} ريال</p>
+                        <p>{values.discount} %</p>
+                        <p>{discountedTotal.toFixed(2)} ريال</p>
                         <p>15%</p>
                         <p>
                           {(discountedTotal + discountedTotal * 0.15).toFixed(
                             2
-                          )}
+                          )}{" "}
+                          ريال
                         </p>
                       </div>
                     </div>
