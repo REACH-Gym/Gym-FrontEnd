@@ -106,7 +106,9 @@ const UsersItem = ({ index, item }) => {
         <td className="table-column p-2">{item.phone_number}</td>
         <td className="table-column p-2">{item.national_id}</td>
         <td className="table-column p-2">{item.date_of_birth}</td>
-        <td className="table-column p-2">{item.gender}</td>
+        <td className="table-column p-2">
+          {item.gender === "M" ? "ذكر" : "أنثى"}
+        </td>
         <td className="table-column p-2">{item.date_of_birth}</td>
         <td className="table-column p-2">
           {item.role === "S" && "مشرف عام"}
