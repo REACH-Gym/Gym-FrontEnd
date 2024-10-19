@@ -6,21 +6,24 @@ import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../Common Components/Modal/Modal";
+import { Helmet } from "react-helmet";
+import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
+import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 function AddNewMemberToSub() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
   const [users, setUsers] = useState([]);
   const [membership, setMemberShip] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showModalError , setShowModalModalError] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [showModalError, setShowModalModalError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
+  const [discountedTotal, setDiscountedTotal] = useState(0);
+
   useEffect(() => {
     // fetch users
     async function fetchData() {
-      // setLoading(true);
       try {
         const response = await fetch(
           "https://gym-backend-production-65cc.up.railway.app/members/?filter{is_active}=true",
@@ -33,13 +36,10 @@ function AddNewMemberToSub() {
           }
         );
         const user = await response.json();
-        console.log("users", user);
 
         if (response.ok) {
           setUsers(user.data.users);
-          console.log("User data fetched successfully");
         } else {
-          console.warn("User  data is not available.");
           setUsers(null);
         }
       } catch (error) {
@@ -64,12 +64,9 @@ function AddNewMemberToSub() {
           }
         );
         const result = await response.json();
-        console.log(result);
         if (response.ok) {
-          console.log("membership fetched successufully");
           setMemberShip(result.data.memberships);
         } else {
-          console.error("membership failed to fetch");
           setMemberShip(null);
         }
       } catch (error) {
@@ -79,6 +76,7 @@ function AddNewMemberToSub() {
     fetchMemberShips();
   }, [access_token]);
 
+  //get promo code
   // adding member to subscriptions
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -108,16 +106,16 @@ function AddNewMemberToSub() {
       const subscriptions = await response.json();
       console.log(subscriptions);
       if (response.ok) {
-        setSubscription(subscriptions.data);
+        setSubscription(subscriptions.data.user_membership);
+        console.log(subscriptions.data);
         setShowModal(true);
-        console.log("subbbbbbbb", subscriptions.data);
-        console.log("success");
+        setLoading(false);
         setTimeout(() => {
           navigate("/Home/SubscripedMembers");
-        }, 3000);
+        }, 2000);
       } else {
-        console.log("failed");
         setShowModalModalError(true);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -128,7 +126,7 @@ function AddNewMemberToSub() {
     membership: "",
     notes: "",
     start_date: "",
-    discount: 0,
+    discount: "",
     status: "active",
   };
   const validationSchema = Yup.object({
@@ -138,122 +136,167 @@ function AddNewMemberToSub() {
     start_date: Yup.date().required("هذا الحقل الزامي"),
     discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
   });
-  const handlCloseModal = () => {
-    setShowModal(false);
-  };
-  const handleCloseModalError = ()=>{
+
+  const handleCloseModalError = () => {
     setShowModalModalError(false);
-  }
+  };
+
   return (
     <div className="addNewSubscriptionsContainer mt-5">
-      <div className="pe-4">
+      <Helmet>
+        <title>إضافة عضو للأشتراك</title>
+      </Helmet>
+      <div className="pe-4  ">
         <ComponentTitle
           MainIcon={"/assets/image/subscriptions.png"}
           title={"إضافة عضو للاشتراك "}
           subTitle={"يمكنك إضافة عضو للاشتراك من هنا"}
         />
       </div>
-      <div className="formContainer mt-4">
-        <div className="addNewSubscriptionsContainer__item1">
+      <div className=" ">
+        <div className="">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ values, setFieldValue }) => (
-              <Form className="AddNewSubscriptionForm">
-                <div>
-                  <InputField
-                    name={"user"}
-                    label={"اسم العضو"}
-                    inputType={"select"}
-                    className="mb-4"
-                  >
-                    <option value="">اختر العضو</option>
-                    {users?.length > 0 ? (
-                      users.map((user, index) => (
-                        <option key={user.id} value={user.id}>
-                          {user.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option>لا يوجد أعضاء متاحين</option>
-                    )}
-                  </InputField>
-                </div>
-                <div>
-                  <InputField
-                    name={"membership"}
-                    label={"نوع الأشتراك"}
-                    inputType={"select"}
-                    className="mb-4"
-                  >
-                    <option value="">اختر الاشتراك</option>
-                    {membership?.length > 0 ? (
-                      membership.map((membershipItem, index) => (
-                        <option
-                          key={membershipItem.id}
-                          value={membershipItem.id}
-                        >
-                          {membershipItem.name}
-                        </option>
-                      ))
-                    ) : (
-                      <option>لاتوجد اشتراكات متاحة</option>
-                    )}
-                  </InputField>
-                </div>
-                <div>
-                  <InputField
-                    name={"start_date"}
-                    label={"تاريخ البداية"}
-                    type="date"
-                  />
-                </div>
-                <div>
-                  <InputField
-                    name={"notes"}
-                    label={"الملاحظات"}
-                    className="mt-3"
-                  />
-                </div>
-                <div>
-                  <InputField
-                    name={"discount"}
-                    label={"الخصم"}
-                    className="mb-3"
-                    onChange={(e) => {
-                      const discount = parseFloat(e.target.value) || 0;
-                      setFieldValue("discount", discount);
-                      setFieldValue(
-                        "totalPrice",
-                        (setMemberShipPrice * (1 - discount / 100)).toFixed(2)
-                      );
-                    }}
-                  />
-                </div>
-                {/* <div className="d-flex justify-content-between mt-4">
-                  <div>
-                    <p>الإجمالي قبل الخصم</p>
-                    <p>الخصم</p>
-                    <p>الضريبة</p>
-                    <p>الإجمالي</p>
+              <Form className="  AddForm">
+                <div className=" d-flex justify-content-around">
+                  <div className="form1 ms-5">
+                    <div>
+                      <InputField
+                        name={"user"}
+                        label={"اسم العضو"}
+                        inputType={"select"}
+                        className="mb-4"
+                      >
+                        <option value="">اختر العضو</option>
+                        {users?.length > 0 ? (
+                          users.map((user, index) => (
+                            <option key={user.id} value={user.id}>
+                              {user.name} - {user.phone_number}
+                            </option>
+                          ))
+                        ) : (
+                          <option>لا يوجد أعضاء متاحين</option>
+                        )}
+                      </InputField>
+                    </div>
+                    <div>
+                      <InputField
+                        name={"membership"}
+                        label={"نوع الأشتراك"}
+                        inputType={"select"}
+                        className="mb-4"
+                        onChange={(e) => {
+                          const selectedMembershipId = e.target.value;
+                          setFieldValue("membership", selectedMembershipId);
+
+                          // Find the selected membership from the membership list and set the price
+                          const selectedMembership = membership.find(
+                            (m) => m.id === parseInt(selectedMembershipId)
+                          );
+                          if (selectedMembership) {
+                            setMemberShipPrice(selectedMembership.price); // Set the membership price
+                            setFieldValue("price", selectedMembership.price); // Store price 
+                          }
+                        }}
+                      >
+                        <option value="">اختر الاشتراك</option>
+                        {membership?.length > 0 ? (
+                          membership.map((membershipItem, index) => (
+                            <option
+                              key={membershipItem.id}
+                              value={membershipItem.id}
+                            >
+                              {membershipItem.name}
+                            </option>
+                          ))
+                        ) : (
+                          <option>لاتوجد اشتراكات متاحة</option>
+                        )}
+                      </InputField>
+                    </div>
+                    <div>
+                      <InputField
+                        name={"start_date"}
+                        label={"تاريخ البداية"}
+                        type="date"
+                      />
+                    </div>
+                    <div>
+                      <InputField
+                        name={"notes"}
+                        label={"الملاحظات"}
+                        className="mt-3 notes"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <p>{subscription.price_after_discount}</p>
-                    <p>{values.discount || 0}</p>
-                    <p>15%</p>
-                    <p>
-                      {(
-                        memberShipPrice *
-                        (1 - values.discount / 100) *
-                        1.15
-                      ).toFixed(2)}
-                    </p>
+                  <div className="form2">
+                    <div>
+                      <InputField
+                        name={"discount"}
+                        label={"الخصم (%)"}
+                        className="mb-3"
+                        onChange={(e) => {
+                          const discountValue = e.target.value;
+                          setFieldValue("discount", discountValue);
+
+                          // Calculate discounted total
+                          const discountAmount =
+                            (memberShipPrice * discountValue) / 100;
+                          const finalTotal = memberShipPrice - discountAmount;
+                          setDiscountedTotal(finalTotal);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <InputField
+                        inputType={"select"}
+                        name={"promo_code"}
+                        label={"برومو كود"}
+                      />
+                    </div>
+                    <div>
+                      <InputField
+                        inputType={"select"}
+                        name={"payment_method"}
+                        label={"طريقة الدفع"}
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between mt-4">
+                      <div>
+                        <p>الإجمالي قبل الخصم</p>
+                        <p>الخصم</p>
+                        <p>الإجمالي قبل الضريبة</p>
+                        <p>الضريبة</p>
+                        <p>الإجمالي</p>
+                      </div>
+                      <div>
+                        <p>{memberShipPrice || 0}</p>
+                        <p>
+                          {subscription.user_membership
+                            ? subscription.user_membership.discount
+                            : 0}
+                        </p>
+                        <p>{discountedTotal.toFixed(2)}</p>
+                        <p>15%</p>
+                        <p>
+                          {(discountedTotal + discountedTotal * 0.15).toFixed(
+                            2
+                          )}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div> */}
+                </div>
                 <div className="mt-5 addBtn text-center">
-                  <MainButton text={"اضافة"} btnType={"submit"} isLoading={loading} />
+                  <MainButton
+                    text={"اضافة"}
+                    btnType={"submit"}
+                    isLoading={loading}
+                  />
                 </div>
               </Form>
             )}
@@ -261,53 +304,21 @@ function AddNewMemberToSub() {
         </div>
       </div>
       {/* succeess */}
-      <Modal isOpen={showModal}>
-        <div className="d-flex justify-content-end">
-          <button
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-            onClick={handlCloseModal}
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/weui_done2-outlined.png"
-            alt=""
-            height={"100px"}
-            width={"100px"}
-          />
-        </div>
+      <SuccessModal isOpen={showModal}>
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            تم اضافة عضو للأشتراك بنجاح
+            تم اضافة العضو للأشتراك بنجاح
           </p>
         </div>
-      </Modal>
+      </SuccessModal>
       {/* failed */}
-      <Modal isOpen={showModalError}>
-        <div className="d-flex justify-content-end">
-          <button
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-            onClick={handleCloseModalError}
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
-            alt=""
-            height={"100px"}
-            width={"100px"}
-          />
-        </div>
+      <FailedModal isOpen={showModalError} handleClose={handleCloseModalError}>
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! هذا العضو مشترك من قبل 
+            حدث خطأ ! هذا العضو مشترك من قبل
           </p>
         </div>
-      </Modal>
+      </FailedModal>
     </div>
   );
 }

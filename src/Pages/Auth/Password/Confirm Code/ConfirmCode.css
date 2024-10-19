@@ -1,27 +1,43 @@
 .confirmCodeContainer {
-  background-image: url("/public/assets/image/login bg.png");
+  position: relative;
+  background-image: url("/public/assets/image/gymm 2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
   display: flex;
 }
+.confirmCodeContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(53, 114, 239, 0.1);
+  z-index: 1;
+}
 .confirmCodeFormContainer {
-  background-color: #fff;
-  /* width: 36%; */
+  background-color: #f0f0f0;
   border-radius: 5px;
   margin: auto;
   padding: 30px;
+  position: relative;
+  z-index: 2;
 }
 .confirmCodeForm__inputs input {
   outline: none;
+  background-color: #f0f0f0;
   border: 1px solid rgb(86, 85, 85);
   border-radius: 5px;
   width: 64px;
   height: 64px;
   margin: 5px;
 }
-.resend-button{
+.resend-button {
   border: none;
-  background: transparent;  
+  background: transparent;
+}
+.closeModal button {
+  background-color: transparent;
 }

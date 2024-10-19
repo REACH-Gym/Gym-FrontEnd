@@ -7,7 +7,7 @@ import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentT
 import "./EditSub.css";
 import InputField from "../../../Common Components/InputField/InputField";
 import Modal from "../../../Common Components/Modal/Modal";
-
+import { Helmet } from "react-helmet";
 function EditSub() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,6 +85,9 @@ function EditSub() {
   };
   return (
     <div className="editMemberContainer">
+      <Helmet>
+        تعديل بيانات أشتراك
+      </Helmet>
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
         <ComponentTitle
           MainIcon={"/assets/image/Vector.png"}
@@ -132,9 +135,9 @@ function EditSub() {
       </Formik>
       {/* success edit subscription */}
       <Modal isOpen={showModal}>
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-start">
           <button
-            className="border-0 pt-4 ps-4 failed fw-bolder"
+            className="border-0 pe-4 pt-4 ps-4 failed fw-bolder"
             onClick={handleCloseModal}
           >
             X
@@ -143,9 +146,10 @@ function EditSub() {
         <div className="text-center">
           <img
             src="/assets/image/weui_done2-outlined.png"
-            alt=""
-            height={"100px"}
-            width={"100px"}
+            alt="done"
+            height={"110px"}
+            width={"110px"}
+            style={{padding:"8px"}}
           />
         </div>
         <div>
@@ -167,9 +171,10 @@ function EditSub() {
         <div className="text-center">
           <img
             src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
-            alt=""
-            height={"100px"}
-            width={"100px"}
+            alt="failed"
+            height={"110px"}
+            width={"110px"}
+            style={{padding:"8px"}}
           />
         </div>
         <div>

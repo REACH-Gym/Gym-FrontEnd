@@ -3,13 +3,12 @@ import "./SubscripedMembers.css";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import { Active, AlmostOver, Expired, Freezed } from "../../Status/Status";
-
+import { Helmet } from "react-helmet";
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
   const [SubscripedMembers, setSubscripedMembers] = useState([]);
@@ -79,6 +78,11 @@ function SubscripedMembers() {
 
   return (
     <div className="allSubscriptionContainer mt-4">
+      <Helmet>
+        <title>
+          الاعضاء المشتركين
+        </title>
+      </Helmet>
       {loading ? (
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
@@ -116,37 +120,16 @@ function SubscripedMembers() {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col" className="pb-4">
-                        #
-                      </th>
-                      <th scope="col" className="pb-4">
-                        اسم العضو
-                      </th>
-                      <th scope="col" className="pb-4">
-                        رقم العضوية
-                      </th>
-                      <th scope="col" className="pb-4">
-                        الإجمالي
-                      </th>
-                      <th scope="col" className="pb-4">
-                        المدفوع
-                      </th>
-                      <th scope="col" className="pb-4">
-                        {" "}
-                        المتبقي
-                      </th>
-                      <th scope="col" className="pb-4">
-                        الخصم
-                      </th>
-                      <th scope="col" className="pb-4">
-                        تاريخ الاشتراك
-                      </th>
-                      <th scope="col" className="pb-4 text-center">
-                        الحالة
-                      </th>
-                      <th scope="col" className="pb-4 text-center">
-                        خيارات
-                      </th>
+                      <th scope="col" className="pb-4">#</th>
+                      <th scope="col" className="pb-4">اسم العضو</th>
+                      <th scope="col" className="pb-4">رقم العضوية</th>
+                      <th scope="col" className="pb-4">الإجمالي</th>
+                      <th scope="col" className="pb-4">المدفوع</th>
+                      <th scope="col" className="pb-4">المتبقي</th>
+                      <th scope="col" className="pb-4">الخصم</th>
+                      <th scope="col" className="pb-4">تاريخ الاشتراك</th>
+                      <th scope="col" className="pb-4 text-center">الحالة</th>
+                      <th scope="col" className="pb-4 text-center">خيارات</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,7 +163,11 @@ function SubscripedMembers() {
                                   )
                                 }
                               >
-                                <InfoOutlinedIcon /> تفاصيل
+                      
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="M1 2.5h8.48l2 2.5H23v16H1zm2 2V19h18V7H10.52l-2-2.5zm3.998 7.498h2.004v2.004H6.998zm4 0h2.004v2.004h-2.004zm4 0h2.004v2.004h-2.004z"/></svg>
+                                <span className="me-2">
+                                 تفاصيل
+                                 </span>
                               </li>
                             </ul>
                           )}
@@ -196,36 +183,16 @@ function SubscripedMembers() {
               <table className="table border-1 mt-3">
                 <thead>
                   <tr>
-                    <th scope="col" className="pb-4">
-                      #
-                    </th>
-                    <th scope="col" className="pb-4">
-                      اسم العضو
-                    </th>
-                    <th scope="col" className="pb-4">
-                      رقم العضوية
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الإجمالي
-                    </th>
-                    <th scope="col" className="pb-4">
-                      المدفوع
-                    </th>
-                    <th scope="col" className="pb-4">
-                      المتبقي
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الخصم
-                    </th>
-                    <th scope="col" className="pb-4">
-                      تاريخ الاشتراك
-                    </th>
-                    <th scope="col" className="pb-4">
-                      الحالة
-                    </th>
-                    <th scope="col" className="pb-4 text-center">
-                      خيارات
-                    </th>
+                    <th scope="col" className="pb-4">#</th>
+                    <th scope="col" className="pb-4">اسم العضو</th>
+                    <th scope="col" className="pb-4">رقم العضوية</th>
+                    <th scope="col" className="pb-4">الإجمالي</th>
+                    <th scope="col" className="pb-4">المدفوع</th>
+                    <th scope="col" className="pb-4">المتبقي</th>
+                    <th scope="col" className="pb-4">الخصم</th>
+                    <th scope="col" className="pb-4">تاريخ الاشتراك</th>
+                    <th scope="col" className="pb-4">الحالة</th>
+                    <th scope="col" className="pb-4 text-center">خيارات</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -275,7 +242,10 @@ function SubscripedMembers() {
                                   )
                                 }
                               >
-                                <InfoOutlinedIcon /> تفاصيل
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="M1 2.5h8.48l2 2.5H23v16H1zm2 2V19h18V7H10.52l-2-2.5zm3.998 7.498h2.004v2.004H6.998zm4 0h2.004v2.004h-2.004zm4 0h2.004v2.004h-2.004z"/></svg>
+                                <span className="me-2">
+                                تفاصيل
+                                </span>
                               </li>
                             </ul>
                           )}
@@ -313,5 +283,4 @@ function SubscripedMembers() {
     </div>
   );
 }
-
 export default SubscripedMembers;

@@ -11,7 +11,7 @@ import DeleteSub from "../DeleteSub/DeleteSub";
 import ActiveSub from "../DeleteSub/ActivateSub";
 import "./AllSubScriptions.css";
 import { Active, Deleted } from "../../Status/Status";
-
+import { Helmet } from "react-helmet";
 function AllSubScriptions() {
   const [allSubscription, setAllSubscriptions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -21,7 +21,6 @@ function AllSubScriptions() {
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -42,12 +41,8 @@ function AllSubScriptions() {
         const result = await response.json();
         console.log(result);
         if (response.ok) {
-          // if (result.data.memberships.length > 0) {
             setAllSubscriptions(result.data.memberships);
             setTotalPages(result.data.meta.total_pages);
-          // } else {
-            // setError("لا يوجد أشتراكات");
-          // }
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -107,6 +102,11 @@ function AllSubScriptions() {
   }, []);
   return (
     <div className="allSubscriptionContainer">
+      <Helmet>
+        <title>
+          جميع الأشتراكات
+        </title>
+      </Helmet>
       {loading ? (
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
@@ -261,8 +261,9 @@ function AllSubScriptions() {
                                     )
                                   }
                                 >
-                                  <DriveFileRenameOutlineOutlinedIcon className="dropdown__icon" />
-                                  تعديل
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"/><path fill="currentColor" d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"/></svg>
+
+                                  <sapn className="me-2">تعديل</sapn>
                                 </li>
                                 <li>
                                   <DeleteSub

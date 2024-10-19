@@ -5,8 +5,9 @@ import { Commet } from "react-loading-indicators";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteSupport from "./DeleteSupport";
 import { useNavigate } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
 function Support() {
+ 
   const [support, setSupport] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
   const [loading, setLoading] = useState(true); 
@@ -64,7 +65,13 @@ function Support() {
   }, []);
 
   return (
+
     <div className="supportContainer">
+       <Helmet>
+    <title>
+      رسائل الدعم
+    </title>
+  </Helmet>
       {loading ? (
         <div className="loader">
           <Commet color="#316dcc" size="medium" text="" textColor="" />
@@ -132,5 +139,4 @@ function Support() {
     </div>
   );
 }
-
 export default Support;

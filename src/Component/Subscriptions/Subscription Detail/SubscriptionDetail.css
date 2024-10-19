@@ -4,11 +4,11 @@
   padding: 80px 20px 20px 20px;
 }
 .subscriptionDetailContainer__items {
-  border: 1px solid lightgray;
   border-radius: 10px;
   background-color: #fff;
   height: 100vh;
   padding: 20px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .item1 {
   display: grid;
@@ -17,4 +17,18 @@
 }
 .item1 div {
   margin-top: 5px;
+}
+.options {
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid lightgray;
+  width: 130px;
+  right: -95px;
+  height: 52px;
+  border-radius: 5px;
+}
+.options_item:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
 }

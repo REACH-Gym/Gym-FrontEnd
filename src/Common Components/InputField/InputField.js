@@ -1,6 +1,4 @@
-import { Height } from "@mui/icons-material";
 import { Field, ErrorMessage } from "formik";
-
 // Input Field Component With Error Message and Label
 // Props: name (id, name), label (Title of the input field)
 // inputType: is the value of [as] arg in Field component which is the type of element will appear in the browser
@@ -28,7 +26,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
       >
         {children}
       </Field>
-      <ErrorMessage name={name} component="div" className="error-message" />
+      <ErrorMessage name={name} component="div" className="text-danger" />
     </div>
   );
 };

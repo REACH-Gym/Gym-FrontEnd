@@ -13,3 +13,14 @@
 .tableContainer td {
   background-color: transparent;
 }
+.confirmDeactive button{
+  background-color: #FF6666;
+  color: #fff;
+  font-weight: bolder;
+
+}
+.activateButton button{
+  background-color: transparent;
+  color:#000;
+  font-size: 16px;
+}

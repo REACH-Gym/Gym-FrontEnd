@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
+import { Helmet } from "react-helmet";
 function SupportDetails() {
   const { id } = useParams();
   const [supportDetail, setSupportDetail] = useState([]);
@@ -33,6 +34,11 @@ function SupportDetails() {
   }, [id]);
   return (
     <div className="supportDetailContainer">
+      <Helmet>
+        <title>
+          تفاصيل رسالة الدعم
+        </title>
+      </Helmet>
       <div className="d-flex align-items-center justify-content-between pe-2">
         <ComponentTitle
           title={"التفاصيل الخاصة برسالة الدعم"}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./mainButton.css";
-import { OrbitProgress } from "react-loading-indicators";
+// import { OrbitProgress } from "react-loading-indicators";
 function MainButton({
   text,
   onClick,
@@ -22,7 +22,8 @@ function MainButton({
         type={btnType}
         disabled={disabled || loading}
       >
-        {loading  ? <OrbitProgress color="#fff" size="small" width="6px" height="4px"/> : text }
+        {/* {loading  ? <OrbitProgress color="#fff" size="small" width="4px" height="4px"/> : text } */}
+        {loading  ? "جاري التحميل .." : text }
       </button>
     </div>
   );

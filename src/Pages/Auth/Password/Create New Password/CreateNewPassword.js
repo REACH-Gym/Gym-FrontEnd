@@ -4,14 +4,16 @@ import { Field, Form, Formik, ErrorMessage } from "formik";
 import MainButton from "../../../../Common Components/Main Button/MainButton";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { toast, ToastContainer } from "react-toastify";
 import Modal from "../../../../Common Components/Modal/Modal";
 function CreateNewPassword() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const access_token = localStorage.getItem("access");
   const phone_number = localStorage.getItem("phone_number");
-  const [loading ,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showError, setShowError] = useState(false);
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -32,21 +34,24 @@ function CreateNewPassword() {
         }
       );
       const data = await response.json();
-     console.log(data)
+      console.log(data);
       if (response.ok) {
-        console.log(data);
         localStorage.setItem("rest_password", data.message);
-        console.log(data.message);
         setShowModal(true);
+
         setTimeout(() => {
-          navigate("/"); 
+          navigate("/");
         }, 1500);
+        setLoading(false);
       } else {
-        toast.error("تأكد أن كلمة المرور متطابقة");
+        setShow(false);
+        setShowError(true);
+        setLoading(false);
       }
     } catch (error) {
-      toast.error("تأكد أن كلمة المرور متطابقة");
-      console.error("An error occurred", error);
+      setShow(false);
+      setShowError(true);
+      setLoading(false);
     }
   };
 
@@ -82,9 +87,8 @@ function CreateNewPassword() {
             initialValues={initialValues}
             onSubmit={handleSubmit}
           >
-            {/* {({ errors, touched }) => ( */}
             <Form className="createNewPasswordForm">
-              <div>
+              <div className="position-relative">
                 <label className="d-block" htmlFor="new_password">
                   كلمة السر الجديدة
                 </label>
@@ -92,15 +96,40 @@ function CreateNewPassword() {
                   className="createNewPasswordForm__input mt-2 p-2"
                   name="new_password"
                   id="new_password"
-                  type="password"
+                  type={show ? "text" : "password"}
                 />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 41,
+                    left: 25,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShow(!show)}
+                >
+                  {!show ? (
+                    <img
+                      src="/assets/image/close eye.png"
+                      alt="hide password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  ) : (
+                    <img
+                      src="/assets/image/open eye.png"
+                      alt="show password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  )}
+                </span>
                 <ErrorMessage
                   name="new_password"
                   component="div"
                   className="text-danger mt-2"
                 />
               </div>
-              <div className="mt-3">
+              <div className="mt-3 position-relative">
                 <label className="d-block mb-2" htmlFor="confirm_password">
                   اعادة كتابة كلمة السر
                 </label>
@@ -108,8 +137,33 @@ function CreateNewPassword() {
                   className="createNewPasswordForm__input p-2"
                   name="confirm_password"
                   id="confirm_password"
-                  type="password"
+                  type={showConfirm ? "text" : "password"}
                 />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 41,
+                    left: 25,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShowConfirm(!showConfirm)}
+                >
+                  {!showConfirm ? (
+                    <img
+                      src="/assets/image/close eye.png"
+                      alt="hide password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  ) : (
+                    <img
+                      src="/assets/image/open eye.png"
+                      alt="show password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  )}
+                </span>
                 <ErrorMessage
                   name="confirm_password"
                   component="div"
@@ -117,22 +171,58 @@ function CreateNewPassword() {
                 />
               </div>
               <div className="mt-4 sendCodeBtn">
-                <MainButton text={"تأكيد"} btnType={"submit"} isLoading={loading}/>
+                <MainButton
+                  text={"تأكيد"}
+                  btnType={"submit"}
+                  isLoading={loading}
+                />
               </div>
             </Form>
           </Formik>
         </div>
       </div>
-      <ToastContainer />
       <Modal isOpen={showModal}>
         <div className="d-flex flex-column align-items-center justify-content-center">
           <div className="mt-3">
-            <img src="/assets/image/weui_done2-outlined.png" alt="" width={"121px"} height={'121px'} />
+            <img
+              src="/assets/image/weui_done2-outlined.png"
+              alt=""
+              width={"100px"}
+              height={"100px"}
+              style={{ padding: "9px" }}
+            />
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-center fw-bolder fs-4 pb-3">
+        <div className="d-flex align-items-center justify-content-center fw-bolder pb-3">
+          <p className="mt-4">
+          تم التحقق من الرقم 01013585051 </p>
+        </div>
+      </Modal>
+      {/* error */}
+      <Modal isOpen={showError}>
+        <div className="">
+          <button
+          style={{backgroundColor:"transparent"}}
+            className="border-0 ps-4 pe-4 pt-4 fw-bolder"
+            onClick={() => setShowError(false)}
+          >
+            X
+          </button>
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="mt-3">
+            <img
+              src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
+              alt=""
+              width={"100px"}
+              height={"100px"}
+              style={{ padding: "9px" }}
+            />
+          </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center fw-bolder pb-3">
           <p className="mt-4" style={{}}>
-            01013585051 has been verified
+             كلمة المرور قصيرة جدًا. يجب أن تحتوي على 8 أحرف على الأقل.
           </p>
         </div>
       </Modal>

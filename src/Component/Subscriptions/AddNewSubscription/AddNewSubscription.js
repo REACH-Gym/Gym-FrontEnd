@@ -6,7 +6,9 @@ import InputField from "../../../Common Components/InputField/InputField";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../Common Components/Modal/Modal";
+import { Helmet } from "react-helmet";
+import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
+import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 function AddNewSubscription() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem("access");
@@ -41,7 +43,7 @@ function AddNewSubscription() {
         setShowModal(true);
         setTimeout(() => {
           navigate("/Home/AllSubScriptions");
-        }, 5000);
+        }, 2000);
       } else {
         console.error("Response status:", response.status);
         console.error("Response body:", result);
@@ -66,14 +68,16 @@ function AddNewSubscription() {
     membership_duration: "",
     freeze_duration: "",
   };
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
   const handleCloseModalError = () => {
     setShowModalError(false);
   };
   return (
     <div className="AddNewSubscriptionContainer">
+      <Helmet>
+        <title>
+        إضافة أشتراك جديد
+        </title>
+      </Helmet>
       <div className="pe-4">
         <ComponentTitle
           MainIcon={"/assets/image/subscriptions.png"}
@@ -99,7 +103,7 @@ function AddNewSubscription() {
             </div>
             <div className="row mb-4 g-5">
               <div className="col-6">
-                <InputField name={"membership_duration"} label={"المدة"} />
+                <InputField name={"membership_duration"} label={" المدة بالشهر"} />
               </div>
               <div className="col-6">
                 <InputField name={"freeze_duration"} label={"فترة التجميد"} />
@@ -112,62 +116,28 @@ function AddNewSubscription() {
                 className="add-note"
               />
             </div>
-            <div className="addmemberBtn mt-5">
+            <div className="addmemberBtn mt-5 text-center">
               <MainButton text={"اضافة"} btnType={"submit"} isLoading={loading} />
             </div>
           </Form>
         </Formik>
       </div>
       {/* success add sub */}
-      <Modal isOpen={showModal}>
-        <div className="d-flex justify-content-end">
-          <button
-            onClick={handleCloseModal}
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/weui_done2-outlined.png"
-            alt=""
-            width={"100px"}
-            height={"100px"}
-            style={{padding:"12px"}}
-          />
-        </div>
+      <SuccessModal isOpen={showModal}>
         <div>
-          <p className="text-center mt-2  text-dark fw-bolder mb-5">
+          <p className="text-center mt-2 text-dark fw-bolder mb-3">
             تم اضافة الأشتراك بنجاح
           </p>
         </div>
-      </Modal>
+      </SuccessModal>
       {/* failed add sub */}
-      <Modal isOpen={showModalError}>
-        <div className="d-flex justify-content-end">
-          <button
-            onClick={handleCloseModalError}
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
-            alt=""
-            width={"100px"}
-            height={"100px"}
-            style={{padding:"12px"}}
-          />
-        </div>
+      <FailedModal isOpen={showModalError} handleClose={handleCloseModalError}>
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
             حدث خطأ أثناء حذف هذا الأشتراك
           </p>
         </div>
-      </Modal>
+      </FailedModal>
     </div>
   );
 }

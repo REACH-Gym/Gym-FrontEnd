@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../../../Common Components/Modal/Modal";
-
+import SuccessModal from "../../../../Common Components/Modal/SucessModal/SuccessModal";
 function ForgotPassword() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [serverError, setServerError] = useState("");
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [tooMantAttempts, setTooManyAttempts] = useState(false);
   const access_token = localStorage.getItem("access");
 
   const handleSubmit = async (values) => {
@@ -33,21 +34,33 @@ function ForgotPassword() {
           body: JSON.stringify(item),
         }
       );
-      const data = await response.json();
-      console.log(data);
+      const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
-        localStorage.setItem("message", data.message);
+        localStorage.setItem("message", result.message);
         localStorage.setItem("phone_number", values["phone_number"]);
-        setShowModal(true);
-        setTimeout(() => {
-          navigate("/ConfirmCode");
-        }, 3500);
-        setServerError(""); //no server error
+
+        if (
+          result.message.includes("A verification request has been sent to your number:")
+        ) {
+          console.log("allow");
+          setLoading(false);
+          setShowModal(true);
+          setTooManyAttempts(false);
+          setTimeout(() => {
+            navigate("/ConfirmCode");
+          }, 3500);
+        } else{
+          setShowModal(false);
+          setTooManyAttempts(true)
+          setLoading(false)
+        }
       } else {
         setShowModalError(true);
+        setLoading(false)
         setServerError("رقم الهاتف غير صحيح برجاء المحاولة مرة أخرى");
-        console.log(data.error.detail);
+        console.log(result.error.detail);
       }
     } catch (error) {
       console.error("Error occurred:", error);
@@ -64,10 +77,12 @@ function ForgotPassword() {
   const initialValues = {
     phone_number: "",
   };
-  const handleCloseModalError = ()=>{
+  const handleCloseModalError = () => {
     setShowModalError(false);
-  }
-
+  };
+  const hanldeCloseMayAttempts = () => {
+    setTooManyAttempts(false);
+  };
   return (
     <div className="forgotPasswordContainer">
       <div className="forgotPasswordFormContainer">
@@ -110,21 +125,31 @@ function ForgotPassword() {
                 )}
               </div>
               <div className="sendCodeBtn mt-4">
-                <MainButton btnType={"submit"} text={"ارسال رمز"} isLoading={loading} />
+                <MainButton
+                  btnType={"submit"}
+                  text={"ارسال رمز"}
+                  isLoading={loading}
+                />
               </div>
             </Form>
           </Formik>
         </div>
       </div>
       {/* success send code to phone number */}
-      <Modal isOpen={showModal}>
+      <SuccessModal isOpen={showModal}>
+        <div className="closeModal">
+          <button className="border-0 ps-4 pt-4 pe-4 fw-bolder" onClick={()=>setShowModal(false)}>
+            X
+          </button>
+        </div>
         <div className="d-flex flex-column align-items-center justify-content-center">
           <div className="mt-4">
             <img
               src="/assets/image/weui_done2-outlined.png"
               alt=""
-              width={"90px"}
-              height={"90px"}
+              width={"`100px"}
+              height={"100px"}
+              style={{padding:"9px"}}
             />
           </div>
         </div>
@@ -139,11 +164,16 @@ function ForgotPassword() {
             </span>
           </p>
         </div>
-      </Modal>
+      </SuccessModal>
       {/* failed to send code to phone number */}
       <Modal isOpen={showModalError}>
-        <div className="d-flex justify-content-end fw-bolder">
-          <button onClick={handleCloseModalError} className="border-0 pt-4 ps-4 failed">X</button>
+        <div className="closeModal">
+          <button
+            onClick={handleCloseModalError}
+            className="border-0 pt-4 ps-4 pe-4 fw-bolder failed"
+          >
+            X
+          </button>
         </div>
         <div className="text-center">
           <img
@@ -151,11 +181,35 @@ function ForgotPassword() {
             alt=""
             width={"100px"}
             height={"100px"}
-            style={{padding:"12px"}}
+            style={{ padding: "9px" }}
           />
         </div>
         <p className="text-center mt-2  text-dark fw-bolder mb-5">
-        فشل في إرسال OTP، تحقق من رقم هاتفك</p>
+          فشل في إرسال OTP، تحقق من رقم هاتفك
+        </p>
+      </Modal>
+      {/* too many attempts */}
+      <Modal isOpen={tooMantAttempts}>
+        <div className="closeModal">
+          <button
+            onClick={hanldeCloseMayAttempts}
+            className="border-0 pt-4 ps-4 pe-4 fw-bolder"
+          >
+            X
+          </button>
+        </div>
+        <div className="text-center">
+          <img
+            src="/assets/image/ph_warning-bold.png"
+            alt=""
+            width={"100px"}
+            height={"100px"}
+            style={{ padding: "9px" }}
+          />
+        </div>
+        <p className="text-center mt-2  text-dark fw-bolder mb-5">
+          محاولات كثيرة يرجي المحاولة مرة اخري خلال 15 دقيقة
+        </p>
       </Modal>
     </div>
   );

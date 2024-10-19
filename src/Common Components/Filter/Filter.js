@@ -4,6 +4,7 @@ import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
 const filters = {
   name: "الاسم",
+  action:"العملية",
   "user.name": "اسم المستخدم",
   phone_number: "رقم الجوال",
   national_id: "رقم العضوية",

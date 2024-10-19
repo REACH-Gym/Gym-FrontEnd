@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Modal from "../../Common Components/Modal/Modal";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import MainButton from "../../Common Components/Main Button/MainButton";
+
 function DeleteSupport({ id, onDelete }) {
   const [showModal, setShowModal] = useState(false);
   const handleDeleteSupport = async () => {
@@ -33,9 +35,14 @@ function DeleteSupport({ id, onDelete }) {
   };
   return (
     <div>
-      <div className="d-flex align-items-center delete-support" onClick={handleShowModal}>
+      <div
+        className="d-flex align-items-center delete-support"
+        onClick={handleShowModal}
+      >
         <DeleteOutlineOutlinedIcon className="dropdown__icon " />
-        <p className="m-0" style={{fontSize:"16px"}}>حذف</p>
+        <p className="m-0" style={{ fontSize: "16px" }}>
+          حذف
+        </p>
       </div>
       <Modal isOpen={showModal}>
         <div className="text-center mt-4">
@@ -48,22 +55,23 @@ function DeleteSupport({ id, onDelete }) {
           />
         </div>
         <div>
-          <p className="text-center mt-2  text-dark fw-bolder">
+          <p className="text-center  mt-2  text-dark fw-bolder" style={{fontSize:"16px"}}>
             هل أنت متأكد من حذف رسالة الدعم؟
           </p>
-          <div className="text-center delete mt-3 mb-4 ">
-            <button
-              className="border-0 text-center fw-bolder tetx-dark p-2 rounded ms-3 delete-btn"
-              onClick={handleDeleteSupport}
-            >
-              تأكيد
-            </button>
-            <button
-              onClick={handleCloseModal}
-              className="border-0 text-center fw-bolder text-dark p-2 rounded canel-delete"
-            >
-              الغاء
-            </button>
+          <div className="d-flex justify-content-center delete align-items-center mt-3 mb-4 ">
+            <div className="delete-button ms-3  ">
+              <MainButton
+              text={'تأكيد'}
+                onClick={handleDeleteSupport}
+              />
+            </div>
+            <div className="cancel-delete ">
+              <MainButton
+              text={'الغاء'}
+                onClick={handleCloseModal}
+                className="border-0 text-center fw-bolder text-dark p-2 rounded "
+              />
+            </div>
           </div>
         </div>
       </Modal>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./container.css";
 import "react-circular-progressbar/dist/styles.css";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-
+import { Helmet } from "react-helmet";
 function Container() {
   const [status, setStatus] = useState([]);
   useEffect(() => {
@@ -34,6 +34,11 @@ function Container() {
   });
   return (
     <div className="container">
+      <Helmet>
+        <title>
+          الصفحة الريئسية
+        </title>
+      </Helmet>
       <div className="d-flex pe-3">
         <ComponentTitle
           MainIcon={"/assets/image/homePage.png"}
