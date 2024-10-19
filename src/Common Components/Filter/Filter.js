@@ -60,6 +60,18 @@ function Filter({
     }
   }, [activeFilter, debounce, query, search, searchResults]);
 
+  const handleDropdown = () => {
+    document.addEventListener("click", (e) => {
+      if (!e.target.classList.contains(`searchIcon`)) {
+        setDropdownOpen(false);
+        document.removeEventListener("click", handleDropdown);
+      } else {
+        setDropdownOpen(true);
+        document.removeEventListener("click", handleDropdown);
+      }
+    });
+  };
+
   return (
     <div className="filterContainer">
       <form className={`d-flex`}>
@@ -79,11 +91,11 @@ function Filter({
             src="/assets/image/Component 13.png"
             alt="search icon"
             className="searchIcon"
-            onClick={toggleDropdown}
+            onClick={handleDropdown}
           />
 
           {/* Dropdown list */}
-          <div className={`dropdownList ${dropdownOpen ? "open" : ""}`}>
+          <div className={`dropdownList ${dropdownOpen ? "open" : "d-none"}`}>
             <ul>
               {options.map((option, index) => (
                 <li
@@ -213,6 +225,23 @@ function Filter({
                     <ul className="p-0">
                       <li
                         className={`${
+                          term === "true"
+                            ? "bg-primary text-white rounded-2"
+                            : null
+                        } `}
+                        onClick={() => {
+                          setTerm("true");
+                          setActiveFilter("is_active");
+                          setTimeout(() => {
+                            toggleDropdown();
+                            clearTimeout();
+                          }, 300);
+                        }}
+                      >
+                        الإشتراكات الفعالة
+                      </li>
+                      <li
+                        className={`${
                           term === "false"
                             ? "bg-primary text-white rounded-2"
                             : null
@@ -226,7 +255,7 @@ function Filter({
                           }, 300);
                         }}
                       >
-                        محذوف
+                        الإشتراكات المحذوفة
                       </li>
                     </ul>
                   </div>

@@ -39,7 +39,6 @@
   width: 70%;
   overflow-y: auto;
   margin-left: 30px;
-  display: none;
   z-index: 10000;
 }
 .dropdownList.open {
