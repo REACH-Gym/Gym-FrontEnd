@@ -74,6 +74,7 @@ const AllSchedules = () => {
             options={["الاسم"]}
             searchResults={setResults}
             status={false}
+            eStatus={false}
           />
           <ComponentBtns
             btn1={"+ إضافة موعد جديد "}

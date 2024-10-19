@@ -507,7 +507,7 @@ const AddGroupMember = () => {
     schedule: Yup.string().required("هذا الحقل الزامي"),
     discount: Yup.number()
       .max(100, `يجب أن يكون الخصم أقل من 100`)
-      .min(1, `يجب أن يكون الخصم أكبر من 0`),
+      .min(0, `يجب أن يكون الخصم أكبر من 0`),
     start_date: Yup.date().required("هذا الحقل الزامي"),
     promo_code: Yup.string().max(20, `يجب أن يكون الكود أقل من 20`),
     payment_method: Yup.string().required("هذا الحقل الزامي"),

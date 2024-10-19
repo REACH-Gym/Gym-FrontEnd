@@ -4,16 +4,23 @@ import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
 const filters = {
   name: "الاسم",
-  action:"العملية",
+  action: "العملية",
   "user.name": "اسم المستخدم",
   phone_number: "رقم الجوال",
   national_id: "رقم العضوية",
   "schedule.session.name": "المجموعة",
   "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
+  is_active: "محذوف",
 };
 
-function Filter({ options = [], query, status = true, searchResults }) {
+function Filter({
+  options = [],
+  query,
+  status = true,
+  eStatus = true,
+  searchResults,
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [term, setTerm] = useState("");
   const [debounce, setDebounce] = useState(term);
@@ -65,7 +72,7 @@ function Filter({ options = [], query, status = true, searchResults }) {
             ref={searchInput}
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            disabled={activeFilter === "status"}
+            disabled={activeFilter === "status" || activeFilter === "is_active"}
           />
           {/* Left icon */}
           <img
@@ -189,6 +196,37 @@ function Filter({ options = [], query, status = true, searchResults }) {
                         }}
                       >
                         متجمد
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              )}
+              {eStatus && (
+                <li
+                  className={`fw-lighter mt-2`}
+                  style={{
+                    fontSize: "13px",
+                    padding: 0,
+                  }}
+                >
+                  <div>
+                    <ul className="p-0">
+                      <li
+                        className={`${
+                          term === "false"
+                            ? "bg-primary text-white rounded-2"
+                            : null
+                        } `}
+                        onClick={() => {
+                          setTerm("false");
+                          setActiveFilter("is_active");
+                          setTimeout(() => {
+                            toggleDropdown();
+                            clearTimeout();
+                          }, 300);
+                        }}
+                      >
+                        محذوف
                       </li>
                     </ul>
                   </div>
