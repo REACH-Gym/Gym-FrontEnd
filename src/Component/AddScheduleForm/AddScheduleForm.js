@@ -201,11 +201,37 @@ const AddScheduleForm = () => {
   }
 
   if (employeesError || sessionsError) {
-    return (
-      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold">
-        حدث خطأ، برجاء المحاولة مرة أخرى.
-      </div>
-    );
+    if (employeesError?.status === 403 || sessionsError?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (
+      employeesError?.status === 401 ||
+      sessionsError?.status === 401
+    ) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
   }
 
   return (

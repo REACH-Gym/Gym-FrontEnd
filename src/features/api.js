@@ -156,6 +156,16 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    getCoupons: builder.query({
+      query: (params) => `coupons/${params}`,
+    }),
+    postCoupon: builder.mutation({
+      query: (data) => ({
+        url: "coupons",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
     search: builder.query({
       query: (data) => `${data}`,
     }),
@@ -182,4 +192,6 @@ export const {
   useGetSessionsWithSchedulesQuery,
   usePostEmployeeMutation,
   usePatchEmployeeMutation,
+  useGetCouponsQuery,
+  usePostCouponMutation,
 } = apis;

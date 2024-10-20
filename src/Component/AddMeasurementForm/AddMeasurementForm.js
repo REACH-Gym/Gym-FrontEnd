@@ -97,6 +97,38 @@ const AddMeasurementForm = () => {
       </div>
     );
   }
+
+  if (error) {
+    if (error?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (error?.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
+  }
+
   return (
     <div className={`${styles.AddMeasurementFormContainer}`}>
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">

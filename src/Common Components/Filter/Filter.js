@@ -4,7 +4,6 @@ import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
 const filters = {
   name: "الاسم",
-  action: "العملية",
   "user.name": "اسم المستخدم",
   phone_number: "رقم الجوال",
   national_id: "رقم العضوية",
@@ -12,6 +11,9 @@ const filters = {
   "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
   is_active: "محذوف",
+  action: "العملية",
+  instance_name: "اسم العنصر",
+  model_name: "اسم الكيان",
 };
 
 function Filter({

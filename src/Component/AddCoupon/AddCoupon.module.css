@@ -1,0 +1,95 @@
+.groupForm {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.addgroupContainer {
+  width: 98%;
+  margin: auto;
+}
+.addgroupBtn button {
+  width: 20%;
+}
+.groupFormContainer {
+  background-color: #f2f4f5;
+  width: 100%;
+  /* padding: 0px 20px 20px 20px; */
+}
+@media (max-width: 768px) {
+  .groupForm {
+    width: 90%;
+  }
+}
+.radioItem {
+  background-color: #f4f4f4;
+  height: 52px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  direction: ltr;
+  padding: 20px 70px 20px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.arrow {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.down {
+  transform: rotate(-95deg) translateX(5px);
+}
+@keyframes dropDown {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    height: 150px;
+  }
+}
+.radioItem > input[type="radio"] {
+  width: 20px;
+  height: 20px;
+}
+.radioContainer > div > label {
+  color: black !important;
+  font-size: 18px;
+  margin-bottom: 15px !important;
+}
+.radioInput {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  top: 48px;
+  height: 0;
+  z-index: 1000;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 0 0 5px 5px;
+  text-align: end;
+  border-top: 1px solid #6666;
+}
+.radioInput label {
+  width: 100%;
+  text-align: start;
+}
+.radioInput input {
+  background-color: white !important;
+  text-align: end;
+}
+.radioInput div div {
+  text-align: start;
+  margin-top: 5px;
+  width: 100%;
+}
+.active {
+  height: 150px;
+  animation: dropDown 0.3s ease;
+}

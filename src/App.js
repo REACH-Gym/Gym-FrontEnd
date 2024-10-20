@@ -41,8 +41,11 @@ import AddUser from "./Component/AddUser/AddUser";
 import Logs from "./Component/Blog/Logs";
 import PersonalSettings from "./Component/Settings/PersonalSettings";
 import ChangePassword from "./Component/Settings/ChangePassword";
-import ChagePhoneNumber from './Component/Settings/ChangePhoneNumber';
-import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";import EditUser from "./Component/EditUser/EditUser";
+import ChagePhoneNumber from "./Component/Settings/ChangePhoneNumber";
+import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
+import EditUser from "./Component/EditUser/EditUser";
+import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
+import AddCoupon from "./Component/AddCoupon/AddCoupon";
 
 function App() {
   return (
@@ -62,12 +65,12 @@ function App() {
               <Route path="Support/:id" element={<SupportDetails />} />
               {/* end of support */}
               {/* Blog */}
-              <Route path="Logs" element={<Logs/>}/>
+              <Route path="Logs" element={<Logs />} />
               {/*End of Blog */}
               {/* settings */}
-              <Route path="PersonalSettings" element={<PersonalSettings/>}/>
-              <Route path="ChangePassword" element={<ChangePassword/>}/>
-              <Route path="ChagePhoneNumber" element={<ChagePhoneNumber/>}/>
+              <Route path="PersonalSettings" element={<PersonalSettings />} />
+              <Route path="ChangePassword" element={<ChangePassword />} />
+              <Route path="ChagePhoneNumber" element={<ChagePhoneNumber />} />
               {/* end of settings */}
               {/* update system */}
               <Route path="UpdateSystem" element={<UpdateSystem />} />
@@ -80,7 +83,10 @@ function App() {
               <Route path="AddNewMember" element={<AddNewMember />} />
               <Route path="AllMembers/:id/edit" element={<EditMember />} />
               <Route path="MemberActivate" element={<MemberActivate />} />
-              <Route path="AllMembers/:id/editPhoneNumber" element={<EditPhoneNumber/>}/>
+              <Route
+                path="AllMembers/:id/editPhoneNumber"
+                element={<EditPhoneNumber />}
+              />
               {/* end of members */}
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />
@@ -154,6 +160,10 @@ function App() {
               <Route path="AddUser" element={<AddUser />} />
               <Route path={"EditUser/:userId"} element={<EditUser />} />
               {/* end users */}
+              {/* start coupons */}
+              <Route path="CouponsContainer" element={<CouponsContainer />} />
+              <Route path="AddCoupon" element={<AddCoupon />} />
+              {/* end coupons */}
             </Route>
           </Route>
         </Routes>

@@ -6,6 +6,7 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { Commet } from "react-loading-indicators";
+import { useNavigate } from "react-router-dom";
 
 // Measurements table container and header
 const MeasurementsContainer = () => {
@@ -18,9 +19,8 @@ const MeasurementsContainer = () => {
   useEffect(() => {
     setTotalPages(data?.total_pages);
   }, [data]);
-  console.log(data);
-  console.log(isLoading);
-  console.log(error);
+
+  const navigate = useNavigate();
 
   if (isLoading || isFetching) {
     return (
@@ -33,11 +33,34 @@ const MeasurementsContainer = () => {
     );
   }
   if (error) {
-    return (
-      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
-        حدث خطأ، برجاء المحاولة مرة أخرى.
-      </div>
-    );
+    if (error?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (error?.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
   }
   return (
     <div className={`${styles.MeasurementsContainer}`}>

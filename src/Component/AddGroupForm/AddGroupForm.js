@@ -18,7 +18,7 @@ const AddGroupForm = () => {
     price: Yup.number().required("هذا الحقل إلزامي"),
     freeze_duration: Yup.number().min(
       0,
-      "يجب أن تسكون قيمة التحميد أكثر من صفر"
+      "يجب أن تكون قيمة التحميد أكثر من صفر"
     ),
   });
   const initialValues = {
