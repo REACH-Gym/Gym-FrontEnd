@@ -44,6 +44,7 @@ import ChangePassword from "./Component/Settings/ChangePassword";
 import ChagePhoneNumber from './Component/Settings/ChangePhoneNumber';
 import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
 import EditUser from "./Component/EditUser/EditUser";
+import LogDetails from './Component/Blog/LogDetails';
 function App() {
   return (
     <Provider store={store}>
@@ -63,6 +64,7 @@ function App() {
               {/* end of support */}
               {/* Blog */}
               <Route path="Logs" element={<Logs/>}/>
+              <Route path="Logs/:id/LogDetail" element={<LogDetails/>}/>
               {/*End of Blog */}
               {/* settings */}
               <Route path="PersonalSettings" element={<PersonalSettings/>}/>

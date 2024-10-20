@@ -102,7 +102,7 @@ function SubscripedMembers() {
               title={"جميع الاعضاء المشتركين"}
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
-            <Filter searchResults={setResults} query={"members/memberships"} />
+            <Filter searchResults={setResults} query={"members/memberships"} eStatus={false}/>
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
 

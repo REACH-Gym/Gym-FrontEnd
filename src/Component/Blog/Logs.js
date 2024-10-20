@@ -7,6 +7,8 @@ import { Commet } from "react-loading-indicators";
 import { Helmet } from "react-helmet";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MainButton from "../../Common Components/Main Button/MainButton";
+import { useNavigate } from "react-router-dom";
+
 function Logs() {
   const [results, setResults] = useState([]);
   const [logs, setLogs] = useState([]);
@@ -14,7 +16,9 @@ function Logs() {
   const [page, setPage] = useState(1);
   const [per_page] = useState(10);
   const [total_pages, setTotalPages] = useState(1);
-  console.log(results);
+  const [activeLogId, setActiveLogId] = useState(null); 
+  const navigate =  useNavigate();
+
   useEffect(() => {
     async function fetchLogs() {
       setLoading(true);
@@ -32,7 +36,6 @@ function Logs() {
         const result = await response.json();
         if (response.ok) {
           setLogs(result.data.activity_logs);
-          console.log(result.data);
           setTotalPages(result.data.meta.total_pages);
         }
       } catch (error) {
@@ -54,6 +57,11 @@ function Logs() {
       setPage((nextPage) => nextPage + 1);
     }
   };
+
+  const toggleOptions = (logId) => {
+    setActiveLogId((prevId) => (prevId === logId ? null : logId));
+  };
+
   return (
     <div className="blogContainer">
       <Helmet>
@@ -82,106 +90,98 @@ function Logs() {
               searchResults={setResults}
               status={false}
               query={"activity-logs/"}
-              options={["الاسم", "العملية"]}
+              options={["الاسم"]}
+              eStatus={false}
             />
             <ComponentBtns />
           </div>
-          {results?.data?.activity_logs?.length === 0 ? (
-            <div
-              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-              style={{ color: "red", height: "60vh" }}
-            >
-              لم يتم العثور علي نتائج مطابقة
-            </div>
-          ) : results?.data?.activity_logs?.length > 0 ? (
-            <div className="tableContainer mt-3">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">العملية</th>
-                    <th scope="col">في</th>
-                    <th scope="col">الأسم</th>
-                    <th scope="col">تاريخ التسجيل</th>
-                    <th scope="col">بواسطة</th>
-                    <th className="text-center" scope="col">
-                      خيارات
-                    </th>
+          <div className="tableContainer mt-3">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">العملية</th>
+                  <th scope="col">في</th>
+                  <th scope="col">الأسم</th>
+                  <th scope="col">تاريخ التسجيل</th>
+                  <th scope="col">بواسطة</th>
+                  <th className="text-center" scope="col">
+                    خيارات
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {logs.map((log, index) => (
+                  <tr key={log.id}>
+                    <td>{index + 1}</td>
+                    <td>{log.action}</td>
+                    <td>{log.model_name}</td>
+                    <td>{log.instance_name}</td>
+                    <td>{log.created_at}</td>
+                    <td>{log.performed_by}</td>
+                    <td
+                      className="text-center"
+                      style={{ position: "relative" }}
+                    >
+                      <MoreVertIcon
+                        onClick={() => toggleOptions(log.id)}
+                        style={{ cursor: "pointer" }}
+                      />
+                      {activeLogId === log.id && (
+                        <div
+                          onClick={()=>navigate(`/Home/Logs/${log.id}/LogDetail`)}
+                          className="options"
+                          style={{ position: "absolute" }}
+                        >
+                          <div className="d-flex align-items-center pt-2 options_item">
+
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.2em"
+                              height="2em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M1 2.5h8.48l2 2.5H23v16H1zm2 2V19h18V7H10.52l-2-2.5zm3.998 7.498h2.004v2.004H6.998zm4 0h2.004v2.004h-2.004zm4 0h2.004v2.004h-2.004z"
+                              />
+                            </svg>
+                            <p
+                              className=" mb-1 me-2"
+                              style={{ textAlign: "right", fontSize: "16px" }}
+                            >
+                              تفاصيل
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {results?.data?.activity_logs?.map((logSearch, index) => (
-                    <tr>
-                      <td key={logSearch.id}>{index + 1}</td>
-                      <td>{logSearch.action}</td>
-                      <td>{logSearch.model_name}</td>
-                      <td>{logSearch.instance_name}</td>
-                      <td>{logSearch.created_at}</td>
-                      <td>{logSearch.performed_by}</td>
-                      <td className="text-center" style={{ cursor: "pointer" }}>
-                        <MoreVertIcon />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="tableContainer mt-3">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">العملية</th>
-                    <th scope="col">في</th>
-                    <th scope="col">الأسم</th>
-                    <th scope="col">تاريخ التسجيل</th>
-                    <th scope="col">بواسطة</th>
-                    <th className="text-center" scope="col">
-                      خيارات
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {logs.map((log, index) => (
-                    <tr>
-                      <td key={log.id}>{index + 1}</td>
-                      <td>{log.action}</td>
-                      <td>{log.model_name}</td>
-                      <td>{log.instance_name}</td>
-                      <td>{log.created_at}</td>
-                      <td>{log.performed_by}</td>
-                      <td className="text-center" style={{ cursor: "pointer" }}>
-                        <MoreVertIcon />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {/* pagiation */}
-              <div className="d-flex justify-content-center align-items-center mt-5">
-                <div className="preivous-btn">
-                  <MainButton
-                    text={"السابق"}
-                    onClick={handlePrevPage}
-                    disabled={page === 1}
-                  />
-                </div>
-                <div>
-                  <span className="ms-3 me-3">
-                    الصفحة {total_pages} من {page}
-                  </span>
-                </div>
-                <div className="next-btn">
-                  <MainButton
-                    text={"التالي"}
-                    onClick={handleNextPage}
-                    disabled={page >= total_pages}
-                  />
-                </div>
+                ))}
+              </tbody>
+            </table>
+            <div className="d-flex justify-content-center align-items-center mt-5">
+              <div className="preivous-btn">
+                <MainButton
+                  text={"السابق"}
+                  onClick={handlePrevPage}
+                  disabled={page === 1}
+                />
+              </div>
+              <div>
+                <span className="ms-3 me-3">
+                  الصفحة {total_pages} من {page}
+                </span>
+              </div>
+              <div className="next-btn">
+                <MainButton
+                  text={"التالي"}
+                  onClick={handleNextPage}
+                  disabled={page >= total_pages}
+                />
               </div>
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
