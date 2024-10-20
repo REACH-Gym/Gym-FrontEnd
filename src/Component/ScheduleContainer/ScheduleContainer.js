@@ -150,7 +150,7 @@ const ScheduleContainer = () => {
             >
               <MainButton
                 onClick={() => setPage(page - 1)}
-                text="<<"
+                text="السابق"
                 disabled={page === 1}
                 btnWidth="100px"
               />
@@ -159,7 +159,7 @@ const ScheduleContainer = () => {
               </p>
               <MainButton
                 onClick={() => setPage(page + 1)}
-                text=">>"
+                text="التالي"
                 disabled={page === totalPages}
                 btnWidth="100px"
               />

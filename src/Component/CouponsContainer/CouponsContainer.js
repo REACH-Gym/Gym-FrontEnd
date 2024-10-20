@@ -73,7 +73,7 @@ const CouponsContainer = () => {
       <div className={`${styles.groupsContainer}`}>
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
-            MainIcon={"/assets/image/groups.png"}
+            MainIcon={"/assets/image/discount.png"}
             title={"جميع أكواد الخصم"}
             subTitle={"يمكنك متابعة جميع أكواد الخصم من هنا"}
           />
@@ -102,13 +102,13 @@ const CouponsContainer = () => {
               ))}
             </tbody>
           </table>
-          <div
+          {/* <div
             className={`d-flex justify-content-between align-items-center ${styles.pageBtn}`}
           >
             <MainButton
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
-              text={"<<"}
+              text={"السابق"}
               btnWidth="100px"
             />
             <p className={`m-0`}>
@@ -117,10 +117,10 @@ const CouponsContainer = () => {
             <MainButton
               onClick={() => setPage(page + 1)}
               disabled={page === totalPages}
-              text={">>"}
+              text={"التالي"}
               btnWidth="100px"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

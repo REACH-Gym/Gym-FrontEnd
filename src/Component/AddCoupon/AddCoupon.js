@@ -1,5 +1,5 @@
 import styles from "./AddCoupon.module.css";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import InputField from "../../Common Components/InputField/InputField";
@@ -15,14 +15,16 @@ const AddCoupon = () => {
   const [dropdown2, setDropdown2] = useState(false);
 
   const validationSchema = Yup.object({
-    code: Yup.string().required("هذا الحصل إلزامي"),
-    usage_limit: Yup.string().required("هذا الحصل إلزامي"),
-    end_date: Yup.string().required("هذا الحصل إلزامي"),
-    start_date: Yup.string().required("هذا الحصل إلزامي"),
-    discount_type: Yup.string().required("هذا الحصل إلزامي"),
+    code: Yup.string().required("هذا الحقل إلزامي"),
+    usage_limit: Yup.string().required("هذا الحقل إلزامي"),
+    end_date: Yup.string(),
+    start_date: Yup.string().required("هذا الحقل إلزامي"),
+    discount_type: Yup.string().required("هذا الحقل إلزامي"),
     discount_value: Yup.number()
-      .min(0, "يجب أن يكون الخصم أكبر من صفر")
-      .required("هذا الحصل إلزامي"),
+      .required(
+        "يجب ادخال قمية الخصم، اضغط على طريقة ادخال كود الخصم لتحديد القيمة"
+      )
+      .min(0, "يجب أن يكون الخصم أكبر من صفر"),
   });
   const initialValues = {
     code: "",
@@ -30,7 +32,7 @@ const AddCoupon = () => {
     end_date: "",
     start_date: "",
     discount_type: "",
-    discount_value: 0,
+    discount_value: "",
   };
 
   const [
@@ -53,32 +55,41 @@ const AddCoupon = () => {
     };
 
     console.log(newCoupon);
-    try {
-      const response = await postCoupon(newCoupon).unwrap();
-      console.log(response);
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-        navigate("/Home/CouponsContainer");
-        window.location.reload();
-      }, 300);
-    } catch (error) {
-      if (error.originalStatus === 403) {
-        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+    if (values["discount_value"] === 0) {
+      try {
+        const response = await postCoupon(newCoupon).unwrap();
+        console.log(response);
+        setSuccess(true);
         setTimeout(() => {
-          setError("");
-        }, 1000);
-      } else if (error.originalStatus === 401) {
-        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
-        setTimeout(() => {
-          setError("");
-        }, 1000);
-      } else {
-        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
-        setTimeout(() => {
-          setError("");
-        }, 1000);
+          setSuccess(false);
+          navigate("/Home/CouponsContainer");
+          window.location.reload();
+        }, 300);
+      } catch (error) {
+        if (error.originalStatus === 403) {
+          setError("ليس لديك الصلاحية لإضافة مجموعة.");
+          setTimeout(() => {
+            setError("");
+          }, 1000);
+        } else if (error.originalStatus === 401) {
+          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+          setTimeout(() => {
+            setError("");
+          }, 1000);
+        } else {
+          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+          setTimeout(() => {
+            setError("");
+          }, 1000);
+        }
       }
+    } else {
+      setError(
+        "يجب ادخال قمية الخصم، اضغط على طريقة ادخال كود الخصم لتحديد القيمة"
+      );
+      setTimeout(() => {
+        setError("");
+      }, 2000);
     }
   };
   return (
@@ -89,7 +100,7 @@ const AddCoupon = () => {
         <div className="allSubscriptionContainer mt-4">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
-              MainIcon={"/assets/image/groups.png"}
+              MainIcon={"/assets/image/discount.png"}
               title={"اضافة خصم جديد"}
               subTitle={"يمكنك اضافة خصم جديد من هنا"}
             />
@@ -101,7 +112,7 @@ const AddCoupon = () => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ setFieldValue }) => {
+                {({ setFieldValue, values }) => {
                   return (
                     <Form className={`${styles.groupForm} p-4`}>
                       <div className="row mb-4 g-5">
@@ -124,7 +135,7 @@ const AddCoupon = () => {
                             type={"date"}
                           />
                         </div>
-                        <div className="col-6">
+                        <div className="col-4">
                           <InputField
                             name="end_date"
                             label="تاريخ النهاية"
@@ -132,15 +143,31 @@ const AddCoupon = () => {
                             type={"date"}
                           />
                         </div>
+                        <div
+                          className={`${styles.infiniteDate} col-2 ${
+                            values.end_date === "" ? styles.activeInfinite : ""
+                          }`}
+                        >
+                          <button
+                            onClick={() => {
+                              setFieldValue("end_date", "");
+                            }}
+                          >
+                            تاريخ مفتوح
+                          </button>
+                        </div>
                       </div>
                       <div className="row mb-4 g-5">
                         <div
                           className={`col-6 ${styles.radioContainer}`}
                           style={{ marginBottom: "120px" }}
                         >
-                          <InputField
+                          <label htmlFor="discount_type" className="form-label">
+                            برجاء اختيار طريقة كود الخصم
+                          </label>
+                          <Field
                             name="discount_type"
-                            label="برجاء اختيار طريقة كود الخصم"
+                            id="discount_type"
                             // inputType={"input"}
                             render={({ field }) => (
                               <>
@@ -185,7 +212,7 @@ const AddCoupon = () => {
                                         );
                                       }}
                                     />
-                                    <label htmlFor="male">قيمة</label>
+                                    <label htmlFor="price">المبلغ</label>
                                   </div>
                                   {dropdown1 && (
                                     <div
@@ -193,9 +220,24 @@ const AddCoupon = () => {
                                         dropdown1 && styles.active
                                       }`}
                                     >
-                                      <InputField
+                                      <label
+                                        htmlFor={"discount_value"}
+                                        className="mb-2"
+                                      >
+                                        برجاء ادخال مبلغ الخصم
+                                      </label>
+                                      <Field
                                         name={"discount_value"}
-                                        label={"برجاء ادخال مبلغ الخصم"}
+                                        id={"discount_value"}
+                                        style={{
+                                          width: "100%",
+                                          backgroundColor: "#F4F4F4",
+                                          border: "none",
+                                          borderRadius: "5px",
+                                          padding: "10px",
+                                          outline: "none",
+                                          height: "52px",
+                                        }}
                                       />
                                     </div>
                                   )}
@@ -244,7 +286,7 @@ const AddCoupon = () => {
                                         );
                                       }}
                                     />
-                                    <label htmlFor="female">نسبة</label>
+                                    <label htmlFor="percentage">نسبة</label>
                                   </div>
                                   {dropdown2 && (
                                     <div
@@ -252,9 +294,24 @@ const AddCoupon = () => {
                                         dropdown2 && styles.active
                                       }`}
                                     >
-                                      <InputField
+                                      <label
+                                        htmlFor={"discount_value"}
+                                        className="mb-2"
+                                      >
+                                        برجاء ادخال نسبة الخصم
+                                      </label>
+                                      <Field
                                         name={"discount_value"}
-                                        label={"برجاء ادخال نسبة الخصم"}
+                                        id={"discount_value"}
+                                        style={{
+                                          width: "100%",
+                                          backgroundColor: "#F4F4F4",
+                                          border: "none",
+                                          borderRadius: "5px",
+                                          padding: "10px",
+                                          outline: "none",
+                                          height: "52px",
+                                        }}
                                       />
                                     </div>
                                   )}
@@ -262,9 +319,19 @@ const AddCoupon = () => {
                               </>
                             )}
                           />
+                          <ErrorMessage
+                            name="discount_type"
+                            component="div"
+                            className="text-danger"
+                          />
                         </div>
                       </div>
                       <div className={`${styles.addgroupBtn} text-center`}>
+                        <ErrorMessage
+                          name="discount_value"
+                          component="div"
+                          className="text-danger mb-3"
+                        />
                         <MainButton
                           text={"اضافة"}
                           btnType={"submit"}

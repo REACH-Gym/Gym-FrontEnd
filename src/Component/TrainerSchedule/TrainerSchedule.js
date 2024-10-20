@@ -182,7 +182,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               alt="Logo"
             />
           </div>
-          <div className={`col-2 d-flex justify-content-around`}>
+          <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
               <img
                 src={"/assets/image/iconamoon_profile.png"}
@@ -195,7 +195,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <div className="">{schedules[0]?.trainer?.name}</div>
             </div>
           </div>
-          <div className={`col-2 d-flex justify-content-around`}>
+          <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
               <img
                 src={"/assets/image/phone.png"}
@@ -208,7 +208,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <div className="">{schedules[0]?.trainer?.phone_number}</div>
             </div>
           </div>
-          <div className={`col-2 d-flex justify-content-around`}>
+          <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
               <img src={"/assets/image/date.png"} width={"24px"} alt={"Icon"} />
             </span>
@@ -217,7 +217,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <div className="">{schedules[0].session.created_at}</div>
             </div>
           </div>
-          <div className={`col-2 d-flex justify-content-around`}>
+          <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
               <img
                 src={"/assets/image/iconamoon_profile.png"}

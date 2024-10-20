@@ -32,7 +32,9 @@ const CouponsItem = ({ index, item }) => {
       <td className="table-column p-2">{item.usage_limit}</td>
       <td className="table-column p-2">{item.remaining_uses}</td>
       <td className="table-column p-2">{item.start_date}</td>
-      <td className="table-column p-2">{item.end_date}</td>
+      <td className="table-column p-2">
+        {item.end_date ? item.end_date : "غير محدود"}
+      </td>
       <td className="table-column p-2">
         {item.is_active ? <Active /> : <Deleted />}
       </td>

@@ -51,14 +51,14 @@
     opacity: 1;
   }
   to {
-    height: 150px;
+    height: 120px;
   }
 }
 .radioItem > input[type="radio"] {
   width: 20px;
   height: 20px;
 }
-.radioContainer > div > label {
+.radioContainer > label {
   color: black !important;
   font-size: 18px;
   margin-bottom: 15px !important;
@@ -82,7 +82,7 @@
 }
 .radioInput input {
   background-color: white !important;
-  text-align: end;
+  text-align: start;
 }
 .radioInput div div {
   text-align: start;
@@ -90,6 +90,24 @@
   width: 100%;
 }
 .active {
-  height: 150px;
+  height: 120px;
   animation: dropDown 0.3s ease;
+}
+.infiniteDate {
+  display: flex;
+  align-items: flex-start;
+  padding: 43px 0 0 0;
+  justify-content: center;
+}
+.infiniteDate button {
+  background-color: white;
+  border: 1px solid #f4f4f4;
+  padding: 10px;
+  width: 100px;
+  color: #006aea;
+  border-radius: 5px;
+}
+.activeInfinite button {
+  background-color: #006aea;
+  color: white;
 }

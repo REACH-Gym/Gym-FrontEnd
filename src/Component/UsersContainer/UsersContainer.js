@@ -155,7 +155,7 @@ const UsersContainer = () => {
               <MainButton
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                text={"<<"}
+                text={"السابق"}
                 btnWidth="100px"
               />
               <p className={`m-0`}>
@@ -164,7 +164,7 @@ const UsersContainer = () => {
               <MainButton
                 onClick={() => setPage(page + 1)}
                 disabled={page === total_pages}
-                text={">>"}
+                text={"التالي"}
                 btnWidth="100px"
               />
             </div>

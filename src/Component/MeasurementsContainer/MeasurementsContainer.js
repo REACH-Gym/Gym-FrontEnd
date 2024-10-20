@@ -100,7 +100,7 @@ const MeasurementsContainer = () => {
           style={{ width: "350px" }}
         >
           <MainButton
-            text={"<<"}
+            text={"السابق"}
             onClick={() => setPage((prev) => prev - 1)}
             btnWidth="100px"
             disabled={page === 1}
@@ -109,7 +109,7 @@ const MeasurementsContainer = () => {
             الصفحة {page} من {totalPages}
           </p>
           <MainButton
-            text={">>"}
+            text={"التالي"}
             onClick={() => setPage((prev) => prev + 1)}
             btnWidth="100px"
             disabled={page === totalPages ? true : false}

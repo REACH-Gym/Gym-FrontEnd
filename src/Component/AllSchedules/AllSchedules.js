@@ -165,7 +165,7 @@ const AllSchedules = () => {
             >
               <MainButton
                 onClick={() => setPage(page - 1)}
-                text="<<"
+                text="السابق"
                 disabled={page === 1}
                 btnWidth="100px"
               />
@@ -174,7 +174,7 @@ const AllSchedules = () => {
               </p>
               <MainButton
                 onClick={() => setPage(page + 1)}
-                text=">>"
+                text="التالي"
                 disabled={page === totalPages}
                 btnWidth="100px"
               />
