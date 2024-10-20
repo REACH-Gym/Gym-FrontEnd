@@ -157,17 +157,31 @@ export const apis = createApi({
       }),
     }),
     getCoupons: builder.query({
-      query: (params) => `coupons/${params}`,
+      query: (params) => `coupons/active_coupons/${params}`,
     }),
     postCoupon: builder.mutation({
       query: (data) => ({
-        url: "coupons",
+        url: "coupons/",
         method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
+    editCoupon: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `coupons/${id}/`,
+        method: "PATCH",
         body: JSON.stringify(data),
       }),
     }),
     search: builder.query({
       query: (data) => `${data}`,
+    }),
+    sendDetails: builder.mutation({
+      query: (data) => ({
+        url: "whatsapp/send-details/",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
     }),
   }),
 });
@@ -194,4 +208,6 @@ export const {
   usePatchEmployeeMutation,
   useGetCouponsQuery,
   usePostCouponMutation,
+  useSendDetailsMutation,
+  useEditCouponMutation,
 } = apis;

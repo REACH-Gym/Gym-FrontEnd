@@ -51,10 +51,19 @@ const ScheduleItem = ({ index, session }) => {
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       }
     }
     setPopup(false);
@@ -73,10 +82,19 @@ const ScheduleItem = ({ index, session }) => {
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       }
     }
     setPopup(false);
@@ -88,7 +106,7 @@ const ScheduleItem = ({ index, session }) => {
           text={session.is_active ? "تم حذف المجموعة." : "تم تفعيل المجموعة."}
         />
       )}
-      {isDeleteError && <Error text={error} show={isDeleteError} />}
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
       {popup && (
         <Warning
           text={

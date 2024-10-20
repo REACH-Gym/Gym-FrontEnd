@@ -61,10 +61,19 @@ const AddGroupForm = () => {
     } catch (error) {
       if (error.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else if (error.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       }
     }
   };

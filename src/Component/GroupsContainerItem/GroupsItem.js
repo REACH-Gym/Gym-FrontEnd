@@ -2,12 +2,18 @@ import styles from "./GroupsItem.module.css";
 import { Active, AlmostOver, Expired, Freezed } from "../Status/Status";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
+import { useSendDetailsMutation } from "../../features/api";
+import Success from "../../Common Components/Success/Success";
+import Error from "../../Common Components/Error/Error";
+import { Commet } from "react-loading-indicators";
 
 // Measurements table item
 // props --> object that has: number of the row, member name, measurement date, height, register date
 const GroupsItem = ({ index, item }) => {
   const navigate = useNavigate();
   const [showOptions, setShowOptions] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const options = useRef(null);
   const handleOptions = () => {
     document.addEventListener("click", (e) => {
@@ -21,53 +27,117 @@ const GroupsItem = ({ index, item }) => {
       }
     });
   };
+  const [sendDetails, { isLoading: isSendDetailsLoading }] =
+    useSendDetailsMutation();
+  const handleSendDetails = async () => {
+    try {
+      const response = await sendDetails({ session_id: item.id }).unwrap();
+      console.log(response);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 300);
+    } catch (error) {
+      if (error.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      } else if (error.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      }
+    }
+  };
 
   return (
-    <tr className={`${styles.tableRow}`}>
-      <td className="table-column p-2">{index}</td>
-      <td className="table-column p-2">{item.user.name}</td>
-      <td className="table-column p-2">{item.schedule.session.name}</td>
-      <td className="table-column p-2">{item.schedule.trainer.name}</td>
-      <td className="table-column p-2">
-        {item.status === "active" ? <Active /> : null}
-        {item.status === "expired" ? <Expired /> : null}
-        {item.status === "freezed" ? <Freezed /> : null}
-        {item.status === "almost over" ? <AlmostOver /> : null}
-      </td>
-      <td
-        className={`${styles.tableColumn} tableColumn${index} position-relative p-2`}
-        onClick={handleOptions}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
+    <>
+      {isSendDetailsLoading && (
         <div
-          className={`${styles.subMenu} ${showOptions ? "d-block" : "d-none"}`}
-          ref={options}
+          className="d-flex justify-content-center align-items-center w-100"
+          style={{ height: "100vh" }}
         >
+          <Commet color="#316dcc" size="medium" text="" textColor="" />
+        </div>
+      )}
+      {success && (
+        <Success text={"تم تعديل بيانات المجموعة بنجاح"} show={success} />
+      )}
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
+      <tr className={`${styles.tableRow}`}>
+        <td className="table-column p-2">{index}</td>
+        <td className="table-column p-2">{item.user.name}</td>
+        <td className="table-column p-2">{item.schedule.session.name}</td>
+        <td className="table-column p-2">{item.schedule.trainer.name}</td>
+        <td className="table-column p-2">
+          {item.status === "active" ? <Active /> : null}
+          {item.status === "expired" ? <Expired /> : null}
+          {item.status === "freezed" ? <Freezed /> : null}
+          {item.status === "almost over" ? <AlmostOver /> : null}
+        </td>
+        <td
+          className={`${styles.tableColumn} tableColumn${index} position-relative p-2`}
+          onClick={handleOptions}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
           <div
-            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
-            onClick={() => {
-              navigate(`/Home/GroupMemberMembership/${item.id}/`);
-            }}
+            className={`${styles.subMenu} ${
+              showOptions ? "d-block" : "d-none"
+            }`}
+            ref={options}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ alignSelf: "center" }}
+            <div
+              className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
+              onClick={() => {
+                navigate(`/Home/GroupMemberMembership/${item.id}/`);
+              }}
             >
-              <path
-                d="M5.25 3V3.75H3V3H5.25ZM3 5.25V4.5H5.25V5.25H3ZM3 6.75V6H4.5V6.75H3ZM2.25 3V3.75H1.5V3H2.25ZM2.25 4.5V5.25H1.5V4.5H2.25ZM1.5 6.75V6H2.25V6.75H1.5ZM0.75 0.75V11.25H4.5V12H0V0H6.5332L9.75 3.2168V4.5H9V3.75H6V0.75H0.75ZM6.75 1.2832V3H8.4668L6.75 1.2832ZM10.5 6H12V12H5.25V6H6.75V5.25H7.5V6H9.75V5.25H10.5V6ZM11.25 11.25V8.25H6V11.25H11.25ZM11.25 7.5V6.75H6V7.5H11.25Z"
-                fill="#4F4F4F"
-              />
-            </svg>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ alignSelf: "center" }}
+              >
+                <path
+                  d="M5.25 3V3.75H3V3H5.25ZM3 5.25V4.5H5.25V5.25H3ZM3 6.75V6H4.5V6.75H3ZM2.25 3V3.75H1.5V3H2.25ZM2.25 4.5V5.25H1.5V4.5H2.25ZM1.5 6.75V6H2.25V6.75H1.5ZM0.75 0.75V11.25H4.5V12H0V0H6.5332L9.75 3.2168V4.5H9V3.75H6V0.75H0.75ZM6.75 1.2832V3H8.4668L6.75 1.2832ZM10.5 6H12V12H5.25V6H6.75V5.25H7.5V6H9.75V5.25H10.5V6ZM11.25 11.25V8.25H6V11.25H11.25ZM11.25 7.5V6.75H6V7.5H11.25Z"
+                  fill="#4F4F4F"
+                />
+              </svg>
 
-            <div className={`d-inline-block`}>التفاصيل</div>
-          </div>
-          {/* <div
+              <div className={`d-inline-block`}>التفاصيل</div>
+            </div>
+            <div
+              className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
+              onClick={handleSendDetails}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 10 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ alignSelf: "center" }}
+              >
+                <path
+                  d="M8.52499 1.45503C8.06653 0.99208 7.52051 0.62501 6.91875 0.375208C6.31699 0.125406 5.67154 -0.00213158 5.01999 2.69476e-05C2.28999 2.69476e-05 0.064994 2.22503 0.064994 4.95503C0.064994 5.83003 0.294994 6.68003 0.724994 7.43003L0.0249939 10L2.64999 9.31003C3.37499 9.70503 4.18999 9.91503 5.01999 9.91503C7.74999 9.91503 9.97499 7.69003 9.97499 4.96003C9.97499 3.63503 9.45999 2.39003 8.52499 1.45503ZM5.01999 9.07503C4.27999 9.07503 3.55499 8.87503 2.91999 8.50003L2.76999 8.41003L1.20999 8.82003L1.62499 7.30003L1.52499 7.14503C1.11377 6.48856 0.895456 5.72966 0.894994 4.95503C0.894994 2.68503 2.74499 0.835027 5.01499 0.835027C6.11499 0.835027 7.14999 1.26503 7.92499 2.04503C8.3088 2.42696 8.61295 2.8813 8.81981 3.38169C9.02666 3.88208 9.13209 4.41857 9.12999 4.96003C9.13999 7.23003 7.28999 9.07503 5.01999 9.07503ZM7.27999 5.99503C7.15499 5.93503 6.54499 5.63503 6.43499 5.59003C6.31999 5.55003 6.23999 5.53003 6.15499 5.65003C6.06999 5.77503 5.83499 6.05503 5.76499 6.13503C5.69499 6.22003 5.61999 6.23003 5.49499 6.16503C5.36999 6.10503 4.96999 5.97003 4.49999 5.55003C4.12999 5.22003 3.88499 4.81503 3.80999 4.69003C3.73999 4.56503 3.79999 4.50003 3.86499 4.43503C3.91999 4.38003 3.98999 4.29003 4.04999 4.22003C4.10999 4.15003 4.13499 4.09503 4.17499 4.01503C4.21499 3.93003 4.19499 3.86003 4.16499 3.80003C4.13499 3.74003 3.88499 3.13003 3.78499 2.88003C3.68499 2.64003 3.57999 2.67003 3.50499 2.66503H3.26499C3.17999 2.66503 3.04999 2.69503 2.93499 2.82003C2.82499 2.94503 2.50499 3.24503 2.50499 3.85503C2.50499 4.46503 2.94999 5.05503 3.00999 5.13503C3.06999 5.22003 3.88499 6.47003 5.12499 7.00503C5.41999 7.13503 5.64999 7.21003 5.82999 7.26503C6.12499 7.36003 6.39499 7.34503 6.60999 7.31503C6.84999 7.28003 7.34499 7.01503 7.44499 6.72503C7.54999 6.43503 7.54999 6.19003 7.51499 6.13503C7.47999 6.08003 7.40499 6.05503 7.27999 5.99503Z"
+                  fill="#4F4F4F"
+                />
+              </svg>
+
+              <div className={`d-inline-block`}>اعادة الإرسال</div>
+            </div>
+            {/* <div
             className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
             onClick={() => {
               navigate(`/Home/EditGroupMember/${item.id}/`);
@@ -92,9 +162,10 @@ const GroupsItem = ({ index, item }) => {
             </svg>
             <div className={`d-inline-block`}>تعديل</div>
           </div> */}
-        </div>
-      </td>
-    </tr>
+          </div>
+        </td>
+      </tr>
+    </>
   );
 };
 
