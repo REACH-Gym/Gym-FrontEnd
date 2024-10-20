@@ -61,6 +61,7 @@ const GroupsContainer = () => {
             query={"members/sessions/"}
             options={["اسم المستخدم", "المجموعة", "اسم المدرب"]}
             searchResults={setResults}
+            eStatus={false}
           />
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}

@@ -13,11 +13,24 @@ const UsersContainer = () => {
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  function decodeJWT(token) {
+    const parts = token.split(".");
+    if (parts.length !== 3) {
+      throw new Error("JWT must have 3 parts");
+    }
+    const payload = parts[1];
+    const decodedPayload = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+    );
+    return decodedPayload;
+  }
+  const decodedToken = decodeJWT(localStorage.getItem("access"));
+  const userId = decodedToken.user_id;
   const {
     data: emplyees,
     isFetching: isEmployeesLoading,
     error: employeesError,
-  } = useGetEmployeesQuery(`?page=${page}&per_page=20`);
+  } = useGetEmployeesQuery(`?page=${page}&per_page=20&filter{-id}=${userId}`);
 
   const [total_pages, setTotalPages] = useState(0);
   useEffect(() => {

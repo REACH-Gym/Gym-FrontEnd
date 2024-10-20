@@ -117,7 +117,7 @@ const DynamicComponent = () => {
           </InputField>
         </div>
       </div>
-      <div className={`row`}>
+      <div className={`col-6`}>
         <InputField name={"gender"} label={"الجنس"} inputType={"select"}>
           <option value={""}>اختر</option>
           <option value={"M"}>ذكر</option>

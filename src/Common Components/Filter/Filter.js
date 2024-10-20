@@ -4,16 +4,23 @@ import "./filter.css";
 import { useLazySearchQuery } from "../../features/api";
 const filters = {
   name: "الاسم",
-  action:"العملية",
+  action: "العملية",
   "user.name": "اسم المستخدم",
   phone_number: "رقم الجوال",
   national_id: "رقم العضوية",
   "schedule.session.name": "المجموعة",
   "membership.name": "الباقة",
   "schedule.trainer.name": "اسم المدرب",
+  is_active: "محذوف",
 };
 
-function Filter({ options = [], query, status = true, searchResults }) {
+function Filter({
+  options = [],
+  query,
+  status = true,
+  eStatus = true,
+  searchResults,
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [term, setTerm] = useState("");
   const [debounce, setDebounce] = useState(term);
@@ -53,6 +60,18 @@ function Filter({ options = [], query, status = true, searchResults }) {
     }
   }, [activeFilter, debounce, query, search, searchResults]);
 
+  const handleDropdown = () => {
+    document.addEventListener("click", (e) => {
+      if (!e.target.classList.contains(`searchIcon`)) {
+        setDropdownOpen(false);
+        document.removeEventListener("click", handleDropdown);
+      } else {
+        setDropdownOpen(true);
+        document.removeEventListener("click", handleDropdown);
+      }
+    });
+  };
+
   return (
     <div className="filterContainer">
       <form className={`d-flex`}>
@@ -65,18 +84,18 @@ function Filter({ options = [], query, status = true, searchResults }) {
             ref={searchInput}
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            disabled={activeFilter === "status"}
+            disabled={activeFilter === "status" || activeFilter === "is_active"}
           />
           {/* Left icon */}
           <img
             src="/assets/image/Component 13.png"
             alt="search icon"
             className="searchIcon"
-            onClick={toggleDropdown}
+            onClick={handleDropdown}
           />
 
           {/* Dropdown list */}
-          <div className={`dropdownList ${dropdownOpen ? "open" : ""}`}>
+          <div className={`dropdownList ${dropdownOpen ? "open" : "d-none"}`}>
             <ul>
               {options.map((option, index) => (
                 <li
@@ -189,6 +208,54 @@ function Filter({ options = [], query, status = true, searchResults }) {
                         }}
                       >
                         متجمد
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              )}
+              {eStatus && (
+                <li
+                  className={`fw-lighter mt-2`}
+                  style={{
+                    fontSize: "13px",
+                    padding: 0,
+                  }}
+                >
+                  <div>
+                    <ul className="p-0">
+                      <li
+                        className={`${
+                          term === "true"
+                            ? "bg-primary text-white rounded-2"
+                            : null
+                        } `}
+                        onClick={() => {
+                          setTerm("true");
+                          setActiveFilter("is_active");
+                          setTimeout(() => {
+                            toggleDropdown();
+                            clearTimeout();
+                          }, 300);
+                        }}
+                      >
+                        الإشتراكات الفعالة
+                      </li>
+                      <li
+                        className={`${
+                          term === "false"
+                            ? "bg-primary text-white rounded-2"
+                            : null
+                        } `}
+                        onClick={() => {
+                          setTerm("false");
+                          setActiveFilter("is_active");
+                          setTimeout(() => {
+                            toggleDropdown();
+                            clearTimeout();
+                          }, 300);
+                        }}
+                      >
+                        الإشتراكات المحذوفة
                       </li>
                     </ul>
                   </div>
