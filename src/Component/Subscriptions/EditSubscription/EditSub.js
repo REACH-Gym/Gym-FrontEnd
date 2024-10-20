@@ -149,7 +149,7 @@ function EditSub() {
             alt="done"
             height={"110px"}
             width={"110px"}
-            style={{padding:"8px"}}
+            style={{padding:"6px"}}
           />
         </div>
         <div>
@@ -174,7 +174,7 @@ function EditSub() {
             alt="failed"
             height={"110px"}
             width={"110px"}
-            style={{padding:"8px"}}
+            style={{padding:"6px"}}
           />
         </div>
         <div>

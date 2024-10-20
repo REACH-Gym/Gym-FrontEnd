@@ -315,7 +315,7 @@ function ConfirmCode() {
             alt=""
             width={"100px"}
             height={"100px"}
-            style={{ padding: "12px" }}
+            style={{ padding: "6px" }}
           />
         </div>
         <p className="text-center mt-2  text-dark fw-bolder mb-5">
@@ -336,7 +336,7 @@ function ConfirmCode() {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{padding:"9px"}}
+              style={{padding:"6px"}}
             />
           </div>
         </div>

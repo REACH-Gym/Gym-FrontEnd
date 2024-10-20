@@ -137,7 +137,7 @@ function ForgotPassword() {
       </div>
       {/* success send code to phone number */}
       <SuccessModal isOpen={showModal}>
-        <div className="closeModal">
+        {/* <div className="closeModal">
           <button className="border-0 ps-4 pt-4 pe-4 fw-bolder" onClick={()=>setShowModal(false)}>
             X
           </button>
@@ -152,7 +152,7 @@ function ForgotPassword() {
               style={{padding:"9px"}}
             />
           </div>
-        </div>
+        </div> */}
         <div className="d-flex align-items-center justify-content-center fw-bolder fs-6 p-3">
           <p
             className="text-center text-dark"
@@ -181,7 +181,7 @@ function ForgotPassword() {
             alt=""
             width={"100px"}
             height={"100px"}
-            style={{ padding: "9px" }}
+            style={{ padding: "6px" }}
           />
         </div>
         <p className="text-center mt-2  text-dark fw-bolder mb-5">
@@ -204,7 +204,7 @@ function ForgotPassword() {
             alt=""
             width={"100px"}
             height={"100px"}
-            style={{ padding: "9px" }}
+            style={{ padding: "6px" }}
           />
         </div>
         <p className="text-center mt-2  text-dark fw-bolder mb-5">

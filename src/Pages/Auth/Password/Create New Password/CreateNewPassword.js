@@ -189,7 +189,7 @@ function CreateNewPassword() {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{ padding: "9px" }}
+              style={{ padding: "6px" }}
             />
           </div>
         </div>
@@ -216,7 +216,7 @@ function CreateNewPassword() {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{ padding: "9px" }}
+              style={{ padding: "6px" }}
             />
           </div>
         </div>

@@ -59,7 +59,7 @@ function DeleteSub({ id, onDelete }) {
               alt="delete subscription"
               width={'110px'}
               height={'110px'}
-              style={{padding:"12px"}}
+              style={{padding:"6px"}}
             />
           </div>
           <p className="text-center mt-3 fs-6 text-dark fw-bolder ">

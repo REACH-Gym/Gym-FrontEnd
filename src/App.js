@@ -43,10 +43,10 @@ import PersonalSettings from "./Component/Settings/PersonalSettings";
 import ChangePassword from "./Component/Settings/ChangePassword";
 import ChagePhoneNumber from "./Component/Settings/ChangePhoneNumber";
 import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
+
 import EditUser from "./Component/EditUser/EditUser";
 import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
 import AddCoupon from "./Component/AddCoupon/AddCoupon";
-
 function App() {
   return (
     <Provider store={store}>

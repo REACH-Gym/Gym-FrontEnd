@@ -47,35 +47,41 @@ function MemberActivate({ id, onActive }) {
         </svg>
         <div className="activateButton me-2">
           <MainButton
-            onClick={activeMember}
-            isLoading={loading}
+            onClick={() => setShowModal(true)}
             text={"تفعيل العضو"}
           />
         </div>
       </div>
       <Modal isOpen={showModal}>
         <div>
-          <div className="d-flex justify-content-end">
-            <button
-              onClick={handleCloseModal}
-              className="border-0 pt-4 ps-4 failed"
-            >
-              X
-            </button>
-          </div>
           <div className="text-center">
             <img
-              src="/assets/image/weui_done2-outlined.png"
+              src="/assets/image/ph_warning-bold.png"
               alt="activate member"
               width={"100px"}
               height={"100px"}
-              style={{ padding: "12px" }}
+              style={{ padding: "9px" }}
             />
           </div>
           <div>
-            <p className="text-center mt-2  text-dark fw-bolder mb-5">
-              تم اعادة تفعيل العضو بنجاح
+            <p className="text-center mt-2  text-dark" style={{fontWeight:"bolder" , fontSize:"15px"}}>
+              هل أنت متأكد من أنك تريد اعادة تفعيل هذا العضو ؟
             </p>
+          </div>
+          <div className="d-flex justify-content-center delete mt-3 mb-4 fw-bolder ">
+            <div className="confirmDeactive ms-3">
+              <MainButton
+                text={"تأكيد"}
+                onClick={activeMember}
+                isLoading={loading}
+              />
+            </div>
+            <button
+              onClick={handleCloseModal}
+              className="border-0 text-center fw-bolder text-dark p-2 rounded canel-delete"
+            >
+              الغاء
+            </button>
           </div>
         </div>
       </Modal>

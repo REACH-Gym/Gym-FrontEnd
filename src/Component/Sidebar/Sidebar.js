@@ -3,29 +3,13 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa"; //up and down arrow
 import "./sidebar.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
-import FingerprintOutlinedIcon from "@mui/icons-material/FingerprintOutlined";
-import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import SpeedIcon from "@mui/icons-material/Speed";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
-import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
-import Diversity2OutlinedIcon from "@mui/icons-material/Diversity2Outlined";
-import PercentOutlinedIcon from "@mui/icons-material/PercentOutlined";
 import { useNavigate } from "react-router-dom";
-import Logout from "../../Pages/Auth/Logout/Logout";
-import ModalLogOut from "../../Pages/Auth/Logout/ModalLogOut";
-import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 function SidebarBox() {
   const [openItemId, setOpenItemId] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
-  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
   const handleToggle = (itemId) => {
     setOpenItemId((prevItemId) => (prevItemId === itemId ? null : itemId));
@@ -78,8 +62,8 @@ function SidebarBox() {
       subItems: [
         { title: "جميع المجموعات", navigateTo: "ScheduleContainer" },
         { title: "أعضاء المجموعات", navigateTo: "GroupsContainer" },
-        { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
         { title: "اضافة عضو لمجموعة", navigateTo: "AddGroupMember" },
+        { title: "اضافة مجموعة جديدة", navigateTo: "AddGroupForm" },
       ],
     },
     {
