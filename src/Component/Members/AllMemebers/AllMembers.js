@@ -149,6 +149,7 @@ function AllMembers() {
                 query={"members/"}
                 searchResults={setResults}
                 status={false}
+                eStatus={false}
               />
               <ComponentBtns />
             </div>
