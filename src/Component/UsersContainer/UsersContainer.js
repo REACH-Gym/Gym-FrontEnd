@@ -13,24 +13,24 @@ const UsersContainer = () => {
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  function decodeJWT(token) {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      throw new Error("JWT must have 3 parts");
-    }
-    const payload = parts[1];
-    const decodedPayload = JSON.parse(
-      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
-    );
-    return decodedPayload;
-  }
-  const decodedToken = decodeJWT(localStorage.getItem("access"));
-  const userId = decodedToken.user_id;
+  // function decodeJWT(token) {
+  //   const parts = token?.split(".");
+  //   if (parts?.length !== 3) {
+  //     throw new Error("JWT must have 3 parts");
+  //   }
+  //   const payload = parts[1];
+  //   const decodedPayload = JSON.parse(
+  //     atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+  //   );
+  //   return decodedPayload;
+  // }
+  // const decodedToken = decodeJWT(localStorage.getItem("access"));
+  // const userId = decodedToken.user_id;
   const {
     data: emplyees,
     isFetching: isEmployeesLoading,
     error: employeesError,
-  } = useGetEmployeesQuery(`?page=${page}&per_page=20&filter{-id}=${userId}`);
+  } = useGetEmployeesQuery(`?page=${page}&per_page=20`);
 
   const [total_pages, setTotalPages] = useState(0);
   useEffect(() => {
@@ -51,11 +51,28 @@ const UsersContainer = () => {
   }
 
   if (employeesError) {
-    return (
-      <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
-        حدث خطأ، برجاء المحاولة مرة أخرى.
-      </div>
-    );
+    if (employeesError.status === 403) {
+      return (
+        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+          ليس صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (employeesError.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+          حدث خطأ، برجاء المحاولة مرة أخرى.
+        </div>
+      );
+    }
   }
 
   return (
@@ -138,7 +155,7 @@ const UsersContainer = () => {
               <MainButton
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                text={"<<"}
+                text={"السابق"}
                 btnWidth="100px"
               />
               <p className={`m-0`}>
@@ -147,7 +164,7 @@ const UsersContainer = () => {
               <MainButton
                 onClick={() => setPage(page + 1)}
                 disabled={page === total_pages}
-                text={">>"}
+                text={"التالي"}
                 btnWidth="100px"
               />
             </div>

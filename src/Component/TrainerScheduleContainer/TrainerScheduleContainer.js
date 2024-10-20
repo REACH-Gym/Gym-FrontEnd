@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLazyGetSchedulesQuery } from "../../features/api";
 import TrainerSchedule from "../TrainerSchedule/TrainerSchedule";
 import styles from "./TrainerScheduleContainer.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { Commet } from "react-loading-indicators";
 const TrainerScheduleContainer = () => {
@@ -25,7 +25,7 @@ const TrainerScheduleContainer = () => {
         console.log(error);
       }
     })();
-  }, [getSchedules]);
+  }, [getSchedules, sessionId]);
   const [data, setData] = useState({});
   useEffect(() => {
     const trainers = {};
@@ -41,6 +41,8 @@ const TrainerScheduleContainer = () => {
   console.log(Object.keys(data).length);
   console.log(results);
 
+  const navigate = useNavigate();
+
   if (isTrainerSchedulesLoading) {
     return (
       <div
@@ -53,11 +55,34 @@ const TrainerScheduleContainer = () => {
   }
 
   if (trainerScheduleError) {
-    return (
-      <div className="d-flex justify-content-center align-items-center mt-5 fs-1 fw-bold text-danger">
-        حدث خطأ برجاء المحاولة مرة أخرى لاحقا.
-      </div>
-    );
+    if (trainerScheduleError?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (trainerScheduleError?.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
   }
 
   return (

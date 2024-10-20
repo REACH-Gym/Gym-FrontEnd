@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./GroupMemberMembership.module.css";
 import { useGetGroupsMembersQuery } from "../../features/api";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
@@ -51,6 +51,8 @@ const GroupMemberMembership = () => {
   //   }
   // };
 
+  const navigate = useNavigate();
+
   if (isMemberMembershipLoading) {
     return (
       <div
@@ -63,13 +65,34 @@ const GroupMemberMembership = () => {
   }
 
   if (memberMembershipError) {
-    return (
-      <div
-        className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
-      >
-        حدث خطأ، برجاء المحاولة مرة أخرى.
-      </div>
-    );
+    if (memberMembershipError?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (memberMembershipError?.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
   }
 
   return (
