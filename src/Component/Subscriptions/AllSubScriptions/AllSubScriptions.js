@@ -131,6 +131,7 @@ function AllSubScriptions() {
               query={"memberships/"}
               searchResults={setResults}
               status={false}
+              eStatus={true}
             />
             <ComponentBtns
               btn1={"+ إضافة اشتراك جديد "}

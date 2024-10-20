@@ -45,6 +45,7 @@ import ChagePhoneNumber from "./Component/Settings/ChangePhoneNumber";
 import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
 
 import EditUser from "./Component/EditUser/EditUser";
+import LogDetails from './Component/Blog/LogDetails';
 import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
 import AddCoupon from "./Component/AddCoupon/AddCoupon";
 function App() {
@@ -65,7 +66,8 @@ function App() {
               <Route path="Support/:id" element={<SupportDetails />} />
               {/* end of support */}
               {/* Blog */}
-              <Route path="Logs" element={<Logs />} />
+              <Route path="Logs" element={<Logs/>}/>
+              <Route path="Logs/:id/LogDetail" element={<LogDetails/>}/>
               {/*End of Blog */}
               {/* settings */}
               <Route path="PersonalSettings" element={<PersonalSettings />} />
