@@ -168,7 +168,7 @@ function AllSubScriptions() {
                         <th scope="row">{index + 1 + (page - 1) * per_page}</th>
                         <td>{item.name}</td>
                         <td>{item.price}</td>
-                        <td>{item.duration}</td>
+                        <td>{item.membership_duration}</td>
                         <td>{item.freeze_duration}</td>
                         <td>{item.description}</td>
                         <td>
@@ -232,7 +232,7 @@ function AllSubScriptions() {
                       <th scope="row">{index + 1 + (page - 1) * per_page}</th>
                       <td>{subscription.name}</td>
                       <td>{subscription.price}</td>
-                      <td>{subscription.duration}</td>
+                      <td>{subscription.membership_duration}</td>
                       <td>{subscription.freeze_duration}</td>
                       <td>{subscription.description}</td>
                       <td>

@@ -106,7 +106,7 @@ function AddNewSubscription() {
                 <InputField name={"membership_duration"} label={" المدة بالشهر"} />
               </div>
               <div className="col-6">
-                <InputField name={"freeze_duration"} label={"فترة التجميد"} />
+                <InputField name={"freeze_duration"} label={"أقصي حد للتجميد(بالأيام)"} />
               </div>
             </div>
             <div className="col-12">

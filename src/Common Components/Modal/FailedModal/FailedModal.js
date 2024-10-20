@@ -16,7 +16,7 @@ function FailedModal({ isOpen, text, children, handleClose }) {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{ padding: "12px" }}
+              style={{ padding: "10px" }}
             />
           </div>
           <div>

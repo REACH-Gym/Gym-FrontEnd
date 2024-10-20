@@ -6,18 +6,13 @@ function SuccessModal({ isOpen, text, children, handleClose }) {
     <div className="modal-overlay">
       <div className="modalContent modal-width" id="modal-width">
         <div>
-          {/* <div className="d-flex justify-content-start">
-            <button className="border-0 pt-4 pe-4 ps-4 failed fw-bolder" >
-              X
-            </button>
-          </div> */}
           <div className="text-center">
             <img
               src="/assets/image/weui_done2-outlined.png"
               alt=""
               width={"110px"}
               height={"110px"}
-              style={{ padding: "12px" }}
+              style={{ padding: "10px" }}
             />
           </div>
           <div>

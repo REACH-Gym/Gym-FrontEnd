@@ -5,7 +5,9 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 
 function DeleteSupport({ id, onDelete }) {
   const [showModal, setShowModal] = useState(false);
+  const [loading , setLoading] =  useState(false);
   const handleDeleteSupport = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://gym-backend-production-65cc.up.railway.app/support/${id}/`,
@@ -39,10 +41,18 @@ function DeleteSupport({ id, onDelete }) {
         className="d-flex align-items-center delete-support"
         onClick={handleShowModal}
       >
-        <DeleteOutlineOutlinedIcon className="dropdown__icon " />
-        <p className="m-0" style={{ fontSize: "16px" }}>
-          حذف
-        </p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1.2em"
+          height="1.2em"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+          />
+        </svg>
+        <span className="me-2" style={{fontSize:"15px"}}>حذف</span>
       </div>
       <Modal isOpen={showModal}>
         <div className="text-center mt-4">
@@ -63,6 +73,7 @@ function DeleteSupport({ id, onDelete }) {
               <MainButton
               text={'تأكيد'}
                 onClick={handleDeleteSupport}
+                isLoading={loading}
               />
             </div>
             <div className="cancel-delete ">

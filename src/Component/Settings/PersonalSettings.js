@@ -10,27 +10,37 @@ import { useLocation } from "react-router-dom";
 
 function PersonalSettings() {
   const location = useLocation();
-  const employee = location.state?.employee;
+  const [employee, setEmployee] = useState(location.state?.employee || null); // Initial employee data
 
   const [initialValues, setInitialValues] = useState({
-    name: employee?.name || "",
-    national_id: employee?.national_id || "",
-    date_of_birth: employee?.date_of_birth || "",
-    gender: employee?.gender === "ذكر" ? "M" : "F", // Adjust based on your API
+    name: "",
+    national_id: "",
+    date_of_birth: "",
+    gender: "", // Default value
   });
 
+  useEffect(() => {
+    if (employee) {
+      setInitialValues({
+        name: employee?.name || "",
+        national_id: employee?.national_id || "",
+        date_of_birth: employee?.date_of_birth || "",
+        gender: employee?.gender === "M" ? "ذكر" : "أنثى", // Mapping gender
+      });
+    }
+  }, [employee]);
+
   const validationSchema = Yup.object({
-    name: Yup.string().required('هذا الحقل الزامي'),
-    national_id: Yup.string().required('هذا الحقل الزامي'),
-    date_of_birth: Yup.string().required('هذا الحقل الزامي'),
-    gender: Yup.string().required('هذا الحقل الزامي'),
+    name: Yup.string(),
+    national_id: Yup.string(),
+    date_of_birth: Yup.string(),
+    gender: Yup.string(),
   });
 
   const handleSubmit = async (values) => {
-    // Map the gender value to the expected format
     const updatedValues = {
       ...values,
-      gender: values.gender === 'ذكر' ? 'M' : 'F' // Adjust based on your API
+      gender: values.gender === 'ذكر' ? 'M' : 'F' // Adjust the gender value
     };
 
     try {
@@ -46,7 +56,7 @@ function PersonalSettings() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log('Error response:', errorData); // Log error response
+        console.log('Error response:', errorData);
         throw new Error('Network response was not ok');
       }
 
@@ -72,7 +82,8 @@ function PersonalSettings() {
       <div>
         <Formik
           onSubmit={handleSubmit}
-          initialValues={initialValues}
+          enableReinitialize
+          initialValues={initialValues} // Reinitialize when employee changes
           validationSchema={validationSchema}
         >
           <Form className="settingForm mt-4">
@@ -88,7 +99,7 @@ function PersonalSettings() {
               <div className={`col-4 col-lg-6`}>
                 <InputField name={"date_of_birth"} label={"تاريخ الميلاد"} type="date" />
               </div>
-              <div className={`col-4 col-lg-6`}>
+              <div className={`col-4 col-lg-4`}>
                 <InputField name={"gender"} label={"النوع"} inputType={'select'}>
                   <option value="">اختر النوع</option>
                   <option value="ذكر">ذكر</option>
@@ -105,5 +116,4 @@ function PersonalSettings() {
     </div>
   );
 }
-
 export default PersonalSettings;

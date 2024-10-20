@@ -3,7 +3,8 @@
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
-.settingForm ,.formContainer{
+.settingForm,
+.formContainer {
   background-color: #fff;
   padding: 0px 150px 50px 150px;
   border-radius: 5px;
@@ -11,27 +12,38 @@
   margin: auto;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.changePassForm{
+.changePassForm {
   background-color: #fff;
-  padding: 0px 150px 50px 150px;
+  padding: 20px 400px 50px 400px;
   border-radius: 5px;
   width: 100%;
   margin: auto;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.saveInfo button{
+.saveInfo button {
   width: 25%;
 }
-.change{
-  border: 1px solid #3572EF;
+.change {
+  border: 1px solid #3572ef;
   cursor: pointer;
 }
-.changePasswordContainer , .changePhoneNumberContainer{
+.changePasswordContainer,
+.changePhoneNumberContainer {
   background-color: #f2f4f5;
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
-.save button{
+.save button {
   width: 60%;
   margin-top: 40px;
+}
+.saveData button {
+  width: 50%;
+}
+.changePassForm__input {
+  outline: none;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid lightgray;
+  height: 40px;
 }

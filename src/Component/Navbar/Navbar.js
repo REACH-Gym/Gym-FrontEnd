@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Logout from "../../Pages/Auth/Logout/Logout";
 import "./navbar.css";
 import { Link } from "react-router-dom";
+
 function Navbar() {
-  // get name of admin to display it
   const [adminName, setAdminName] = useState("");
   const [employee, setEmployee] = useState(null);
 
@@ -11,7 +11,10 @@ function Navbar() {
   const [firstChar, setFirstChar] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [settingOptions, setSettingOptions] = useState(false);
-  const optionRef = useRef();
+
+  const optionRef = useRef(); // ref for settings options
+  const settingsRef = useRef(); // ref for settings panel
+
   useEffect(() => {
     const storedAdminName = localStorage.getItem("name of user");
     if (storedAdminName) {
@@ -19,16 +22,23 @@ function Navbar() {
       setFirstChar(storedAdminName.charAt(0).toLocaleUpperCase());
     }
   }, [adminName]);
+
   const handleShowSettings = () => {
     setShowSettings(!showSettings);
   };
+
   const handleShowSettingOptions = () => {
     setSettingOptions(!settingOptions);
   };
 
   const handleClickOutside = (event) => {
-    if (optionRef.current && !optionRef.current.contains(event.target)) {
-      setSettingOptions(false);
+    // Close settings if click is outside the settingsRef and optionRef
+    if (
+      settingsRef.current &&
+      !settingsRef.current.contains(event.target) &&
+      !optionRef.current?.contains(event.target)
+    ) {
+      setShowSettings(false);
     }
   };
 
@@ -39,20 +49,26 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const fetchEmployeeData = async () => {
     try {
-      const response = await fetch("https://gym-backend-production-65cc.up.railway.app/employee/41", {
-        headers: {
-          Authorization: localStorage.getItem('access'),
-          Accept: "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/employee/41",
+        {
+          method: "GET",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            Accept: "application/json",
+          },
+        }
+      );
       const data = await response.json();
-      setEmployee(data); // Set the fetched employee data
+      setEmployee(data.data);
     } catch (error) {
-      console.error('Error fetching employee data:', error);
+      console.error("Error fetching employee data:", error);
     }
   };
+
   return (
     <div className="navbarContainer">
       <nav className="navbar bg-body-tertiary fixed-top">
@@ -74,18 +90,18 @@ function Navbar() {
           </div>
         </div>
         {showSettings && (
-          <div className="settings">
+          <div className="settings" ref={settingsRef}>
             <div className="settings__outline">
               <div className="firstchar">
                 <p className="mb-5 fw-bolder text-light mt-1">{firstChar}</p>
               </div>
             </div>
             <p className="mt-4 mb-0 text-center">
-              <span className="fw-bolder me-2">Name:</span>
+              {/* <span className="fw-bolder me-2">Name:</span> */}
               {localStorage.getItem("name of user")}
             </p>
             <p className="text-center">
-              <span className="fw-bolder me-2">Phone number:</span>
+              {/* <span className="fw-bolder me-2">Phone number:</span> */}
               {localStorage.getItem("phone number of user")}
             </p>
             <p className="pe-4 mt-5 mb-4">
@@ -109,7 +125,7 @@ function Navbar() {
                 الأعدادات
               </span>
               {settingOptions && (
-                <div className="settingsOtions">
+                <div className="settingsOtions" ref={optionRef}>
                   <Link
                     className="text-decoration-none text-dark"
                     to={"ChangePassword"}
@@ -157,9 +173,9 @@ function Navbar() {
                   </Link>
                   <Link
                     className="text-decoration-none text-dark"
-                    to={{ pathname: "PersonalSettings", state: { employee } }} // Pass the employee data here
+                    to={{ pathname: "PersonalSettings", state: { employee } }}
                     onClick={fetchEmployeeData}
-                    >
+                  >
                     <p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -188,4 +204,5 @@ function Navbar() {
     </div>
   );
 }
+
 export default Navbar;
