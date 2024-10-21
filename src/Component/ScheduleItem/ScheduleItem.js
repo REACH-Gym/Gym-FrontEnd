@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./ScheduleItem.module.css";
 import { usePatchSessionMutation } from "../../features/api";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Warning from "../../Common Components/Warning/Warning";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
@@ -29,10 +29,8 @@ const ScheduleItem = ({ index, session }) => {
     });
   };
   const navigate = useNavigate();
-  const [
-    deleteSession,
-    { isError: isDeleteError, isLoading: isDeleteLoading },
-  ] = usePatchSessionMutation();
+  const [deleteSession, { isLoading: isDeleteLoading }] =
+    usePatchSessionMutation();
 
   const handleCancel = () => {
     setPopup(false);
@@ -47,14 +45,23 @@ const ScheduleItem = ({ index, session }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     }
     setPopup(false);
@@ -69,14 +76,23 @@ const ScheduleItem = ({ index, session }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     }
     setPopup(false);
@@ -88,7 +104,7 @@ const ScheduleItem = ({ index, session }) => {
           text={session.is_active ? "تم حذف المجموعة." : "تم تفعيل المجموعة."}
         />
       )}
-      {isDeleteError && <Error text={error} show={isDeleteError} />}
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
       {popup && (
         <Warning
           text={

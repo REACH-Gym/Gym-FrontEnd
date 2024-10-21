@@ -47,7 +47,7 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
@@ -69,14 +69,23 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     }
     setPopup(false);

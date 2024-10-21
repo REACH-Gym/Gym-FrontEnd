@@ -24,7 +24,7 @@ const AddCoupon = () => {
       .required(
         "يجب ادخال قمية الخصم، اضغط على طريقة ادخال كود الخصم لتحديد القيمة"
       )
-      .min(0, "يجب أن يكون الخصم أكبر من صفر"),
+      .min(1, "يجب أن يكون الخصم أكبر من صفر"),
   });
   const initialValues = {
     code: "",
@@ -35,61 +35,66 @@ const AddCoupon = () => {
     discount_value: "",
   };
 
-  const [
-    postCoupon,
-    { isLoading: isSessionsLoading, isError: isSessionsError },
-  ] = usePostCouponMutation();
+  const [postCoupon, { isLoading: isSessionsLoading }] =
+    usePostCouponMutation();
 
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (values) => {
-    const newCoupon = {
-      code: values["code"],
-      usage_limit: values["usage_limit"],
-      start_date: values["start_date"],
-      end_date: values["end_date"],
-      discount_type: values["discount_type"],
-      discount_value: values["discount_value"],
-    };
+    let newCoupon = {};
+    if (values["end_date"].length > 0) {
+      newCoupon = {
+        code: values["code"],
+        usage_limit: values["usage_limit"],
+        start_date: values["start_date"],
+        end_date: values["end_date"],
+        discount_type: values["discount_type"],
+        discount_value: values["discount_value"],
+      };
+    } else {
+      newCoupon = {
+        code: values["code"],
+        usage_limit: values["usage_limit"],
+        start_date: values["start_date"],
+        discount_type: values["discount_type"],
+        discount_value: values["discount_value"],
+      };
+    }
 
     console.log(newCoupon);
-    if (values["discount_value"] === 0) {
-      try {
-        const response = await postCoupon(newCoupon).unwrap();
-        console.log(response);
-        setSuccess(true);
-        setTimeout(() => {
-          setSuccess(false);
-          navigate("/Home/CouponsContainer");
-          window.location.reload();
-        }, 300);
-      } catch (error) {
-        if (error.originalStatus === 403) {
-          setError("ليس لديك الصلاحية لإضافة مجموعة.");
-          setTimeout(() => {
-            setError("");
-          }, 1000);
-        } else if (error.originalStatus === 401) {
-          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
-          setTimeout(() => {
-            setError("");
-          }, 1000);
-        } else {
-          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
-          setTimeout(() => {
-            setError("");
-          }, 1000);
-        }
-      }
-    } else {
-      setError(
-        "يجب ادخال قمية الخصم، اضغط على طريقة ادخال كود الخصم لتحديد القيمة"
-      );
+    try {
+      const response = await postCoupon(newCoupon).unwrap();
+      console.log(response);
+      setSuccess(true);
       setTimeout(() => {
-        setError("");
-      }, 2000);
+        setSuccess(false);
+        navigate("/Home/CouponsContainer");
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      if (Object.keys(error.data.error).includes("code")) {
+        setError("الكوبون بهذا الكود مسجل مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (error.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (error.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
     }
   };
   return (
@@ -133,6 +138,7 @@ const AddCoupon = () => {
                             label="تاريخ البداية"
                             inputType={"input"}
                             type={"date"}
+                            min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
                         <div className="col-4">

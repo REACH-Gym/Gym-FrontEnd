@@ -1,13 +1,12 @@
 import InputField from "../../Common Components/InputField/InputField";
 import styles from "./EditUser.module.css";
-import { Formik, Form, useFormikContext, ErrorMessage, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import {
   useGetEmployeesQuery,
   usePatchEmployeeMutation,
-  usePostEmployeeMutation,
 } from "../../features/api";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,9 +15,6 @@ import Success from "../../Common Components/Success/Success";
 import { Commet } from "react-loading-indicators";
 
 const DynamicComponent = () => {
-  const { values } = useFormikContext();
-  const [show, setShow] = useState(false);
-
   return (
     <>
       <div className={`row`}>
@@ -162,7 +158,7 @@ const EditUser = () => {
         setSuccess(false);
         navigate("/Home/UsersContainer");
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (
         Object.keys(err.data.error).includes("national_id") &&
@@ -171,34 +167,34 @@ const EditUser = () => {
         setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (Object.keys(err.data.error).includes("phone_number")) {
         setError("رقم الهاتف مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (Object.keys(err.data.error).includes("national_id")) {
         setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (err.originalStatus === 400) {
         console.log(err);
       } else if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       }
     }
   };

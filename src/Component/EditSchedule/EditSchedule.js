@@ -177,7 +177,7 @@ const EditSchedule = () => {
         setTimeout(() => {
           navigate(`/Home/SessionDetails/${response?.session?.id}/`);
           setSuccess(false);
-        }, 300);
+        }, 1000);
       } catch (error) {
         if (error.originalStatus === 403) {
           setError("ليس لديك الصلاحية لإضافة مجموعة.");

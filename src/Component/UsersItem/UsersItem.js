@@ -1,11 +1,5 @@
 import styles from "./UsersItem.module.css";
-import {
-  Active,
-  AlmostOver,
-  Deleted,
-  Expired,
-  Freezed,
-} from "../Status/Status";
+import { Active, Deleted } from "../Status/Status";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";
@@ -69,14 +63,23 @@ const UsersItem = ({ index, item }) => {
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لتفعيل مستخدم.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     }
     setPopup(false);

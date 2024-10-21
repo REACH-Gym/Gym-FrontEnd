@@ -44,7 +44,7 @@ const MeasurementsContainer = () => {
     } else if (error?.status === 401) {
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 3000);
       return (
         <div
           className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
