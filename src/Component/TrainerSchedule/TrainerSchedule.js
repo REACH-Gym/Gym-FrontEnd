@@ -3,7 +3,6 @@ import styles from "./TrainerSchedule.module.css";
 import { usePatchScheduleMutation } from "../../features/api";
 import { useRef, useState } from "react";
 import { Active, Deleted } from "../Status/Status";
-import { Schedule } from "@mui/icons-material";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
 import Warning from "../../Common Components/Warning/Warning";

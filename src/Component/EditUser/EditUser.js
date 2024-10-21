@@ -1,13 +1,12 @@
 import InputField from "../../Common Components/InputField/InputField";
 import styles from "./EditUser.module.css";
-import { Formik, Form, useFormikContext, ErrorMessage, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import {
   useGetEmployeesQuery,
   usePatchEmployeeMutation,
-  usePostEmployeeMutation,
 } from "../../features/api";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,9 +15,6 @@ import Success from "../../Common Components/Success/Success";
 import { Commet } from "react-loading-indicators";
 
 const DynamicComponent = () => {
-  const { values } = useFormikContext();
-  const [show, setShow] = useState(false);
-
   return (
     <>
       <div className={`row`}>

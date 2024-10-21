@@ -1,10 +1,6 @@
 import styles from "./CouponsContainer.module.css";
-import { useEffect, useState } from "react";
 import { useGetCouponsQuery } from "../../features/api";
-import GroupsItem from "../GroupsContainerItem/GroupsItem";
-import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
@@ -13,7 +9,6 @@ import CouponsItem from "../CouponsItem/CouponsItem";
 // Groups table container and header
 const CouponsContainer = () => {
   const navigate = useNavigate();
-  const [results, setResults] = useState([]);
   const {
     data: coupons,
     isFetching: isCouponsFetching,

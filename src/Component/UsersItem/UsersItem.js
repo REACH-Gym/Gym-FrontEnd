@@ -1,11 +1,5 @@
 import styles from "./UsersItem.module.css";
-import {
-  Active,
-  AlmostOver,
-  Deleted,
-  Expired,
-  Freezed,
-} from "../Status/Status";
+import { Active, Deleted } from "../Status/Status";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";

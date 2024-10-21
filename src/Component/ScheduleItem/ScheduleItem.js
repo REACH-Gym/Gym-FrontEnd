@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./ScheduleItem.module.css";
 import { usePatchSessionMutation } from "../../features/api";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Warning from "../../Common Components/Warning/Warning";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
@@ -29,10 +29,8 @@ const ScheduleItem = ({ index, session }) => {
     });
   };
   const navigate = useNavigate();
-  const [
-    deleteSession,
-    { isError: isDeleteError, isLoading: isDeleteLoading },
-  ] = usePatchSessionMutation();
+  const [deleteSession, { isLoading: isDeleteLoading }] =
+    usePatchSessionMutation();
 
   const handleCancel = () => {
     setPopup(false);

@@ -70,8 +70,8 @@ const AddCoupon = () => {
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        // navigate("/Home/CouponsContainer");
-        // window.location.reload();
+        navigate("/Home/CouponsContainer");
+        window.location.reload();
       }, 1000);
     } catch (error) {
       if (Object.keys(error.data.error).includes("code")) {
