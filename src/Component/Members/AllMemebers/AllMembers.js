@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./AllMembers.css";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Commet } from "react-loading-indicators";
 import MainButton from "../../../Common Components/Main Button/MainButton";
@@ -11,6 +11,7 @@ import DeleteMember from "../DeleteMember/DeleteMember";
 import MemberActivate from "../MemberActivate/MemberActivate";
 import { Active, Deleted } from "../../Status/Status";
 import { Helmet } from "react-helmet";
+
 function AllMembers() {
   const navigate = useNavigate();
   const [allMembers, setAllMembers] = useState([]);
@@ -22,6 +23,7 @@ function AllMembers() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const [error , setError] = useState("")
 
   useEffect(() => {
     async function fetchAllMembers() {
@@ -41,9 +43,15 @@ function AllMembers() {
         if (response.ok) {
           setAllMembers(result.data.users);
           setTotalPages(result.data.meta.total_pages);
+        }else if (response.status ===  403){
+           console.log('permission')
+           setError("ليس لديك صلاحية لعرض هذه المعلومات")
+        }else if(response.status === 401){
+          setError('غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة')
         }
       } catch (error) {
         console.error("error Occurred:", error);
+        setError('حدث خطأ ما يرجي المحاولة لاحقا')
       } finally {
         setLoading(false);
       }
@@ -127,6 +135,10 @@ function AllMembers() {
       {loading ? (
         <div className="loader">
           <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : error ? (
+        <div style={{paddingTop:"200px"}}>
+          <h4 className="text-danger text-center fw-bolder">{error}</h4>
         </div>
       ) : allMembers.length === 0 ? (
         <div
@@ -231,12 +243,6 @@ function AllMembers() {
                                       <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"/><path fill="currentColor" d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"/></svg>
                                         <span className="me-2">تعديل البيانات</span>
                                     </li>
-                                    {/* <Link to={`AllMembers/${item.id}`} className="text-decoration-none">
-                                    <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="M19.5 22a1.5 1.5 0 0 0 1.5-1.5V17a1.5 1.5 0 0 0-1.5-1.5c-1.17 0-2.32-.18-3.42-.55a1.51 1.51 0 0 0-1.52.37l-1.44 1.44a14.77 14.77 0 0 1-5.89-5.89l1.43-1.43c.41-.39.56-.97.38-1.53c-.36-1.09-.54-2.24-.54-3.41A1.5 1.5 0 0 0 7 3H3.5A1.5 1.5 0 0 0 2 4.5C2 14.15 9.85 22 19.5 22M3.5 4H7a.5.5 0 0 1 .5.5c0 1.28.2 2.53.59 3.72c.05.14.04.34-.12.5L6 10.68c1.65 3.23 4.07 5.65 7.31 7.32l1.95-1.97c.14-.14.33-.18.51-.13c1.2.4 2.45.6 3.73.6a.5.5 0 0 1 .5.5v3.5a.5.5 0 0 1-.5.5C10.4 21 3 13.6 3 4.5a.5.5 0 0 1 .5-.5"/></svg>
-                                    <span className="me-2">تعديل رقم الهاتف</span>
-                                    </li>
-                                    </Link> */}
                                     <li>
                                       <DeleteMember
                                         id={item.id}
@@ -299,12 +305,6 @@ function AllMembers() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"/><path fill="currentColor" d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"/></svg>
                                     <span className="me-2"> تعديل البيانات </span>
                                   </li>
-                                  {/* <Link to={`/Home/AllMembers/${item.id}/editPhoneNumber`} className="text-decoration-none">
-                                  <li>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="M19.5 22a1.5 1.5 0 0 0 1.5-1.5V17a1.5 1.5 0 0 0-1.5-1.5c-1.17 0-2.32-.18-3.42-.55a1.51 1.51 0 0 0-1.52.37l-1.44 1.44a14.77 14.77 0 0 1-5.89-5.89l1.43-1.43c.41-.39.56-.97.38-1.53c-.36-1.09-.54-2.24-.54-3.41A1.5 1.5 0 0 0 7 3H3.5A1.5 1.5 0 0 0 2 4.5C2 14.15 9.85 22 19.5 22M3.5 4H7a.5.5 0 0 1 .5.5c0 1.28.2 2.53.59 3.72c.05.14.04.34-.12.5L6 10.68c1.65 3.23 4.07 5.65 7.31 7.32l1.95-1.97c.14-.14.33-.18.51-.13c1.2.4 2.45.6 3.73.6a.5.5 0 0 1 .5.5v3.5a.5.5 0 0 1-.5.5C10.4 21 3 13.6 3 4.5a.5.5 0 0 1 .5-.5"/></svg>
-                                    <spna className="me-2">تعديل رقم الهاتف</spna>
-                                    </li>
-                                    </Link> */}
                                   <li>
                                     <DeleteMember
                                       id={item.id}

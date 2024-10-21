@@ -19,6 +19,7 @@ function AddNewMember() {
   const [national_idExist, setNational_idExist] = useState(false);
   const [phone_numberExist, setPhone_numberExist] = useState(false);
   const valuesRef = useRef(null);
+  const [error, setError] = useState(false);
   const handleSubmit = async (value) => {
     setLoading(true);
     console.log(value);
@@ -76,6 +77,10 @@ function AddNewMember() {
         setTimeout(() => {
           navigate("/Home/AllMembers");
         }, 3000);
+      } else if (response.status === 403) {
+        setError("ليس لديك صلاحية لعرض هذه المعلومات");
+      } else if (response.status === 401) {
+        setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
       } else {
         console.log(response);
         setShowModalError(true);
@@ -242,14 +247,14 @@ function AddNewMember() {
                       className={"note"}
                     />
                   </div>
+                  <div className={`col-4 col-lg-6`}>
+                    <InputField
+                      name={"date_of_birth"}
+                      label={"تاريخ الميلاد"}
+                      inputType={"input"}
+                      type={"date"}
+                    />
                     <div className={`col-4 col-lg-6`}>
-                      <InputField
-                        name={"date_of_birth"}
-                        label={"تاريخ الميلاد"}
-                        inputType={"input"}
-                        type={"date"}
-                      />
-                       <div className={`col-4 col-lg-6`}>
                       <InputField
                         name={"gender"}
                         label={"النوع"}
@@ -260,7 +265,7 @@ function AddNewMember() {
                         <option value="ذكر">{`ذكر`}</option>
                       </InputField>
                     </div>
-                    </div>
+                  </div>
                 </div>
                 <div className={`addmemberBtn text-center`}>
                   <MainButton
@@ -291,20 +296,25 @@ function AddNewMember() {
         </div>
       </FailedModal>
       {/* nationa id exist */}
-      <FailedModal isOpen={national_idExist} handleClose={handleCloseNational_idModal}>
+      <FailedModal
+        isOpen={national_idExist}
+        handleClose={handleCloseNational_idModal}
+      >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم العضوية موجود من قبل
-            حدث خطأ ! رقم العضوية موجود من قبل
+            حدث خطأ ! رقم العضوية موجود من قبل حدث خطأ ! رقم العضوية موجود من
+            قبل
           </p>
         </div>
       </FailedModal>
       {/* phone number exist */}
-      <FailedModal isOpen={phone_numberExist} handleClose={handleClosePhone_numberModal}>
+      <FailedModal
+        isOpen={phone_numberExist}
+        handleClose={handleClosePhone_numberModal}
+      >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم الجوال موجود من قبل
-            حدث خطأ ! رقم الجوال موجود من قبل
+            حدث خطأ ! رقم الجوال موجود من قبل حدث خطأ ! رقم الجوال موجود من قبل
           </p>
         </div>
       </FailedModal>

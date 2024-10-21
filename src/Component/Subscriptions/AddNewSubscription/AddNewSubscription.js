@@ -15,6 +15,7 @@ function AddNewSubscription() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [loading , setLoading] = useState(false);
+  const [error , setError] = useState("");
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -44,7 +45,11 @@ function AddNewSubscription() {
         setTimeout(() => {
           navigate("/Home/AllSubScriptions");
         }, 2000);
-      } else {
+      } else if (response.status === 403) {
+        setError("ليس لديك صلاحية لعرض هذه المعلومات");
+      } else if (response.status === 401) {
+        setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
+      }else {
         console.error("Response status:", response.status);
         console.error("Response body:", result);
         console.log("Failed to add new Subscription");

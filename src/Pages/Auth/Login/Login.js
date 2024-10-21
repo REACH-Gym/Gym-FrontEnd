@@ -15,17 +15,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   
-  //decode access token to get id of user that logged in 
-  function decodeJWT(token) {
-    const parts = token.split('.');
-    if (parts.length !== 3) {
-      throw new Error("JWT must have 3 parts");
-    }
-    const payload = parts[1];
-    const decodedPayload = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
-    return decodedPayload;
-  }
-  
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -56,11 +45,7 @@ function Login() {
         setTimeout(() => {
           navigate("/Home");
         }, 2500);
-
-        //decode access token to get user id 
-        const decodedToken = decodeJWT(result.data.access);
-        const userId = decodedToken.user_id; 
-        const fetchUserInfo = await fetch(`https://gym-backend-production-65cc.up.railway.app/employee/${userId}`,{
+        const fetchUserInfo = await fetch(`https://gym-backend-production-65cc.up.railway.app/current-employee`,{
           method:"GET",
           headers:{
             Authorization:localStorage.getItem('access'),
@@ -68,12 +53,13 @@ function Login() {
           }
         })
         const userInfo = await fetchUserInfo.json();
-        console.log(userInfo)
+        console.log(userInfo);
         if(fetchUserInfo.ok){
            console.log('name of user logged in',userInfo.data.user.name);
            console.log('phone number of user logged in',userInfo.data.user.phone_number);
-           localStorage.setItem('name of user',userInfo.data.user.name);
-           localStorage.setItem('phone number of user',userInfo.data.user.phone_number);
+           localStorage.setItem('name of logged in user ',userInfo.data.user.name);
+           localStorage.setItem('phone number of logged in user',userInfo.data.user.phone_number);
+           localStorage.setItem(' id of logged in user',userInfo.data.user.id);
         }else{
           console.log('failed get user info')
         }

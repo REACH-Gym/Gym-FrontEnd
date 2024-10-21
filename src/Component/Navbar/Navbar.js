@@ -5,18 +5,16 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   const [adminName, setAdminName] = useState("");
-  const [employee, setEmployee] = useState(null);
-
   // get the first character of admin name
   const [firstChar, setFirstChar] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [settingOptions, setSettingOptions] = useState(false);
 
-  const optionRef = useRef(); // ref for settings options
-  const settingsRef = useRef(); // ref for settings panel
+  const optionRef = useRef(); 
+  const settingsRef = useRef();
 
   useEffect(() => {
-    const storedAdminName = localStorage.getItem("name of user");
+    const storedAdminName = localStorage.getItem("name of logged in user ");
     if (storedAdminName) {
       setAdminName(storedAdminName);
       setFirstChar(storedAdminName.charAt(0).toLocaleUpperCase());
@@ -32,7 +30,6 @@ function Navbar() {
   };
 
   const handleClickOutside = (event) => {
-    // Close settings if click is outside the settingsRef and optionRef
     if (
       settingsRef.current &&
       !settingsRef.current.contains(event.target) &&
@@ -49,38 +46,18 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const fetchEmployeeData = async () => {
-    try {
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/employee/41",
-        {
-          method: "GET",
-          headers: {
-            Authorization: localStorage.getItem("access"),
-            Accept: "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      setEmployee(data.data);
-    } catch (error) {
-      console.error("Error fetching employee data:", error);
-    }
-  };
-
   return (
     <div className="navbarContainer">
       <nav className="navbar bg-body-tertiary fixed-top">
-        <div className="container-fluid">
+        <div className="container-fluid ">
           <div className="mt-3">
             <img src="/assets/image/logo(1).png" alt="" />
           </div>
-          <div style={{ cursor: "pointer" }} onClick={handleShowSettings}>
+          <div style={{ cursor: "pointer" }} onClick={handleShowSettings} className="position-relative">
             <div className="d-flex align-items-center ">
               <div>
                 <p className="mb-0 fw-bolder ms-3 fs-6">
-                  {localStorage.getItem("name of user")}
+                  {localStorage.getItem("name of logged in user ")}
                 </p>
               </div>
               <div className="first-char">
@@ -90,19 +67,17 @@ function Navbar() {
           </div>
         </div>
         {showSettings && (
-          <div className="settings" ref={settingsRef}>
+          <div className="settings position-absolute" ref={settingsRef}>
             <div className="settings__outline">
               <div className="firstchar">
                 <p className="mb-5 fw-bolder text-light mt-1">{firstChar}</p>
               </div>
             </div>
-            <p className="mt-4 mb-0 text-center">
-              {/* <span className="fw-bolder me-2">Name:</span> */}
-              {localStorage.getItem("name of user")}
+            <p className="mt-5 mb-0 text-center">
+              {localStorage.getItem("name of logged in user ")}
             </p>
             <p className="text-center">
-              {/* <span className="fw-bolder me-2">Phone number:</span> */}
-              {localStorage.getItem("phone number of user")}
+              {localStorage.getItem("phone number of logged in user")}
             </p>
             <p className="pe-4 mt-5 mb-4">
               <svg
@@ -172,9 +147,8 @@ function Navbar() {
                     </p>
                   </Link>
                   <Link
+                  to={'PersonalSettings'}
                     className="text-decoration-none text-dark"
-                    to={{ pathname: "PersonalSettings", state: { employee } }}
-                    onClick={fetchEmployeeData}
                   >
                     <p>
                       <svg

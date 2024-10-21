@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form} from "formik";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import * as Yup from "yup";
 import Modal from "../../../src/Common Components/Modal/Modal";
 import FailedModal from "../../Common Components/Modal/FailedModal/FailedModal";
-import ForgotPassword from "../../Pages/Auth/Password/Forgot Password/ForgotPassword";
 import { useNavigate } from "react-router-dom";
 import './Settings.css'
-// import ForgotPasswordOfUser from "./ForgotPasswordOfUser";
 function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +17,6 @@ function ChangePassword() {
   const [showNewPssword, setShowNewPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
-  // const [showForgotPassword, setShowForgotPassword] = useState(false);
   const handleSubmit = async (value) => {
     setLoading(true);
     const items = {
