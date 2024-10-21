@@ -27,6 +27,8 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
+import { useDispatch, useSelector } from "react-redux";
+import { setReceipt } from "../../features/receiptSlice";
 
 // Define styles
 Font.register({
@@ -175,7 +177,7 @@ const ReceiptDocument = ({
             <View style={style.tableRow}>
               <Text style={style.tableCol}>{total}</Text>
               <Text style={style.tableCol}>
-                {addMonthToDate(startDate).toISOString().split("T")[0]}
+                {addMonthToDate(startDate)?.toISOString()?.split("T")[0]}
               </Text>
               <Text style={style.tableCol}>{startDate}</Text>
               <Text style={style.tableCol}>{group}</Text>
@@ -209,7 +211,7 @@ const ReceiptDocument = ({
 };
 
 const DynamicComponent = () => {
-  const { values, isSubmitting, isValid } = useFormikContext();
+  const { values } = useFormikContext();
   const {
     data: members,
     isLoading: isMembersLoading,
@@ -290,10 +292,9 @@ const DynamicComponent = () => {
       setPrice(sessionPrice * (1 - values.discount / 100) * (15 / 100));
     }
   }, [sessionPrice, values.discount]);
-
+  const receiptStatus = useSelector((state) => state.receipt.status);
   useEffect(() => {
-    console.log(isValid, isSubmitting);
-    if (isValid && isSubmitting) {
+    if (receiptStatus) {
       const doc = (
         <ReceiptDocument
           customerName={
@@ -332,10 +333,9 @@ const DynamicComponent = () => {
       })();
     }
   }, [
-    isSubmitting,
-    isValid,
     members?.data?.users,
     price,
+    receiptStatus,
     sessionPrice,
     sessions?.data?.sessions,
     values.discount,
@@ -515,11 +515,13 @@ const DynamicComponent = () => {
 };
 
 const AddGroupMember = () => {
+  const receiptState = useSelector((state) => state.receipt);
+  console.log(receiptState);
   const initialValues = {
-    name: 0,
-    group: 0,
-    schedule: 0,
-    discount: 0,
+    name: "",
+    group: "",
+    schedule: "",
+    discount: "",
     start_date: "",
     promo_code: "",
     payment_method: "",
@@ -536,57 +538,66 @@ const AddGroupMember = () => {
     payment_method: Yup.string().required("هذا الحقل الزامي"),
   });
 
-  const [
-    postSessionMember,
-    { isError: isSchedulesError, isLoading: isSchedulesLoading },
-  ] = usePostSessionMemberMutation();
+  const [postSessionMember, { isLoading: isSchedulesLoading }] =
+    usePostSessionMemberMutation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (values, { setStatus }) => {
+  const dispatch = useDispatch();
+  const handleSubmit = async (values) => {
     console.log(values);
-    setStatus(true);
-    const data = {
-      schedule: values.schedule,
-      user: values.name,
-      status: "active",
-      discount: values.discount,
-      start_date: values.start_date,
-      end_date: values.end_date,
-    };
+    let data = {};
+    if (values.discount > 0) {
+      data = {
+        schedule: values.schedule,
+        user: values.name,
+        status: "active",
+        discount: values.discount,
+        start_date: values.start_date,
+      };
+    } else {
+      data = {
+        schedule: values.schedule,
+        user: values.name,
+        status: "active",
+        discount: 0,
+        start_date: values.start_date,
+      };
+    }
     try {
       const response = await postSessionMember(data).unwrap();
       console.log(response);
+      dispatch(setReceipt(true));
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
         navigate("/Home/GroupsContainer");
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       }
     }
   };
   return (
     <>
       {success && <Success text={"تم إضافة عضو إلى المجموعة بنجاح! "} />}
-      {isSchedulesError && <Error text={error} show={isSchedulesError} />}
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
       <div className={`${styles.addGroupMemberForm}`}>
         <ComponentTitle
           MainIcon={"/assets/image/groups.png"}
