@@ -47,3 +47,35 @@
   border: 1px solid lightgray;
   height: 40px;
 }
+.phoneNumber {
+  width: 60%;
+  margin-right: 170px;
+}
+.verifyOtpContainer {
+  position: relative;
+  background-image: url("/public/assets/image/gymm 2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.verifyOtpContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(53, 114, 239, 0.1);
+  z-index: 1;
+}
+.verifyOtpContainerForm{
+  margin-top: 150px;
+  background-color: #fff;
+  z-index: 2;
+  height: 45%;
+  padding: 20px;
+  border-radius: 5px;
+}

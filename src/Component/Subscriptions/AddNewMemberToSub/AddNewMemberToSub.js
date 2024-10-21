@@ -211,6 +211,7 @@ function AddNewMemberToSub() {
   const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
+  const [error, setError] = useState("");
   // const [discountedTotal, setDiscountedTotal] = useState(0);
 
   useEffect(() => {
@@ -231,6 +232,10 @@ function AddNewMemberToSub() {
 
         if (response.ok) {
           setUsers(user.data.users);
+        } else if (response.status === 403) {
+          setError("ليس لديك صلاحية لعرض هذه المعلومات");
+        } else if (response.status === 401) {
+          setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
         } else {
           setUsers(null);
         }
@@ -258,6 +263,10 @@ function AddNewMemberToSub() {
         const result = await response.json();
         if (response.ok) {
           setMemberShip(result.data.memberships);
+        } else if (response.status === 403) {
+          setError("ليس لديك صلاحية لعرض هذه المعلومات");
+        } else if (response.status === 401) {
+          setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
         } else {
           setMemberShip(null);
         }
@@ -338,6 +347,10 @@ function AddNewMemberToSub() {
         setTimeout(() => {
           navigate("/Home/SubscripedMembers");
         }, 2000);
+      } else if (response.status === 403) {
+        setError("ليس لديك صلاحية لعرض هذه المعلومات");
+      } else if (response.status === 401) {
+        setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
       } else {
         setShowModalModalError(true);
         setLoading(false);
@@ -371,211 +384,221 @@ function AddNewMemberToSub() {
       <Helmet>
         <title>إضافة عضو للأشتراك</title>
       </Helmet>
-      <div className="pe-4  ">
-        <ComponentTitle
-          MainIcon={"/assets/image/subscriptions.png"}
-          title={"إضافة عضو للاشتراك "}
-          subTitle={"يمكنك إضافة عضو للاشتراك من هنا"}
-        />
-      </div>
-      <div className=" ">
-        <div className="">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ values, setFieldValue }) => {
-              valuesRef.current = values;
-              return (
-                <Form className="  AddForm">
-                  <div className=" d-flex justify-content-around">
-                    <div className="form1 ms-5">
-                      <div>
-                        <InputField
-                          name={"user"}
-                          label={"اسم العضو"}
-                          inputType={"select"}
-                          className="mb-4"
-                        >
-                          <option value="">اختر العضو</option>
-                          {users?.length > 0 ? (
-                            users.map((user, index) => (
-                              <option key={user.id} value={user.id}>
-                                {user.name} - {user.phone_number}
-                              </option>
-                            ))
-                          ) : (
-                            <option>لا يوجد أعضاء متاحين</option>
-                          )}
-                        </InputField>
-                      </div>
-                      <div>
-                        <InputField
-                          name={"membership"}
-                          label={"نوع الأشتراك"}
-                          inputType={"select"}
-                          className="mb-4"
-                          onChange={(e) => {
-                            const selectedMembershipId = e.target.value;
-                            setFieldValue("membership", selectedMembershipId);
+      {error ? (
+        <div style={{ paddingTop: "200px" }}>
+          <h4 className="fw-bolder texte-center text-danger text-center">
+            {error}
+          </h4>
+        </div>
+      ) : (
+        <>
+          <div className="pe-4  ">
+            <ComponentTitle
+              MainIcon={"/assets/image/subscriptions.png"}
+              title={"إضافة عضو للاشتراك "}
+              subTitle={"يمكنك إضافة عضو للاشتراك من هنا"}
+            />
+          </div>
 
-                            // Find the selected membership from the membership list and set the price
-                            const selectedMembership = membership.find(
-                              (m) => m.id === parseInt(selectedMembershipId)
-                            );
-                            if (selectedMembership) {
-                              setMemberShipPrice(selectedMembership.price); // Set the membership price
-                              setFieldValue("price", selectedMembership.price); // Store price
-                            }
-                          }}
-                        >
-                          <option value="">اختر الاشتراك</option>
-                          {membership?.length > 0 ? (
-                            membership.map((membershipItem, index) => (
-                              <option
-                                key={membershipItem.id}
-                                value={membershipItem.id}
-                              >
-                                {membershipItem.name}
-                              </option>
-                            ))
-                          ) : (
-                            <option>لاتوجد اشتراكات متاحة</option>
-                          )}
-                        </InputField>
-                      </div>
-                      <div>
-                        <InputField
-                          name={"start_date"}
-                          label={"تاريخ البداية"}
-                          type="date"
-                        />
-                      </div>
-                      <div>
-                        <InputField
-                          name={"notes"}
-                          label={"الملاحظات"}
-                          className="mt-3 notes"
-                        />
-                      </div>
-                    </div>
-                    <div className="form2">
-                      <div>
-                        <InputField
-                          name={"discount"}
-                          label={"الخصم (%)"}
-                          className="mb-3"
-                          // onChange={(e) => {
-                          //   const discountValue = e.target.value;
-                          //   setFieldValue("discount", discountValue);
+          <div className=" ">
+            <div className="">
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ values, setFieldValue }) => {
+                  valuesRef.current = values;
+                  return (
+                    <Form className="  AddForm">
+                      <div className=" d-flex justify-content-around">
+                        <div className="form1 ms-5">
+                          <div>
+                            <InputField
+                              name={"user"}
+                              label={"اسم العضو"}
+                              inputType={"select"}
+                              className="mb-4"
+                            >
+                              <option value="">اختر العضو</option>
+                              {users?.length > 0 ? (
+                                users.map((user, index) => (
+                                  <option key={user.id} value={user.id}>
+                                    {user.name} - {user.phone_number}
+                                  </option>
+                                ))
+                              ) : (
+                                <option>لا يوجد أعضاء متاحين</option>
+                              )}
+                            </InputField>
+                          </div>
+                          <div>
+                            <InputField
+                              name={"membership"}
+                              label={"نوع الأشتراك"}
+                              inputType={"select"}
+                              className="mb-4"
+                              onChange={(e) => {
+                                const selectedMembershipId = e.target.value;
+                                setFieldValue(
+                                  "membership",
+                                  selectedMembershipId
+                                );
 
-                          //   // Calculate discounted total
-                          //   const discountAmount =
-                          //     (memberShipPrice * discountValue) / 100;
-                          //   const finalTotal = memberShipPrice - discountAmount;
-                          //   setDiscountedTotal(finalTotal);
-                          // }}
-                        />
-                      </div>
-                      <div>
-                        <InputField
-                          inputType={"select"}
-                          name={"promo_code"}
-                          label={"برومو كود"}
-                        />
-                      </div>
-                      <div>
-                        <InputField
-                          inputType={"select"}
-                          name={"payment_method"}
-                          label={"طريقة الدفع"}
-                        >
-                          <option>أختر طريقة دفع</option>
-                          <option>مدي</option>
-                          <option>نقدي</option>
-                        </InputField>
-                      </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p>الإجمالي قبل الخصم</p>
-                          <p>الخصم (%{values.discount})</p>
-                          <p>الإجمالي قبل الضريبة</p>
-                          <p>الضريبة (%15)</p>
-                          <p>الإجمالي</p>
+                                // Find the selected membership from the membership list and set the price
+                                const selectedMembership = membership.find(
+                                  (m) => m.id === parseInt(selectedMembershipId)
+                                );
+                                if (selectedMembership) {
+                                  setMemberShipPrice(selectedMembership.price); // Set the membership price
+                                  setFieldValue(
+                                    "price",
+                                    selectedMembership.price
+                                  ); // Store price
+                                }
+                              }}
+                            >
+                              <option value="">اختر الاشتراك</option>
+                              {membership?.length > 0 ? (
+                                membership.map((membershipItem, index) => (
+                                  <option
+                                    key={membershipItem.id}
+                                    value={membershipItem.id}
+                                  >
+                                    {membershipItem.name}
+                                  </option>
+                                ))
+                              ) : (
+                                <option>لاتوجد اشتراكات متاحة</option>
+                              )}
+                            </InputField>
+                          </div>
+                          <div>
+                            <InputField
+                              name={"start_date"}
+                              label={"تاريخ البداية"}
+                              type="date"
+                            />
+                          </div>
+                          <div>
+                            <InputField
+                              name={"notes"}
+                              label={"الملاحظات"}
+                              className="mt-3 notes"
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <p>{memberShipPrice || 0} ريال</p>
-                          <p>
-                            {(
-                              memberShipPrice *
-                              (values.discount / 100)
-                            ).toFixed(2) > 0
-                              ? (
+                        <div className="form2">
+                          <div>
+                            <InputField
+                              name={"discount"}
+                              label={"الخصم (%)"}
+                              className="mb-3"
+                            />
+                          </div>
+                          <div>
+                            <InputField
+                              inputType={"select"}
+                              name={"promo_code"}
+                              label={"برومو كود"}
+                            />
+                          </div>
+                          <div>
+                            <InputField
+                              inputType={"select"}
+                              name={"payment_method"}
+                              label={"طريقة الدفع"}
+                            >
+                              <option>أختر طريقة دفع</option>
+                              <option>مدي</option>
+                              <option>نقدي</option>
+                            </InputField>
+                          </div>
+                          <div className="d-flex justify-content-between mt-4">
+                            <div>
+                              <p>الإجمالي قبل الخصم</p>
+                              <p>الخصم (%{values.discount})</p>
+                              <p>الإجمالي قبل الضريبة</p>
+                              <p>الضريبة (%15)</p>
+                              <p>الإجمالي</p>
+                            </div>
+                            <div>
+                              <p>{memberShipPrice || 0} ريال</p>
+                              <p>
+                                {(
                                   memberShipPrice *
                                   (values.discount / 100)
-                                ).toFixed(2)
-                              : "0"}{" "}
-                            ريال
-                          </p>
-                          <p>
-                            {(
-                              memberShipPrice *
-                              (1 - values.discount / 100)
-                            ).toFixed(2)}{" "}
-                            ريال
-                          </p>
-                          <p>
-                            {memberShipPrice *
-                              (1 - values.discount / 100) *
-                              (15 / 100)}{" "}
-                            ريال
-                          </p>
-                          <p>
-                            {+(
-                              memberShipPrice *
-                              (1 - values.discount / 100) *
-                              (15 / 100)
-                            ) +
-                              +(
-                                memberShipPrice *
-                                (1 - values.discount / 100)
-                              ).toFixed(2)}{" "}
-                            ريال
-                          </p>
+                                ).toFixed(2) > 0
+                                  ? (
+                                      memberShipPrice *
+                                      (values.discount / 100)
+                                    ).toFixed(2)
+                                  : "0"}{" "}
+                                ريال
+                              </p>
+                              <p>
+                                {(
+                                  memberShipPrice *
+                                  (1 - values.discount / 100)
+                                ).toFixed(2)}{" "}
+                                ريال
+                              </p>
+                              <p>
+                                {memberShipPrice *
+                                  (1 - values.discount / 100) *
+                                  (15 / 100)}{" "}
+                                ريال
+                              </p>
+                              <p>
+                                {+(
+                                  memberShipPrice *
+                                  (1 - values.discount / 100) *
+                                  (15 / 100)
+                                ) +
+                                  +(
+                                    memberShipPrice *
+                                    (1 - values.discount / 100)
+                                  ).toFixed(2)}{" "}
+                                ريال
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="mt-5 addBtn text-center">
-                    <MainButton
-                      text={"اضافة"}
-                      btnType={"submit"}
-                      isLoading={loading}
-                    />
-                  </div>
-                </Form>
-              );
-            }}
-          </Formik>
-        </div>
-      </div>
-      {/* succeess */}
-      <SuccessModal isOpen={showModal}>
-        <div>
-          <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            تم اضافة العضو للأشتراك بنجاح
-          </p>
-        </div>
-      </SuccessModal>
-      {/* failed */}
-      <FailedModal isOpen={showModalError} handleClose={handleCloseModalError}>
-        <div>
-          <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! هذا العضو مشترك من قبل
-          </p>
-        </div>
-      </FailedModal>
+                      <div className="mt-5 addBtn text-center">
+                        <MainButton
+                          text={"اضافة"}
+                          btnType={"submit"}
+                          isLoading={loading}
+                        />
+                      </div>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </div>
+          </div>
+          {/* succeess */}
+          <SuccessModal isOpen={showModal}>
+            <div>
+              <p className="text-center mt-2  text-dark fw-bolder mb-5">
+                تم اضافة العضو للأشتراك بنجاح
+              </p>
+            </div>
+          </SuccessModal>
+          {/* failed */}
+          <FailedModal
+            isOpen={showModalError}
+            handleClose={handleCloseModalError}
+          >
+            <div>
+              <p className="text-center mt-2  text-dark fw-bolder mb-5">
+                حدث خطأ ! هذا العضو مشترك من قبل
+              </p>
+            </div>
+          </FailedModal>
+        </>
+      )}
     </div>
   );
 }

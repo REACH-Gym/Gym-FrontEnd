@@ -1,6 +1,7 @@
 .sidebarContainer {
   width: 300px;
   padding: 100px 10px;
+  background-color: #fff;
   /* overflow-y:scroll; */
   /* height: 60vh; */
 }

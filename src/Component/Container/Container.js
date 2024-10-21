@@ -34,6 +34,7 @@ function Container() {
   }, []);
   return (
     <div className="container">
+    <div className="container__item">
       <Helmet>
         <title>الصفحة الريئسية</title>
       </Helmet>
@@ -119,6 +120,7 @@ function Container() {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 }

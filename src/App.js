@@ -42,12 +42,11 @@ import Logs from "./Component/Blog/Logs";
 import PersonalSettings from "./Component/Settings/PersonalSettings";
 import ChangePassword from "./Component/Settings/ChangePassword";
 import ChagePhoneNumber from "./Component/Settings/ChangePhoneNumber";
-import EditPhoneNumber from "./Component/Members/Edit Member/EditPhoneNumber";
-
 import EditUser from "./Component/EditUser/EditUser";
 import LogDetails from './Component/Blog/LogDetails';
 import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
 import AddCoupon from "./Component/AddCoupon/AddCoupon";
+import VerifyOtp from "./Component/Settings/VerifyOtp";
 function App() {
   return (
     <Provider store={store}>
@@ -59,6 +58,7 @@ function App() {
             <Route path="ForgotPassword" element={<ForgotPassword />} />
             <Route path="ConfirmCode" element={<ConfirmCode />} />
             <Route path="CreateNewPassword" element={<CreateNewPassword />} />
+          
             {/* end of Auth */}
             <Route path="Home" element={<Home />}>
               {/* support */}
@@ -73,6 +73,7 @@ function App() {
               <Route path="PersonalSettings" element={<PersonalSettings />} />
               <Route path="ChangePassword" element={<ChangePassword />} />
               <Route path="ChagePhoneNumber" element={<ChagePhoneNumber />} />
+              <Route path="VerifyOtp" element={<VerifyOtp/>}/>
               {/* end of settings */}
               {/* update system */}
               <Route path="UpdateSystem" element={<UpdateSystem />} />
@@ -85,10 +86,6 @@ function App() {
               <Route path="AddNewMember" element={<AddNewMember />} />
               <Route path="AllMembers/:id/edit" element={<EditMember />} />
               <Route path="MemberActivate" element={<MemberActivate />} />
-              <Route
-                path="AllMembers/:id/editPhoneNumber"
-                element={<EditPhoneNumber />}
-              />
               {/* end of members */}
               {/*Subscriptions*/}
               <Route path="SubscripedMembers" element={<SubscripedMembers />} />
