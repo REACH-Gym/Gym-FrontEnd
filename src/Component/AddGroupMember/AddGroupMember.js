@@ -28,7 +28,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { useDispatch, useSelector } from "react-redux";
-import { setReceipt } from "../../features/receiptSlice";
+import { setReceipt, setReceiptId } from "../../features/receiptSlice";
 
 // Define styles
 Font.register({
@@ -227,40 +227,29 @@ const DynamicComponent = () => {
   console.log(sessions);
 
   const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
-  const [sessionsWithSchedules, setSessionsWithSchedules] = useState([]);
-
-  useEffect(() => {
-    if (sessions) {
-      setSessionsWithSchedules([]);
-      for (let i = 0; i < sessions?.data?.sessions?.length; i++) {
-        if (sessions?.data?.sessions[i].schedules?.length > 0) {
-          setSessionsWithSchedules((prev) => [
-            ...prev,
-            sessions?.data?.sessions[i],
-          ]);
-        }
-      }
-    }
-  }, [sessions]);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
   const [sessionPrice, setSessionPrice] = useState(0);
-
   useEffect(() => {
     if (values.group !== "") {
       setSessionPrice(
-        sessionsWithSchedules?.find((session) => +session.id === +values.group)
-          ?.price
+        sessions?.data?.sessions?.find(
+          (session) => +session.id === +values.group
+        )?.price
       );
-      (async () => {
-        try {
-          const response = await getSchedules(
-            `?filter{session.id}=${values.group}&filter{is_active}=true`
-          );
-          setSesstionSchedules([]);
-          for (let i = 0; i < response?.data.data?.schedules.length; i++) {
+      console.log(sessions?.data?.sessions);
+      try {
+        for (let i = 0; i < sessions?.data?.sessions?.length; i++) {
+          console.log(sessions?.data?.sessions[i]);
+          for (
+            let j = 0;
+            j < sessions?.data?.sessions[i].schedules.length;
+            i++
+          ) {
+            console.log(sessions?.data?.sessions[i]?.schedules[j]);
             const newArray = [];
-            for (const key in response.data.data.schedules[i]) {
+            for (const key in sessions?.data?.sessions[i]?.schedules[j]) {
+              console.log(key);
               if (
                 key === "saturday" ||
                 key === "sunday" ||
@@ -270,21 +259,21 @@ const DynamicComponent = () => {
                 key === "thursday" ||
                 key === "friday"
               ) {
-                if (response.data.data.schedules[i][key]) {
+                if (sessions?.data?.sessions[i]?.schedules[j][key]) {
                   newArray.push(
-                    ` [${key}: ${response.data.data.schedules[i][key]}] `
+                    ` [${key}: ${sessions.data.sessions[i].schedules[j][key]}] `
                   );
                 }
               }
             }
             setSesstionSchedules((prev) => [...prev, newArray]);
           }
-        } catch (error) {
-          console.log(error.message);
         }
-      })();
+      } catch (error) {
+        console.log(error.message);
+      }
     }
-  }, [values.group, getSchedules, sessionsWithSchedules]);
+  }, [values.group, getSchedules, sessions]);
 
   const [price, setPrice] = useState(0);
   useEffect(() => {
@@ -414,7 +403,7 @@ const DynamicComponent = () => {
                 inputType={"select"}
               >
                 <option value={""}>اختر</option>
-                {sessionsWithSchedules?.map((session, i) => (
+                {sessions?.data?.sessions?.map((session, i) => (
                   <option value={session.id} key={i}>
                     {session.name}
                   </option>
@@ -425,7 +414,7 @@ const DynamicComponent = () => {
               <InputField name="schedule" label="الموعد" inputType={"select"}>
                 <option value={""}>اختر</option>
                 {sessionSchedules?.map((schedule, i) => (
-                  <option value={schedulesData?.data?.schedules[i]?.id} key={i}>
+                  <option value={sessions?.data?.schedules[i]?.id} key={i}>
                     {schedule}
                   </option>
                 ))}
@@ -576,7 +565,16 @@ const AddGroupMember = () => {
         window.location.reload();
       }, 1000);
     } catch (err) {
-      if (err.originalStatus === 403) {
+      console.log(err);
+      if (
+        err.data.error.detail ===
+        "User already subscribed to this session with active status."
+      ) {
+        setError("العضو مسجل في هذه المجموعة مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");

@@ -99,7 +99,7 @@ const AddCoupon = () => {
   };
   return (
     <>
-      {success && <Success text={"تم إضافة المجموعة! "} />}
+      {success && <Success text={"تم إضافة الكوبون! "} />}
       {error.length > 0 && <Error text={error} show={error.length > 0} />}
       <div className={`${styles.groupFormContainer}`}>
         <div className="allSubscriptionContainer mt-4">
