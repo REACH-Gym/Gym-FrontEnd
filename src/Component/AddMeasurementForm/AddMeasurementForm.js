@@ -160,7 +160,7 @@ const AddMeasurementForm = () => {
                         onBlur={() => {
                           setTimeout(() => {
                             setActive(false);
-                          }, 300);
+                          }, 1000);
                         }}
                         onChange={(e) => {
                           handleChange(e, setFieldValue);

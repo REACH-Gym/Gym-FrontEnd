@@ -162,7 +162,7 @@ const EditUser = () => {
         setSuccess(false);
         navigate("/Home/UsersContainer");
         window.location.reload();
-      }, 300);
+      }, 1000);
     } catch (err) {
       if (
         Object.keys(err.data.error).includes("national_id") &&
@@ -171,34 +171,34 @@ const EditUser = () => {
         setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (Object.keys(err.data.error).includes("phone_number")) {
         setError("رقم الهاتف مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (Object.keys(err.data.error).includes("national_id")) {
         setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (err.originalStatus === 400) {
         console.log(err);
       } else if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else if (err.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
         setTimeout(() => {
           setError("");
-        }, 2000);
+        }, 3000);
       }
     }
   };

@@ -14,17 +14,12 @@ import CouponsItem from "../CouponsItem/CouponsItem";
 const CouponsContainer = () => {
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const {
     data: coupons,
     isFetching: isCouponsFetching,
     error: couponsError,
-  } = useGetCouponsQuery(`?page=${page}&per_page=20&sort[]=-id`);
+  } = useGetCouponsQuery(``);
   console.log(coupons);
-  // useEffect(() => {
-  //   setTotalPages(coupons?.data.meta?.total_pages);
-  // }, [coupons]);
 
   if (isCouponsFetching) {
     return (
@@ -94,11 +89,7 @@ const CouponsContainer = () => {
             </thead>
             <tbody>
               {coupons?.data?.map((item, index) => (
-                <CouponsItem
-                  key={index}
-                  index={coupons?.data?.indexOf(item) + (page - 1) * 5 + 1}
-                  item={item}
-                />
+                <CouponsItem key={index} index={++index} item={item} />
               ))}
             </tbody>
           </table>

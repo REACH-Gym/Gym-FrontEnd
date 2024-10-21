@@ -123,7 +123,7 @@ const AddScheduleForm = () => {
         setError("");
         //End Timeout function
         clearTimeout();
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -141,7 +141,7 @@ const AddScheduleForm = () => {
       setTimeout(() => {
         setError("");
         clearTimeout();
-      }, 2000);
+      }, 3000);
       console.log("first");
     } else {
       try {
@@ -150,7 +150,7 @@ const AddScheduleForm = () => {
         setSuccess(true);
         setTimeout(() => {
           navigate("/Home/AllSchedules");
-        }, 2000);
+        }, 3000);
       } catch (e) {
         if (e.originalStatus === 403) {
           setError("ليس لديك الصلاحية لإضافة مجموعة.");
@@ -215,7 +215,7 @@ const AddScheduleForm = () => {
     ) {
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 3000);
       return (
         <div
           className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}

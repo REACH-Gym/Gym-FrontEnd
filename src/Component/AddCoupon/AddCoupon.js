@@ -35,10 +35,8 @@ const AddCoupon = () => {
     discount_value: "",
   };
 
-  const [
-    postCoupon,
-    { isLoading: isSessionsLoading, isError: isSessionsError },
-  ] = usePostCouponMutation();
+  const [postCoupon, { isLoading: isSessionsLoading }] =
+    usePostCouponMutation();
 
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
@@ -72,25 +70,30 @@ const AddCoupon = () => {
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        navigate("/Home/CouponsContainer");
-        window.location.reload();
-      }, 300);
+        // navigate("/Home/CouponsContainer");
+        // window.location.reload();
+      }, 1000);
     } catch (error) {
-      if (error.originalStatus === 403) {
+      if (Object.keys(error.data.error).includes("code")) {
+        setError("الكوبون بهذا الكود مسجل مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (error.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");
-        }, 1000);
+        }, 3000);
       } else if (error.originalStatus === 401) {
         setError("قم بتسجيل الدخول وحاول مرة أخرى.");
         setTimeout(() => {
           setError("");
-        }, 1000);
+        }, 3000);
       } else {
         setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
         setTimeout(() => {
           setError("");
-        }, 1000);
+        }, 3000);
       }
     }
   };
