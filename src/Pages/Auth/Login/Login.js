@@ -168,7 +168,7 @@ function Login() {
           </div>
         </Form>
       </Formik>
-      <SuccessModal isOpen={showModal} handleClose={''}>
+      <SuccessModal isOpen={showModal} handleClose={()=>setShowModal(false)}>
         <div className="text-center fw-lighter fs-5">
           <p className="p-2 text-dark">لقد تم تسجيل دخولك بنجاح</p>
         </div>
