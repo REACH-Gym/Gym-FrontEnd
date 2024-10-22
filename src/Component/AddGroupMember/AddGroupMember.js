@@ -6,17 +6,17 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import {
   useGetAllMembersQuery,
-  useLazyGetSchedulesQuery,
   usePostSessionMemberMutation,
   useGetSessionsWithSchedulesQuery,
+  useGetCouponsQuery,
 } from "../../features/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
-
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Page,
   Text,
@@ -28,7 +28,12 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { useDispatch, useSelector } from "react-redux";
-import { setReceipt } from "../../features/receiptSlice";
+import {
+  setReceipt,
+  setReceiptId,
+  setReceiptPaid,
+} from "../../features/receiptSlice";
+import QRCode from "qrcode";
 
 // Define styles
 Font.register({
@@ -38,9 +43,9 @@ Font.register({
 const style = StyleSheet.create({
   page: {
     width: "80mm", // Set width for receipt printer paper
-    padding: 1,
+    padding: "0.5 0.5 0",
     fontFamily: "Almarai",
-    fontSize: 5,
+    fontSize: 4.5,
     textAlign: "right", // Align text to the right for RTL
     direction: "rtl", // Set text direction to RTL
   },
@@ -51,25 +56,26 @@ const style = StyleSheet.create({
   logo: {
     width: 30, // Set the width of the image
     height: 30, // Set the height of the image
-    marginBottom: 5, // Add spacing below the image
+    marginBottom: 4, // Add spacing below the image
     marginRight: "auto", // Add spacing to the right of the image
     marginLeft: "auto", // Add spacing to the right of the image
   },
   title: {
     textAlign: "center",
-    marginBottom: 3,
+    marginBottom: 2,
     fontSize: 4,
     padding: "2px 0",
     borderBottom: "0.5px dashed #000",
   },
   text: {
     fontSize: 3.5,
-    marginBottom: 3,
+    marginBottom: 1.5,
   },
   table: {
     display: "table",
     width: "auto",
-    marginBottom: 5,
+    marginTop: 2,
+    marginBottom: 3,
     borderStyle: "solid",
     borderWidth: 0.2,
     borderColor: "#000",
@@ -95,10 +101,20 @@ const style = StyleSheet.create({
     padding: 2,
     borderTop: "0.5px solid #000",
     width: "100%",
-    marginTop: 18,
+    marginTop: 1,
     textAlign: "center",
   },
 });
+
+// const generateQRCodeDataUrl = (url) => {
+//   const canvas = document.createElement("canvas");
+//   const qrCodeElement = <QrCode2 value={url} size={100} renderAs="canvas" />;
+//   qrCodeElement.type = "canvas";
+//   qrCodeElement.props.canvas = canvas;
+//   qrCodeElement.render();
+
+//   return canvas.toDataURL("image/png");
+// };
 // Create the PDF document component
 const arabicRegex = /[\u0600-\u06FF]/;
 const englishRegex = /[A-Za-z]/;
@@ -113,6 +129,9 @@ const ReceiptDocument = ({
   total,
   startDate,
   national_id,
+  promo,
+  promoValue,
+  url,
 }) => {
   const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
   const [hasEnglishC, setHasEnglishC] = useState(
@@ -144,6 +163,16 @@ const ReceiptDocument = ({
     hour12: false,
   };
   const readableDate = now.toLocaleString("en-US", options);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
+
+  useEffect(() => {
+    QRCode.toDataURL(`http://104.248.251.235:3000/receipt/${url}`)
+      .then((dataUrl) => {
+        setQrCodeDataUrl(dataUrl);
+        console.log(dataUrl);
+      })
+      .catch((error) => console.log("Error generating QR code: ", error));
+  }, [url]);
 
   return (
     <Document>
@@ -164,7 +193,6 @@ const ReceiptDocument = ({
           <Text style={style.text}>رقم الهاتف: {phone_number}</Text>
           <Text style={style.text}>الرقم الضريبي: 311051035700003</Text>
           <Text style={style.text}>رقم العضوية: {national_id}</Text>
-          <Text style={style.text}></Text>
           <View style={style.table}>
             {/* Table Header */}
             <View style={[style.tableRow, style.tableHeader]}>
@@ -186,15 +214,24 @@ const ReceiptDocument = ({
           <Text style={style.text}>
             الخصم (%{discount}): {(total * (discount / 100)).toFixed(2)}ريال
           </Text>
+          <Text style={style.text}>
+            قيمته: {promoValue} ريال - {promo} :البرومو كود
+          </Text>
           <Text style={style.text}>الإجمالي قبل الضريبة: {totalBT}ريال</Text>
           <Text style={style.text}>الضريبة (%15): {taxes}ريال</Text>
           <Text style={style.text}>الإجمالي: {fTotal}ريال</Text>
+          {qrCodeDataUrl && (
+            <Image
+              src={qrCodeDataUrl}
+              style={{ width: 40, textAlign: "center", marginLeft: "18px" }}
+            />
+          )}
           <Text
             style={{
               fontSize: 4,
               textDecoration: "underline",
               textAlign: "center",
-              marginTop: 10,
+              marginTop: 4,
               marginBottom: 2,
             }}
           >
@@ -226,75 +263,118 @@ const DynamicComponent = () => {
   } = useGetSessionsWithSchedulesQuery("?filter{is_active}=true");
   console.log(sessions);
 
-  const [getSchedules, { data: schedulesData }] = useLazyGetSchedulesQuery();
-  const [sessionsWithSchedules, setSessionsWithSchedules] = useState([]);
-
+  const {
+    data: coupons,
+    isLoading: isCouponsLoading,
+    error: couponsError,
+  } = useGetCouponsQuery("");
+  console.log(coupons);
+  const [promo, setPromo] = useState([``, 0]);
   useEffect(() => {
-    if (sessions) {
-      setSessionsWithSchedules([]);
-      for (let i = 0; i < sessions?.data?.sessions?.length; i++) {
-        if (sessions?.data?.sessions[i].schedules?.length > 0) {
-          setSessionsWithSchedules((prev) => [
-            ...prev,
-            sessions?.data?.sessions[i],
-          ]);
-        }
-      }
+    if (values.promo_code !== "") {
+      setPromo([
+        coupons?.data?.find((coupon) => +coupon.id === +values.promo_code)
+          ?.discount_type,
+        coupons?.data?.find((coupon) => +coupon.id === +values.promo_code)
+          ?.discount_value,
+        coupons?.data?.find((coupon) => +coupon.id === +values.promo_code)
+          ?.code,
+      ]);
     }
-  }, [sessions]);
+  }, [values.promo_code, coupons]);
 
   const [sessionSchedules, setSesstionSchedules] = useState([]);
   const [sessionPrice, setSessionPrice] = useState(0);
-
   useEffect(() => {
     if (values.group !== "") {
       setSessionPrice(
-        sessionsWithSchedules?.find((session) => +session.id === +values.group)
-          ?.price
+        sessions?.data?.sessions?.find(
+          (session) => +session.id === +values.group
+        )?.price
       );
-      (async () => {
-        try {
-          const response = await getSchedules(
-            `?filter{session.id}=${values.group}&filter{is_active}=true`
-          );
-          setSesstionSchedules([]);
-          for (let i = 0; i < response?.data.data?.schedules.length; i++) {
-            const newArray = [];
-            for (const key in response.data.data.schedules[i]) {
-              if (
-                key === "saturday" ||
-                key === "sunday" ||
-                key === "monday" ||
-                key === "tuesday" ||
-                key === "wednesday" ||
-                key === "thursday" ||
-                key === "friday"
-              ) {
-                if (response.data.data.schedules[i][key]) {
-                  newArray.push(
-                    ` [${key}: ${response.data.data.schedules[i][key]}] `
-                  );
+      console.log(sessions?.data?.sessions);
+      try {
+        setSesstionSchedules([]);
+        for (let i = 0; i < sessions?.data?.sessions?.length; i++) {
+          console.log(sessions?.data?.sessions[i]);
+          if (+sessions?.data?.sessions[i].id === +values.group) {
+            for (
+              let j = 0;
+              j < sessions?.data?.sessions[i]?.schedules?.length;
+              j++
+            ) {
+              console.log(sessions?.data?.sessions[i]?.schedules[j]);
+              const newArray = [sessions?.data?.sessions[i]?.schedules[j].id];
+              for (const key in sessions?.data?.sessions[i]?.schedules[j]) {
+                console.log(key);
+                if (
+                  key === "saturday" ||
+                  key === "sunday" ||
+                  key === "monday" ||
+                  key === "tuesday" ||
+                  key === "wednesday" ||
+                  key === "thursday" ||
+                  key === "friday"
+                ) {
+                  if (sessions?.data?.sessions[i]?.schedules[j][key]) {
+                    newArray.push(
+                      ` [${key}: ${sessions?.data?.sessions[i]?.schedules[j][key]}] `
+                    );
+                  }
                 }
               }
+              console.log(newArray);
+              setSesstionSchedules((prev) => [...prev, newArray]);
             }
-            setSesstionSchedules((prev) => [...prev, newArray]);
           }
-        } catch (error) {
-          console.log(error.message);
         }
-      })();
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      setSesstionSchedules([]);
     }
-  }, [values.group, getSchedules, sessionsWithSchedules]);
+  }, [values.group, sessions]);
 
   const [price, setPrice] = useState(0);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      setReceiptPaid(
+        promo[0] === "price"
+          ? +price +
+              +(
+                sessionPrice *
+                (1 -
+                  (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
+              ).toFixed(2)
+          : +price +
+              +(
+                sessionPrice *
+                (1 - (+values.discount + +promo[1]) / 100)
+              ).toFixed(2)
+      )
+    );
+  }, [sessionPrice, values.discount, promo, dispatch, price]);
   useEffect(() => {
     if (sessionPrice) {
-      setPrice(sessionPrice * (1 - values.discount / 100) * (15 / 100));
+      if (promo[0] === "price") {
+        const pricePercentage = (+promo[1] / sessionPrice) * 100;
+        setPrice(
+          sessionPrice *
+            (1 - (+values.discount + +pricePercentage) / 100) *
+            (15 / 100)
+        );
+      } else {
+        setPrice(
+          sessionPrice * (1 - (+values.discount + +promo[1]) / 100) * (15 / 100)
+        );
+      }
     }
-  }, [sessionPrice, values.discount]);
-  const receiptStatus = useSelector((state) => state.receipt.status);
+  }, [sessionPrice, values.discount, promo, dispatch, price]);
+  const receiptStatus = useSelector((state) => state.receipt);
   useEffect(() => {
-    if (receiptStatus) {
+    if (receiptStatus.status) {
       const doc = (
         <ReceiptDocument
           customerName={
@@ -312,16 +392,45 @@ const DynamicComponent = () => {
           }
           total={`${sessionPrice}`}
           discount={`${values.discount}`}
-          totalBT={(sessionPrice * (1 - values.discount / 100)).toFixed(2)}
-          taxes={`${sessionPrice * (1 - values.discount / 100) * (15 / 100)}`}
+          totalBT={
+            promo[0] === "price"
+              ? (
+                  sessionPrice *
+                  (1 -
+                    (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
+                ).toFixed(2)
+              : (
+                  sessionPrice *
+                  (1 - (+values.discount + +promo[1]) / 100)
+                ).toFixed(2)
+          }
+          taxes={price}
           fTotal={
-            +price + +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
+            promo[0] === "price"
+              ? +price +
+                +(
+                  sessionPrice *
+                  (1 -
+                    (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
+                ).toFixed(2)
+              : +price +
+                +(
+                  sessionPrice *
+                  (1 - (+values.discount + +promo[1]) / 100)
+                ).toFixed(2)
           }
           startDate={values.start_date}
           national_id={
             members?.data?.users?.find((member) => +member.id === +values.name)
               ?.national_id
           }
+          promo={promo[2]}
+          promoValue={
+            promo[0] === "price"
+              ? `${promo[1]}`
+              : `${(sessionPrice * (+promo[1] / 100)).toFixed(2)}`
+          }
+          url={receiptStatus.id}
         />
       );
       // Generate PDF blob
@@ -335,6 +444,7 @@ const DynamicComponent = () => {
   }, [
     members?.data?.users,
     price,
+    promo,
     receiptStatus,
     sessionPrice,
     sessions?.data?.sessions,
@@ -344,7 +454,7 @@ const DynamicComponent = () => {
     values.start_date,
   ]);
   const navigate = useNavigate();
-  if (isSessionsLoading || isMembersLoading) {
+  if (isSessionsLoading || isMembersLoading || isCouponsLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
@@ -355,8 +465,12 @@ const DynamicComponent = () => {
     );
   }
 
-  if (membersError || sessionsError) {
-    if (membersError?.status === 403 || sessionsError?.status === 403) {
+  if (membersError || sessionsError || couponsError) {
+    if (
+      membersError?.status === 403 ||
+      sessionsError?.status === 403 ||
+      couponsError?.status === 403
+    ) {
       return (
         <div
           className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
@@ -364,7 +478,11 @@ const DynamicComponent = () => {
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
       );
-    } else if (membersError?.status === 401 || sessionsError?.status === 401) {
+    } else if (
+      membersError?.status === 401 ||
+      sessionsError?.status === 401 ||
+      couponsError?.status === 401
+    ) {
       setTimeout(() => {
         navigate("/");
       }, 2000);
@@ -414,7 +532,7 @@ const DynamicComponent = () => {
                 inputType={"select"}
               >
                 <option value={""}>اختر</option>
-                {sessionsWithSchedules?.map((session, i) => (
+                {sessions?.data?.sessions?.map((session, i) => (
                   <option value={session.id} key={i}>
                     {session.name}
                   </option>
@@ -425,8 +543,8 @@ const DynamicComponent = () => {
               <InputField name="schedule" label="الموعد" inputType={"select"}>
                 <option value={""}>اختر</option>
                 {sessionSchedules?.map((schedule, i) => (
-                  <option value={schedulesData?.data?.schedules[i]?.id} key={i}>
-                    {schedule}
+                  <option value={schedule[0]} key={i}>
+                    {schedule.slice(1)}
                   </option>
                 ))}
               </InputField>
@@ -453,7 +571,18 @@ const DynamicComponent = () => {
               <InputField name="discount" label="الخصم (%)" />
             </div>
             <div className={`col-12`}>
-              <InputField name="promo_code" disabled label="برومو كود" />
+              <InputField
+                name="promo_code"
+                label="برومو كود"
+                inputType={"select"}
+              >
+                <option value={""}>اختر</option>
+                {coupons?.data?.map((coupon, i) => (
+                  <option value={coupon.id} key={i}>
+                    {coupon.code}
+                  </option>
+                ))}
+              </InputField>
             </div>
             <div className={`col-12`}>
               <InputField
@@ -467,10 +596,10 @@ const DynamicComponent = () => {
               </InputField>
             </div>
             <div className={`col-12 mt-4 ps-2 pe-2`}>
-              <div className="row gap-3 text-secondary">
+              <div className="row gap-3 text-secondary mb-3">
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الخصم</span>
-                  <span>{sessionPrice} ريال</span>
+                  <span>{sessionPrice ? sessionPrice : "-"} ريال</span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الخصم ({values.discount}%)</span>
@@ -482,11 +611,33 @@ const DynamicComponent = () => {
                   </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
+                  <span>قيمة البرومو كود </span>
+                  <span>
+                    {sessionPrice > 0
+                      ? promo[0] === "price"
+                        ? `${promo[1]}`
+                        : `${(sessionPrice * (+promo[1] / 100)).toFixed(2)}`
+                      : "-"}{" "}
+                    ريال
+                  </span>
+                </div>
+                <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الضريبة</span>
                   <span>
-                    {(sessionPrice * (1 - values.discount / 100)).toFixed(2) > 0
-                      ? (sessionPrice * (1 - values.discount / 100)).toFixed(2)
-                      : "-"}{" "}
+                    {sessionPrice > 0
+                      ? promo[0] === "price"
+                        ? (
+                            sessionPrice *
+                            (1 -
+                              (+values.discount +
+                                (+promo[1] / sessionPrice) * 100) /
+                                100)
+                          ).toFixed(2)
+                        : (
+                            sessionPrice *
+                            (1 - (+values.discount + +promo[1]) / 100)
+                          ).toFixed(2)
+                      : "-"}
                     ريال
                   </span>
                 </div>
@@ -497,10 +648,21 @@ const DynamicComponent = () => {
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الاجمالي</span>
                   <span>
-                    {+price +
-                    +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
-                      ? +price +
-                        +(sessionPrice * (1 - values.discount / 100)).toFixed(2)
+                    {sessionPrice > 0
+                      ? promo[0] === "price"
+                        ? +price +
+                          +(
+                            sessionPrice *
+                            (1 -
+                              (+values.discount +
+                                (+promo[1] / sessionPrice) * 100) /
+                                100)
+                          ).toFixed(2)
+                        : +price +
+                          +(
+                            sessionPrice *
+                            (1 - (+values.discount + +promo[1]) / 100)
+                          ).toFixed(2)
                       : "-"}{" "}
                     ريال
                   </span>
@@ -515,8 +677,6 @@ const DynamicComponent = () => {
 };
 
 const AddGroupMember = () => {
-  const receiptState = useSelector((state) => state.receipt);
-  console.log(receiptState);
   const initialValues = {
     name: "",
     group: "",
@@ -545,38 +705,46 @@ const AddGroupMember = () => {
   const [success, setSuccess] = useState(false);
 
   const dispatch = useDispatch();
+  const receiptState = useSelector((state) => state.receipt);
+
   const handleSubmit = async (values) => {
     console.log(values);
-    let data = {};
-    if (values.discount > 0) {
-      data = {
-        schedule: values.schedule,
-        user: values.name,
-        status: "active",
-        discount: values.discount,
-        start_date: values.start_date,
-      };
-    } else {
-      data = {
-        schedule: values.schedule,
-        user: values.name,
-        status: "active",
-        discount: 0,
-        start_date: values.start_date,
-      };
-    }
+    const uniqeId = uuidv4();
+    dispatch(setReceiptId(uniqeId));
+    const data = {
+      schedule: values.schedule,
+      user: values.name,
+      discount: values.discount,
+      start_date: values.start_date,
+      paid_money: receiptState.paid,
+      // payment_method: values.payment_method,
+      coupon: values.promo_code,
+      receipt_id: uniqeId,
+    };
+    console.log(receiptState);
+    console.log(data);
+    const filteredObject = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) => +value !== 0)
+    );
     try {
-      const response = await postSessionMember(data).unwrap();
+      const response = await postSessionMember(filteredObject).unwrap();
       console.log(response);
       dispatch(setReceipt(true));
       setSuccess(true);
       setTimeout(() => {
+        dispatch(setReceipt(false));
         setSuccess(false);
         navigate("/Home/GroupsContainer");
         window.location.reload();
       }, 1000);
     } catch (err) {
-      if (err.originalStatus === 403) {
+      console.log(err);
+      if (err.data.error.detail.startsWith("User already subscribed")) {
+        setError("العضو مسجل في هذه المجموعة مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.originalStatus === 403) {
         setError("ليس لديك الصلاحية لإضافة مجموعة.");
         setTimeout(() => {
           setError("");

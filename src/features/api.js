@@ -183,6 +183,9 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    getReciet: builder.query({
+      query: (id) => `session-receipt/${id}`,
+    }),
   }),
 });
 export const {
@@ -210,4 +213,5 @@ export const {
   usePostCouponMutation,
   useSendDetailsMutation,
   useEditCouponMutation,
+  useLazyGetRecietQuery,
 } = apis;

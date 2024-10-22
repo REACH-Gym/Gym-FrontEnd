@@ -43,10 +43,11 @@ import PersonalSettings from "./Component/Settings/PersonalSettings";
 import ChangePassword from "./Component/Settings/ChangePassword";
 import ChagePhoneNumber from "./Component/Settings/ChangePhoneNumber";
 import EditUser from "./Component/EditUser/EditUser";
-import LogDetails from './Component/Blog/LogDetails';
+import LogDetails from "./Component/Blog/LogDetails";
 import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
 import AddCoupon from "./Component/AddCoupon/AddCoupon";
 import VerifyOtp from "./Component/Settings/VerifyOtp";
+import Receipt from "./Component/Receipt/Receipt";
 function App() {
   return (
     <Provider store={store}>
@@ -54,11 +55,12 @@ function App() {
         <Routes>
           <Route path="/">
             {/* Auth */}
+            <Route path="receipt/:receiptId" element={<Receipt />} />
             <Route index element={<Login />} />
             <Route path="ForgotPassword" element={<ForgotPassword />} />
             <Route path="ConfirmCode" element={<ConfirmCode />} />
             <Route path="CreateNewPassword" element={<CreateNewPassword />} />
-          
+
             {/* end of Auth */}
             <Route path="Home" element={<Home />}>
               {/* support */}
@@ -66,14 +68,14 @@ function App() {
               <Route path="Support/:id" element={<SupportDetails />} />
               {/* end of support */}
               {/* Blog */}
-              <Route path="Logs" element={<Logs/>}/>
-              <Route path="Logs/:id/LogDetail" element={<LogDetails/>}/>
+              <Route path="Logs" element={<Logs />} />
+              <Route path="Logs/:id/LogDetail" element={<LogDetails />} />
               {/*End of Blog */}
               {/* settings */}
               <Route path="PersonalSettings" element={<PersonalSettings />} />
               <Route path="ChangePassword" element={<ChangePassword />} />
               <Route path="ChagePhoneNumber" element={<ChagePhoneNumber />} />
-              <Route path="VerifyOtp" element={<VerifyOtp/>}/>
+              <Route path="VerifyOtp" element={<VerifyOtp />} />
               {/* end of settings */}
               {/* update system */}
               <Route path="UpdateSystem" element={<UpdateSystem />} />
