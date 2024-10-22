@@ -44,7 +44,7 @@ function ChangePhoneNumber() {
     phone_number:"",
   }
   const validationSchema =Yup.object({
-    phone_number: Yup.string().max(11).required("يرجي ادخال رقم الهاتف"),
+    phone_number: Yup.string().required("يرجي ادخال رقم الهاتف"),
   })
   return (
     <div className="changePhoneNumberContainer">

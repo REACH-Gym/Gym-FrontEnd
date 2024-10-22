@@ -65,11 +65,78 @@ function LogDetails() {
   const getBackgroundColor = (oldValue, newValue) => {
     if (oldValue !== newValue) {
       return {
-        oldBackground: "rgba(255, 0, 0, 0.2)", // Red background for before edit
-        newBackground: "rgba(0, 128, 0, 0.2)", // Green background for after edit
+        oldBackground: "rgba(255, 0, 0, 0.2)", 
+        newBackground: "rgba(0, 128, 0, 0.2)",
       };
     }
-    return { oldBackground: "", newBackground: "" }; // No background color if they are the same
+    return { oldBackground: "", newBackground: "" };
+  };
+
+  const fieldNameMap = {
+    "name":"الأسم",
+    "gender": "الجنس",
+    "description": "الملاحظات",
+    "duration": "المدة",
+    "price": "السعر",
+    "freeze_duration": "مدة التجميد",
+    "is_active": "الحالة",
+    "national_id":"الرقم القومي",
+    "phone_number":"رقم الجوال",
+    "role":"الوظيفة",
+    "date_of_birth":"تاريخ الميلاد",
+    "notes":"ملاحظات",
+  };
+
+  const renderField = (key, oldValue, newValue) => {
+    let displayOldValue = oldValue;
+    let displayNewValue = newValue;
+
+    if (key === "gender") {
+      displayOldValue = oldValue === 'M' ? 'ذكر' : oldValue === 'F' ? 'أنثى' : '';
+      displayNewValue = newValue === 'M' ? 'ذكر' : newValue === 'F' ? 'أنثى' : '';
+    }
+
+    if (key === "role") {
+      const roleMap = {
+        'M': 'عضو',
+        'A': 'محاسب',
+        'S': 'الأدمن الرئيسي',
+        'T': 'مدرب',
+      };
+      
+      displayOldValue = roleMap[oldValue] || '';
+      displayNewValue = roleMap[newValue] || '';
+    }
+
+    const inputStyle = {
+      width: '300px',
+      backgroundColor: '#fff',
+      border: '1px solid lightgray',
+      outline: 'none',
+      borderRadius: '5px',
+      padding: '10px',
+      height: '45px',
+    };
+
+    return (
+      <tr key={key}>
+        <td>{fieldNameMap[key] || key}</td>
+        <td>
+          <input
+            value={displayOldValue || ""}
+            style={{ ...inputStyle, backgroundColor: getBackgroundColor(oldValue, newValue).oldBackground }}
+            readOnly
+          />
+        </td>
+        <td>
+          <input
+            value={displayNewValue || ""}
+            style={{ ...inputStyle, backgroundColor: getBackgroundColor(oldValue, newValue).newBackground }}
+            readOnly
+          />
+        </td>
+      </tr>
+    );
   };
 
   return (
@@ -84,7 +151,7 @@ function LogDetails() {
           MainIcon={"/assets/image/mdi_clipboard-text-history-outline.png"}
         />
       </div>
-      {/* Display log details */}
+      
       <div className="tableContainer mt-2">
         <table className="table">
           <thead>
@@ -109,147 +176,32 @@ function LogDetails() {
           </tbody>
         </table>
       </div>
-      {/* البيانات قبل وبعد التعديل */}
+      
+      {/* Old and new fields table */}
       <div className="d-flex align-items-center justify-content-around mt-5">
-        {/* data before edit */}
-        <div>
-          <p>
-            البيانات <span className="text-danger fw-bolder">قبل</span> التعديل{" "}
-          </p>
-          <div>
-            <form className="logForm">
-              <div>
-                <label className="d-block mb-2" style={{fontSize:"14px",color:"#666666"}}>الأسم</label>
-                <input
-                  value={parsedOldFields.name || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.name, parsedNewFields.name).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>قم العضوية</label>
-                <input
-                  value={parsedOldFields.national_id || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.national_id, parsedNewFields.national_id).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>رقم الجوال</label>
-                <input
-                  value={parsedOldFields.phone_number || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.phone_number, parsedNewFields.phone_number).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>تاريخ الميلاد</label>
-                <input
-                  type="date"
-                  value={parsedOldFields.date_of_birth || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.date_of_birth, parsedNewFields.date_of_birth).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>النوع</label>
-                <input
-                  value={parsedOldFields.gender === "M" ? "ذكر" : "أنثي" || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.gender, parsedNewFields.gender).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>ملاحظات</label>
-                <input
-                  value={parsedOldFields.notes || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.notes, parsedNewFields.notes).oldBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <p>الحالة</p>
-                {parsedOldFields.is_active === true ? (
-                  <Active />
-                ) : (
-                  <Deleted /> || ""
-                )}
-              </div>
-            </form>
-          </div>
+        <div className="tableContainer p-5">
+          <table className="table">
+            <thead>
+              <tr className="mb-4">
+                <th scope="col">الحقل</th>
+                <th scope="col" className="">البيانات قبل التعديل</th>
+                <th scope="col">البيانات بعد التعديل</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(parsedOldFields)
+                .filter(key => !["id", "created_at", "updated_at", "profile_image", "is_verified", "is_active"].includes(key))
+                .map((key) => renderField(key, parsedOldFields[key], parsedNewFields[key]))}
+              <tr>
+                <td>الحالة</td>
+                <td>{parsedOldFields.is_active === true ? <Active /> : <Deleted />}</td>
+                <td>{parsedNewFields.is_active === true ? <Active /> : <Deleted />}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        {/* end of data before edit */}
-        {/* data after edit */}
-        <div>
-          <p>
-            البيانات <span className="text-success fw-bolder">بعد</span> التعديل{" "}
-          </p>
-          <div>
-            <form className="logForm">
-              <div>
-                <label className="d-block mb-2" style={{fontSize:"14px",color:"#666666"}}>الأسم</label>
-                <input
-                  value={parsedNewFields.name || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.name, parsedNewFields.name).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>قم العضوية</label>
-                <input
-                  value={parsedNewFields.national_id || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.national_id, parsedNewFields.national_id).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>رقم الجوال</label>
-                <input
-                  value={parsedNewFields.phone_number || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.phone_number, parsedNewFields.phone_number).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>تاريخ الميلاد</label>
-                <input
-                  type="date"
-                  value={parsedNewFields.date_of_birth || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.date_of_birth, parsedNewFields.date_of_birth).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>النوع</label>
-                <input
-                  value={parsedNewFields.gender === "M" ? "ذكر" : "أنثي" || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.gender, parsedNewFields.gender).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label className="d-block mb-2 mt-2" style={{fontSize:"14px",color:"#666666"}}>ملاحظات</label>
-                <input
-                  value={parsedNewFields.notes || ""}
-                  style={{ backgroundColor: getBackgroundColor(parsedOldFields.notes, parsedNewFields.notes).newBackground }}
-                  readOnly
-                />
-              </div>
-              <div>
-                <p>الحالة</p>
-                {parsedNewFields.is_active === true ? (
-                  <Active />
-                ) : (
-                  <Deleted /> || ""
-                )}
-              </div>
-            </form>
-          </div>
-        </div>
-        {/* end of data after edit */}
       </div>
     </div>
   );
 }
-
 export default LogDetails;

@@ -183,7 +183,6 @@ function AllMembers() {
                         <th className="p-2 pt-3 pb-3">رقم الجوال</th>
                         <th className="p-2 pt-3 pb-3">رقم العضوية</th>
                         <th className="p-2 pt-3 pb-3">تاريخ التسجيل</th>
-                        <th className="p-2 pt-3 pb-3">الرصيد</th>
                         <th className="p-2 pt-3 pb-3">تاريخ الميلاد</th>
                         <th className="p-2 pt-3 pb-3">حالة العضو</th>
                         <th className="p-2 pt-3 pb-3">خيارات</th>
@@ -205,7 +204,6 @@ function AllMembers() {
                           <td>{item.phone_number}</td>
                           <td>{item.national_id}</td>
                           <td>{item.created_at.slice(0, 10)}</td>
-                          <td>0</td>
                           <td>{item.date_of_birth}</td>
                           <td>
                             {item.is_active === false ? (
@@ -275,7 +273,6 @@ function AllMembers() {
                       <th scope="col" className="pb-4">رقم الجوال</th>
                       <th scope="col" className="pb-4">رقم العضوية</th>
                       <th scope="col" className="pb-4">تاريخ التسجيل</th>
-                      <th scope="col" className="pb-4">الرصيد</th>
                       <th scope="col" className="pb-4">تاريخ الميلاد</th>
                       <th scope="col" className="pb-4">حالة العضو</th>
                       <th scope="col" className="pb-4">خيارات</th>
@@ -289,7 +286,6 @@ function AllMembers() {
                         <td>{item.phone_number}</td>
                         <td>{item.national_id}</td>
                         <td>{item.created_at.slice(0, 10)}</td>
-                        <td>0</td>
                         <td>{item.date_of_birth}</td>
                         <td>
                           {item.is_active === false ? <Deleted /> : <Active />}

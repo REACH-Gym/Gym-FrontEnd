@@ -5,6 +5,11 @@ function SuccessModal({ isOpen, text, children, handleClose }) {
   return (
     <div className="modal-overlay">
       <div className="modalContent modal-width" id="modal-width">
+      <div className="d-flex justify-content-start">
+            <button className="border-0 pt-3 ps-3 pe-3 failed fw-bolder" onClick={handleClose}>
+              X
+            </button>
+          </div>
         <div>
           <div className="text-center">
             <img
