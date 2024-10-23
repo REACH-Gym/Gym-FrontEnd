@@ -3,14 +3,14 @@ import Logout from "../../Pages/Auth/Logout/Logout";
 import "./navbar.css";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ userData }) {
   const [adminName, setAdminName] = useState("");
   // get the first character of admin name
   const [firstChar, setFirstChar] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [settingOptions, setSettingOptions] = useState(false);
 
-  const optionRef = useRef(); 
+  const optionRef = useRef();
   const settingsRef = useRef();
 
   useEffect(() => {
@@ -53,11 +53,15 @@ function Navbar() {
           <div className="mt-3">
             <img src="/assets/image/logo(1).png" alt="" />
           </div>
-          <div style={{ cursor: "pointer" }} onClick={handleShowSettings} className="position-relative">
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={handleShowSettings}
+            className="position-relative"
+          >
             <div className="d-flex align-items-center ">
               <div>
                 <p className="mb-0 fw-bolder ms-3 fs-6">
-                  {localStorage.getItem("name of logged in user ")}
+                  {userData?.data?.user?.name}
                 </p>
               </div>
               <div className="first-char">
@@ -74,11 +78,9 @@ function Navbar() {
               </div>
             </div>
             <p className="mt-5 mb-0 text-center">
-              {localStorage.getItem("name of logged in user ")}
+              {userData?.data?.user?.name}
             </p>
-            <p className="text-center">
-              {localStorage.getItem("phone number of logged in user")}
-            </p>
+            <p className="text-center">{userData?.data?.user?.phone_number}</p>
             <p className="pe-4 mt-5 mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +149,7 @@ function Navbar() {
                     </p>
                   </Link>
                   <Link
-                  to={'PersonalSettings'}
+                    to={"PersonalSettings"}
                     className="text-decoration-none text-dark"
                   >
                     <p>
