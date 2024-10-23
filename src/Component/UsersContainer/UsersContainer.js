@@ -86,9 +86,10 @@ const UsersContainer = () => {
           />
           <Filter
             query={"employee"}
-            options={["اسم المستخدم"]}
+            options={["الاسم"]}
             searchResults={setResults}
             status={false}
+            eStatus={false}
           />
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}
