@@ -28,7 +28,9 @@ const daysOfWeek = [
 const AddScheduleForm = () => {
   const validationSchema = Yup.object({
     session: Yup.string().required("هذا الحقل إلزامي"),
-    max_capacity: Yup.number().required("هذا الحقل إلزامي"),
+    max_capacity: Yup.number()
+      .required("هذا الحقل إلزامي")
+      .min(0, "يجب ان يكون اكبر من صفر"),
     trainer: Yup.string().required("هذا الحقل إلزامي"),
   });
   const initialValues = {

@@ -5,6 +5,7 @@
   padding: 10px;
   border-radius: 10px;
   min-height: 500px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* height: 70vh;
   overflow-y: auto; */
 }
@@ -23,4 +24,5 @@
   background-color: #f2f4f5;
   width: 100%;
   padding: 90px 20px 20px 20px;
+  min-height: 100vh;
 }

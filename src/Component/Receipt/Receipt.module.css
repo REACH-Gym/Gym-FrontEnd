@@ -1,0 +1,29 @@
+.receiptContainer {
+  font-size: 20px;
+}
+.receiptDetails {
+  width: 80%;
+  margin: auto;
+}
+.receiptTable tr td,
+.receiptTable tr th {
+  border: 1px solid black;
+  padding: 10px;
+}
+.footer {
+  border-top: 1px solid black;
+  width: 100%;
+  margin-top: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 991px) {
+  .receiptContainer {
+    font-size: 15px;
+  }
+  .receiptDetails {
+    width: 100%;
+  }
+}
