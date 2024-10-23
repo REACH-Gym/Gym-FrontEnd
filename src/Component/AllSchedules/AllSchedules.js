@@ -106,7 +106,14 @@ const AllSchedules = () => {
             }}
           />
         </div>
-        {results?.data?.sessions?.length > 0 ? (
+        {results?.data?.sessions?.length === 0 ? (
+          <div
+            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+            style={{ color: "red", height: "60vh" }}
+          >
+            لم يتم العثور علي نتائج مطابقة
+          </div>
+        ) : results?.data?.sessions?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead>
