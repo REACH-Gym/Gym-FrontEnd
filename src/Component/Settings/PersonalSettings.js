@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import "./Settings.css";
 import { Form, Formik } from "formik";
@@ -9,23 +9,46 @@ import { Helmet } from "react-helmet";
 import FailedModal from "../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../Common Components/Modal/SucessModal/SuccessModal";
 
+const USER_NAME_KEY = "name of logged in user";
+const API_URL = "https://gym-backend-production-65cc.up.railway.app/current-employee";
+
 function PersonalSettings() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
-
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     name: "",
     national_id: "",
     date_of_birth: "",
     gender: "",
-  };
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const response = await fetch(API_URL, {
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem("access"),
+          Accept: "application/json",
+        },
+      });
+      const data = await response.json();
+      setInitialValues({
+        name: data.name,
+        national_id: data.national_id,
+        date_of_birth: data.date_of_birth,
+        gender: data.gender === "F" ? "أنثى" : "ذكر",
+      });
+    };
+
+    fetchUserData();
+  }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string(),
+    name: Yup.string().required("الأسم مطلوب"),
     national_id: Yup.string().matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10 أرقام"),
-    date_of_birth: Yup.date(),
-    gender: Yup.string(),
+    date_of_birth: Yup.date().required("تاريخ الميلاد مطلوب"),
+    gender: Yup.string().required("النوع مطلوب"),
   });
 
   const handleSubmit = async (values) => {
@@ -39,33 +62,22 @@ function PersonalSettings() {
         gender: genderValue,
       };
 
-      const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/current-employee`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: localStorage.getItem("access"),
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
-      const result = await response.json();
-      console.log(result);
+      const response = await fetch(API_URL, {
+        method: "PATCH",
+        headers: {
+          Authorization: localStorage.getItem("access"),
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(items),
+      });
+
       if (response.ok) {
-        // Store the updated name in localStorage
-        localStorage.setItem("name of logged in user", values.name);
-
+        localStorage.setItem(USER_NAME_KEY, values.name);
         setShowModal(true);
-        setTimeout(() => {
-          setShowModal(false);
-        }, 1000);
-
-        console.log("User data updated successfully");
+        setTimeout(() => setShowModal(false), 1000);
       } else {
         setShowModalError(true);
-        console.log("User data not updated");
       }
     } catch (error) {
       setShowModalError(true);
@@ -92,6 +104,7 @@ function PersonalSettings() {
           onSubmit={handleSubmit}
           initialValues={initialValues}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           <Form className="settingForm mt-4">
             <div className={`row g-4 mb-5 pt-5`}>

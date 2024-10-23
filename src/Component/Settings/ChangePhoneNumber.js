@@ -52,8 +52,7 @@ function ChangePhoneNumber() {
   };
   const validationSchema = Yup.object({
     phone_number: Yup.string()
-      .required("يرجي ادخال رقم الهاتف")
-      .matches(/\d{11}$/, "يجب أن يكون رقم الهاتق مكون من 11 رقماً"),
+      .required("يرجي ادخال رقم الهاتف"),
     countryCode: Yup.string().required("يرجي ادخال كود الدولة"),
   });
   return (

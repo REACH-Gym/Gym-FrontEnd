@@ -289,7 +289,7 @@ function AllSubScriptions() {
               <div className="d-flex justify-content-center align-items-center mt-5">
                 <div className="preivous-btn">
                   <MainButton
-                    text={">>"}
+                    text={"السابق"}
                     onClick={handlePrevPage}
                     disabled={page === 1}
                   />
@@ -301,7 +301,7 @@ function AllSubScriptions() {
                 </div>
                 <div className="next-btn">
                   <MainButton
-                    text={"<<"}
+                    text={"التالي"}
                     onClick={handleNextPage}
                     disabled={page >= totalPages}
                   />

@@ -85,12 +85,42 @@ function LogDetails() {
     "role":"الوظيفة",
     "date_of_birth":"تاريخ الميلاد",
     "notes":"ملاحظات",
+    "discount":"الخصم",
+    "actual_price":"السعرالحالي",
+    "start_date":"تاريخ البداية",
+    "end_date":"تاريخ النهاية",
+    "saturday	":"السبت",
+    "sunday":"الأحد",
+    "monday":"الأتنين",
+    "tuesday":"الثلاثاء",
+    "wednesday":"الأربعاء",
+    "thursday":"الخميس",
+    "friday":"الجمعة",
+    "max_capacity":"الحد الأقصى للسعة",
+    "current_capacity":"السعة الحالية",
+    "price_after_discount":"السعر قبل الخصم",
+    "membership_duration":"مدة الأشتراك",
+    "paid_money":"المبلغ المدفوع"
   };
 
   const renderField = (key, oldValue, newValue) => {
     let displayOldValue = oldValue;
     let displayNewValue = newValue;
 
+     // Special case for is_active field
+  if (key === "is_active") {
+    return (
+      <tr key={key}>
+        <td>{fieldNameMap[key]}</td>
+        <td>
+          {oldValue === "false" ? <Deleted /> : <Active />}
+        </td>
+        <td>
+          {newValue === "false" ? <Deleted /> : <Active />}
+        </td>
+      </tr>
+    );
+  }
     if (key === "gender") {
       displayOldValue = oldValue === 'M' ? 'ذكر' : oldValue === 'F' ? 'أنثى' : '';
       displayNewValue = newValue === 'M' ? 'ذكر' : newValue === 'F' ? 'أنثى' : '';
@@ -103,7 +133,6 @@ function LogDetails() {
         'S': 'الأدمن الرئيسي',
         'T': 'مدرب',
       };
-      
       displayOldValue = roleMap[oldValue] || '';
       displayNewValue = roleMap[newValue] || '';
     }
@@ -190,13 +219,10 @@ function LogDetails() {
             </thead>
             <tbody>
               {Object.keys(parsedOldFields)
-                .filter(key => !["id", "created_at", "updated_at", "profile_image", "is_verified", "is_active"].includes(key))
+                .filter(key => !["id", "created_at", "updated_at", "profile_image", "is_verified", "session_id", "user_id",
+                  "admin_id", "schedule_id", "status", "trainer_id", "membership_id", "coupon_id"
+                ].includes(key))
                 .map((key) => renderField(key, parsedOldFields[key], parsedNewFields[key]))}
-              <tr>
-                <td>الحالة</td>
-                <td>{parsedOldFields.is_active === true ? <Active /> : <Deleted />}</td>
-                <td>{parsedNewFields.is_active === true ? <Active /> : <Deleted />}</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -204,4 +230,5 @@ function LogDetails() {
     </div>
   );
 }
+
 export default LogDetails;
