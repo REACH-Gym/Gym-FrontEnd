@@ -212,7 +212,7 @@ function AddNewMemberToSub() {
   const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
   const [error, setError] = useState("");
-  // const [discountedTotal, setDiscountedTotal] = useState(0);
+  const [copons , setCopons] = useState(false);
 
   useEffect(() => {
     // fetch users
@@ -278,6 +278,33 @@ function AddNewMemberToSub() {
   }, [access_token]);
 
   //get promo code
+  useEffect(() => {
+    async function fetchPromoCode() {
+      try {
+        const response = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/coupons/active_coupons/`,
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization: localStorage.getItem("access"),
+            },
+          }
+        );
+        const result = await response.json();
+        console.log('promo code' , result);
+        if(response.ok){
+          setCopons(result.data);
+          console.log('get promo code ')
+        }else{
+          console.log('failed to get promo code')
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchPromoCode();
+  });
   // adding member to subscriptions
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -498,10 +525,22 @@ function AddNewMemberToSub() {
                           </div>
                           <div>
                             <InputField
+                              name={"coupon"}
+                              label={"برمو كود"}
                               inputType={"select"}
-                              name={"promo_code"}
-                              label={"برومو كود"}
-                            />
+                              className="mb-4"
+                            >
+                              <option value="">أختر كوبون </option>
+                              {copons?.length > 0 ? (
+                                copons.map((copon, index) => (
+                                  <option key={copon.id} value={copon.id}>
+                                    {copon.code}
+                                  </option>
+                                ))
+                              ) : (
+                                <option>لا يوجد أعضاء متاحين</option>
+                              )}
+                            </InputField>
                           </div>
                           <div>
                             <InputField
