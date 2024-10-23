@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import styles from "./Receipt.module.css";
 import { useEffect, useState } from "react";
-import { useLazyGetRecietQuery } from "../../features/api";
+import { useLazyGetMembershipRecietQuery } from "../../features/api";
 import { Commet } from "react-loading-indicators";
 import { QRCodeSVG } from "qrcode.react";
 
-const Receipt = () => {
+const MembershipReceipt = () => {
   const { receiptId } = useParams();
   const [getReciet, { isLoading: isReceitLoading, error: recietError }] =
-    useLazyGetRecietQuery();
+    useLazyGetMembershipRecietQuery();
   const [receiptData, setReceiptData] = useState(null);
   useEffect(() => {
     try {
@@ -139,7 +139,7 @@ const Receipt = () => {
             </thead>
             <tbody>
               <tr>
-                <td>{receiptData?.data?.data?.schedule?.session?.name}</td>
+                <td>{receiptData?.data?.data?.membership?.name}</td>
                 <td>{receiptData?.data?.data?.start_date}</td>
                 <td>{receiptData?.data?.data?.end_date}</td>
                 <td>{receiptData?.data?.data?.paid_money} ريال</td>
@@ -153,7 +153,7 @@ const Receipt = () => {
               <span>الاجمالي قبل الضريبة:</span>
               <span>
                 {(
-                  receiptData?.data?.data?.schedule?.session?.price *
+                  receiptData?.data?.data?.membership?.price *
                   (1 - +receiptData?.data?.data?.discount / 100)
                 ).toFixed(2)}{" "}
                 ريال
@@ -164,7 +164,7 @@ const Receipt = () => {
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>الضريبة:</span>
               <span>
-                {receiptData?.data?.data?.schedule?.session?.price *
+                {receiptData?.data?.data?.membership?.price *
                   (1 - +receiptData?.data?.data?.discount / 100) *
                   (15 / 100)}{" "}
                 ريال
@@ -178,12 +178,12 @@ const Receipt = () => {
               <span>الاجمالي النهائي:</span>
               <span>
                 {+(
-                  receiptData?.data?.data?.schedule?.session?.price *
+                  receiptData?.data?.data?.membership?.price *
                   (1 - +receiptData?.data?.data?.discount / 100) *
                   (15 / 100)
                 ) +
                   +(
-                    receiptData?.data?.data?.schedule?.session?.price *
+                    receiptData?.data?.data?.membership?.price *
                     (1 - +receiptData?.data?.data?.discount / 100)
                   ).toFixed(2)}{" "}
                 ريال
@@ -217,4 +217,4 @@ const Receipt = () => {
   );
 };
 
-export default Receipt;
+export default MembershipReceipt;

@@ -48,6 +48,7 @@ import CouponsContainer from "./Component/CouponsContainer/CouponsContainer";
 import AddCoupon from "./Component/AddCoupon/AddCoupon";
 import VerifyOtp from "./Component/Settings/VerifyOtp";
 import Receipt from "./Component/Receipt/Receipt";
+import MembershipReceipt from "./Component/Receipt/MembershipReceipt";
 function App() {
   return (
     <Provider store={store}>
@@ -56,6 +57,10 @@ function App() {
           <Route path="/">
             {/* Auth */}
             <Route path="receipt/:receiptId" element={<Receipt />} />
+            <Route
+              path="membershipReceipt/:receiptId"
+              element={<MembershipReceipt />}
+            />
             <Route index element={<Login />} />
             <Route path="ForgotPassword" element={<ForgotPassword />} />
             <Route path="ConfirmCode" element={<ConfirmCode />} />
