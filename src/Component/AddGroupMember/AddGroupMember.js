@@ -105,17 +105,6 @@ const style = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-// const generateQRCodeDataUrl = (url) => {
-//   const canvas = document.createElement("canvas");
-//   const qrCodeElement = <QrCode2 value={url} size={100} renderAs="canvas" />;
-//   qrCodeElement.type = "canvas";
-//   qrCodeElement.props.canvas = canvas;
-//   qrCodeElement.render();
-
-//   return canvas.toDataURL("image/png");
-// };
-// Create the PDF document component
 const arabicRegex = /[\u0600-\u06FF]/;
 const englishRegex = /[A-Za-z]/;
 const ReceiptDocument = ({
@@ -150,9 +139,6 @@ const ReceiptDocument = ({
   const now = new Date();
 
   console.log(now);
-
-  const formattedDate = now.toISOString();
-  console.log(formattedDate);
 
   const options = {
     year: "numeric",
@@ -205,7 +191,9 @@ const ReceiptDocument = ({
             <View style={style.tableRow}>
               <Text style={style.tableCol}>{total}</Text>
               <Text style={style.tableCol}>
-                {addMonthToDate(startDate)?.toISOString()?.split("T")[0]}
+                {addMonthToDate(startDate).toISOString().split("T")[0]
+                  ? addMonthToDate(startDate).toISOString().split("T")[0]
+                  : "-"}
               </Text>
               <Text style={style.tableCol}>{startDate}</Text>
               <Text style={style.tableCol}>{group}</Text>
@@ -555,6 +543,7 @@ const DynamicComponent = () => {
                 label="تاريخ البداية"
                 inputType={"input"}
                 type={"date"}
+                min={new Date().toISOString().split("T")[0]}
               />
             </div>
           </div>
@@ -740,7 +729,7 @@ const AddGroupMember = () => {
     } catch (err) {
       console.log(err);
       if (err.data.error.detail.startsWith("User already subscribed")) {
-        setError("العضو مسجل في هذه المجموعة مسبقاً.");
+        setError("هذا العضو مشترك بالفعل.");
         setTimeout(() => {
           setError("");
         }, 3000);

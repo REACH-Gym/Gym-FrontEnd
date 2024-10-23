@@ -186,6 +186,9 @@ export const apis = createApi({
     getReciet: builder.query({
       query: (id) => `session-receipt/${id}`,
     }),
+    getMembershipReciet: builder.query({
+      query: (id) => `membership-receipt/${id}`,
+    }),
   }),
 });
 export const {
@@ -214,4 +217,5 @@ export const {
   useSendDetailsMutation,
   useEditCouponMutation,
   useLazyGetRecietQuery,
+  useLazyGetMembershipRecietQuery,
 } = apis;

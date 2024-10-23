@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddNewMemberToSub.css";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
+import QRCode from "qrcode";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   Page,
@@ -29,9 +31,9 @@ Font.register({
 const style = StyleSheet.create({
   page: {
     width: "80mm", // Set width for receipt printer paper
-    padding: 1,
+    padding: "0.5 0.5 0",
     fontFamily: "Almarai",
-    fontSize: 5,
+    fontSize: 4.5,
     textAlign: "right", // Align text to the right for RTL
     direction: "rtl", // Set text direction to RTL
   },
@@ -42,25 +44,26 @@ const style = StyleSheet.create({
   logo: {
     width: 30, // Set the width of the image
     height: 30, // Set the height of the image
-    marginBottom: 5, // Add spacing below the image
+    marginBottom: 4, // Add spacing below the image
     marginRight: "auto", // Add spacing to the right of the image
     marginLeft: "auto", // Add spacing to the right of the image
   },
   title: {
     textAlign: "center",
-    marginBottom: 3,
+    marginBottom: 2,
     fontSize: 4,
     padding: "2px 0",
     borderBottom: "0.5px dashed #000",
   },
   text: {
     fontSize: 3.5,
-    marginBottom: 3,
+    marginBottom: 1.5,
   },
   table: {
     display: "table",
     width: "auto",
-    marginBottom: 5,
+    marginTop: 2,
+    marginBottom: 3,
     borderStyle: "solid",
     borderWidth: 0.2,
     borderColor: "#000",
@@ -86,7 +89,7 @@ const style = StyleSheet.create({
     padding: 2,
     borderTop: "0.5px solid #000",
     width: "100%",
-    marginTop: 18,
+    marginTop: 1,
     textAlign: "center",
   },
 });
@@ -104,6 +107,9 @@ const ReceiptDocument = ({
   total,
   startDate,
   national_id,
+  promo,
+  promoValue,
+  url,
 }) => {
   const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
   const [hasEnglishC, setHasEnglishC] = useState(
@@ -123,9 +129,6 @@ const ReceiptDocument = ({
 
   console.log(now);
 
-  const formattedDate = now.toISOString();
-  console.log(formattedDate);
-
   const options = {
     year: "numeric",
     month: "2-digit",
@@ -135,6 +138,16 @@ const ReceiptDocument = ({
     hour12: false,
   };
   const readableDate = now.toLocaleString("en-US", options);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
+
+  useEffect(() => {
+    QRCode.toDataURL(`http://104.248.251.235:3000/receipt/${url}`)
+      .then((dataUrl) => {
+        setQrCodeDataUrl(dataUrl);
+        console.log(dataUrl);
+      })
+      .catch((error) => console.log("Error generating QR code: ", error));
+  }, [url]);
 
   return (
     <Document>
@@ -168,7 +181,9 @@ const ReceiptDocument = ({
             <View style={style.tableRow}>
               <Text style={style.tableCol}>{total}</Text>
               <Text style={style.tableCol}>
-                {addMonthToDate(startDate).toISOString().split("T")[0]}
+                {addMonthToDate(startDate).toISOString().split("T")[0]
+                  ? addMonthToDate(startDate).toISOString().split("T")[0]
+                  : "-"}
               </Text>
               <Text style={style.tableCol}>{startDate}</Text>
               <Text style={style.tableCol}>{group}</Text>
@@ -177,15 +192,24 @@ const ReceiptDocument = ({
           <Text style={style.text}>
             الخصم (%{discount}): {(total * (discount / 100)).toFixed(2)}ريال
           </Text>
+          <Text style={style.text}>
+            قيمته: {promoValue} ريال - {promo} :البرومو كود
+          </Text>
           <Text style={style.text}>الإجمالي قبل الضريبة: {totalBT}ريال</Text>
           <Text style={style.text}>الضريبة (%15): {taxes}ريال</Text>
           <Text style={style.text}>الإجمالي: {fTotal}ريال</Text>
+          {qrCodeDataUrl && (
+            <Image
+              src={qrCodeDataUrl}
+              style={{ width: 40, textAlign: "center", marginLeft: "18px" }}
+            />
+          )}
           <Text
             style={{
               fontSize: 4,
               textDecoration: "underline",
               textAlign: "center",
-              marginTop: 10,
+              marginTop: 4,
               marginBottom: 2,
             }}
           >
@@ -212,7 +236,7 @@ function AddNewMemberToSub() {
   const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
   const [error, setError] = useState("");
-  const [copons , setCopons] = useState(false);
+  const [copons, setCopons] = useState(false);
 
   useEffect(() => {
     // fetch users
@@ -245,7 +269,15 @@ function AddNewMemberToSub() {
     }
     fetchData();
   }, [access_token]);
-  const valuesRef = useRef(null);
+  const [values, setValues] = useState({
+    user: "",
+    membership: "",
+    notes: "",
+    start_date: "",
+    discount: "",
+    status: "active",
+    promo_code: "",
+  });
   // to get memberships
   useEffect(() => {
     async function fetchMemberShips() {
@@ -292,23 +324,38 @@ function AddNewMemberToSub() {
           }
         );
         const result = await response.json();
-        console.log('promo code' , result);
-        if(response.ok){
+        console.log("promo code", result);
+        if (response.ok) {
           setCopons(result.data);
-          console.log('get promo code ')
-        }else{
-          console.log('failed to get promo code')
+          console.log("get promo code ");
+        } else {
+          console.log("failed to get promo code");
         }
       } catch (error) {
         console.error(error);
       }
     }
     fetchPromoCode();
-  });
+  }, []);
+  const [promo, setPromo] = useState([``, 0, ``]);
+  useEffect(() => {
+    console.log(values);
+    if (values.promo_code !== "") {
+      console.log("coupons", copons);
+      setPromo([
+        copons?.find((coupon) => +coupon.id === +values[`promo_code`])
+          ?.discount_type,
+        copons?.find((coupon) => +coupon.id === +values[`promo_code`])
+          ?.discount_value,
+        copons?.find((coupon) => +coupon.id === +values[`promo_code`])?.code,
+      ]);
+    }
+  }, [values, copons]);
   // adding member to subscriptions
   const handleSubmit = async (values) => {
     setLoading(true);
     console.log(values);
+    const uniqeId = uuidv4();
     try {
       const items = {
         user: values["user"],
@@ -316,7 +363,28 @@ function AddNewMemberToSub() {
         notes: values["notes"],
         start_date: values["start_date"],
         discount: values["discount"],
-        status: "active",
+        coupon: values["promo_code"],
+        receipt_id: uniqeId,
+        paid_money:
+          promo[0] === "price"
+            ? memberShipPrice *
+                (1 -
+                  (+values.discount + +(+promo[1] / memberShipPrice) * 100) /
+                    100) *
+                (15 / 100) +
+              +(
+                memberShipPrice *
+                (1 -
+                  (+values.discount + (+promo[1] / memberShipPrice) * 100) /
+                    100)
+              ).toFixed(2)
+            : memberShipPrice *
+                (1 - (+values.discount + +promo[1]) / 100) *
+                (15 / 100) +
+              +(
+                memberShipPrice *
+                (1 - (+values.discount + +promo[1]) / 100)
+              ).toFixed(2),
       };
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
@@ -334,6 +402,7 @@ function AddNewMemberToSub() {
       const subscriptions = await response.json();
       console.log(subscriptions);
       if (response.ok) {
+        setLoading(false);
         const doc = (
           <ReceiptDocument
             customerName={
@@ -360,6 +429,13 @@ function AddNewMemberToSub() {
             national_id={
               users?.find((member) => +member.id === +values.user)?.national_id
             }
+            url={uniqeId}
+            promo={promo[2]}
+            promoValue={
+              promo[0] === "price"
+                ? `${promo[1]}`
+                : `${(memberShipPrice * (+promo[1] / 100)).toFixed(2)}`
+            }
           />
         );
         // Generate PDF blob
@@ -375,14 +451,17 @@ function AddNewMemberToSub() {
           navigate("/Home/SubscripedMembers");
         }, 2000);
       } else if (response.status === 403) {
+        setLoading(false);
         setError("ليس لديك صلاحية لعرض هذه المعلومات");
       } else if (response.status === 401) {
+        setLoading(false);
         setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
       } else {
         setShowModalModalError(true);
         setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
   };
@@ -393,6 +472,7 @@ function AddNewMemberToSub() {
     start_date: "",
     discount: "",
     status: "active",
+    promo_code: "",
   };
   const validationSchema = Yup.object({
     user: Yup.string().required("هذا الحقل الزامي"),
@@ -400,6 +480,7 @@ function AddNewMemberToSub() {
     notes: Yup.string(),
     start_date: Yup.date().required("هذا الحقل الزامي"),
     discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
+    promo_code: Yup.string(),
   });
 
   const handleCloseModalError = () => {
@@ -435,7 +516,7 @@ function AddNewMemberToSub() {
                 onSubmit={handleSubmit}
               >
                 {({ values, setFieldValue }) => {
-                  valuesRef.current = values;
+                  setValues(values);
                   return (
                     <Form className="  AddForm">
                       <div className=" d-flex justify-content-around">
@@ -505,6 +586,7 @@ function AddNewMemberToSub() {
                               name={"start_date"}
                               label={"تاريخ البداية"}
                               type="date"
+                              min={new Date().toISOString().split("T")[0]}
                             />
                           </div>
                           <div>
@@ -525,7 +607,7 @@ function AddNewMemberToSub() {
                           </div>
                           <div>
                             <InputField
-                              name={"coupon"}
+                              name={"promo_code"}
                               label={"برمو كود"}
                               inputType={"select"}
                               className="mb-4"
@@ -538,7 +620,7 @@ function AddNewMemberToSub() {
                                   </option>
                                 ))
                               ) : (
-                                <option>لا يوجد أعضاء متاحين</option>
+                                <option>لا يوجد كوبونات متاحة</option>
                               )}
                             </InputField>
                           </div>
@@ -557,6 +639,7 @@ function AddNewMemberToSub() {
                             <div>
                               <p>الإجمالي قبل الخصم</p>
                               <p>الخصم (%{values.discount})</p>
+                              <p>قيمة البرومو كود</p>
                               <p>الإجمالي قبل الضريبة</p>
                               <p>الضريبة (%15)</p>
                               <p>الإجمالي</p>
@@ -576,28 +659,81 @@ function AddNewMemberToSub() {
                                 ريال
                               </p>
                               <p>
-                                {(
-                                  memberShipPrice *
-                                  (1 - values.discount / 100)
-                                ).toFixed(2)}{" "}
+                                {memberShipPrice > 0
+                                  ? promo[0] === "price"
+                                    ? `${promo[1]}`
+                                    : `${(
+                                        memberShipPrice *
+                                        (+promo[1] / 100)
+                                      ).toFixed(2)}`
+                                  : "-"}{" "}
                                 ريال
                               </p>
                               <p>
-                                {memberShipPrice *
-                                  (1 - values.discount / 100) *
-                                  (15 / 100)}{" "}
+                                {memberShipPrice > 0
+                                  ? promo[0] === "price"
+                                    ? (
+                                        memberShipPrice *
+                                        (1 -
+                                          (+values.discount +
+                                            (+promo[1] / memberShipPrice) *
+                                              100) /
+                                            100)
+                                      ).toFixed(2)
+                                    : (
+                                        memberShipPrice *
+                                        (1 -
+                                          (+values.discount + +promo[1]) / 100)
+                                      ).toFixed(2)
+                                  : "-"}{" "}
                                 ريال
                               </p>
                               <p>
-                                {+(
-                                  memberShipPrice *
-                                  (1 - values.discount / 100) *
-                                  (15 / 100)
-                                ) +
-                                  +(
-                                    memberShipPrice *
-                                    (1 - values.discount / 100)
-                                  ).toFixed(2)}{" "}
+                                {memberShipPrice > 0
+                                  ? promo[0] === "price"
+                                    ? memberShipPrice *
+                                      (1 -
+                                        (+values.discount +
+                                          +(+promo[1] / memberShipPrice) *
+                                            100) /
+                                          100) *
+                                      (15 / 100)
+                                    : memberShipPrice *
+                                      (1 -
+                                        (+values.discount + +promo[1]) / 100) *
+                                      (15 / 100)
+                                  : "-"}{" "}
+                                ريال
+                              </p>
+                              <p>
+                                {memberShipPrice > 0
+                                  ? promo[0] === "price"
+                                    ? memberShipPrice *
+                                        (1 -
+                                          (+values.discount +
+                                            +(+promo[1] / memberShipPrice) *
+                                              100) /
+                                            100) *
+                                        (15 / 100) +
+                                      +(
+                                        memberShipPrice *
+                                        (1 -
+                                          (+values.discount +
+                                            (+promo[1] / memberShipPrice) *
+                                              100) /
+                                            100)
+                                      ).toFixed(2)
+                                    : memberShipPrice *
+                                        (1 -
+                                          (+values.discount + +promo[1]) /
+                                            100) *
+                                        (15 / 100) +
+                                      +(
+                                        memberShipPrice *
+                                        (1 -
+                                          (+values.discount + +promo[1]) / 100)
+                                      ).toFixed(2)
+                                  : "-"}{" "}
                                 ريال
                               </p>
                             </div>
