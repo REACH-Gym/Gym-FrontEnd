@@ -71,7 +71,7 @@
   background-color: rgba(53, 114, 239, 0.1);
   z-index: 1;
 }
-.verifyOtpContainerForm{
+.verifyOtpContainerForm {
   margin-top: 150px;
   margin-bottom: 150px;
   background-color: #fff;
@@ -79,4 +79,48 @@
   /* height: 45%; */
   padding: 20px;
   border-radius: 5px;
+}
+.countryCode {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 50px;
+  height: 52px;
+}
+.react-tel-input {
+  width: 50px;
+  height: 52px;
+  border-right: 1px solid lightgray;
+  padding-right: 5px;
+}
+.react-tel-input .form-control {
+  width: 70px !important;
+  height: 52px !important;
+  padding-left: 5px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.react-tel-input .country-list {
+  left: -40px;
+  top: 42px;
+}
+.react-tel-input .selected-flag {
+  width: 28px !important;
+}
+.react-tel-input .flag-dropdown {
+  border: none !important;
+  background-color: transparent !important;
+}
+.react-tel-input .selected-flag .arrow {
+  display: none;
+}
+.react-tel-input .flag-dropdown.open,
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background: transparent !important;
+}
+.form-control:focus {
+  box-shadow: none !important;
 }

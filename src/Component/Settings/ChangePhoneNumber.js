@@ -1,51 +1,61 @@
 import { React, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import { Form, Formik} from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import InputField from "../../Common Components/InputField/InputField";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
 function ChangePhoneNumber() {
   const navigate = useNavigate();
   const valuesRef = useRef();
-  const [loading , setLoading] =  useState(false);
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (value) => {
     setLoading(true);
     const item = {
-      phone_number: value['phone_number'],
-    }
+      phone_number: `${value["countryCode"]}${value["phone_number"]}`,
+    };
     try {
-      const response = await fetch('https://gym-backend-production-65cc.up.railway.app/auth/request-otp',{
-        method:"POST",
-        headers:{
-          Authorization:localStorage.getItem('access'),
-          accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body:JSON.stringify(item)
-      })
+      const response = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
+        {
+          method: "POST",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(item),
+        }
+      );
       const result = await response.json();
       console.log(result);
-      if(response.ok){
-        console.log('success send otp');
-        localStorage.setItem("phone_number of Dashboard User", value["phone_number"]);
+      if (response.ok) {
+        console.log("success send otp");
+        localStorage.setItem(
+          "phone_number of Dashboard User",
+          value["phone_number"]
+        );
         setTimeout(() => {
-          navigate('/home/VerifyOtp');
+          navigate("/home/VerifyOtp");
         }, 1500);
-      }else{
-        console.log('failed send otp');
+      } else {
+        console.log("failed send otp");
       }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   const intialValues = {
-    phone_number:"",
-  }
-  const validationSchema =Yup.object({
-    phone_number: Yup.string().required("يرجي ادخال رقم الهاتف"),
-  })
+    phone_number: "",
+    countryCode: "",
+  };
+  const validationSchema = Yup.object({
+    phone_number: Yup.string()
+      .required("يرجي ادخال رقم الهاتف")
+      .matches(/\d{11}$/, "يجب أن يكون رقم الهاتق مكون من 11 رقماً"),
+    countryCode: Yup.string().required("يرجي ادخال كود الدولة"),
+  });
   return (
     <div className="changePhoneNumberContainer">
       <Helmet>
@@ -60,18 +70,70 @@ function ChangePhoneNumber() {
       </div>
 
       <div>
-        <Formik onSubmit={handleSubmit} initialValues={intialValues} validationSchema={validationSchema}>
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={intialValues}
+          validationSchema={validationSchema}
+        >
           {({ values, handleChange, setFieldValue }) => {
             valuesRef.current = values;
             return (
               <Form className="containerForm">
                 <div className="mt-5">
-                <div className="phoneNumber">
-                <InputField label={'رقم الجوال'} name={'phone_number'}/>
-                </div>
-                <div className="saveChange text-center mt-5">
-                  <MainButton text={"تأكيد"} btnType={"submit"} isLoading={loading}/>
-                </div>
+                  <div className="phoneNumber">
+                    <label
+                      className="mb-2 mt-2 text-secondary"
+                      htmlFor={"phone_number"}
+                    >
+                      رقم الهاتف
+                    </label>
+                    <div className={`position-relative`}>
+                      <Field
+                        name={"phone_number"}
+                        id={"phone_number"}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#F4F4F4",
+                          border: "none",
+                          borderRadius: "5px",
+                          padding: "10px",
+                          outline: "none",
+                          height: "52px",
+                        }}
+                      />
+                      <div className={`countryCode`}>
+                        <PhoneInput
+                          country={"sa"} // Default country
+                          value={values.phone}
+                          onChange={(value) =>
+                            setFieldValue("countryCode", value)
+                          }
+                          inputProps={{
+                            name: "countryCode",
+                            required: true,
+                            autoFocus: true,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <ErrorMessage
+                      name="phone_number"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="saveChange text-center mt-5">
+                    <ErrorMessage
+                      name="countryCode"
+                      component="div"
+                      className="text-danger"
+                    />
+                    <MainButton
+                      text={"تأكيد"}
+                      btnType={"submit"}
+                      isLoading={loading}
+                    />
+                  </div>
                 </div>
               </Form>
             );

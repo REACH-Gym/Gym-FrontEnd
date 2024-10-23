@@ -3,8 +3,9 @@
   border-radius: 5px;
 }
 .addgroupContainer {
-  width: 98%;
+  width: 100%;
   margin: auto;
+  min-height: 100vh;
 }
 .addgroupBtn button {
   width: 20%;
