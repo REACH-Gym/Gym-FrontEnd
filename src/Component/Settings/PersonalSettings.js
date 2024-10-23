@@ -8,49 +8,65 @@ import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import FailedModal from "../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../Common Components/Modal/SucessModal/SuccessModal";
+import { Commet } from "react-loading-indicators";
+import { useNavigate } from "react-router-dom";
 
 const USER_NAME_KEY = "name of logged in user";
-const API_URL = "https://gym-backend-production-65cc.up.railway.app/current-employee";
+const API_URL =
+  "https://gym-backend-production-65cc.up.railway.app/current-employee";
 
 function PersonalSettings() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    name: "",
-    national_id: "",
-    date_of_birth: "",
-    gender: "",
-  });
-
+  const [userData, setUserData] = useState({});
   useEffect(() => {
-    const fetchUserData = async () => {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          Authorization: localStorage.getItem("access"),
-          Accept: "application/json",
-        },
-      });
-      const data = await response.json();
-      setInitialValues({
-        name: data.name,
-        national_id: data.national_id,
-        date_of_birth: data.date_of_birth,
-        gender: data.gender === "F" ? "أنثى" : "ذكر",
-      });
-    };
-
-    fetchUserData();
+    (async () => {
+      try {
+        const response = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("access"),
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const result = await response.json();
+        console.log(result);
+        setUserData(result);
+        if (response.ok) {
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setShowModalError(true);
+        }
+      } catch (error) {
+        setLoading(false);
+        setShowModalError(true);
+      }
+    })();
   }, []);
+
+  const initialValues = {
+    name: userData?.data?.user?.name,
+    national_id: userData?.data?.user?.national_id,
+    date_of_birth: userData?.data?.user?.date_of_birth,
+    gender: userData?.data?.user?.gender,
+  };
 
   const validationSchema = Yup.object({
     name: Yup.string().required("الأسم مطلوب"),
-    national_id: Yup.string().matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10 أرقام"),
+    national_id: Yup.string().matches(
+      /^[1-2]\d{9}$/,
+      "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10 أرقام"
+    ),
     date_of_birth: Yup.date().required("تاريخ الميلاد مطلوب"),
     gender: Yup.string().required("النوع مطلوب"),
   });
 
+  const navigate = useNavigate();
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -75,7 +91,13 @@ function PersonalSettings() {
       if (response.ok) {
         localStorage.setItem(USER_NAME_KEY, values.name);
         setShowModal(true);
-        setTimeout(() => setShowModal(false), 1000);
+        setTimeout(() => {
+          setShowModal(false);
+          navigate("/Home");
+          window.location.reload();
+        }, 1000);
+
+        console.log("User data updated successfully");
       } else {
         setShowModalError(true);
       }
@@ -86,6 +108,17 @@ function PersonalSettings() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh" }}
+      >
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
+      </div>
+    );
+  }
 
   return (
     <div className="settingContainer">
@@ -108,22 +141,30 @@ function PersonalSettings() {
         >
           <Form className="settingForm mt-4">
             <div className={`row g-4 mb-5 pt-5`}>
-              <div className={`col-4 col-lg-6`}>
+              <div className={`col-6`}>
                 <InputField name={"name"} label={"الأسم"} />
               </div>
-              <div className={`col-4 col-lg-6`}>
+              <div className={`col-6`}>
                 <InputField label={" رقم العضوية"} name={"national_id"} />
               </div>
             </div>
             <div className={`row g-4 mb-5`}>
-              <div className={`col-4 col-lg-6`}>
-                <InputField name={"date_of_birth"} label={"تاريخ الميلاد"} type="date" />
+              <div className={`col-6`}>
+                <InputField
+                  name={"date_of_birth"}
+                  label={"تاريخ الميلاد"}
+                  type="date"
+                />
               </div>
-              <div className={`col-4 col-lg-4`}>
-                <InputField name={"gender"} label={"النوع"} inputType={"select"}>
+              <div className={`col-6`}>
+                <InputField
+                  name={"gender"}
+                  label={"النوع"}
+                  inputType={"select"}
+                >
                   <option value="">اختر النوع</option>
-                  <option value="ذكر">ذكر</option>
-                  <option value="أنثى">أنثى</option>
+                  <option value="M">ذكر</option>
+                  <option value="F">أنثى</option>
                 </InputField>
               </div>
             </div>
@@ -135,11 +176,18 @@ function PersonalSettings() {
       </div>
 
       <SuccessModal isOpen={showModal} handleClose={() => setShowModal(false)}>
-        <p className="text-center mt-2 text-dark fw-bolder mb-3">تم تعديل البيانات بنجاح</p>
+        <p className="text-center mt-2 text-dark fw-bolder mb-3">
+          تم تعديل البيانات بنجاح
+        </p>
       </SuccessModal>
 
-      <FailedModal isOpen={showModalError} handleClose={() => setShowModalError(false)}>
-        <p className="text-center mt-2 text-dark fw-bolder mb-5">حدث خطأ أثناء تعديل البيانات</p>
+      <FailedModal
+        isOpen={showModalError}
+        handleClose={() => setShowModalError(false)}
+      >
+        <p className="text-center mt-2 text-dark fw-bolder mb-5">
+          حدث خطأ أثناء تعديل البيانات
+        </p>
       </FailedModal>
     </div>
   );
