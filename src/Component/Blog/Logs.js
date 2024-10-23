@@ -141,7 +141,7 @@ function Logs() {
                   <tbody>
                     {results?.data?.activity_logs?.map((item, index) => (
                       <tr key={item.id}>
-                        <td>{index + 1}</td>
+                        <td>{index + 1 + (page - 1) * per_page}</td>
                         <td>{item.action}</td>
                         <td>{item.model_name}</td>
                         <td>{item.instance_name}</td>
@@ -213,7 +213,7 @@ function Logs() {
                 <tbody>
                   {logs.map((log, index) => (
                     <tr key={log.id}>
-                      <td>{index + 1}</td>
+                      <td>{index + 1 + (page - 1) * per_page}</td>
                       <td>{log.action}</td>
                       <td>{log.model_name}</td>
                       <td>{log.instance_name}</td>

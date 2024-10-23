@@ -11,6 +11,10 @@ import SuccessModal from "../../Common Components/Modal/SucessModal/SuccessModal
 import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 
+const USER_NAME_KEY = "name of logged in user";
+const API_URL =
+  "https://gym-backend-production-65cc.up.railway.app/current-employee";
+
 function PersonalSettings() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -53,13 +57,13 @@ function PersonalSettings() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string(),
+    name: Yup.string().required("الأسم مطلوب"),
     national_id: Yup.string().matches(
       /^[1-2]\d{9}$/,
       "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10 أرقام"
     ),
-    date_of_birth: Yup.date(),
-    gender: Yup.string(),
+    date_of_birth: Yup.date().required("تاريخ الميلاد مطلوب"),
+    gender: Yup.string().required("النوع مطلوب"),
   });
 
   const navigate = useNavigate();
@@ -74,24 +78,18 @@ function PersonalSettings() {
         gender: genderValue,
       };
 
-      const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/current-employee`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: localStorage.getItem("access"),
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
-      const result = await response.json();
-      console.log(result);
-      if (response.ok) {
-        // Store the updated name in localStorage
-        localStorage.setItem("name of logged in user", values.name);
+      const response = await fetch(API_URL, {
+        method: "PATCH",
+        headers: {
+          Authorization: localStorage.getItem("access"),
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(items),
+      });
 
+      if (response.ok) {
+        localStorage.setItem(USER_NAME_KEY, values.name);
         setShowModal(true);
         setTimeout(() => {
           setShowModal(false);
@@ -102,7 +100,6 @@ function PersonalSettings() {
         console.log("User data updated successfully");
       } else {
         setShowModalError(true);
-        console.log("User data not updated");
       }
     } catch (error) {
       setShowModalError(true);
@@ -140,6 +137,7 @@ function PersonalSettings() {
           onSubmit={handleSubmit}
           initialValues={initialValues}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           <Form className="settingForm mt-4">
             <div className={`row g-4 mb-5 pt-5`}>
