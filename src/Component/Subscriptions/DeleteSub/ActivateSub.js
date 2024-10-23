@@ -69,7 +69,7 @@ function ActiveSub({ id, onActive }) {
              </p>
            </div>
            <div className="d-flex justify-content-center delete mt-3 mb-4 fw-bolder ">
-             <div className="confirmDeactive ms-3" style={{fontSize:"14px"}}>
+             <div className="confirmAeactive ms-3" style={{fontSize:"14px"}}>
                <MainButton
                  text={"تأكيد"}
                  onClick={handleActive}

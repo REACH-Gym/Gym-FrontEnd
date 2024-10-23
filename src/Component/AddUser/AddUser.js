@@ -179,9 +179,11 @@ const AddUser = () => {
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
-    phone_number: Yup.string()
-      .matches(/^\d{11}$/, "يجب أن يكون رقم الهاتق مكون من 11 رقماً")
-      .required("هذا الحقل الزامي"),
+    // phone_number: Yup.string()
+      // .matches(/^\d{11}$/, "يجب أن يكون رقم الهاتق مكون من 11 رقماً")
+      // .required("هذا الحقل الزامي"),
+      phone_number: Yup.string().max(11).required("يرجي ادخال رقم الهاتف"),
+
     national_id: Yup.string()
       .matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10أرقام")
       .required("هذا الحقل الزامي"),

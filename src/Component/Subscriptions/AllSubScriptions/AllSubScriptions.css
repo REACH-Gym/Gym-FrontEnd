@@ -19,6 +19,12 @@
   font-weight: bolder;
 
 }
+.confirmAeactive{
+  background-color: #3572EF;
+  color: #fff;
+  border-radius: 10PX;
+  font-weight: bolder;
+}
 .activateButton button{
   background-color: transparent;
   color:#000;

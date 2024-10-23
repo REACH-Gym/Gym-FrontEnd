@@ -41,7 +41,7 @@ function EditSub() {
     price: Yup.string().required("هذا الحقل الزامي"),
     membership_duration: Yup.string().required("هذا الحقل الزامي"),
     freeze_duration: Yup.string().required("هذا الحقل الزامي"),
-    description: Yup.string().required("هذا الحقل الزامي"),
+    description: Yup.string(),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -113,10 +113,10 @@ function EditSub() {
             </div>
             <div className="row g-4 mb-5">
               <div className="col-4 col-lg-6">
-                <InputField label={" المدة"} name="membership_duration" />
+                <InputField label={" المدة بالشهر"} name="membership_duration" />
               </div>
               <div className="col-4 col-lg-6">
-                <InputField label={"اقصى فترة تجميد"} name="freeze_duration" />
+                <InputField label={"أقصي حد للتجميد(بالأيام)"} name="freeze_duration" />
               </div>
             </div>
             <div className="col-6 col-lg-6 w-100">
