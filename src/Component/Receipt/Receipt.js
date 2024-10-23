@@ -33,25 +33,33 @@ const Receipt = () => {
     );
   }
 
-  // if (recietError) {
-  //   if (recietError?.status === 403) {
-  //     return (
-  //       <div
-  //         className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
-  //       >
-  //         ليس لديك صلاحية الوصول لهذه الصفحة.
-  //       </div>
-  //     );
-  //   } else {
-  //     return (
-  //       <div
-  //         className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
-  //       >
-  //         حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
-  //       </div>
-  //     );
-  //   }
-  // }
+  if (recietError) {
+    if (recietError?.status === 403) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (recietError?.status === 404) {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          هذه الفاتورة غير موجودة.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
+  }
 
   return (
     <div
