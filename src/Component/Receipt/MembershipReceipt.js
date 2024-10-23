@@ -193,7 +193,7 @@ const MembershipReceipt = () => {
           <div className="col-12 col-md-6">
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>برومو كود:</span>
-              <span>{receiptData?.data?.data?.coupon}</span>
+              <span>{receiptData?.data?.data?.coupon?.code}</span>
             </div>
           </div>
         </div>
