@@ -53,3 +53,15 @@
   padding: 8px;
   cursor: pointer;
 }
+.clearIcon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background-color: #efeeee;
+  padding: 5px;
+  width: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  color: red;
+}

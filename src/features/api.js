@@ -159,6 +159,9 @@ export const apis = createApi({
     getCoupons: builder.query({
       query: (params) => `coupons/active_coupons/${params}`,
     }),
+    getAllCoupons: builder.query({
+      query: (params) => `coupons/${params}`,
+    }),
     postCoupon: builder.mutation({
       query: (data) => ({
         url: "coupons/",
@@ -218,4 +221,5 @@ export const {
   useEditCouponMutation,
   useLazyGetRecietQuery,
   useLazyGetMembershipRecietQuery,
+  useGetAllCouponsQuery,
 } = apis;

@@ -8,6 +8,8 @@ import Filter from "../../Common Components/Filter/Filter";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
+import { useDispatch, useSelector } from "react-redux";
+import { clear, searchR } from "../../features/searchSlice";
 
 // Groups table container and header
 const GroupsContainer = () => {
@@ -15,19 +17,35 @@ const GroupsContainer = () => {
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const term = useSelector((state) => state.search.term.term);
+  const dispatch = useDispatch();
+  const [filterType, setFilterType] = useState("user.name");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
   const {
     data: groupsMembers,
     isFetching: isGroupsMembersFetching,
+    isLoading: isGroupsMembersLoading,
     error: groupsMembersError,
   } = useGetGroupsMembersQuery(
-    `?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=schedule.session.name&include[]=schedule.trainer.name&include[]=user.name&page=${page}&per_page=20&sort[]=-id`
+    `?exclude[]=admin.*&exclude[]=schedule.*&exclude[]=schedule.session.*&exclude[]=schedule.trainer.*&exclude[]=user.*&include[]=schedule.session.name&include[]=schedule.trainer.name&include[]=user.name&page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+      term ? term : ""
+    }`
   );
   console.log(groupsMembers);
+
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
+
   useEffect(() => {
     setTotalPages(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
 
-  if (isGroupsMembersFetching) {
+  if (isGroupsMembersLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -79,11 +97,101 @@ const GroupsContainer = () => {
             subTitle={"يمكنك متابعة جميع المجموعات المحفوظة"}
           />
           <Filter
-            query={"members/sessions/"}
-            options={["اسم المستخدم", "المجموعة", "اسم المدرب"]}
-            searchResults={setResults}
-            eStatus={false}
-          />
+            filter={true}
+            isDisabled={isDisabled}
+            placeHolder={placeHolder}
+            handleClear={() => {
+              dispatch(searchR({ term: "" }));
+              filter("user.name");
+              setIsDisabled(false);
+              setPlaceHolder("ابحث هنا...");
+            }}
+          >
+            <div className={`p-2 rounded-2 bg-white`}>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("user.name");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                الإسم
+              </div>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("schedule.session.name");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                اسم المجموعة
+              </div>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("schedule.trainer.name");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                اسم المدرب
+              </div>
+              <div className={`p-2 rounded-2`}>
+                <div>الحالة</div>
+                <div className={`pe-3`}>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "active" }));
+                      filter("status");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    فعال
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "freezed" }));
+                      filter("status");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    متجمد
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "almost over" }));
+                      filter("status");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    أوشك على الإنتهاء
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "expired" }));
+                      filter("status");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    منتهي
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Filter>
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}
             onclick={() => {
@@ -92,34 +200,14 @@ const GroupsContainer = () => {
             }}
           />
         </div>
-        {results?.data?.user_sessions?.length === 0 ? (
+        {isGroupsMembersFetching ? (
           <div
-            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-            style={{ color: "red", height: "60vh" }}
+            className="d-flex justify-content-center align-items-center w-100"
+            style={{ height: "100vh" }}
           >
-            لم يتم العثور علي نتائج مطابقة
+            <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : results?.data?.user_sessions?.length > 0 ? (
-          <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
-            <table className="w-100">
-              <thead>
-                <tr>
-                  <th className={`p-2 pt-3 pb-3`}>#</th>
-                  <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-                  <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
-                  <th className={`p-2 pt-3 pb-3`}>المدرب</th>
-                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
-                  <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results?.data?.user_sessions?.map((item, index) => (
-                  <GroupsItem key={index} index={index + 1} item={item} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
+        ) : groupsMembers?.data?.user_sessions?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -163,6 +251,13 @@ const GroupsContainer = () => {
                 btnWidth="100px"
               />
             </div>
+          </div>
+        ) : (
+          <div
+            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+            style={{ color: "red", height: "60vh" }}
+          >
+            لم يتم العثور علي نتائج مطابقة
           </div>
         )}
       </div>

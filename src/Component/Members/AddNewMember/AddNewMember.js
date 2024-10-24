@@ -272,6 +272,9 @@ function AddNewMember() {
                     text={"اضافة"}
                     btnType={"submit"}
                     isLoading={loading}
+                    onClick={() => {
+                      handleSubmit(values);
+                    }}
                   />
                 </div>
               </Form>
@@ -302,8 +305,7 @@ function AddNewMember() {
       >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم العضوية موجود من قبل 
-            
+            حدث خطأ ! رقم العضوية موجود من قبل
           </p>
         </div>
       </FailedModal>
@@ -314,7 +316,7 @@ function AddNewMember() {
       >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم الجوال موجود من قبل 
+            حدث خطأ ! رقم الجوال موجود من قبل
           </p>
         </div>
       </FailedModal>

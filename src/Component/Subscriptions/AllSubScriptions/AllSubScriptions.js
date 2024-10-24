@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import ComponentBtns from "../../../Common Components/ComponentBtns/ComponentBtns";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -12,6 +12,8 @@ import ActiveSub from "../DeleteSub/ActivateSub";
 import "./AllSubScriptions.css";
 import { Active, Deleted } from "../../Status/Status";
 import { Helmet } from "react-helmet";
+import { clear, searchR } from "../../../features/searchSlice";
+import { useDispatch, useSelector } from "react-redux";
 function AllSubScriptions() {
   const [allSubscription, setAllSubscriptions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -24,12 +26,27 @@ function AllSubScriptions() {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const [filterType, setFilterType] = useState("name");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
+
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
+  const term = useSelector((state) => state.search.term.term);
+
   useEffect(() => {
     async function fetchAllSubscriptionS() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/memberships/?page=${page}&per_page=${per_page}`,
+          `https://gym-backend-production-65cc.up.railway.app/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+            term ? term : ""
+          }`,
           {
             method: "GET",
             headers: {
@@ -41,8 +58,8 @@ function AllSubScriptions() {
         const result = await response.json();
         console.log(result);
         if (response.ok) {
-            setAllSubscriptions(result.data.memberships);
-            setTotalPages(result.data.meta.total_pages);
+          setAllSubscriptions(result.data.memberships);
+          setTotalPages(result.data.meta.total_pages);
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -51,7 +68,7 @@ function AllSubScriptions() {
       }
     }
     fetchAllSubscriptionS();
-  }, [access_token, page, per_page]);
+  }, [access_token, filterType, page, per_page, term]);
 
   const handleShowDropMenu = (id) => {
     setShowDropdown(showDropdown === id ? null : id);
@@ -103,9 +120,7 @@ function AllSubScriptions() {
   return (
     <div className="allSubscriptionContainer">
       <Helmet>
-        <title>
-          جميع الأشتراكات
-        </title>
+        <title>جميع الأشتراكات</title>
       </Helmet>
       {loading ? (
         <div className="loader">
@@ -127,12 +142,57 @@ function AllSubScriptions() {
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
             <Filter
-              options={["الاسم"]}
-              query={"memberships/"}
-              searchResults={setResults}
-              status={false}
-              eStatus={true}
-            />
+              filter={true}
+              isDisabled={isDisabled}
+              placeHolder={placeHolder}
+              handleClear={() => {
+                dispatch(searchR({ term: "" }));
+                filter("name");
+                setIsDisabled(false);
+                setPlaceHolder("ابحث هنا...");
+              }}
+            >
+              <div className={`p-2 rounded-2 bg-white`}>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("name");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  الإسم
+                </div>
+                <div className={`p-2 rounded-2`}>
+                  <div>حالةالإشتراك</div>
+                  <div className={`pe-3`}>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: true }));
+                        filter("is_active");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ حالة الإشتراك");
+                      }}
+                    >
+                      فعال
+                    </div>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: false }));
+                        filter("is_active");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ حالة الإشتراك");
+                      }}
+                    >
+                      محذوف
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Filter>
             <ComponentBtns
               btn1={"+ إضافة اشتراك جديد "}
               onclick={() => navigate("/Home/AddNewSubscription")}
@@ -262,7 +322,21 @@ function AllSubScriptions() {
                                     )
                                   }
                                 >
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="currentColor" d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"/><path fill="currentColor" d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"/></svg>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"
+                                    />
+                                    <path
+                                      fill="currentColor"
+                                      d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"
+                                    />
+                                  </svg>
 
                                   <sapn className="me-2">تعديل</sapn>
                                 </li>

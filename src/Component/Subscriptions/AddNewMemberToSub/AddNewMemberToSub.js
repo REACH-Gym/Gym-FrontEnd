@@ -386,6 +386,12 @@ function AddNewMemberToSub() {
                 (1 - (+values.discount + +promo[1]) / 100)
               ).toFixed(2),
       };
+      const filteredObject = Object.fromEntries(
+        Object.entries(items).filter(
+          ([key, value]) => +value !== 0 || value !== ""
+        )
+      );
+
       const response = await fetch(
         "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
         {
@@ -395,7 +401,7 @@ function AddNewMemberToSub() {
             "Content-Type": "application/json",
             Authorization: access_token,
           },
-          body: JSON.stringify(items),
+          body: JSON.stringify(filteredObject),
         }
       );
 
@@ -479,7 +485,7 @@ function AddNewMemberToSub() {
     membership: Yup.string().required("هذا الحقل الزامي"),
     notes: Yup.string(),
     start_date: Yup.date().required("هذا الحقل الزامي"),
-    discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
+    discount: Yup.number().min(0).max(100),
     promo_code: Yup.string(),
   });
 

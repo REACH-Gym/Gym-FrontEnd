@@ -9,6 +9,8 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import Filter from "../../../Common Components/Filter/Filter";
 import { Active, AlmostOver, Expired, Freezed } from "../../Status/Status";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { clear, searchR } from "../../../features/searchSlice";
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
   const [SubscripedMembers, setSubscripedMembers] = useState([]);
@@ -20,14 +22,28 @@ function SubscripedMembers() {
   const navigate = useNavigate();
   const dropdownRef = useRef();
   const [loading, setLoading] = useState(false);
-  const [error , setError] = useState("");
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const [filterType, setFilterType] = useState("user.name");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
+
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
+  const term = useSelector((state) => state.search.term.term);
 
   useEffect(() => {
     async function fetchSubscripedMember() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/members/memberships?page=${page}&per_page=${per_page}`,
+          `https://gym-backend-production-65cc.up.railway.app/members/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+            term ? term : ""
+          }`,
           {
             method: "GET",
             headers: {
@@ -41,7 +57,7 @@ function SubscripedMembers() {
           setSubscripedMembers(result.data.user_memberships);
           console.log(result.data.user_memberships);
           setTotalPages(result.data.meta.total_pages);
-        }else if (response.status === 403) {
+        } else if (response.status === 403) {
           setError("ليس لديك صلاحية لعرض هذه المعلومات");
         } else if (response.status === 401) {
           setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
@@ -53,7 +69,7 @@ function SubscripedMembers() {
       }
     }
     fetchSubscripedMember();
-  }, [per_page, page, access_token]);
+  }, [per_page, page, access_token, filterType, term]);
   const sendData = async (user_id) => {
     try {
       const response = await fetch(
@@ -122,10 +138,90 @@ function SubscripedMembers() {
               subTitle={"يمكنك متابعة جميع بيانات الاشتراكات"}
             />
             <Filter
-              searchResults={setResults}
-              query={"members/memberships"}
-              eStatus={false}
-            />
+              filter={true}
+              isDisabled={isDisabled}
+              placeHolder={placeHolder}
+              handleClear={() => {
+                dispatch(searchR({ term: "" }));
+                filter("user.name");
+                setIsDisabled(false);
+                setPlaceHolder("ابحث هنا...");
+              }}
+            >
+              <div className={`p-2 rounded-2 bg-white`}>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("user.name");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  اسم العضو
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("user.national_id");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  رقم العضوية
+                </div>
+                <div className={`p-2 rounded-2`}>
+                  <div>الحالة</div>
+                  <div className={`pe-3`}>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: "active" }));
+                        filter("status");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ الحالة");
+                      }}
+                    >
+                      فعال
+                    </div>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: "freezed" }));
+                        filter("status");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ الحالة");
+                      }}
+                    >
+                      متجمد
+                    </div>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: "almost over" }));
+                        filter("status");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ الحالة");
+                      }}
+                    >
+                      قارب على الإنتهاء
+                    </div>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: "expired" }));
+                        filter("status");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ الحالة");
+                      }}
+                    >
+                      منتهي
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Filter>
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
 

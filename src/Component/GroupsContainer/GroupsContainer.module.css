@@ -26,6 +26,10 @@
   padding: 90px 20px 20px 20px;
   min-height: 100vh;
 }
+.filter:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
 /* @page {
   size: A5;
   margin: 0.5cm;

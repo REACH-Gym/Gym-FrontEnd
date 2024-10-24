@@ -13,20 +13,23 @@
 .tableContainer td {
   background-color: transparent;
 }
-.confirmDeactive button{
-  background-color: #FF6666;
+.confirmDeactive button {
+  background-color: #ff6666;
   color: #fff;
   font-weight: bolder;
-
 }
-.confirmAeactive{
-  background-color: #3572EF;
+.confirmAeactive {
+  background-color: #3572ef;
   color: #fff;
-  border-radius: 10PX;
+  border-radius: 10px;
   font-weight: bolder;
 }
-.activateButton button{
+.activateButton button {
   background-color: transparent;
-  color:#000;
+  color: #000;
   font-size: 16px;
+}
+.filter:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
 }

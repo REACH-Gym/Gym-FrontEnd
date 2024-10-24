@@ -9,6 +9,8 @@ import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";
 import AllScheduleItem from "../AllScheduleItem/AllScheduleItem";
+import { useDispatch, useSelector } from "react-redux";
+import { clear } from "../../features/searchSlice";
 
 // Schedule table container and header
 const AllSchedules = () => {
@@ -17,9 +19,13 @@ const AllSchedules = () => {
   const [confirmed, setConfirmed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const { data, error, isLoading } = useGetSessionsWithSchedulesQuery(
-    `?page=${page}&per_page=20&sort[]=-id`
-  );
+  const searchData = useSelector((state) => state.search);
+  const { data, error, isLoading, isFetching } =
+    useGetSessionsWithSchedulesQuery(
+      `?page=${page}&per_page=20&filter{name.istartswith}=${
+        searchData.term.term ? searchData.term.term : ""
+      }`
+    );
   console.log(data);
   const [sessions, setSessions] = useState([]);
 
@@ -33,8 +39,10 @@ const AllSchedules = () => {
     }
   }, [data]);
 
-  const [results, setResults] = useState();
-  console.log(results);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
   if (isLoading) {
     return (
       <div
@@ -92,13 +100,7 @@ const AllSchedules = () => {
             title={"جميع المواعيد"}
             subTitle={"يمكنك متابعة جميع المواعيد  من هنا"}
           />
-          <Filter
-            query={"sessions-with-schedules/"}
-            options={["الاسم"]}
-            searchResults={setResults}
-            status={false}
-            eStatus={false}
-          />
+          <Filter />
           <ComponentBtns
             btn1={"+ إضافة موعد جديد "}
             onclick={() => {
@@ -106,41 +108,14 @@ const AllSchedules = () => {
             }}
           />
         </div>
-        {results?.data?.sessions?.length === 0 ? (
+        {isFetching ? (
           <div
-            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-            style={{ color: "red", height: "60vh" }}
+            className="d-flex justify-content-center align-items-center w-100"
+            style={{ height: "100vh" }}
           >
-            لم يتم العثور علي نتائج مطابقة
+            <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : results?.data?.sessions?.length > 0 ? (
-          <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
-            <table className="w-100">
-              <thead>
-                <tr>
-                  <th className={`p-2 pt-3 pb-3`}>#</th>
-                  <th className={`p-2 pt-3 pb-3`}>المجموعة</th>
-                  <th className={`p-2 pt-3 pb-3`}>السعر</th>
-                  <th className={`p-2 pt-3 pb-3`}>المدة</th>
-                  <th className={`p-2 pt-3 pb-3`}>عدد المواعيد</th>
-                  <th className={`p-2 pt-3 pb-3`}>ملاحظات</th>
-                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
-                  <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results?.data?.sessions?.map((item, index) => (
-                  <AllScheduleItem
-                    schedulesLength={item.schedules.length}
-                    key={index}
-                    index={index + 1}
-                    session={item}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
+        ) : data?.data?.sessions?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -186,6 +161,13 @@ const AllSchedules = () => {
                 btnWidth="100px"
               />
             </div>
+          </div>
+        ) : (
+          <div
+            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+            style={{ color: "red", height: "60vh" }}
+          >
+            لم يتم العثور علي نتائج مطابقة
           </div>
         )}
       </div>
