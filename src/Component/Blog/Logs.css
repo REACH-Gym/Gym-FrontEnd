@@ -1,28 +1,29 @@
 .blogContainer {
   background-color: #f2f4f5;
   width: 100%;
+  min-height: 100vh;
 }
 .blogContainer__items {
   padding: 80px 20px 20px 20px;
 }
-.option{
+.option {
   background-color: #fff;
   border-radius: 5px;
   padding: 5px;
   position: relative;
   border: 1px solid lightgrey;
 }
-.option_item{
-position: absolute;
+.option_item {
+  position: absolute;
 }
-.logDetailContainer{
+.logDetailContainer {
   background-color: #f2f4f5;
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
-.logForm input{
+.logForm input {
   width: 300px;
-  background-color:#fff;
+  background-color: #fff;
   border: 1px solid lightgray;
   outline: none;
   border-radius: 5px;

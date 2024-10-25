@@ -62,6 +62,7 @@ const AddMeasurementForm = () => {
       const response = await addMeasuremenst(data);
       console.log(response);
       navigate("/Home/MeasurmentsContainer");
+      window.location.reload();
     } catch (error) {
       console.log(error.message);
     }

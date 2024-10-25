@@ -2,6 +2,7 @@
   background-color: #f2f4f5;
   padding: 50px 0px 0px 0px;
   width: 100%;
+  min-height: 100vh;
 }
 .table {
   width: 100%;
@@ -17,11 +18,12 @@
 .table tr {
   height: 30px;
 }
-.delete-btn,.canel-delete{
+.delete-btn,
+.canel-delete {
   border-radius: 5px;
 }
 .delete-btn {
-  background-color: #FF6666;
+  background-color: #ff6666;
   color: #fff;
   font-weight: bolder;
 }

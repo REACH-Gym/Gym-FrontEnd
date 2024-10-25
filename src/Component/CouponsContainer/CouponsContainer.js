@@ -9,22 +9,29 @@ import CouponsItem from "../CouponsItem/CouponsItem";
 import { useEffect, useState } from "react";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { useDispatch, useSelector } from "react-redux";
-import { clear } from "../../features/searchSlice";
+import { clear, searchR } from "../../features/searchSlice";
 
 // Groups table container and header
 const CouponsContainer = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const searchData = useSelector((state) => state.search);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const term = useSelector((state) => state.search.term.term);
+  const dispatch = useDispatch();
+  const [filterType, setFilterType] = useState("code");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
   const {
     data: coupons,
     isFetching: isCouponsFetching,
     isLoading: isCouponsLoading,
     error: couponsError,
   } = useGetAllCouponsQuery(
-    `?page=${page}&per_page=20&filter{code.istartswith}=${
-      searchData.term.term ? searchData.term.term : ""
+    `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+      term ? term : ""
     }`
   );
   console.log(coupons);
@@ -33,7 +40,6 @@ const CouponsContainer = () => {
     setTotalPages(coupons?.data?.meta?.total_pages);
   }, [coupons]);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clear());
   }, [dispatch]);
@@ -89,7 +95,58 @@ const CouponsContainer = () => {
             title={"جميع أكواد الخصم"}
             subTitle={"يمكنك متابعة جميع أكواد الخصم من هنا"}
           />
-          <Filter />
+          <Filter
+            filter={true}
+            isDisabled={isDisabled}
+            placeHolder={placeHolder}
+            handleClear={() => {
+              dispatch(searchR({ term: "" }));
+              filter("code");
+              setIsDisabled(false);
+              setPlaceHolder("ابحث هنا...");
+            }}
+          >
+            <div className={`p-2 rounded-2 bg-white`}>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("code");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                الكود
+              </div>
+              <div className={`p-2 rounded-2`}>
+                <div>حالة الكود</div>
+                <div className={`pe-3`}>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: true }));
+                      filter("is_active");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    فعال
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: false }));
+                      filter("is_active");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    محذوف
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Filter>
           <ComponentBtns />
         </div>
         {isCouponsFetching ? (

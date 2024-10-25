@@ -1,6 +1,7 @@
 .addNewSubscriptionsContainer__item {
   width: 90%;
   margin: auto;
+  min-height: 100vh;
 }
 .AddNewSubscriptionForm label {
   color: #666666;
