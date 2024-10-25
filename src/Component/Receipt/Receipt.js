@@ -86,7 +86,7 @@ const Receipt = () => {
           <div className="col-12 col-md-6">
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>التاريخ والوقت:</span>
-              <span>{receiptData?.data?.data?.created_at}</span>
+              <span>{receiptData?.data?.data?.coupon?.created_at}</span>
             </div>
           </div>
           <div className="col-12 col-md-6">
@@ -142,7 +142,9 @@ const Receipt = () => {
                 <td>{receiptData?.data?.data?.schedule?.session?.name}</td>
                 <td>{receiptData?.data?.data?.start_date}</td>
                 <td>{receiptData?.data?.data?.end_date}</td>
-                <td>{receiptData?.data?.data?.paid_money} ريال</td>
+                <td>
+                  {receiptData?.data?.data?.schedule?.session?.price} ريال
+                </td>
               </tr>
             </tbody>
           </table>
@@ -152,10 +154,23 @@ const Receipt = () => {
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>الاجمالي قبل الضريبة:</span>
               <span>
-                {(
-                  receiptData?.data?.data?.schedule?.session?.price *
-                  (1 - +receiptData?.data?.data?.discount / 100)
-                ).toFixed(2)}{" "}
+                {receiptData?.data?.data?.coupon?.discount_type === "price"
+                  ? (
+                      receiptData?.data?.data?.schedule?.session?.price *
+                      (1 -
+                        (+receiptData?.data?.data?.discount +
+                          (+receiptData?.data?.data?.coupon?.discount_value /
+                            receiptData?.data?.data?.schedule?.session?.price) *
+                            100) /
+                          100)
+                    ).toFixed(2)
+                  : (
+                      receiptData?.data?.data?.schedule?.session?.price *
+                      (1 -
+                        (+receiptData?.data?.data?.discount +
+                          +receiptData?.data?.data?.coupon?.discount_value) /
+                          100)
+                    ).toFixed(2)}{" "}
                 ريال
               </span>
             </div>
@@ -164,9 +179,23 @@ const Receipt = () => {
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>الضريبة:</span>
               <span>
-                {receiptData?.data?.data?.schedule?.session?.price *
-                  (1 - +receiptData?.data?.data?.discount / 100) *
-                  (15 / 100)}{" "}
+                {receiptData?.data?.data?.coupon?.discount_type === "price"
+                  ? receiptData?.data?.data?.schedule?.session?.price *
+                    (1 -
+                      (+receiptData?.data?.data?.discount +
+                        +(
+                          +receiptData?.data?.data?.coupon?.discount_value /
+                          receiptData?.data?.data?.schedule?.session?.price
+                        ) *
+                          100) /
+                        100) *
+                    (15 / 100)
+                  : receiptData?.data?.data?.schedule?.session?.price *
+                    (1 -
+                      (+receiptData?.data?.data?.discount +
+                        +receiptData?.data?.data?.coupon?.discount_value) /
+                        100) *
+                    (15 / 100)}{" "}
                 ريال
               </span>
             </div>
@@ -177,15 +206,57 @@ const Receipt = () => {
             <div className="d-flex justify-content-start gap-3 align-content-center">
               <span>الاجمالي النهائي:</span>
               <span>
-                {+(
-                  receiptData?.data?.data?.schedule?.session?.price *
-                  (1 - +receiptData?.data?.data?.discount / 100) *
-                  (15 / 100)
-                ) +
-                  +(
-                    receiptData?.data?.data?.schedule?.session?.price *
-                    (1 - +receiptData?.data?.data?.discount / 100)
-                  ).toFixed(2)}{" "}
+                {receiptData?.data?.data?.coupon?.discount_type === "price"
+                  ? +(receiptData?.data?.data?.coupon?.discount_type === "price"
+                      ? receiptData?.data?.data?.schedule?.session?.price *
+                        (1 -
+                          (+receiptData?.data?.data?.discount +
+                            +(
+                              +receiptData?.data?.data?.coupon?.discount_value /
+                              receiptData?.data?.data?.schedule?.session?.price
+                            ) *
+                              100) /
+                            100) *
+                        (15 / 100)
+                      : receiptData?.data?.data?.schedule?.session?.price *
+                        (1 -
+                          (+receiptData?.data?.data?.discount +
+                            +receiptData?.data?.data?.coupon?.discount_value) /
+                            100) *
+                        (15 / 100)) +
+                    +(
+                      receiptData?.data?.data?.schedule?.session?.price *
+                      (1 -
+                        (+receiptData?.data?.data?.discount +
+                          (+receiptData?.data?.data?.coupon?.discount_value /
+                            receiptData?.data?.data?.schedule?.session?.price) *
+                            100) /
+                          100)
+                    ).toFixed(2)
+                  : +(receiptData?.data?.data?.coupon?.discount_type === "price"
+                      ? receiptData?.data?.data?.schedule?.session?.price *
+                        (1 -
+                          (+receiptData?.data?.data?.discount +
+                            +(
+                              +receiptData?.data?.data?.coupon?.discount_value /
+                              receiptData?.data?.data?.schedule?.session?.price
+                            ) *
+                              100) /
+                            100) *
+                        (15 / 100)
+                      : receiptData?.data?.data?.schedule?.session?.price *
+                        (1 -
+                          (+receiptData?.data?.data?.discount +
+                            +receiptData?.data?.data?.coupon?.discount_value) /
+                            100) *
+                        (15 / 100)) +
+                    +(
+                      receiptData?.data?.data?.schedule?.session?.price *
+                      (1 -
+                        (+receiptData?.data?.data?.discount +
+                          +receiptData?.data?.data?.coupon?.discount_value) /
+                          100)
+                    ).toFixed(2)}{" "}
                 ريال
               </span>
             </div>

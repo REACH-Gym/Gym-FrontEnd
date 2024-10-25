@@ -110,6 +110,7 @@ const ReceiptDocument = ({
   promo,
   promoValue,
   url,
+  admin,
 }) => {
   const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
   const [hasEnglishC, setHasEnglishC] = useState(
@@ -160,6 +161,7 @@ const ReceiptDocument = ({
           <Text style={{ textAlign: "center" }}>Balance Fitness Complix</Text>
           <Text style={style.title}>0543842672</Text>
           <Text style={style.text}>التاريخ والوقت: {readableDate}</Text>
+          <Text style={style.text}>اسم المستخدم:{admin}</Text>
           <Text style={style.text}>
             {hasArabicC && !hasEnglishC
               ? `اسم العضو: ${customerName}`
@@ -209,7 +211,7 @@ const ReceiptDocument = ({
               fontSize: 4,
               textDecoration: "underline",
               textAlign: "center",
-              marginTop: 4,
+              marginTop: 1.5,
               marginBottom: 2,
             }}
           >
@@ -442,6 +444,7 @@ function AddNewMemberToSub() {
                 ? `${promo[1]}`
                 : `${(memberShipPrice * (+promo[1] / 100)).toFixed(2)}`
             }
+            admin={localStorage.getItem("name of user")}
           />
         );
         // Generate PDF blob
