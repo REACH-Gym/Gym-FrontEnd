@@ -14,7 +14,7 @@ function EditSub() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const membership = location.state?.membership;
-  const [loading ,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -48,7 +48,7 @@ function EditSub() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/memberships/${membership.id}/`,
+        `http://104.248.251.235:8000/memberships/${membership.id}/`,
         {
           method: "PATCH",
           headers: {
@@ -85,9 +85,7 @@ function EditSub() {
   };
   return (
     <div className="editMemberContainer">
-      <Helmet>
-        تعديل بيانات أشتراك
-      </Helmet>
+      <Helmet>تعديل بيانات أشتراك</Helmet>
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
         <ComponentTitle
           MainIcon={"/assets/image/Vector.png"}
@@ -113,10 +111,16 @@ function EditSub() {
             </div>
             <div className="row g-4 mb-5">
               <div className="col-4 col-lg-6">
-                <InputField label={" المدة بالشهر"} name="membership_duration" />
+                <InputField
+                  label={" المدة بالشهر"}
+                  name="membership_duration"
+                />
               </div>
               <div className="col-4 col-lg-6">
-                <InputField label={"أقصي حد للتجميد(بالأيام)"} name="freeze_duration" />
+                <InputField
+                  label={"أقصي حد للتجميد(بالأيام)"}
+                  name="freeze_duration"
+                />
               </div>
             </div>
             <div className="col-6 col-lg-6 w-100">
@@ -149,7 +153,7 @@ function EditSub() {
             alt="done"
             height={"110px"}
             width={"110px"}
-            style={{padding:"6px"}}
+            style={{ padding: "6px" }}
           />
         </div>
         <div>
@@ -174,7 +178,7 @@ function EditSub() {
             alt="failed"
             height={"110px"}
             width={"110px"}
-            style={{padding:"6px"}}
+            style={{ padding: "6px" }}
           />
         </div>
         <div>

@@ -26,7 +26,7 @@ function Logs() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/activity-logs/?page=${page}&per_page=${per_page}`,
+          `http://104.248.251.235:8000/activity-logs/?page=${page}&per_page=${per_page}`,
           {
             method: "GET",
             headers: {

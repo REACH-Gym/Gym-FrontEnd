@@ -35,18 +35,15 @@ function AddNewMember() {
         gender: genderValue,
       };
       console.log(items);
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/members",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: access_token,
-            accept: "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch("http://104.248.251.235:8000/members", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+          accept: "application/json",
+        },
+        body: JSON.stringify(items),
+      });
 
       const result = await response.json();
       console.log("Response status:", response.status);

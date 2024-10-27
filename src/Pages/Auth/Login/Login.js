@@ -25,17 +25,14 @@ function Login() {
         is_web: values["is_web"],
       };
       console.log(items);
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch("http://104.248.251.235:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify(items),
+      });
 
       const result = await response.json();
       console.log(result);
@@ -48,7 +45,7 @@ function Login() {
           navigate("/Home");
         }, 2500);
         const fetchUserInfo = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          `http://104.248.251.235:8000/current-employee`,
           {
             method: "GET",
             headers: {

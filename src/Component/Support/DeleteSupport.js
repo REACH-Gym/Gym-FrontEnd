@@ -5,12 +5,12 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 
 function DeleteSupport({ id, onDelete }) {
   const [showModal, setShowModal] = useState(false);
-  const [loading , setLoading] =  useState(false);
+  const [loading, setLoading] = useState(false);
   const handleDeleteSupport = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/support/${id}/`,
+        `http://104.248.251.235:8000/support/${id}/`,
         {
           method: "DELETE",
           headers: {
@@ -52,7 +52,9 @@ function DeleteSupport({ id, onDelete }) {
             d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
           />
         </svg>
-        <span className="me-2" style={{fontSize:"15px"}}>حذف</span>
+        <span className="me-2" style={{ fontSize: "15px" }}>
+          حذف
+        </span>
       </div>
       <Modal isOpen={showModal}>
         <div className="text-center mt-4">
@@ -65,20 +67,23 @@ function DeleteSupport({ id, onDelete }) {
           />
         </div>
         <div>
-          <p className="text-center  mt-2  text-dark fw-bolder" style={{fontSize:"16px"}}>
+          <p
+            className="text-center  mt-2  text-dark fw-bolder"
+            style={{ fontSize: "16px" }}
+          >
             هل أنت متأكد من حذف رسالة الدعم؟
           </p>
           <div className="d-flex justify-content-center delete align-items-center mt-3 mb-4 ">
             <div className="delete-button ms-3  ">
               <MainButton
-              text={'تأكيد'}
+                text={"تأكيد"}
                 onClick={handleDeleteSupport}
                 isLoading={loading}
               />
             </div>
             <div className="cancel-delete ">
               <MainButton
-              text={'الغاء'}
+                text={"الغاء"}
                 onClick={handleCloseModal}
                 className="border-0 text-center fw-bolder text-dark p-2 rounded "
               />

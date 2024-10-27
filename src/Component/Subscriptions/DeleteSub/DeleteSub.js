@@ -9,7 +9,7 @@ function DeleteSub({ id, onDelete }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/memberships/${id}/`,
+        `http://104.248.251.235:8000/memberships/${id}/`,
         {
           method: "PATCH",
           headers: {
@@ -57,9 +57,9 @@ function DeleteSub({ id, onDelete }) {
             <img
               src="/assets/image/ph_warning-bold.png"
               alt="delete subscription"
-              width={'110px'}
-              height={'110px'}
-              style={{padding:"6px"}}
+              width={"110px"}
+              height={"110px"}
+              style={{ padding: "6px" }}
             />
           </div>
           <p className="text-center mt-3 fs-6 text-dark fw-bolder ">

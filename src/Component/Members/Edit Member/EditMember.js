@@ -52,7 +52,7 @@ function EditMember() {
     };
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/members/${member.id}`,
+        `http://104.248.251.235:8000/members/${member.id}`,
         {
           method: "PATCH",
           headers: {
@@ -156,9 +156,9 @@ function EditMember() {
           />
         </div>
         <div> */}
-          <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            تم تعديل العضو بنجاح
-          </p>
+        <p className="text-center mt-2  text-dark fw-bolder mb-5">
+          تم تعديل العضو بنجاح
+        </p>
         {/* </div> */}
       </SuccessModal>
       <FailedModal isOpen={showModalError} handleClose={handleCloseModalError}>
@@ -179,9 +179,9 @@ function EditMember() {
           />
         </div>
         <div> */}
-          <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ أثناء تعديل هذا العضو
-          </p>
+        <p className="text-center mt-2  text-dark fw-bolder mb-5">
+          حدث خطأ أثناء تعديل هذا العضو
+        </p>
         {/* </div> */}
       </FailedModal>
     </div>

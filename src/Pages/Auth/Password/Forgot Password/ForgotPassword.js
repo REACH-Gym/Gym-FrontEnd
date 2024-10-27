@@ -23,7 +23,7 @@ function ForgotPassword() {
         phone_number: values["phone_number"],
       };
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
+        "http://104.248.251.235:8000/auth/request-otp",
         {
           method: "POST",
           headers: {
@@ -42,7 +42,9 @@ function ForgotPassword() {
         localStorage.setItem("phone_number", values["phone_number"]);
 
         if (
-          result.message.includes("A verification request has been sent to your number:")
+          result.message.includes(
+            "A verification request has been sent to your number:"
+          )
         ) {
           console.log("allow");
           setLoading(false);
@@ -51,14 +53,14 @@ function ForgotPassword() {
           setTimeout(() => {
             navigate("/ConfirmCode");
           }, 3500);
-        } else{
+        } else {
           setShowModal(false);
-          setTooManyAttempts(true)
-          setLoading(false)
+          setTooManyAttempts(true);
+          setLoading(false);
         }
       } else {
         setShowModalError(true);
-        setLoading(false)
+        setLoading(false);
         setServerError("رقم الهاتف غير صحيح برجاء المحاولة مرة أخرى");
         console.log(result.error.detail);
       }

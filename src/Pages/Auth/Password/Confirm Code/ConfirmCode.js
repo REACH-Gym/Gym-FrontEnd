@@ -16,7 +16,7 @@ function ConfirmCode() {
   const [modalExpired, setModalExpired] = useState(false);
   const [incorrectOtp, setIncorrectOtp] = useState(false);
   const [tooMantAttempts, setTooManyAttempts] = useState(false);
-  const [resend , setResend] =  useState(false);
+  const [resend, setResend] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -32,7 +32,7 @@ function ConfirmCode() {
       const item = { otp, phone_number };
       console.log("Sending item:", item);
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/verify-otp",
+        "http://104.248.251.235:8000/auth/verify-otp",
         {
           method: "POST",
           headers: {
@@ -83,7 +83,7 @@ function ConfirmCode() {
   const handleResendCode = async () => {
     try {
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
+        "http://104.248.251.235:8000/auth/request-otp",
         {
           method: "POST",
           headers: {
@@ -98,21 +98,23 @@ function ConfirmCode() {
       const result = await response.json();
       if (response.ok) {
         if (
-          result.message.includes("A verification request has been sent to your number:")
+          result.message.includes(
+            "A verification request has been sent to your number:"
+          )
         ) {
           console.log("allow");
           setLoading(false);
           setShowModal(false);
           setTooManyAttempts(false);
           setResend(true);
-        } else{
+        } else {
           setShowModal(false);
-          setTooManyAttempts(true)
+          setTooManyAttempts(true);
           setLoading(false);
           setResend(false);
         }
       } else {
-        console.error('an error ocurred');
+        console.error("an error ocurred");
       }
     } catch (error) {
       console.error("An error occurred while resending OTP:", error);
@@ -291,7 +293,7 @@ function ConfirmCode() {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{padding:"12px"}}
+              style={{ padding: "12px" }}
             />
           </div>
         </div>
@@ -299,11 +301,11 @@ function ConfirmCode() {
           <p className="text-dark">OTP غير صحيح. يرجى المحاولة مرة أخرى</p>
         </div>
       </Modal>
-        {/* too many attempts */}
-        <Modal isOpen={tooMantAttempts}>
+      {/* too many attempts */}
+      <Modal isOpen={tooMantAttempts}>
         <div className="closeModal">
           <button
-            onClick={()=>setTooManyAttempts(false)}
+            onClick={() => setTooManyAttempts(false)}
             className="border-0 pt-4 ps-4 pe-4 fw-bolder"
           >
             X
@@ -325,7 +327,10 @@ function ConfirmCode() {
       {/* resend */}
       <Modal isOpen={resend}>
         <div className="closeModal">
-          <button className="border-0 ps-4 pt-4 pe-4 fw-bolder" onClick={()=>setResend(false)}>
+          <button
+            className="border-0 ps-4 pt-4 pe-4 fw-bolder"
+            onClick={() => setResend(false)}
+          >
             X
           </button>
         </div>
@@ -336,7 +341,7 @@ function ConfirmCode() {
               alt=""
               width={"100px"}
               height={"100px"}
-              style={{padding:"6px"}}
+              style={{ padding: "6px" }}
             />
           </div>
         </div>

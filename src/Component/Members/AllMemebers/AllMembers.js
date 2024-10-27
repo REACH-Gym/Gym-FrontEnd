@@ -39,7 +39,7 @@ function AllMembers() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/members/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `http://104.248.251.235:8000/members/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {

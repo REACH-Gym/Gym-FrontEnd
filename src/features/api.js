@@ -32,7 +32,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
       // Retry the original request with the new access token
       result = await fetchBaseQuery({
-        baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+        baseUrl: "http://104.248.251.235:8000/",
         prepareHeaders: (headers) => {
           headers.set("Authorization", refreshResult.data.data.access_token);
           headers.set("Content-Type", "application/json");

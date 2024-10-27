@@ -245,7 +245,7 @@ function AddNewMemberToSub() {
     async function fetchData() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/members/?filter{is_active}=true",
+          "http://104.248.251.235:8000/members/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -285,7 +285,7 @@ function AddNewMemberToSub() {
     async function fetchMemberShips() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/memberships/?filter{is_active}=true",
+          "http://104.248.251.235:8000/memberships/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -316,7 +316,7 @@ function AddNewMemberToSub() {
     async function fetchPromoCode() {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/coupons/active_coupons/`,
+          `http://104.248.251.235:8000/coupons/active_coupons/`,
           {
             method: "GET",
             headers: {
@@ -395,7 +395,7 @@ function AddNewMemberToSub() {
       );
 
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
+        "http://104.248.251.235:8000/members/memberships/",
         {
           method: "POST",
           headers: {

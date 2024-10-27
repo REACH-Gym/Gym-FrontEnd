@@ -14,7 +14,7 @@ function LogDetails() {
     async function fetchLogDetail() {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/activity-logs/${id}`,
+          `http://104.248.251.235:8000/activity-logs/${id}`,
           {
             method: "GET",
             headers: {
@@ -65,7 +65,7 @@ function LogDetails() {
   const getBackgroundColor = (oldValue, newValue) => {
     if (oldValue !== newValue) {
       return {
-        oldBackground: "rgba(255, 0, 0, 0.2)", 
+        oldBackground: "rgba(255, 0, 0, 0.2)",
         newBackground: "rgba(0, 128, 0, 0.2)",
       };
     }
@@ -73,78 +73,76 @@ function LogDetails() {
   };
 
   const fieldNameMap = {
-    "name":"الأسم",
-    "gender": "الجنس",
-    "description": "الملاحظات",
-    "duration": "المدة",
-    "price": "السعر",
-    "freeze_duration": "مدة التجميد",
-    "is_active": "الحالة",
-    "national_id":"الرقم القومي",
-    "phone_number":"رقم الجوال",
-    "role":"الوظيفة",
-    "date_of_birth":"تاريخ الميلاد",
-    "notes":"ملاحظات",
-    "discount":"الخصم",
-    "actual_price":"السعرالحالي",
-    "start_date":"تاريخ البداية",
-    "end_date":"تاريخ النهاية",
-    "saturday	":"السبت",
-    "sunday":"الأحد",
-    "monday":"الأتنين",
-    "tuesday":"الثلاثاء",
-    "wednesday":"الأربعاء",
-    "thursday":"الخميس",
-    "friday":"الجمعة",
-    "max_capacity":"الحد الأقصى للسعة",
-    "current_capacity":"السعة الحالية",
-    "price_after_discount":"السعر قبل الخصم",
-    "membership_duration":"مدة الأشتراك",
-    "paid_money":"المبلغ المدفوع"
+    name: "الأسم",
+    gender: "الجنس",
+    description: "الملاحظات",
+    duration: "المدة",
+    price: "السعر",
+    freeze_duration: "مدة التجميد",
+    is_active: "الحالة",
+    national_id: "الرقم القومي",
+    phone_number: "رقم الجوال",
+    role: "الوظيفة",
+    date_of_birth: "تاريخ الميلاد",
+    notes: "ملاحظات",
+    discount: "الخصم",
+    actual_price: "السعرالحالي",
+    start_date: "تاريخ البداية",
+    end_date: "تاريخ النهاية",
+    "saturday	": "السبت",
+    sunday: "الأحد",
+    monday: "الأتنين",
+    tuesday: "الثلاثاء",
+    wednesday: "الأربعاء",
+    thursday: "الخميس",
+    friday: "الجمعة",
+    max_capacity: "الحد الأقصى للسعة",
+    current_capacity: "السعة الحالية",
+    price_after_discount: "السعر قبل الخصم",
+    membership_duration: "مدة الأشتراك",
+    paid_money: "المبلغ المدفوع",
   };
 
   const renderField = (key, oldValue, newValue) => {
     let displayOldValue = oldValue;
     let displayNewValue = newValue;
 
-     // Special case for is_active field
-  if (key === "is_active") {
-    return (
-      <tr key={key}>
-        <td>{fieldNameMap[key]}</td>
-        <td>
-          {oldValue === "false" ? <Deleted /> : <Active />}
-        </td>
-        <td>
-          {newValue === "false" ? <Deleted /> : <Active />}
-        </td>
-      </tr>
-    );
-  }
+    // Special case for is_active field
+    if (key === "is_active") {
+      return (
+        <tr key={key}>
+          <td>{fieldNameMap[key]}</td>
+          <td>{oldValue === "false" ? <Deleted /> : <Active />}</td>
+          <td>{newValue === "false" ? <Deleted /> : <Active />}</td>
+        </tr>
+      );
+    }
     if (key === "gender") {
-      displayOldValue = oldValue === 'M' ? 'ذكر' : oldValue === 'F' ? 'أنثى' : '';
-      displayNewValue = newValue === 'M' ? 'ذكر' : newValue === 'F' ? 'أنثى' : '';
+      displayOldValue =
+        oldValue === "M" ? "ذكر" : oldValue === "F" ? "أنثى" : "";
+      displayNewValue =
+        newValue === "M" ? "ذكر" : newValue === "F" ? "أنثى" : "";
     }
 
     if (key === "role") {
       const roleMap = {
-        'M': 'عضو',
-        'A': 'محاسب',
-        'S': 'الأدمن الرئيسي',
-        'T': 'مدرب',
+        M: "عضو",
+        A: "محاسب",
+        S: "الأدمن الرئيسي",
+        T: "مدرب",
       };
-      displayOldValue = roleMap[oldValue] || '';
-      displayNewValue = roleMap[newValue] || '';
+      displayOldValue = roleMap[oldValue] || "";
+      displayNewValue = roleMap[newValue] || "";
     }
 
     const inputStyle = {
-      width: '300px',
-      backgroundColor: '#fff',
-      border: '1px solid lightgray',
-      outline: 'none',
-      borderRadius: '5px',
-      padding: '10px',
-      height: '45px',
+      width: "300px",
+      backgroundColor: "#fff",
+      border: "1px solid lightgray",
+      outline: "none",
+      borderRadius: "5px",
+      padding: "10px",
+      height: "45px",
     };
 
     return (
@@ -153,14 +151,22 @@ function LogDetails() {
         <td>
           <input
             value={displayOldValue || ""}
-            style={{ ...inputStyle, backgroundColor: getBackgroundColor(oldValue, newValue).oldBackground }}
+            style={{
+              ...inputStyle,
+              backgroundColor: getBackgroundColor(oldValue, newValue)
+                .oldBackground,
+            }}
             readOnly
           />
         </td>
         <td>
           <input
             value={displayNewValue || ""}
-            style={{ ...inputStyle, backgroundColor: getBackgroundColor(oldValue, newValue).newBackground }}
+            style={{
+              ...inputStyle,
+              backgroundColor: getBackgroundColor(oldValue, newValue)
+                .newBackground,
+            }}
             readOnly
           />
         </td>
@@ -180,7 +186,7 @@ function LogDetails() {
           MainIcon={"/assets/image/mdi_clipboard-text-history-outline.png"}
         />
       </div>
-      
+
       <div className="tableContainer mt-2">
         <table className="table">
           <thead>
@@ -205,7 +211,7 @@ function LogDetails() {
           </tbody>
         </table>
       </div>
-      
+
       {/* Old and new fields table */}
       <div className="d-flex align-items-center justify-content-around mt-5">
         <div className="tableContainer p-5">
@@ -213,16 +219,35 @@ function LogDetails() {
             <thead>
               <tr className="mb-4">
                 <th scope="col">الحقل</th>
-                <th scope="col" className="">البيانات قبل التعديل</th>
+                <th scope="col" className="">
+                  البيانات قبل التعديل
+                </th>
                 <th scope="col">البيانات بعد التعديل</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(parsedOldFields)
-                .filter(key => !["id", "created_at", "updated_at", "profile_image", "is_verified", "session_id", "user_id",
-                  "admin_id", "schedule_id", "status", "trainer_id", "membership_id", "coupon_id"
-                ].includes(key))
-                .map((key) => renderField(key, parsedOldFields[key], parsedNewFields[key]))}
+                .filter(
+                  (key) =>
+                    ![
+                      "id",
+                      "created_at",
+                      "updated_at",
+                      "profile_image",
+                      "is_verified",
+                      "session_id",
+                      "user_id",
+                      "admin_id",
+                      "schedule_id",
+                      "status",
+                      "trainer_id",
+                      "membership_id",
+                      "coupon_id",
+                    ].includes(key)
+                )
+                .map((key) =>
+                  renderField(key, parsedOldFields[key], parsedNewFields[key])
+                )}
             </tbody>
           </table>
         </div>

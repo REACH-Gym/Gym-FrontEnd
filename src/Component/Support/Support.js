@@ -7,26 +7,22 @@ import DeleteSupport from "./DeleteSupport";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 function Support() {
- 
   const [support, setSupport] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function supportData() {
       try {
-        const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/support/",
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: localStorage.getItem("access"),
-            },
-          }
-        );
+        const response = await fetch("http://104.248.251.235:8000/support/", {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: localStorage.getItem("access"),
+          },
+        });
         const fetchedData = await response.json();
         if (response.ok) {
           setSupport(fetchedData.data);
@@ -34,7 +30,7 @@ function Support() {
       } catch (error) {
         console.error("Error fetching support data:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     }
     supportData();
@@ -65,13 +61,10 @@ function Support() {
   }, []);
 
   return (
-
     <div className="supportContainer">
-       <Helmet>
-    <title>
-      رسائل الدعم
-    </title>
-  </Helmet>
+      <Helmet>
+        <title>رسائل الدعم</title>
+      </Helmet>
       {loading ? (
         <div className="loader">
           <Commet color="#316dcc" size="medium" text="" textColor="" />
@@ -104,9 +97,7 @@ function Support() {
                   <tr className="tr" key={support.id}>
                     <td className="fw-bolder">{index + 1}</td>
                     <td>{support.phone_number}</td>
-                    <td
-                      onClick={() => navigate(`/Home/Support/${support.id}`)}
-                    >
+                    <td onClick={() => navigate(`/Home/Support/${support.id}`)}>
                       {support.message.slice(0, 50)}
                     </td>
                     <td>{support.created_at.slice(0, 10)}</td>
@@ -133,8 +124,12 @@ function Support() {
           </div>
         </>
       ) : (
-        <div className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-        style={{ height: "50vh" }}>لا يوجد رسائل دعم</div>
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد رسائل دعم
+        </div>
       )}
     </div>
   );
