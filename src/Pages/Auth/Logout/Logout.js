@@ -28,6 +28,7 @@ function Logout() {
         localStorage.clear();
         setTimeout(() => {
           navigate("/");
+          window.location.reload();
         }, 1500);
       } else {
         console.error("Failed to log out");
