@@ -144,9 +144,7 @@ function Login() {
                     <PhoneInput
                       country={"sa"} // Default country
                       value={values.countryCode}
-                      onChange={(value) =>
-                        setFieldValue("countryCode", value.target.value)
-                      }
+                      onChange={(value) => setFieldValue("countryCode", value)}
                       inputProps={{
                         name: "countryCode",
                         required: true,

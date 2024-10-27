@@ -21,7 +21,7 @@ const DynamicComponent = () => {
         <div className={`col-6`}>
           <InputField name="name" label="اسم العضو" />
         </div>
-        <div className={`col-4 col-lg-6 phone-number position-relative`}>
+        <div className={`col-6 phone-number position-relative`}>
           <label className="mb-2 mt-2 text-secondary" htmlFor={"phone_number"}>
             رقم الهاتف
           </label>
@@ -232,7 +232,7 @@ const AddUser = () => {
         Object.keys(err.data.error).includes("national_id") &&
         Object.keys(err.data.error).includes("phone_number")
       ) {
-        setError("رقم العضوية مسجل مسبقاً.");
+        setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");
         }, 3000);
@@ -242,7 +242,7 @@ const AddUser = () => {
           setError("");
         }, 3000);
       } else if (Object.keys(err.data.error).includes("national_id")) {
-        setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
+        setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
         }, 3000);
@@ -287,9 +287,6 @@ const AddUser = () => {
                   <DynamicComponent />
                   <div className="row text-center mt-4">
                     <MainButton
-                      onClick={() => {
-                        handleSubmit(values);
-                      }}
                       text={"اضافة"}
                       btnWidth={"200px"}
                       btnType={"submit"}

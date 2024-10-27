@@ -279,9 +279,6 @@ function AddNewMember() {
                     text={"اضافة"}
                     btnType={"submit"}
                     isLoading={loading}
-                    onClick={() => {
-                      handleSubmit(values);
-                    }}
                   />
                 </div>
               </Form>
