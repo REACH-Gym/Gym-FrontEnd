@@ -18,73 +18,73 @@ function Login() {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    // try {
-    const items = {
-      phone_number: `${values["countryCode"]}${values["phone_number"]}`,
-      password: values["password"],
-      is_web: values["is_web"],
-    };
-    console.log(items);
-    //   const response = await fetch(
-    //     "https://gym-backend-production-65cc.up.railway.app/auth/login",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         accept: "application/json",
-    //       },
-    //       body: JSON.stringify(items),
-    //     }
-    //   );
+    try {
+      const items = {
+        phone_number: `${values["countryCode"]}${values["phone_number"]}`,
+        password: values["password"],
+        is_web: values["is_web"],
+      };
+      console.log(items);
+      const response = await fetch(
+        "https://gym-backend-production-65cc.up.railway.app/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify(items),
+        }
+      );
 
-    //   const result = await response.json();
-    //   console.log(result);
-    //   localStorage.setItem("access", result.data.access);
-    //   localStorage.setItem("refresh", result.data.refresh);
-    //   if (response.ok) {
-    //     setShowModal(true);
-    //     setLoading(false);
-    //     setTimeout(() => {
-    //       navigate("/Home");
-    //     }, 2500);
-    //     const fetchUserInfo = await fetch(
-    //       `https://gym-backend-production-65cc.up.railway.app/current-employee`,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           Authorization: localStorage.getItem("access"),
-    //           accept: "application/json",
-    //         },
-    //       }
-    //     );
-    //     const userInfo = await fetchUserInfo.json();
-    //     console.log(userInfo);
-    //     if (fetchUserInfo.ok) {
-    //       console.log("name of user logged in", userInfo.data.user.name);
-    //       console.log(
-    //         "phone number of user logged in",
-    //         userInfo.data.user.phone_number
-    //       );
-    //       localStorage.setItem(
-    //         "name of logged in user ",
-    //         userInfo.data.user.name
-    //       );
-    //       localStorage.setItem(
-    //         "phone number of logged in user",
-    //         userInfo.data.user.phone_number
-    //       );
-    //       localStorage.setItem(" id of logged in user", userInfo.data.user.id);
-    //     } else {
-    //       console.log("failed get user info");
-    //     }
-    //   } else {
-    //     setShowModalError(true);
-    //     setLoading(false);
-    //   }
-    // } catch (error) {
-    //   setShowModalError(true);
-    //   setLoading(false);
-    // }
+      const result = await response.json();
+      console.log(result);
+      localStorage.setItem("access", result.data.access);
+      localStorage.setItem("refresh", result.data.refresh);
+      if (response.ok) {
+        setShowModal(true);
+        setLoading(false);
+        setTimeout(() => {
+          navigate("/Home");
+        }, 2500);
+        const fetchUserInfo = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("access"),
+              accept: "application/json",
+            },
+          }
+        );
+        const userInfo = await fetchUserInfo.json();
+        console.log(userInfo);
+        if (fetchUserInfo.ok) {
+          console.log("name of user logged in", userInfo.data.user.name);
+          console.log(
+            "phone number of user logged in",
+            userInfo.data.user.phone_number
+          );
+          localStorage.setItem(
+            "name of logged in user ",
+            userInfo.data.user.name
+          );
+          localStorage.setItem(
+            "phone number of logged in user",
+            userInfo.data.user.phone_number
+          );
+          localStorage.setItem(" id of logged in user", userInfo.data.user.id);
+        } else {
+          console.log("failed get user info");
+        }
+      } else {
+        setShowModalError(true);
+        setLoading(false);
+      }
+    } catch (error) {
+      setShowModalError(true);
+      setLoading(false);
+    }
   };
 
   const initialValues = {

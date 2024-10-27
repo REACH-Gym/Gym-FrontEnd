@@ -7,7 +7,7 @@
   height: 100vh;
   display: flex;
 }
-.login::before{
+.login::before {
   content: "";
   position: absolute;
   top: 0;
@@ -34,7 +34,7 @@
   border-radius: 5px;
   padding: 10px;
 }
-.login-form label{
+.login-form label {
   color: #888888;
 }
 .login-btn button {
@@ -43,16 +43,59 @@
 }
 .forgot-password {
   font-size: 13px;
-  color: #3572EF;
+  color: #3572ef;
 }
-.modal-img{
+.modal-img {
   position: absolute;
   clear: both;
 }
-.modal-img img{
+.modal-img img {
   border-radius: 50%;
   clear: both;
 }
-.modal-width{
+.modal-width {
   width: 350px;
+}
+.countryCode {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 50px;
+  height: 52px;
+}
+.react-tel-input {
+  width: 50px;
+  height: 52px;
+  border-right: 1px solid lightgray;
+  padding-right: 5px;
+}
+.react-tel-input .form-control {
+  width: 70px !important;
+  height: 52px !important;
+  padding-left: 5px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.react-tel-input .country-list {
+  left: -40px;
+  top: 42px;
+}
+.react-tel-input .selected-flag {
+  width: 28px !important;
+}
+.react-tel-input .flag-dropdown {
+  border: none !important;
+}
+.react-tel-input .selected-flag .arrow {
+  display: none;
+}
+.react-tel-input .flag-dropdown.open,
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background: transparent !important;
+}
+.form-control:focus {
+  box-shadow: none !important;
 }
