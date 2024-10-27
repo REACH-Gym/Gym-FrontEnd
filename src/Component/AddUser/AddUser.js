@@ -42,8 +42,10 @@ const DynamicComponent = () => {
             <div className={`${styles.countryCode}`}>
               <PhoneInput
                 country={"sa"} // Default country
-                value={values.phone}
-                onChange={(value) => setFieldValue("countryCode", value)}
+                value={values.countryCode}
+                onChange={(value) =>
+                  setFieldValue("countryCode", value.target.value)
+                }
                 inputProps={{
                   name: "countryCode",
                   required: true,
@@ -175,7 +177,7 @@ const AddUser = () => {
     password: "",
     role: "",
     gender: "",
-    countryCode: "",
+    countryCode: "966",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
@@ -214,6 +216,7 @@ const AddUser = () => {
       role: values["role"],
       gender: values["gender"],
     };
+    console.log(data);
     try {
       const response = await postEmployee(data).unwrap();
       console.log(response);

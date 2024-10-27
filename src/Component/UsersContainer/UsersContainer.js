@@ -5,7 +5,7 @@ import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { useEffect, useState } from "react";
-import { useGetEmployeesQuery } from "../../features/api";
+import { useGetEmployeesQuery, useUserDataQuery } from "../../features/api";
 import UsersItem from "../UsersItem/UsersItem";
 import { Commet } from "react-loading-indicators";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,15 +22,22 @@ const UsersContainer = () => {
   const filter = (filter) => {
     setFilterType(filter);
   };
+
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    error: userDataError,
+  } = useUserDataQuery();
+  console.log(userData);
   const {
     data: emplyees,
     isLoading: isEmployeesLoading,
     isFetching: isEmployeesFetching,
     error: employeesError,
   } = useGetEmployeesQuery(
-    `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
-      term ? term : ""
-    }`
+    `?page=${page}&per_page=20&filter{-id}=${
+      userData?.data?.user?.id
+    }&filter{${filterType}.istartswith}=${term ? term : ""}`
   );
 
   useEffect(() => {
@@ -44,7 +51,7 @@ const UsersContainer = () => {
     }
   }, [emplyees]);
 
-  if (isEmployeesLoading) {
+  if (isEmployeesLoading || isUserLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -55,7 +62,7 @@ const UsersContainer = () => {
     );
   }
 
-  if (employeesError) {
+  if (employeesError || userDataError) {
     if (employeesError.status === 403) {
       return (
         <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">

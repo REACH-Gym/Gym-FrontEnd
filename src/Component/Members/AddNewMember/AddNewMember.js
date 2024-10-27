@@ -121,7 +121,7 @@ function AddNewMember() {
     notes: "",
     date_of_birth: "",
     gender: "",
-    countryCode: "",
+    countryCode: "966",
   };
   const handleCloseModalError = () => {
     setShowModalError(false);

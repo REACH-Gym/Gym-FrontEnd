@@ -55,6 +55,9 @@ export const apis = createApi({
   reducerPath: "apis",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
+    userData: builder.query({
+      query: () => `current-employee`,
+    }),
     getAllMembers: builder.query({
       query: (params) => `members${params}`,
     }),
@@ -222,4 +225,5 @@ export const {
   useLazyGetRecietQuery,
   useLazyGetMembershipRecietQuery,
   useGetAllCouponsQuery,
+  useUserDataQuery,
 } = apis;
