@@ -131,27 +131,91 @@ function SubscriptionDetail() {
                   <img src="/assets/image/ph_money (1).png" alt="" />
                 </div>
                 <div>
-                  <p className="mb-1 fw-bolder">الخصم (%)</p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.discount}</p>
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
-                </div>
-                <div>
-                  <p className="mb-1 fw-bolder">الضريبة (10%)</p>
-                  <p style={{ fontSize: "13px" }}>15%</p>
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
-                </div>
-                <div>
-                  <p className="mb-1 fw-bolder">الإجمالي</p>
+                  <p className="mb-1 fw-bolder">
+                    الخصم (%{Number.parseInt(subDetail.discount)})
+                  </p>
                   <p style={{ fontSize: "13px" }}>
-                    {subDetail.membership.price_after_discount} ريال
+                    {subDetail.membership.price * (subDetail.discount / 100)}{" "}
+                    ريال
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex">
+                <div className="ms-3">
+                  <img src="/assets/image/ph_money (1).png" alt="" />
+                </div>
+                <div>
+                  <p className="mb-1 fw-bolder">الضريبة (15%)</p>
+                  <p style={{ fontSize: "13px" }}>
+                    {subDetail.coupon.discount_type === "price"
+                      ? `${
+                          subDetail.membership.price *
+                          (1 -
+                            (+subDetail.discount +
+                              +(
+                                +subDetail.coupon.discount_value /
+                                subDetail.membership.price
+                              ) *
+                                100) /
+                              100) *
+                          (15 / 100)
+                        }`
+                      : subDetail.membership.price *
+                        (1 -
+                          (+subDetail.discount +
+                            +subDetail.coupon.discount_value) /
+                            100) *
+                        (15 / 100)}{" "}
+                    ريال
+                  </p>
+                </div>
+              </div>
+              {subDetail.coupon && (
+                <div className="d-flex">
+                  <div className="ms-3">
+                    <img src="/assets/image/ph_money (1).png" alt="icon" />
+                  </div>
+                  <div>
+                    <p className="mb-1 fw-bolder">
+                      الكوبون ({subDetail.coupon.code})
+                    </p>
+                    <p style={{ fontSize: "13px" }}>
+                      {subDetail.coupon.discount_type === "price"
+                        ? `${subDetail.coupon.discount_value}`
+                        : `${(
+                            subDetail.membership.price *
+                            (+subDetail.coupon.discount_value / 100)
+                          ).toFixed(2)}`}{" "}
+                      ريال
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className="d-flex">
+                <div className="ms-3">
+                  <img src="/assets/image/ph_money (1).png" alt="" />
+                </div>
+                <div>
+                  <p className="mb-1 fw-bolder">الإجمالي قبل الضريبة</p>
+                  <p style={{ fontSize: "13px", display: "block" }}>
+                    {subDetail.coupon.discount_type === "price"
+                      ? (
+                          subDetail.membership.price *
+                          (1 -
+                            (+subDetail.discount +
+                              (+subDetail.coupon.discount_value /
+                                subDetail.membership.price) *
+                                100) /
+                              100)
+                        ).toFixed(2)
+                      : (
+                          subDetail.membership.price *
+                          (1 -
+                            (+subDetail.discount +
+                              +subDetail.coupon.discount_value) /
+                              100)
+                        ).toFixed(2)}{" "}
+                    ريال
                   </p>
                 </div>
               </div>
@@ -174,9 +238,7 @@ function SubscriptionDetail() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">بيان</th>
-                    <th scope="col">اجمالي</th>
-                    <th scope="col">الخصم الفردي</th>
-                    <th scope="col"> الأجمالي النهائي</th>
+                    <th scope="col"> الإجمالي النهائي</th>
                     <th scope="col">من تاريخ</th>
                     <th scope="col">الي تاريخ</th>
                     <th scope="col">المدة</th>
@@ -190,9 +252,7 @@ function SubscriptionDetail() {
                   <tr style={{ fontSize: "14px", textAlign: "right" }}>
                     <td>1</td>
                     <td>{subDetail.membership.name}</td>
-                    <td>{subDetail.membership.price_after_discount}</td>
-                    <td>{subDetail.discount}</td>
-                    <td>{subDetail.actual_price}</td>
+                    <td>{subDetail.paid_money} ريال</td>
                     <td>{subDetail.start_date}</td>
                     <td>{subDetail.end_date}</td>
                     <td>{subDetail.membership.membership_duration}</td>

@@ -214,7 +214,7 @@ function AllSubScriptions() {
                       <th scope="col">#</th>
                       <th scope="col">اسم الأشتراك</th>
                       <th scope="col">السعر</th>
-                      <th scope="col">المدة</th>
+                      <th scope="col">المدة (بالشهر)</th>
                       <th scope="col">أقصي فترة تجميد</th>
                       <th scope="col">ملاحظات</th>
                       <th scope="col">الحالة</th>
@@ -278,7 +278,7 @@ function AllSubScriptions() {
                     <th scope="col">#</th>
                     <th scope="col">اسم الأشتراك</th>
                     <th scope="col">السعر</th>
-                    <th scope="col">المدة</th>
+                    <th scope="col">المدة (بالشهر)</th>
                     <th scope="col">أقصي فترة تجميد</th>
                     <th scope="col">ملاحظات</th>
                     <th scope="col">حالة الأشتراك</th>

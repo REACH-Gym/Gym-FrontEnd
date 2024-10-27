@@ -337,18 +337,18 @@ function SubscripedMembers() {
                       اسم العضو
                     </th>
                     <th scope="col" className="pb-4">
-                      رقم العضوية
+                      اسم الإشتراك
                     </th>
-                    <th scope="col" className="pb-4">
+                    {/* <th scope="col" className="pb-4">
                       الإجمالي
-                    </th>
+                    </th> */}
                     <th scope="col" className="pb-4">
                       المدفوع
                     </th>
                     {/* <th scope="col" className="pb-4">المتبقي</th> */}
-                    <th scope="col" className="pb-4">
+                    {/* <th scope="col" className="pb-4">
                       الخصم
-                    </th>
+                    </th> */}
                     <th scope="col" className="pb-4">
                       تاريخ الاشتراك
                     </th>
@@ -371,10 +371,10 @@ function SubscripedMembers() {
                           {index + 1 + (page - 1) * per_page}
                         </td>
                         <td>{SubscripedMember.user.name}</td>
-                        <td>{SubscripedMember.user.national_id}</td>
-                        <td>{SubscripedMember.membership.price}</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{SubscripedMember.membership.name}</td>
+                        <td>{SubscripedMember.paid_money} ريال</td>
+                        {/* <td>0</td> */}
+                        {/* <td>0</td> */}
                         {/* <td>0</td> */}
                         <td>{SubscripedMember.start_date}</td>
                         <td className={""}>

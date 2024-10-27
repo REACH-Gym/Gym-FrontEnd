@@ -76,6 +76,8 @@ const GroupsItem = ({ index, item }) => {
         <td className="table-column p-2">{item.user.name}</td>
         <td className="table-column p-2">{item.schedule.session.name}</td>
         <td className="table-column p-2">{item.schedule.trainer.name}</td>
+        <td className="table-column p-2">{item.paid_money} ريال</td>
+        <td className="table-column p-2">{item.start_date}</td>
         <td className="table-column p-2">
           {item.status === "active" ? <Active /> : null}
           {item.status === "expired" ? <Expired /> : null}

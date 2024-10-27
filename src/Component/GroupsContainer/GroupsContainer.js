@@ -214,6 +214,8 @@ const GroupsContainer = () => {
                 <th className={`p-2 pt-3 pb-3`}>الإسم</th>
                 <th className={`p-2 pt-3 pb-3`}>اسم المجموعة</th>
                 <th className={`p-2 pt-3 pb-3`}>المدرب</th>
+                <th className={`p-2 pt-3 pb-3`}>المدفوع</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ الإشتراك</th>
                 <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
               </thead>
