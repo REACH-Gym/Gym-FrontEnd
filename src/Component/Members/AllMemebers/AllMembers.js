@@ -68,7 +68,7 @@ function AllMembers() {
       }
     }
     fetchAllMembers();
-  }, [access_token, page, per_page, term]);
+  }, [access_token, filterType, page, per_page, term]);
 
   useEffect(() => {
     dispatch(clear());
@@ -158,7 +158,7 @@ function AllMembers() {
           className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
           style={{ height: "50vh" }}
         >
-          لا يوجد أعضاء
+          لا يوجد نتائج
         </div>
       ) : (
         <div className="allMembereContainer__items">
@@ -250,7 +250,7 @@ function AllMembers() {
                 className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
                 style={{ color: "red", height: "60vh" }}
               >
-                لم يتم العثور علي نتائج مطابقة
+                لا يوجد نتائج
               </div>
             ) : results?.data?.users?.length > 0 ? (
               <div className="p-3">

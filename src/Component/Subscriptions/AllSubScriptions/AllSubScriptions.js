@@ -131,7 +131,7 @@ function AllSubScriptions() {
           className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
           style={{ height: "50vh" }}
         >
-          لا يوجد أشتراكات
+          لا يوجد نتائج
         </div>
       ) : (
         <div className="allSubscriptionContainer__item">
@@ -203,7 +203,7 @@ function AllSubScriptions() {
               className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
               style={{ color: "red", height: "60vh" }}
             >
-              لم يتم العثور علي نتائج مطابقة
+              لا يوجد نتائج
             </div>
           ) : results?.data?.memberships?.length > 0 ? (
             <div className="pt-3 pb-3">

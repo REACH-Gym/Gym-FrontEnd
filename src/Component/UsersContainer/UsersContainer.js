@@ -286,7 +286,7 @@ const UsersContainer = () => {
             className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
             style={{ color: "red", height: "60vh" }}
           >
-            لم يتم العثور علي نتائج مطابقة
+            لا يوجد نتائج
           </div>
         )}
       </div>

@@ -14,7 +14,6 @@ import { clear, searchR } from "../../features/searchSlice";
 // Groups table container and header
 const GroupsContainer = () => {
   const navigate = useNavigate();
-  const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -257,7 +256,7 @@ const GroupsContainer = () => {
             className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
             style={{ color: "red", height: "60vh" }}
           >
-            لم يتم العثور علي نتائج مطابقة
+            لا يوجد نتائج
           </div>
         )}
       </div>
