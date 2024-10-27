@@ -16,7 +16,6 @@ import { Commet } from "react-loading-indicators";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
 import {
   Page,
   Text,
@@ -153,7 +152,7 @@ const ReceiptDocument = ({
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
 
   useEffect(() => {
-    QRCode.toDataURL(`http://104.248.251.235:3000/receipt/${url}`)
+    QRCode.toDataURL(`http://104.248.251.235:8000/receipt/${url}`)
       .then((dataUrl) => {
         setQrCodeDataUrl(dataUrl);
         console.log(dataUrl);
@@ -170,7 +169,7 @@ const ReceiptDocument = ({
             (فاتورة ضريبية مبسطة)
           </Text>
           <Text style={{ textAlign: "center" }}>Balance Fitness Complix</Text>
-          <Text style={style.title}>0543842672</Text>
+          <Text style={style.title}>{url}</Text>
           <Text style={style.text}>التاريخ والوقت: {readableDate}</Text>
           <Text style={style.text}>اسم المستخدم:{admin}</Text>
           <Text style={style.text}>
@@ -701,7 +700,8 @@ const AddGroupMember = () => {
 
   const handleSubmit = async (values) => {
     console.log(values);
-    const uniqeId = uuidv4();
+    const uniqeId = new Date().getTime();
+
     dispatch(setReceiptId(uniqeId));
     const data = {
       schedule: values.schedule,
@@ -731,7 +731,9 @@ const AddGroupMember = () => {
       }, 1000);
     } catch (err) {
       console.log(err);
-      if (err.data.error.detail.startsWith("User already subscribed")) {
+      if (
+        err.data.error.detail[0].startsWith("This user already has an active")
+      ) {
         setError("هذا العضو مشترك بالفعل.");
         setTimeout(() => {
           setError("");

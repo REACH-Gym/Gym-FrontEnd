@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await fetchBaseQuery({
-    baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+    baseUrl: "http://104.248.251.235:8000/",
     prepareHeaders: (headers) => {
       headers.set("Authorization", localStorage.getItem("access"));
       headers.set("Content-Type", "application/json");
@@ -16,7 +16,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
     // Call the refresh token endpoint to get a new access token
     const refreshResult = await fetchBaseQuery({
-      baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+      baseUrl: "http://104.248.251.235:8000/",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -159,7 +159,7 @@ const ReceiptDocument = ({
             (فاتورة ضريبية مبسطة)
           </Text>
           <Text style={{ textAlign: "center" }}>Balance Fitness Complix</Text>
-          <Text style={style.title}>0543842672</Text>
+          <Text style={style.title}>{url}</Text>
           <Text style={style.text}>التاريخ والوقت: {readableDate}</Text>
           <Text style={style.text}>اسم المستخدم:{admin}</Text>
           <Text style={style.text}>
@@ -357,7 +357,7 @@ function AddNewMemberToSub() {
   const handleSubmit = async (values) => {
     setLoading(true);
     console.log(values);
-    const uniqeId = uuidv4();
+    const uniqeId = new Date().getTime();
     try {
       const items = {
         user: values["user"],
