@@ -81,6 +81,17 @@ function Logs() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  if (error.length > 0) {
+    return (
+      <div
+        className="fw-bolder w-100 text-danger fs-4 d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        {error}
+      </div>
+    );
+  }
   return (
     <div className="blogContainer">
       <Helmet>
