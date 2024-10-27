@@ -2,6 +2,7 @@
   background-color: #f2f4f5;
   width: 100%;
   padding: 80px 20px 20px 20px;
+  min-height: 100vh;
 }
 .dropmenu {
   background-color: #fff;
@@ -30,26 +31,26 @@
 .tr:hover {
   background-color: #f2f4f5;
 }
-.supportDetailContainer{
+.supportDetailContainer {
   background-color: #f2f4f5;
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
-.supportDetailContainer__item{
+.supportDetailContainer__item {
   background-color: #fff;
   border-radius: 10px;
   padding: 30px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.cancel-delete button{
+.cancel-delete button {
   border-radius: 5px;
   background-color: #f0f0f0;
   color: #000;
-  font-weight:bolder;
+  font-weight: bolder;
   font-size: 16px;
 }
-.delete-button button{
-  background-color: #FF6666;
+.delete-button button {
+  background-color: #ff6666;
   color: #fff;
   font-weight: bolder;
   border-radius: 5px;

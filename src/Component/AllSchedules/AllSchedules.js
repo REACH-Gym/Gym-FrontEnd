@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";
 import AllScheduleItem from "../AllScheduleItem/AllScheduleItem";
 import { useDispatch, useSelector } from "react-redux";
-import { clear } from "../../features/searchSlice";
+import { clear, searchR } from "../../features/searchSlice";
 
 // Schedule table container and header
 const AllSchedules = () => {
@@ -19,11 +19,18 @@ const AllSchedules = () => {
   const [confirmed, setConfirmed] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const searchData = useSelector((state) => state.search);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const term = useSelector((state) => state.search.term.term);
+  const dispatch = useDispatch();
+  const [filterType, setFilterType] = useState("name");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
   const { data, error, isLoading, isFetching } =
     useGetSessionsWithSchedulesQuery(
-      `?page=${page}&per_page=20&filter{name.istartswith}=${
-        searchData.term.term ? searchData.term.term : ""
+      `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+        term ? term : ""
       }`
     );
   console.log(data);
@@ -39,10 +46,10 @@ const AllSchedules = () => {
     }
   }, [data]);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clear());
   }, [dispatch]);
+
   if (isLoading) {
     return (
       <div
@@ -100,7 +107,58 @@ const AllSchedules = () => {
             title={"جميع المواعيد"}
             subTitle={"يمكنك متابعة جميع المواعيد  من هنا"}
           />
-          <Filter />
+          <Filter
+            filter={true}
+            isDisabled={isDisabled}
+            placeHolder={placeHolder}
+            handleClear={() => {
+              dispatch(searchR({ term: "" }));
+              filter("name");
+              setIsDisabled(false);
+              setPlaceHolder("ابحث هنا...");
+            }}
+          >
+            <div className={`p-2 rounded-2 bg-white`}>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("name");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                المجموعة
+              </div>
+              <div className={`p-2 rounded-2`}>
+                <div>الحالة</div>
+                <div className={`pe-3`}>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: true }));
+                      filter("is_active");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    فعال
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: false }));
+                      filter("is_active");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الحالة");
+                    }}
+                  >
+                    محذوف
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Filter>
           <ComponentBtns
             btn1={"+ إضافة موعد جديد "}
             onclick={() => {
