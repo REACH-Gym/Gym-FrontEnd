@@ -94,7 +94,9 @@ function AddNewMember() {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
-    phone_number: Yup.string().max(11).required("هذا الحقل الزامي"),
+    phone_number: Yup.string()
+      .max(11, "يجب أن يكون رقم الهاتف أقل من 11 رقم")
+      .required("هذا الحقل الزامي"),
     national_id: Yup.string()
       .matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10أرقام")
       .required("هذا الحقل الزامي"),
