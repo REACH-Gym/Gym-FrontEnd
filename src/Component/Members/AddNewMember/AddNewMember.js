@@ -193,6 +193,11 @@ function AddNewMember() {
                         />
                       </div>
                     </div>
+                    <ErrorMessage
+                      name={"phone_number"}
+                      component="div"
+                      className={"text-danger"}
+                    />
                   </div>
                 </div>
                 <div className={`row g-4 mb-5`}>
