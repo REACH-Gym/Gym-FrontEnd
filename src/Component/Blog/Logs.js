@@ -8,6 +8,8 @@ import { Helmet } from "react-helmet";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clear, searchR } from "../../features/searchSlice";
 
 function Logs() {
   const [results, setResults] = useState([]);
@@ -20,13 +22,23 @@ function Logs() {
   const navigate = useNavigate();
   const optionRef = useRef();
   const [error, setError] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const term = useSelector((state) => state.search.term.term);
+  const dispatch = useDispatch();
+  const [filterType, setFilterType] = useState("action");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
 
   useEffect(() => {
     async function fetchLogs() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/activity-logs/?page=${page}&per_page=${per_page}`,
+          `http://104.248.251.235:8000/activity-logs/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+            term ? term : ""
+          }`,
           {
             method: "GET",
             headers: {
@@ -52,7 +64,11 @@ function Logs() {
       }
     }
     fetchLogs();
-  }, [per_page, page]);
+  }, [per_page, page, filterType, term]);
+
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
 
   const handlePrevPage = () => {
     if (page > 1) {
@@ -117,12 +133,63 @@ function Logs() {
               MainIcon={"/assets/image/mdi_clipboard-text-history-outline.png"}
             />
             <Filter
-              searchResults={setResults}
-              status={false}
-              query={"activity-logs/"}
-              options={["العملية", "اسم العنصر", "اسم الكيان"]}
-              eStatus={false}
-            />
+              filter={true}
+              isDisabled={isDisabled}
+              placeHolder={placeHolder}
+              handleClear={() => {
+                dispatch(searchR({ term: "" }));
+                filter("action");
+                setIsDisabled(false);
+                setPlaceHolder("ابحث هنا...");
+              }}
+            >
+              <div className={`p-2 rounded-2 bg-white`}>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("action");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  العملية
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("model_name");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  في
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("instance_name");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  الإسم
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("performed_by");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  بواسطة
+                </div>
+              </div>
+            </Filter>
             <ComponentBtns />
           </div>
           {results?.data?.activity_logs?.length === 0 ? (
