@@ -15,6 +15,7 @@ function EditSub() {
   const [showModalError, setShowModalError] = useState(false);
   const membership = location.state?.membership;
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -48,7 +49,7 @@ function EditSub() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/memberships/${membership.id}/`,
+        `${api}/memberships/${membership.id}/`,
         {
           method: "PATCH",
           headers: {

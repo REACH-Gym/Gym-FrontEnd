@@ -9,12 +9,12 @@ function LogDetails() {
   const [logDetail, setDetail] = useState(null);
   const [parsedOldFields, setParsedOldFields] = useState({});
   const [parsedNewFields, setParsedNewFields] = useState({});
-
+  const api = process.env.REACT_APP_DOMAIN
   useEffect(() => {
     async function fetchLogDetail() {
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/activity-logs/${id}`,
+          `${api}/activity-logs/${id}`,
           {
             method: "GET",
             headers: {

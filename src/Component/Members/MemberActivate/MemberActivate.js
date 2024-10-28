@@ -5,11 +5,12 @@ function MemberActivate({ id, onActive }) {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const activeMember = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/members/activate/${id}`,
+        `${api}/members/activate/${id}`,
         {
           method: "POST",
           headers: {
@@ -51,7 +52,7 @@ function MemberActivate({ id, onActive }) {
       </div>
       <Modal isOpen={showModal}>
         <div>
-          <div className="text-center">
+          <div className="text-center mt-3">
             <img
               src="/assets/image/ph_warning-bold.png"
               alt="activate member"
@@ -68,8 +69,8 @@ function MemberActivate({ id, onActive }) {
               هل أنت متأكد من أنك تريد اعادة تفعيل هذا العضو ؟
             </p>
           </div>
-          <div className="d-flex justify-content-center delete mt-3 mb-4 fw-bolder ">
-            <div className="confirmDeactive ms-3">
+          <div className="d-flex justify-content-center delete mt-4 mb-4 fw-bolder ">
+            <div className="confirmAeactive ms-3 fw-bolder">
               <MainButton
                 text={"تأكيد"}
                 onClick={activeMember}

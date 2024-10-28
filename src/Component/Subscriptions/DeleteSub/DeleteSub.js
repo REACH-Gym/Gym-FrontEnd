@@ -5,11 +5,12 @@ function DeleteSub({ id, onDelete }) {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleDelete = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/memberships/${id}/`,
+        `${api}/memberships/${id}/`,
         {
           method: "PATCH",
           headers: {
@@ -59,7 +60,7 @@ function DeleteSub({ id, onDelete }) {
               alt="delete subscription"
               width={"110px"}
               height={"110px"}
-              style={{ padding: "6px" }}
+              style={{ padding: "9px" }}
             />
           </div>
           <p className="text-center mt-3 fs-6 text-dark fw-bolder ">

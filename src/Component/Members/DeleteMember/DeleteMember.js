@@ -6,11 +6,12 @@ function DeleteMember({ id, onDelete }) {
   const [showModal, setShowModal] = useState(false);
   const [openFailedDeletModal, setOpenFailedDeletModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleDelete = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/members/deactivate/${id}`,
+        `${api}/members/deactivate/${id}`,
         {
           method: "DELETE",
           headers: {

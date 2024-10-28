@@ -239,13 +239,14 @@ function AddNewMemberToSub() {
   const [memberShipPrice, setMemberShipPrice] = useState(0);
   const [error, setError] = useState("");
   const [copons, setCopons] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
 
   useEffect(() => {
     // fetch users
     async function fetchData() {
       try {
         const response = await fetch(
-          "http://104.248.251.235:8000/members/?filter{is_active}=true",
+          `${api}/members/?filter{is_active}=true`,
           {
             method: "GET",
             headers: {
@@ -270,7 +271,7 @@ function AddNewMemberToSub() {
       }
     }
     fetchData();
-  }, [access_token]);
+  }, [access_token,api]);
   const [values, setValues] = useState({
     user: "",
     membership: "",
@@ -285,7 +286,7 @@ function AddNewMemberToSub() {
     async function fetchMemberShips() {
       try {
         const response = await fetch(
-          "http://104.248.251.235:8000/memberships/?filter{is_active}=true",
+          `${api}/memberships/?filter{is_active}=true`,
           {
             method: "GET",
             headers: {
@@ -309,14 +310,14 @@ function AddNewMemberToSub() {
       }
     }
     fetchMemberShips();
-  }, [access_token]);
+  }, [access_token,api]);
 
   //get promo code
   useEffect(() => {
     async function fetchPromoCode() {
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/coupons/active_coupons/`,
+          `${api}/coupons/active_coupons/`,
           {
             method: "GET",
             headers: {
@@ -338,7 +339,7 @@ function AddNewMemberToSub() {
       }
     }
     fetchPromoCode();
-  }, []);
+  }, [api]);
   const [promo, setPromo] = useState([``, 0, ``]);
   useEffect(() => {
     console.log(values);
@@ -395,7 +396,7 @@ function AddNewMemberToSub() {
       );
 
       const response = await fetch(
-        "http://104.248.251.235:8000/members/memberships/",
+        `${api}/members/memberships/`,
         {
           method: "POST",
           headers: {
@@ -561,13 +562,11 @@ function AddNewMemberToSub() {
                                   "membership",
                                   selectedMembershipId
                                 );
-
-                                // Find the selected membership from the membership list and set the price
                                 const selectedMembership = membership.find(
                                   (m) => m.id === parseInt(selectedMembershipId)
                                 );
                                 if (selectedMembership) {
-                                  setMemberShipPrice(selectedMembership.price); // Set the membership price
+                                  setMemberShipPrice(selectedMembership.price);
                                   setFieldValue(
                                     "price",
                                     selectedMembership.price
@@ -602,7 +601,7 @@ function AddNewMemberToSub() {
                             <InputField
                               name={"notes"}
                               label={"الملاحظات"}
-                              className="mt-3 notes"
+                              className="mt-3 Notes"
                             />
                           </div>
                         </div>

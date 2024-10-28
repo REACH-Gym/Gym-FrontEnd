@@ -10,6 +10,7 @@ function ChangePhoneNumber() {
   const navigate = useNavigate();
   const valuesRef = useRef();
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (value) => {
     setLoading(true);
     const item = {
@@ -17,7 +18,7 @@ function ChangePhoneNumber() {
     };
     try {
       const response = await fetch(
-        "http://104.248.251.235:8000/auth/request-otp",
+        `${api}/auth/request-otp`,
         {
           method: "POST",
           headers: {

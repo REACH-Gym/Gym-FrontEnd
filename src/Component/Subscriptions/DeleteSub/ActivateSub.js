@@ -5,11 +5,12 @@ function ActiveSub({ id, onActive }) {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleActive = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/memberships/${id}/`,
+        `${api}/memberships/${id}/`,
         {
           method: "PATCH",
           headers: {
@@ -58,7 +59,7 @@ function ActiveSub({ id, onActive }) {
       {showModal && (
         <Modal isOpen={showModal}>
           <div>
-            <div className="text-center">
+            <div className="text-center mt-3">
               <img
                 src="/assets/image/ph_warning-bold.png"
                 alt="activate member"
@@ -75,7 +76,7 @@ function ActiveSub({ id, onActive }) {
                 هل أنت متأكد من أنك تريد اعادة تفعيل هذا الأشتراك ؟
               </p>
             </div>
-            <div className="d-flex justify-content-center delete mt-3 mb-4 fw-bolder ">
+            <div className="d-flex justify-content-center delete mt-4 mb-4 fw-bolder ">
               <div
                 className="confirmAeactive ms-3"
                 style={{ fontSize: "14px" }}

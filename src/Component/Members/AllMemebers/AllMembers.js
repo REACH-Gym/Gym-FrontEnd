@@ -27,6 +27,7 @@ function AllMembers() {
   const dropdownRef = useRef(null);
   const [error, setError] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
   const term = useSelector((state) => state.search.term.term);
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function AllMembers() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/members/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `${api}/members/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {
@@ -145,260 +146,148 @@ function AllMembers() {
       <Helmet>
         <title>جميع الأعضاء</title>
       </Helmet>
-      {loading ? (
-        <div className="loader">
-          <Commet width="50px" height="50px" color="#316dcc" />
-        </div>
-      ) : error ? (
-        <div style={{ paddingTop: "200px" }}>
-          <h4 className="text-danger text-center fw-bolder">{error}</h4>
-        </div>
-      ) : allMembers.length === 0 ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد نتائج
-        </div>
-      ) : (
-        <div className="allMembereContainer__items">
-          <div>
-            <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
-              <ComponentTitle
-                MainIcon={"/assets/image/Vector.png"}
-                title={" جميع الأعضاء"}
-                subTitle={"يمكنك متابعة جميع بيانات الأعضاء  من هنا"}
-              />
-              <Filter
-                filter={true}
-                isDisabled={isDisabled}
-                placeHolder={placeHolder}
-                handleClear={() => {
-                  dispatch(searchR({ term: "" }));
-                  filter("name");
-                  setIsDisabled(false);
-                  setPlaceHolder("ابحث هنا...");
-                }}
-              >
-                <div className={`p-2 rounded-2 bg-white`}>
-                  <div
-                    className={`p-2 filter rounded-2`}
-                    onClick={() => {
-                      dispatch(searchR({ term: "" }));
-                      filter("name");
-                      setIsDisabled(false);
-                      setPlaceHolder("ابحث هنا...");
-                    }}
-                  >
-                    الإسم
-                  </div>
-                  <div
-                    className={`p-2 filter rounded-2`}
-                    onClick={() => {
-                      dispatch(searchR({ term: "" }));
-                      filter("phone_number");
-                      setIsDisabled(false);
-                      setPlaceHolder("ابحث هنا...");
-                    }}
-                  >
-                    رقم الجوال
-                  </div>
-                  <div
-                    className={`p-2 filter rounded-2`}
-                    onClick={() => {
-                      dispatch(searchR({ term: "" }));
-                      filter("national_id");
-                      setIsDisabled(false);
-                      setPlaceHolder("ابحث هنا...");
-                    }}
-                  >
-                    رقم العضوية
-                  </div>
-                  <div className={`p-2 rounded-2`}>
-                    <div>حالة العضو</div>
-                    <div className={`pe-3`}>
-                      <div
-                        className={`p-2 rounded-2 filter`}
-                        onClick={() => {
-                          dispatch(searchR({ term: true }));
-                          filter("is_active");
-                          setIsDisabled(true);
-                          setPlaceHolder("انت الآن تبحث بـ الحالة");
-                        }}
-                      >
-                        فعال
-                      </div>
-                      <div
-                        className={`p-2 rounded-2 filter`}
-                        onClick={() => {
-                          dispatch(searchR({ term: false }));
-                          filter("is_active");
-                          setIsDisabled(true);
-                          setPlaceHolder("انت الآن تبحث بـ حالة العضو");
-                        }}
-                      >
-                        محذوف
-                      </div>
+      <div className="allMembereContainer__items">
+        <div>
+          <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
+            <ComponentTitle
+              MainIcon={"/assets/image/Vector.png"}
+              title={" جميع الأعضاء"}
+              subTitle={"يمكنك متابعة جميع بيانات الأعضاء  من هنا"}
+            />
+            <Filter
+              filter={true}
+              isDisabled={isDisabled}
+              placeHolder={placeHolder}
+              handleClear={() => {
+                dispatch(searchR({ term: "" }));
+                filter("name");
+                setIsDisabled(false);
+                setPlaceHolder("ابحث هنا...");
+              }}
+            >
+              <div className={`p-2 rounded-2 bg-white`}>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("name");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  الإسم
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("phone_number");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  رقم الجوال
+                </div>
+                <div
+                  className={`p-2 filter rounded-2`}
+                  onClick={() => {
+                    dispatch(searchR({ term: "" }));
+                    filter("national_id");
+                    setIsDisabled(false);
+                    setPlaceHolder("ابحث هنا...");
+                  }}
+                >
+                  رقم العضوية
+                </div>
+                <div className={`p-2 rounded-2`}>
+                  <div>حالة العضو</div>
+                  <div className={`pe-3`}>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: true }));
+                        filter("is_active");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ الحالة");
+                      }}
+                    >
+                      فعال
+                    </div>
+                    <div
+                      className={`p-2 rounded-2 filter`}
+                      onClick={() => {
+                        dispatch(searchR({ term: false }));
+                        filter("is_active");
+                        setIsDisabled(true);
+                        setPlaceHolder("انت الآن تبحث بـ حالة العضو");
+                      }}
+                    >
+                      محذوف
                     </div>
                   </div>
                 </div>
-              </Filter>
-              <ComponentBtns />
+              </div>
+            </Filter>
+            <ComponentBtns />
+          </div>
+          {loading ? (
+            <div className="loader">
+              <Commet width="50px" height="50px" color="#316dcc" />
             </div>
-            {results?.data?.users?.length === 0 ? (
-              <div
-                className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-                style={{ color: "red", height: "60vh" }}
-              >
-                لا يوجد نتائج
-              </div>
-            ) : results?.data?.users?.length > 0 ? (
-              <div className="p-3">
-                <div className="tableContainer">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="p-2 pt-3 pb-3">#</th>
-                        <th className="p-2 pt-3 pb-3">الإسم</th>
-                        <th className="p-2 pt-3 pb-3">رقم الجوال</th>
-                        <th className="p-2 pt-3 pb-3">رقم العضوية</th>
-                        <th className="p-2 pt-3 pb-3">تاريخ التسجيل</th>
-                        <th className="p-2 pt-3 pb-3">تاريخ الميلاد</th>
-                        <th className="p-2 pt-3 pb-3">حالة العضو</th>
-                        <th className="p-2 pt-3 pb-3">خيارات</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {results?.data?.users?.map((item, index) => (
-                        <tr key={item.id}>
-                          <th
-                            scope="row"
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "lighter",
-                            }}
-                          >
-                            {index + 1 + (page - 1) * per_page}
-                          </th>
-                          <td>{item.name}</td>
-                          <td>{item.phone_number}</td>
-                          <td>{item.national_id}</td>
-                          <td>{item.created_at.slice(0, 10)}</td>
-                          <td>{item.date_of_birth}</td>
-                          <td>
-                            {item.is_active === false ? (
-                              <Deleted />
-                            ) : (
-                              <Active />
-                            )}
-                          </td>
-                          <td>
-                            {item.is_active === false ? (
-                              <Deleted />
-                            ) : (
-                              <Active />
-                            )}
-                          </td>
-                          <td className="text-center">
-                            <MoreVertIcon
-                              onClick={() => toggleDropdown(item.id)}
-                              style={{ cursor: "pointer" }}
-                            />
-                            {showDropdown === item.id && (
-                              <ul className="drop-menu" ref={dropdownRef}>
-                                {item.is_active ? (
-                                  <>
-                                    <li
-                                      onClick={() =>
-                                        navigate(
-                                          `/Home/AllMembers/${item.id}/edit`,
-                                          {
-                                            state: { member: item },
-                                          }
-                                        )
-                                      }
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="1.2em"
-                                        height="1.2em"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path
-                                          fill="currentColor"
-                                          d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"
-                                        />
-                                        <path
-                                          fill="currentColor"
-                                          d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"
-                                        />
-                                      </svg>
-                                      <span className="me-2">
-                                        تعديل البيانات
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <DeleteMember
-                                        id={item.id}
-                                        onDelete={handleDeleteMemberInFilter}
-                                      />
-                                    </li>
-                                  </>
-                                ) : (
-                                  <MemberActivate
-                                    id={item.id}
-                                    onActive={handleActiveMemberInFilter}
-                                  />
-                                )}
-                              </ul>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ) : (
-              <div className="tableContainer mt-2">
-                <table className="table mt-3">
+          ) : error ? (
+            <div style={{ paddingTop: "200px" }}>
+              <h4 className="text-danger text-center fw-bolder">{error}</h4>
+            </div>
+          ) : allMembers.length === 0 ? (
+            <div
+              className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+              style={{ height: "50vh" }}
+            >
+              لا يوجد نتائج
+            </div>
+          ) : results?.data?.users?.length === 0 ? (
+            <div
+              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+              style={{ color: "red", height: "60vh" }}
+            >
+              لا يوجد نتائج
+            </div>
+          ) : results?.data?.users?.length > 0 ? (
+            <div className="p-3">
+              <div className="tableContainer">
+                <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col" className="pb-4">
-                        #
-                      </th>
-                      <th scope="col" className="pb-4">
-                        الإسم
-                      </th>
-                      <th scope="col" className="pb-4">
-                        رقم الجوال
-                      </th>
-                      <th scope="col" className="pb-4">
-                        رقم العضوية
-                      </th>
-                      <th scope="col" className="pb-4">
-                        تاريخ التسجيل
-                      </th>
-                      <th scope="col" className="pb-4">
-                        تاريخ الميلاد
-                      </th>
-                      <th scope="col" className="pb-4">
-                        حالة العضو
-                      </th>
-                      <th scope="col" className="pb-4">
-                        خيارات
-                      </th>
+                      <th className="p-2 pt-3 pb-3">#</th>
+                      <th className="p-2 pt-3 pb-3">الإسم</th>
+                      <th className="p-2 pt-3 pb-3">رقم الجوال</th>
+                      <th className="p-2 pt-3 pb-3">رقم العضوية</th>
+                      <th className="p-2 pt-3 pb-3">تاريخ التسجيل</th>
+                      <th className="p-2 pt-3 pb-3">تاريخ الميلاد</th>
+                      <th className="p-2 pt-3 pb-3">حالة العضو</th>
+                      <th className="p-2 pt-3 pb-3">خيارات</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {allMembers?.map((item, index) => (
+                    {results?.data?.users?.map((item, index) => (
                       <tr key={item.id}>
-                        <th scope="row">{index + 1 + (page - 1) * per_page}</th>
+                        <th
+                          scope="row"
+                          style={{
+                            fontSize: "13px",
+                            fontWeight: "lighter",
+                          }}
+                        >
+                          {index + 1 + (page - 1) * per_page}
+                        </th>
                         <td>{item.name}</td>
                         <td>{item.phone_number}</td>
                         <td>{item.national_id}</td>
                         <td>{item.created_at.slice(0, 10)}</td>
                         <td>{item.date_of_birth}</td>
+                        <td>
+                          {item.is_active === false ? <Deleted /> : <Active />}
+                        </td>
                         <td>
                           {item.is_active === false ? <Deleted /> : <Active />}
                         </td>
@@ -415,7 +304,9 @@ function AllMembers() {
                                     onClick={() =>
                                       navigate(
                                         `/Home/AllMembers/${item.id}/edit`,
-                                        { state: { member: item } }
+                                        {
+                                          state: { member: item },
+                                        }
                                       )
                                     }
                                   >
@@ -434,22 +325,19 @@ function AllMembers() {
                                         d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"
                                       />
                                     </svg>
-                                    <span className="me-2">
-                                      {" "}
-                                      تعديل البيانات{" "}
-                                    </span>
+                                    <span className="me-2">تعديل البيانات</span>
                                   </li>
                                   <li>
                                     <DeleteMember
                                       id={item.id}
-                                      onDelete={handleDeleteMember}
+                                      onDelete={handleDeleteMemberInFilter}
                                     />
                                   </li>
                                 </>
                               ) : (
                                 <MemberActivate
                                   id={item.id}
-                                  onActive={handleActiveMember}
+                                  onActive={handleActiveMemberInFilter}
                                 />
                               )}
                             </ul>
@@ -459,32 +347,131 @@ function AllMembers() {
                     ))}
                   </tbody>
                 </table>
-                <div className="d-flex justify-content-center align-items-center mt-5">
-                  <div className="preivous-btn">
-                    <MainButton
-                      text={"السابق"}
-                      onClick={handlePrevPage}
-                      disabled={page === 1}
-                    />
-                  </div>
-                  <div>
-                    <span className="ms-3 me-3">
-                      الصفحة {totalPages} من {page}
-                    </span>
-                  </div>
-                  <div className="next-btn">
-                    <MainButton
-                      text={"التالي"}
-                      onClick={handleNextPage}
-                      disabled={page >= totalPages}
-                    />
-                  </div>
+              </div>
+            </div>
+          ) : (
+            <div className="tableContainer mt-2">
+              <table className="table mt-3">
+                <thead>
+                  <tr>
+                    <th scope="col" className="pb-4">
+                      #
+                    </th>
+                    <th scope="col" className="pb-4">
+                      الإسم
+                    </th>
+                    <th scope="col" className="pb-4">
+                      رقم الجوال
+                    </th>
+                    <th scope="col" className="pb-4">
+                      رقم العضوية
+                    </th>
+                    <th scope="col" className="pb-4">
+                      تاريخ التسجيل
+                    </th>
+                    <th scope="col" className="pb-4">
+                      تاريخ الميلاد
+                    </th>
+                    <th scope="col" className="pb-4">
+                      حالة العضو
+                    </th>
+                    <th scope="col" className="pb-4">
+                      خيارات
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allMembers?.map((item, index) => (
+                    <tr key={item.id}>
+                      <th scope="row">{index + 1 + (page - 1) * per_page}</th>
+                      <td>{item.name}</td>
+                      <td>{item.phone_number}</td>
+                      <td>{item.national_id}</td>
+                      <td>{item.created_at.slice(0, 10)}</td>
+                      <td>{item.date_of_birth}</td>
+                      <td>
+                        {item.is_active === false ? <Deleted /> : <Active />}
+                      </td>
+                      <td className="text-center">
+                        <MoreVertIcon
+                          onClick={() => toggleDropdown(item.id)}
+                          style={{ cursor: "pointer" }}
+                        />
+                        {showDropdown === item.id && (
+                          <ul className="drop-menu" ref={dropdownRef}>
+                            {item.is_active ? (
+                              <>
+                                <li
+                                  onClick={() =>
+                                    navigate(
+                                      `/Home/AllMembers/${item.id}/edit`,
+                                      { state: { member: item } }
+                                    )
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.2em"
+                                    height="1.2em"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="m7 17.013l4.413-.015l9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583zM18.045 4.458l1.589 1.583l-1.597 1.582l-1.586-1.585zM9 13.417l6.03-5.973l1.586 1.586l-6.029 5.971L9 15.006z"
+                                    />
+                                    <path
+                                      fill="currentColor"
+                                      d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2"
+                                    />
+                                  </svg>
+                                  <span className="me-2"> تعديل البيانات </span>
+                                </li>
+                                <li>
+                                  <DeleteMember
+                                    id={item.id}
+                                    onDelete={handleDeleteMember}
+                                  />
+                                </li>
+                              </>
+                            ) : (
+                              <MemberActivate
+                                id={item.id}
+                                onActive={handleActiveMember}
+                              />
+                            )}
+                          </ul>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="d-flex justify-content-center align-items-center mt-5">
+                <div className="preivous-btn">
+                  <MainButton
+                    text={"السابق"}
+                    onClick={handlePrevPage}
+                    disabled={page === 1}
+                  />
+                </div>
+                <div>
+                  <span className="ms-3 me-3">
+                    الصفحة {totalPages} من {page}
+                  </span>
+                </div>
+                <div className="next-btn">
+                  <MainButton
+                    text={"التالي"}
+                    onClick={handleNextPage}
+                    disabled={page >= totalPages}
+                  />
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
+      {/* </div> */}){"}"}
     </div>
   );
 }

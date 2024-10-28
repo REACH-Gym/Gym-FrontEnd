@@ -129,7 +129,7 @@ function Navbar({ userData }) {
                       <span className="me-2">تعديل كلمة السر</span>
                     </p>
                   </Link>
-                  {/* <Link
+                  <Link
                     className="text-decoration-none text-dark"
                     to={"ChagePhoneNumber"}
                   >
@@ -147,7 +147,7 @@ function Navbar({ userData }) {
                       </svg>
                       <span className="me-3">تعديل رقم الجوال</span>
                     </p>
-                  </Link> */}
+                  </Link>
                   <Link
                     to={"PersonalSettings"}
                     className="text-decoration-none text-dark"
@@ -180,5 +180,4 @@ function Navbar({ userData }) {
     </div>
   );
 }
-
 export default Navbar;

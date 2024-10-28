@@ -17,6 +17,7 @@ function ChangePassword() {
   const [showNewPssword, setShowNewPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+  const api = process.env.REACT_APP_DOMAIN
   const handleSubmit = async (value) => {
     setLoading(true);
     const items = {
@@ -27,7 +28,7 @@ function ChangePassword() {
 
     try {
       const response = await fetch(
-        "http://104.248.251.235:8000/auth/change-password",
+        `${api}/auth/change-password`,
         {
           method: "POST",
           headers: {

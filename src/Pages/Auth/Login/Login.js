@@ -16,8 +16,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const api = process.env.REACT_APP_DOMAIN;
-  // console.log(api);
-  // console.log("Environment Domain:", process.env.REACT_APP_DOMAIN);
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -46,7 +44,7 @@ function Login() {
           navigate("/Home");
         }, 2500);
         const fetchUserInfo = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          `${api}/current-employee`,
           {
             method: "GET",
             headers: {

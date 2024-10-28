@@ -12,26 +12,24 @@ import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 
 const USER_NAME_KEY = "name of logged in user";
-const API_URL = "http://104.248.251.235:8000/current-employee";
+const API_URL = `${process.env.REACT_APP_DOMAIN}/current-employee`;
 
 function PersonalSettings() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [userData, setUserData] = useState({});
+  const api = process.env.REACT_APP_DOMAIN;
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(
-          `http://104.248.251.235:8000/current-employee`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: localStorage.getItem("access"),
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${api}/current-employee`, {
+          method: "GET",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            "Content-Type": "application/json",
+          },
+        });
         const result = await response.json();
         console.log(result);
         setUserData(result);
@@ -161,10 +159,10 @@ function PersonalSettings() {
                   label={"النوع"}
                   inputType={"select"}
                 >
-                  <option value="">اختر النوع</option>
-                  <option value="ذكر">{"ذكر"}</option>
+                  <option value="">{"أختر نوع"}</option>
+                  <option value="ذكر">{`ذكر`}</option>
                   <option value="انثي">{"انثي"}</option>
-                </InputField>
+                  </InputField>
               </div>
             </div>
             <div className="text-center saveInfo">
@@ -191,5 +189,4 @@ function PersonalSettings() {
     </div>
   );
 }
-
 export default PersonalSettings;
