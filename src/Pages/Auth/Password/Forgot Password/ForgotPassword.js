@@ -15,7 +15,7 @@ function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const [tooMantAttempts, setTooManyAttempts] = useState(false);
   const access_token = localStorage.getItem("access");
-
+  const api = process.env.REACT_APP_DOMAIN
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -23,7 +23,7 @@ function ForgotPassword() {
         phone_number: values["phone_number"],
       };
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
+        `${api}/auth/request-otp`,
         {
           method: "POST",
           headers: {
@@ -137,22 +137,6 @@ function ForgotPassword() {
       </div>
       {/* success send code to phone number */}
       <SuccessModal isOpen={showModal}>
-        {/* <div className="closeModal">
-          <button className="border-0 ps-4 pt-4 pe-4 fw-bolder" onClick={()=>setShowModal(false)}>
-            X
-          </button>
-        </div>
-        <div className="d-flex flex-column align-items-center justify-content-center">
-          <div className="mt-4">
-            <img
-              src="/assets/image/weui_done2-outlined.png"
-              alt=""
-              width={"`100px"}
-              height={"100px"}
-              style={{padding:"9px"}}
-            />
-          </div>
-        </div> */}
         <div className="d-flex align-items-center justify-content-center fw-bolder fs-6 p-3">
           <p
             className="text-center text-dark"

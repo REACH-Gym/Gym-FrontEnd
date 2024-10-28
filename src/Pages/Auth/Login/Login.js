@@ -4,17 +4,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
+
 function Login() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  
+  const api = process.env.REACT_APP_DOMAIN;
+  // console.log(api);
+  // console.log("Environment Domain:", process.env.REACT_APP_DOMAIN);
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -23,17 +26,14 @@ function Login() {
         password: values["password"],
         is_web: values["is_web"],
       };
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch(`${api}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify(items),
+      });
 
       const result = await response.json();
       console.log(result);
@@ -45,23 +45,35 @@ function Login() {
         setTimeout(() => {
           navigate("/Home");
         }, 2500);
-        const fetchUserInfo = await fetch(`https://gym-backend-production-65cc.up.railway.app/current-employee`,{
-          method:"GET",
-          headers:{
-            Authorization:localStorage.getItem('access'),
-            accept: "application/json"
+        const fetchUserInfo = await fetch(
+          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("access"),
+              accept: "application/json",
+            },
           }
-        })
+        );
         const userInfo = await fetchUserInfo.json();
         console.log(userInfo);
-        if(fetchUserInfo.ok){
-           console.log('name of user logged in',userInfo.data.user.name);
-           console.log('phone number of user logged in',userInfo.data.user.phone_number);
-           localStorage.setItem('name of logged in user ',userInfo.data.user.name);
-           localStorage.setItem('phone number of logged in user',userInfo.data.user.phone_number);
-           localStorage.setItem(' id of logged in user',userInfo.data.user.id);
-        }else{
-          console.log('failed get user info')
+        if (fetchUserInfo.ok) {
+          console.log("name of user logged in", userInfo.data.user.name);
+          console.log(
+            "phone number of user logged in",
+            userInfo.data.user.phone_number
+          );
+          localStorage.setItem(
+            "name of logged in user ",
+            userInfo.data.user.name
+          );
+          localStorage.setItem(
+            "phone number of logged in user",
+            userInfo.data.user.phone_number
+          );
+          localStorage.setItem(" id of logged in user", userInfo.data.user.id);
+        } else {
+          console.log("failed get user info");
         }
       } else {
         setShowModalError(true);
@@ -168,7 +180,7 @@ function Login() {
           </div>
         </Form>
       </Formik>
-      <SuccessModal isOpen={showModal} handleClose={()=>setShowModal(false)}>
+      <SuccessModal isOpen={showModal} handleClose={() => setShowModal(false)}>
         <div className="text-center fw-lighter fs-5">
           <p className="p-2 text-dark">لقد تم تسجيل دخولك بنجاح</p>
         </div>

@@ -24,13 +24,13 @@ function AllMembers() {
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const [error , setError] = useState("")
-
+  const api = process.env.REACT_APP_DOMAIN;
   useEffect(() => {
     async function fetchAllMembers() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/members/?page=${page}&per_page=${per_page}`,
+          `${api}/members/?page=${page}&per_page=${per_page}`,
           {
             method: "GET",
             headers: {
@@ -57,7 +57,7 @@ function AllMembers() {
       }
     }
     fetchAllMembers();
-  }, [access_token, page, per_page]);
+  }, [access_token, page, per_page,api]);
 
   const toggleDropdown = (id) => {
     setShowDropdown((prevId) => (prevId === id ? null : id));

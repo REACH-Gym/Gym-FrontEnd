@@ -14,6 +14,7 @@ function CreateNewPassword() {
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showError, setShowError] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -22,7 +23,7 @@ function CreateNewPassword() {
         new_password: values["new_password"],
       };
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/forget-password",
+        `${api}/auth/forget-password`,
         {
           method: "POST",
           headers: {

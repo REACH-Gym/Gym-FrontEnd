@@ -70,7 +70,7 @@ function PersonalSettings() {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const genderValue = values.gender === "أنثى" ? "F" : "M";
+      const genderValue = values.gender === "انثي" ? "F" : "M";
       const items = {
         name: values.name,
         national_id: values.national_id,
@@ -163,8 +163,8 @@ function PersonalSettings() {
                   inputType={"select"}
                 >
                   <option value="">اختر النوع</option>
-                  <option value="M">ذكر</option>
-                  <option value="F">أنثى</option>
+                  <option value="ذكر">{"ذكر"}</option>
+                  <option value="انثي">{"انثي"}</option>
                 </InputField>
               </div>
             </div>

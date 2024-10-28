@@ -5,11 +5,12 @@ import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitl
 import { Helmet } from "react-helmet";
 function Container() {
   const [status, setStatus] = useState([]);
+  const api = process.env.REACT_APP_DOMAIN;
   useEffect(() => {
     async function fetchStatus() {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/dashboard-stats/`,
+          `${api}/dashboard-stats/`,
           {
             method: "GET",
             headers: {
@@ -31,7 +32,7 @@ function Container() {
       }
     }
     fetchStatus();
-  }, []);
+  }, [api]);
   return (
     <div className="container">
     <div className="container__item">
