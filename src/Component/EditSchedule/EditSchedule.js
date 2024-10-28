@@ -34,12 +34,36 @@ const weekDays = {
   friday: "الجمعة",
 };
 const EditSchedule = () => {
+  const {
+    data: trainers,
+    isFetching: isEmployeesLoading,
+    error: employeesError,
+  } = useGetEmployeesQuery("?filter{role}=T");
+  console.log(trainers);
+
+  const [getSchedule, { isFetching: isScheduleLoading, error: scheduleError }] =
+    useLazyGetSchedulesQuery();
+
   const [response, setResponse] = useState({});
+  const { ScheduleId } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getSchedule(`${ScheduleId}`).unwrap();
+        console.log(response);
+        setResponse({ ...response?.data?.schedule });
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, [ScheduleId, getSchedule]);
+
   const validationSchema = Yup.object({
     session: Yup.string().required("هذا الحقل إلزامي"),
     max_capacity: Yup.number()
-      .required("هذا الحقل إلزامي")
-      .min(0, "يجب أن يكون أكبر من صفر"),
+      .min(0, "يجب أن يكون أكبر من صفر")
+      .required("هذا الحقل إلزامي"),
     trainer: Yup.string().required("هذا الحقل إلزامي"),
   });
   const initialValues = {
@@ -47,7 +71,7 @@ const EditSchedule = () => {
     max_capacity: response?.max_capacity,
     trainer: response?.trainer?.id,
   };
-  const { ScheduleId } = useParams();
+
   const setFieldValueRef = useRef(null);
   const resetFormRef = useRef(null);
 
@@ -86,31 +110,11 @@ const EditSchedule = () => {
 
   const initialValue = [];
   const [state, dispatch] = useReducer(reducer, initialValue);
-
-  const [getSchedule, { isFetching: isScheduleLoading, error: scheduleError }] =
-    useLazyGetSchedulesQuery();
   const [sessionName, setSessionName] = useState("");
 
-  const [
-    patchSchedule,
-    { isLoading: isPatchScheduleLoading, isError: isPatchScheduleError },
-  ] = usePatchScheduleMutation();
+  const [patchSchedule, { isLoading: isPatchScheduleLoading }] =
+    usePatchScheduleMutation();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await getSchedule(`${ScheduleId}`);
-        console.log(response);
-        setResponse({ ...response?.data?.data?.schedule });
-        setFieldValueRef.current(
-          "session",
-          response?.data?.data?.schedule?.session?.id
-        );
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
-  }, [ScheduleId, getSchedule]);
   useEffect(() => {
     console.log(response);
     const weekDays = {
@@ -169,25 +173,45 @@ const EditSchedule = () => {
         }
       }
       console.log(values);
-      try {
-        const patchResponse = await patchSchedule({
-          id: ScheduleId,
-          data: values,
-        }).unwrap();
-        console.log(patchResponse);
-        setSuccess(true);
-        setTimeout(() => {
-          navigate(`/Home/SessionDetails/${response?.session?.id}/`);
-          setSuccess(false);
-        }, 1000);
-      } catch (error) {
-        if (error.originalStatus === 403) {
-          setError("ليس لديك الصلاحية لإضافة مجموعة.");
-        } else if (error.originalStatus === 401) {
-          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
-        } else {
-          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+      const filterdValues = Object.keys(values).filter(
+        (value) => values[value] !== null
+      );
+      console.log(filterdValues);
+      if (filterdValues.length > 4) {
+        try {
+          const patchResponse = await patchSchedule({
+            id: ScheduleId,
+            data: values,
+          }).unwrap();
+          console.log(patchResponse);
+          setSuccess(true);
+          setTimeout(() => {
+            navigate(`/Home/SessionDetails/${response?.session?.id}/`);
+            setSuccess(false);
+          }, 1000);
+        } catch (error) {
+          if (error.originalStatus === 403) {
+            setError("ليس لديك الصلاحية لإضافة مجموعة.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (error.originalStatus === 401) {
+            setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else {
+            setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          }
         }
+      } else {
+        setError("يجب أن يحتوي الموعد على يوم واحد على الاقل");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     } catch (e) {
       console.log(e);
@@ -228,13 +252,6 @@ const EditSchedule = () => {
       setTime("");
     }
   };
-
-  const {
-    data: trainers,
-    isFetching: isEmployeesLoading,
-    error: employeesError,
-  } = useGetEmployeesQuery("?filter{role}=T");
-  console.log(trainers);
 
   if (isEmployeesLoading || isScheduleLoading) {
     return (
@@ -280,9 +297,7 @@ const EditSchedule = () => {
   return (
     <>
       {success && <Success text={"تم تعديل الموعد بنجاح"} show={success} />}
-      {isPatchScheduleError && (
-        <Error text={error} show={isPatchScheduleError} />
-      )}
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
       <div className={`${styles.schedulFormeContainer}`}>
         <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
           <ComponentTitle
