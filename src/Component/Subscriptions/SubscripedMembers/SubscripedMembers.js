@@ -160,17 +160,6 @@ function SubscripedMembers() {
                 >
                   اسم العضو
                 </div>
-                <div
-                  className={`p-2 filter rounded-2`}
-                  onClick={() => {
-                    dispatch(searchR({ term: "" }));
-                    filter("user.national_id");
-                    setIsDisabled(false);
-                    setPlaceHolder("ابحث هنا...");
-                  }}
-                >
-                  رقم العضوية
-                </div>
                 <div className={`p-2 rounded-2`}>
                   <div>الحالة</div>
                   <div className={`pe-3`}>
