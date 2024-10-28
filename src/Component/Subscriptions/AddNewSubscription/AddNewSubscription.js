@@ -16,6 +16,7 @@ function AddNewSubscription() {
   const [showModalError, setShowModalError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -26,7 +27,7 @@ function AddNewSubscription() {
         freeze_duration: values["freeze_duration"],
         description: values["description"],
       };
-      const response = await fetch("http://104.248.251.235:8000/memberships/", {
+      const response = await fetch(`${api}/memberships/`, {
         method: "POST",
         headers: {
           accept: "application/json",

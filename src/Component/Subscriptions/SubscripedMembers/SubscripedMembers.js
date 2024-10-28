@@ -11,6 +11,8 @@ import { Active, AlmostOver, Expired, Freezed } from "../../Status/Status";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../../features/searchSlice";
+import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
+import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
   const [SubscripedMembers, setSubscripedMembers] = useState([]);
@@ -27,6 +29,9 @@ function SubscripedMembers() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
   const [filterType, setFilterType] = useState("user.name");
+  const api = process.env.REACT_APP_DOMAIN;
+  const [sendWhatsappMessage , setSendWhatsappMessage] = useState(false);
+  const [failedSendWhatsappMessage , setFailedSendWhatsappMessage] = useState(false);
   const filter = (filter) => {
     setFilterType(filter);
   };
@@ -41,7 +46,7 @@ function SubscripedMembers() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/members/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `${api}/members/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {
@@ -69,11 +74,11 @@ function SubscripedMembers() {
       }
     }
     fetchSubscripedMember();
-  }, [per_page, page, access_token, filterType, term]);
+  }, [per_page, page, access_token, filterType, term,api]);
   const sendData = async (user_id) => {
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/whatsapp/send-details/`,
+        `${api}/whatsapp/send-details/`,
         {
           method: "POST",
           headers: {
@@ -83,6 +88,13 @@ function SubscripedMembers() {
           body: JSON.stringify({ membership_id: user_id }),
         }
       );
+      if(response.ok){
+        setSendWhatsappMessage(true);
+        setFailedSendWhatsappMessage(false)
+      }else{
+        setSendWhatsappMessage(false);
+        setFailedSendWhatsappMessage(true);
+      }
       console.log(response);
     } catch (error) {}
   };
@@ -118,18 +130,7 @@ function SubscripedMembers() {
       <Helmet>
         <title>الاعضاء المشتركين</title>
       </Helmet>
-      {loading ? (
-        <div className="loader">
-          <Commet width="50px" height="50px" color="#316dcc" />
-        </div>
-      ) : SubscripedMembers.length === 0 ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد نتائج
-        </div>
-      ) : (
+     (
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
@@ -213,8 +214,19 @@ function SubscripedMembers() {
             </Filter>
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
-
-          {results?.data?.user_memberships?.length === 0 ? (
+          {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : SubscripedMembers.length === 0 ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد نتائج
+        </div>
+      ) : 
+          results?.data?.user_memberships?.length === 0 ? (
             <div
               className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
               style={{ color: "red", height: "60vh" }}
@@ -328,16 +340,9 @@ function SubscripedMembers() {
                     <th scope="col" className="pb-4">
                       اسم الإشتراك
                     </th>
-                    {/* <th scope="col" className="pb-4">
-                      الإجمالي
-                    </th> */}
                     <th scope="col" className="pb-4">
                       المدفوع
                     </th>
-                    {/* <th scope="col" className="pb-4">المتبقي</th> */}
-                    {/* <th scope="col" className="pb-4">
-                      الخصم
-                    </th> */}
                     <th scope="col" className="pb-4">
                       تاريخ الاشتراك
                     </th>
@@ -455,7 +460,18 @@ function SubscripedMembers() {
             </div>
           )}
         </div>
-      )}
+      ){"}"}
+      {/* modal*/}
+      <SuccessModal isOpen={sendWhatsappMessage} handleClose={()=>setSendWhatsappMessage(false)}>
+          <p className="text-center fw-bolder mt-4 mb-4">
+            تم ارسال التفاصيل عبر الواتساب الخاص بك بنجاح
+          </p>
+      </SuccessModal>
+      <FailedModal isOpen={failedSendWhatsappMessage} handleClose={()=>setFailedSendWhatsappMessage(false)}>
+        <p className="text-center fw-bolder mt-4 mb-4">
+           حدث خطأ ! فشل ارسال التفاصيل 
+        </p>
+      </FailedModal>
     </div>
   );
 }

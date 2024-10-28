@@ -25,7 +25,7 @@ function AllSubScriptions() {
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
+  const api = process.env.REACT_APP_DOMAIN;
   const dispatch = useDispatch();
   const [isDisabled, setIsDisabled] = useState(false);
   const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
@@ -44,7 +44,7 @@ function AllSubScriptions() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `${api}/memberships/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {
@@ -68,7 +68,7 @@ function AllSubScriptions() {
       }
     }
     fetchAllSubscriptionS();
-  }, [access_token, filterType, page, per_page, term]);
+  }, [access_token, filterType, page, per_page, term,api]);
 
   const handleShowDropMenu = (id) => {
     setShowDropdown(showDropdown === id ? null : id);
@@ -122,18 +122,6 @@ function AllSubScriptions() {
       <Helmet>
         <title>جميع الأشتراكات</title>
       </Helmet>
-      {loading ? (
-        <div className="loader">
-          <Commet width="50px" height="50px" color="#316dcc" />
-        </div>
-      ) : allSubscription.length === 0 ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد نتائج
-        </div>
-      ) : (
         <div className="allSubscriptionContainer__item">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3 mt-3">
             <ComponentTitle
@@ -198,8 +186,20 @@ function AllSubScriptions() {
               onclick={() => navigate("/Home/AddNewSubscription")}
             />
           </div>
-          {results?.data?.memberships?.length === 0 ? (
-            <div
+          {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : allSubscription.length === 0 ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد نتائج
+        </div>
+      ) :
+          results?.data?.memberships?.length === 0 ? (
+           <div
               className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
               style={{ color: "red", height: "60vh" }}
             >
@@ -384,7 +384,7 @@ function AllSubScriptions() {
             </div>
           )}
         </div>
-      )}
+      ){"}"}
     </div>
   );
 }

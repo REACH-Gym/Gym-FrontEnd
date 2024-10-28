@@ -20,6 +20,7 @@ function AddNewMember() {
   const [phone_numberExist, setPhone_numberExist] = useState(false);
   const valuesRef = useRef(null);
   const [error, setError] = useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (value) => {
     setLoading(true);
     console.log(value);
@@ -35,7 +36,7 @@ function AddNewMember() {
         gender: genderValue,
       };
       console.log(items);
-      const response = await fetch("http://104.248.251.235:8000/members", {
+      const response = await fetch(`${api}/members`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,7 +148,7 @@ function AddNewMember() {
           {({ values, handleChange, setFieldValue }) => {
             valuesRef.current = values;
             return (
-              <Form className={`addForm pt-4`}>
+              <Form className={`addForm pt-4 mt-2`}>
                 <div className={`row g-4 mt-2`}>
                   <div className={`col-4 col-lg-6`}>
                     <InputField name={"name"} label={"الأسم"} />

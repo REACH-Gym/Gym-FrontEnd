@@ -27,6 +27,7 @@ function Logs() {
   const term = useSelector((state) => state.search.term.term);
   const dispatch = useDispatch();
   const [filterType, setFilterType] = useState("action");
+  const api = process.env.REACT_APP_DOMAIN
   const filter = (filter) => {
     setFilterType(filter);
   };
@@ -36,7 +37,7 @@ function Logs() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/activity-logs/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `${api}/activity-logs/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {
@@ -64,7 +65,7 @@ function Logs() {
       }
     }
     fetchLogs();
-  }, [per_page, page, filterType, term]);
+  }, [per_page, page, filterType, term,api]);
 
   useEffect(() => {
     dispatch(clear());
@@ -113,18 +114,7 @@ function Logs() {
       <Helmet>
         <title>السجل</title>
       </Helmet>
-      {loading ? (
-        <div className="loader">
-          <Commet width="50px" height="50px" color="#316dcc" />
-        </div>
-      ) : logs.length === 0 ? (
-        <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
-        >
-          لا يوجد سجلات حالية
-        </div>
-      ) : (
+       {/* ( */}
         <div className="blogContainer__items">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
@@ -192,7 +182,18 @@ function Logs() {
             </Filter>
             <ComponentBtns />
           </div>
-          {results?.data?.activity_logs?.length === 0 ? (
+          {loading ? (
+        <div className="loader">
+          <Commet width="50px" height="50px" color="#316dcc" />
+        </div>
+      ) : logs.length === 0 ? (
+        <div
+          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          لا يوجد سجلات حالية
+        </div>
+      ) : results?.data?.activity_logs?.length === 0 ? (
             <div
               className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
               style={{ color: "red", height: "60vh" }}
@@ -363,7 +364,7 @@ function Logs() {
             </div>
           )}
         </div>
-      )}
+      ){"}"}
     </div>
   );
 }

@@ -12,12 +12,12 @@ function SubscriptionDetail() {
   const [showOptions, setShowOptions] = useState(false);
   const optionRef = useRef();
   const { id } = useParams();
-
+  const api = process.env.REACT_APP_DOMAIN;
   useEffect(() => {
     async function fetchDetails() {
       try {
         const response = await fetch(
-          `http://104.248.251.235:8000/members/memberships/${id}/`,
+          `${api}/members/memberships/${id}/`,
           {
             method: "GET",
             headers: {
@@ -38,7 +38,7 @@ function SubscriptionDetail() {
       }
     }
     fetchDetails();
-  }, [access_token, id]);
+  }, [access_token, id,api]);
 
   const handleClickOutside = (event) => {
     if (optionRef.current && !optionRef.current.contains(event.target)) {

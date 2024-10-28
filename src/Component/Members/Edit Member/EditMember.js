@@ -6,7 +6,6 @@ import MainButton from "../../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentTitle";
 import "./EditMember.css";
 import InputField from "../../../Common Components/InputField/InputField";
-import Modal from "../../../Common Components/Modal/Modal";
 import { Helmet } from "react-helmet";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
@@ -17,7 +16,7 @@ function EditMember() {
   const [showModalError, setShowModalError] = useState(false);
   const member = location.state?.member;
   const [loading, setLoading] = useState(false);
-
+  const api = process.env.REACT_APP_DOMAIN;
   const [initialValues, setInitialValues] = useState({
     name: "",
     national_id: "",
@@ -52,7 +51,7 @@ function EditMember() {
     };
     try {
       const response = await fetch(
-        `http://104.248.251.235:8000/members/${member.id}`,
+        `${api}/members/${member.id}`,
         {
           method: "PATCH",
           headers: {
@@ -76,11 +75,6 @@ function EditMember() {
       console.error("Error updating member:", error);
     }
   };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const handleCloseModalError = () => {
     setShowModalError(false);
   };
@@ -139,50 +133,14 @@ function EditMember() {
       </Formik>
 
       <SuccessModal isOpen={showModal}>
-        {/* <div className="d-flex justify-content-end">
-          <button
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-            onClick={handleCloseModal}
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/weui_done2-outlined.png"
-            alt="edit member"
-            height={"90px"}
-            width={"90px"}
-          />
-        </div>
-        <div> */}
         <p className="text-center mt-2  text-dark fw-bolder mb-5">
           تم تعديل العضو بنجاح
         </p>
-        {/* </div> */}
       </SuccessModal>
       <FailedModal isOpen={showModalError} handleClose={handleCloseModalError}>
-        {/* <div className="d-flex justify-content-end">
-          <button
-            className="border-0 pt-4 ps-4 failed fw-bolder"
-            onClick={handleCloseModalError}
-          >
-            X
-          </button>
-        </div>
-        <div className="text-center">
-          <img
-            src="/assets/image/material-symbols_sms-failed-outline-rounded.png"
-            alt="edit member"
-            height={"90px"}
-            width={"90px"}
-          />
-        </div>
-        <div> */}
         <p className="text-center mt-2  text-dark fw-bolder mb-5">
           حدث خطأ أثناء تعديل هذا العضو
         </p>
-        {/* </div> */}
       </FailedModal>
     </div>
   );

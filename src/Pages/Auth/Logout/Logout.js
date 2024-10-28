@@ -8,11 +8,11 @@ function Logout() {
   const access_token = localStorage.getItem("access");
   const [showModalLogout, setShowModalLogout] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const api = process.env.REACT_APP_DOMAIN;
   async function clearData() {
     setLoading(true);
     try {
-      const response = await fetch("http://104.248.251.235:8000/auth/logout", {
+      const response = await fetch(`${api}/auth/logout`, {
         method: "POST",
         headers: {
           accept: "*/*",

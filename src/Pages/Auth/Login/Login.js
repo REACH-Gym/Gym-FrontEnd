@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
@@ -17,8 +16,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const api = process.env.REACT_APP_DOMAIN;
-  // console.log(api);
-  // console.log("Environment Domain:", process.env.REACT_APP_DOMAIN);
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -47,7 +44,7 @@ function Login() {
           navigate("/Home");
         }, 2500);
         const fetchUserInfo = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          `${api}/current-employee`,
           {
             method: "GET",
             headers: {
