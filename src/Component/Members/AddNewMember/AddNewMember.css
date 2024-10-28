@@ -1,5 +1,6 @@
 .addMemberContainer {
   width: 100%;
+  min-height: 100vh;
 }
 .addForm {
   background-color: #fff;
@@ -12,8 +13,8 @@
 .addForm label {
   color: rgb(98, 98, 98);
 }
-.addMemberContainer{
-  background-color: #F2F4F5;
+.addMemberContainer {
+  background-color: #f2f4f5;
   width: 100%;
   padding: 80px 20px 20px 20px;
 }

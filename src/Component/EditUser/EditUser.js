@@ -1,6 +1,6 @@
 import InputField from "../../Common Components/InputField/InputField";
 import styles from "./EditUser.module.css";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
@@ -13,16 +13,53 @@ import { useNavigate, useParams } from "react-router-dom";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
 import { Commet } from "react-loading-indicators";
+import PhoneInput from "react-phone-input-2";
 
 const DynamicComponent = () => {
+  const { values, setFieldValue } = useFormikContext();
+  const [show, setShow] = useState(false);
   return (
     <>
       <div className={`row`}>
         <div className={`col-6`}>
           <InputField name="name" label="اسم العضو" />
         </div>
-        <div className={`col-6`}>
-          <InputField name="phone_number" label="رقم الهاتف" />
+        <div className={`col-6 phone-number position-relative`}>
+          <label className="mb-2 mt-2 text-secondary" htmlFor={"phone_number"}>
+            رقم الهاتف
+          </label>
+          <div className={`position-relative`}>
+            <Field
+              name={"phone_number"}
+              id={"phone_number"}
+              style={{
+                width: "100%",
+                backgroundColor: "#F4F4F4",
+                border: "none",
+                borderRadius: "5px",
+                padding: "10px",
+                outline: "none",
+                height: "52px",
+              }}
+            />
+            <div className={`countryCode`}>
+              <PhoneInput
+                country={"sa"} // Default country
+                value={values.countryCode}
+                onChange={(value) => setFieldValue("countryCode", value)}
+                inputProps={{
+                  name: "countryCode",
+                  required: true,
+                  autoFocus: true,
+                }}
+              />
+            </div>
+          </div>
+          <ErrorMessage
+            name={"phone_number"}
+            component="div"
+            className={"text-danger"}
+          />
         </div>
       </div>
       <div className={`row`}>
@@ -49,7 +86,48 @@ const DynamicComponent = () => {
           </InputField>
         </div>
         <div className={`col-6`}>
-          <InputField name={"password"} label={"كلمة المرور"} />
+          <InputField name={"national_id"} label={"رقم العضوية"} />
+        </div>
+        <div className={`col-6 position-relative`}>
+          <label className="d-block mt-2" htmlFor="password">
+            كلمة السر
+          </label>
+          <InputField
+            className="createNewPasswordForm__input mt-2 p-2"
+            name="password"
+            id="password"
+            type={show ? "text" : "password"}
+          />
+          <span
+            style={{
+              position: "absolute",
+              top: 51,
+              left: 25,
+              cursor: "pointer",
+            }}
+            onClick={() => setShow(!show)}
+          >
+            {!show ? (
+              <img
+                src="/assets/image/close eye.png"
+                alt="hide password"
+                width={"20px"}
+                height={"20px"}
+              />
+            ) : (
+              <img
+                src="/assets/image/open eye.png"
+                alt="show password"
+                width={"20px"}
+                height={"20px"}
+              />
+            )}
+          </span>
+          <ErrorMessage
+            name="new_password"
+            component="div"
+            className="text-danger mt-2"
+          />
         </div>
       </div>
       <div className={`row`}>

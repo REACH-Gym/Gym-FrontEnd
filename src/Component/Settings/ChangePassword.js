@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import { Formik, Form} from "formik";
+import { Formik, Form } from "formik";
 import InputField from "../../Common Components/InputField/InputField";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import * as Yup from "yup";
 import Modal from "../../../src/Common Components/Modal/Modal";
 import FailedModal from "../../Common Components/Modal/FailedModal/FailedModal";
 import { useNavigate } from "react-router-dom";
-import './Settings.css'
+import "./Settings.css";
 function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,7 @@ function ChangePassword() {
 
     try {
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/change-password",
+        "http://104.248.251.235:8000/auth/change-password",
         {
           method: "POST",
           headers: {
@@ -94,7 +94,7 @@ function ChangePassword() {
             <div className={`pt-5`}>
               <div className="mt-3 position-relative">
                 <InputField
-                label={'                  كلمة السر الحالية'}
+                  label={"                  كلمة السر الحالية"}
                   className="changePassForm__input p-2"
                   name="current_password"
                   id="current_password"
@@ -139,73 +139,73 @@ function ChangePassword() {
               </p>
             </div>
             <div className="mt-3 position-relative">
-                <InputField
-                label={'كلمة السر الجديدة'}
-                  className="changePassForm__input p-2"
-                  name="new_password"
-                  id="new_password"
-                  type={showNewPssword ? "text" : "password"}
-                />
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 51,
-                    left: 25,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setShowNewPassword(!showNewPssword)}
-                >
-                  {!showNewPssword ? (
-                    <img
-                      src="/assets/image/close eye.png"
-                      alt="hide password"
-                      width={"20px"}
-                      height={"20px"}
-                    />
-                  ) : (
-                    <img
-                      src="/assets/image/open eye.png"
-                      alt="show password"
-                      width={"20px"}
-                      height={"20px"}
-                    />
-                  )}
-                </span>
-              </div>
+              <InputField
+                label={"كلمة السر الجديدة"}
+                className="changePassForm__input p-2"
+                name="new_password"
+                id="new_password"
+                type={showNewPssword ? "text" : "password"}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  top: 51,
+                  left: 25,
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowNewPassword(!showNewPssword)}
+              >
+                {!showNewPssword ? (
+                  <img
+                    src="/assets/image/close eye.png"
+                    alt="hide password"
+                    width={"20px"}
+                    height={"20px"}
+                  />
+                ) : (
+                  <img
+                    src="/assets/image/open eye.png"
+                    alt="show password"
+                    width={"20px"}
+                    height={"20px"}
+                  />
+                )}
+              </span>
+            </div>
             <div className="mt-3 position-relative">
-                <InputField
-                label={' تأكيد كلمة السر الجديدة' }
-                  className="changePassForm__input p-2"
-                  name="confirm_password"
-                  id="confirm_password"
-                  type={showConfirm ? "text" : "password"}
-                />
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 51,
-                    left: 25,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setShowConfirm(!showConfirm)}
-                >
-                  {!showConfirm ? (
-                    <img
-                      src="/assets/image/close eye.png"
-                      alt="hide password"
-                      width={"20px"}
-                      height={"20px"}
-                    />
-                  ) : (
-                    <img
-                      src="/assets/image/open eye.png"
-                      alt="show password"
-                      width={"20px"}
-                      height={"20px"}
-                    />
-                  )}
-                </span>
-              </div>
+              <InputField
+                label={" تأكيد كلمة السر الجديدة"}
+                className="changePassForm__input p-2"
+                name="confirm_password"
+                id="confirm_password"
+                type={showConfirm ? "text" : "password"}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  top: 51,
+                  left: 25,
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowConfirm(!showConfirm)}
+              >
+                {!showConfirm ? (
+                  <img
+                    src="/assets/image/close eye.png"
+                    alt="hide password"
+                    width={"20px"}
+                    height={"20px"}
+                  />
+                ) : (
+                  <img
+                    src="/assets/image/open eye.png"
+                    alt="show password"
+                    width={"20px"}
+                    height={"20px"}
+                  />
+                )}
+              </span>
+            </div>
             <div className=" saveData text-center mt-5">
               <MainButton text={"حفظ"} btnType={"submit"} isLoading={loading} />
             </div>

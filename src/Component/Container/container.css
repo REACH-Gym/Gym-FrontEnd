@@ -1,5 +1,6 @@
-.container{
+.container {
   background-color: #f2f4f5;
+  min-height: 100vh;
 }
 .container__item {
   padding: 80px 0px 0px 0px;

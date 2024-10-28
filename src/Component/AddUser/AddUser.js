@@ -21,7 +21,7 @@ const DynamicComponent = () => {
         <div className={`col-6`}>
           <InputField name="name" label="اسم العضو" />
         </div>
-        <div className={`col-4 col-lg-6 phone-number position-relative`}>
+        <div className={`col-6 phone-number position-relative`}>
           <label className="mb-2 mt-2 text-secondary" htmlFor={"phone_number"}>
             رقم الهاتف
           </label>
@@ -42,8 +42,10 @@ const DynamicComponent = () => {
             <div className={`${styles.countryCode}`}>
               <PhoneInput
                 country={"sa"} // Default country
-                value={values.phone}
-                onChange={(value) => setFieldValue("countryCode", value)}
+                value={values.countryCode}
+                onChange={(value) =>
+                  setFieldValue("countryCode", value.target.value)
+                }
                 inputProps={{
                   name: "countryCode",
                   required: true,
@@ -175,15 +177,13 @@ const AddUser = () => {
     password: "",
     role: "",
     gender: "",
-    countryCode: "",
+    countryCode: "966",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
-    // phone_number: Yup.string()
-      // .matches(/^\d{11}$/, "يجب أن يكون رقم الهاتق مكون من 11 رقماً")
-      // .required("هذا الحقل الزامي"),
-      phone_number: Yup.string().max(11).required("يرجي ادخال رقم الهاتف"),
-
+    phone_number: Yup.string()
+      .max(11, "يجب ان يكون رقم الهاتف أقل من 11 رقم")
+      .required("هذا الحقل الزامي"),
     national_id: Yup.string()
       .matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10أرقام")
       .required("هذا الحقل الزامي"),
@@ -201,7 +201,7 @@ const AddUser = () => {
   });
 
   const [postEmployee, { isLoading: isEmployeeLoading }] =
-    usePostEmployeeMutation("/?filter{is_active}=true");
+    usePostEmployeeMutation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -216,6 +216,7 @@ const AddUser = () => {
       role: values["role"],
       gender: values["gender"],
     };
+    console.log(data);
     try {
       const response = await postEmployee(data).unwrap();
       console.log(response);
@@ -226,11 +227,12 @@ const AddUser = () => {
         window.location.reload();
       }, 1000);
     } catch (err) {
+      console.log(err);
       if (
         Object.keys(err.data.error).includes("national_id") &&
         Object.keys(err.data.error).includes("phone_number")
       ) {
-        setError("رقم العضوية مسجل مسبقاً.");
+        setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
         setTimeout(() => {
           setError("");
         }, 3000);
@@ -240,7 +242,7 @@ const AddUser = () => {
           setError("");
         }, 3000);
       } else if (Object.keys(err.data.error).includes("national_id")) {
-        setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
+        setError("رقم العضوية مسجل مسبقاً.");
         setTimeout(() => {
           setError("");
         }, 3000);
@@ -280,7 +282,6 @@ const AddUser = () => {
             onSubmit={handleSubmit}
           >
             {({ values }) => {
-              console.log(values);
               return (
                 <Form className={`d-grid gap-3`}>
                   <DynamicComponent />

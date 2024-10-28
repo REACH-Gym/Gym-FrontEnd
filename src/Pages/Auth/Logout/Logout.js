@@ -12,22 +12,20 @@ function Logout() {
   async function clearData() {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/logout",
-        {
-          method: "POST",
-          headers: {
-            accept: "*/*",
-            Authorization: access_token,
-          },
-        }
-      );
+      const response = await fetch("http://104.248.251.235:8000/auth/logout", {
+        method: "POST",
+        headers: {
+          accept: "*/*",
+          Authorization: access_token,
+        },
+      });
       const result = await response.json();
       console.log(result);
       if (response.ok) {
         localStorage.clear();
         setTimeout(() => {
           navigate("/");
+          window.location.reload();
         }, 1500);
       } else {
         console.error("Failed to log out");

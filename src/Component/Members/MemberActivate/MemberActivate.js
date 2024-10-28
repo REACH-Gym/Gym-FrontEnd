@@ -9,7 +9,7 @@ function MemberActivate({ id, onActive }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/members/activate/${id}`,
+        `http://104.248.251.235:8000/members/activate/${id}`,
         {
           method: "POST",
           headers: {
@@ -46,10 +46,7 @@ function MemberActivate({ id, onActive }) {
           />
         </svg>
         <div className="activateButton me-2">
-          <MainButton
-            onClick={() => setShowModal(true)}
-            text={"تفعيل العضو"}
-          />
+          <MainButton onClick={() => setShowModal(true)} text={"تفعيل العضو"} />
         </div>
       </div>
       <Modal isOpen={showModal}>
@@ -64,7 +61,10 @@ function MemberActivate({ id, onActive }) {
             />
           </div>
           <div>
-            <p className="text-center mt-2  text-dark" style={{fontWeight:"bolder" , fontSize:"15px"}}>
+            <p
+              className="text-center mt-2  text-dark"
+              style={{ fontWeight: "bolder", fontSize: "15px" }}
+            >
               هل أنت متأكد من أنك تريد اعادة تفعيل هذا العضو ؟
             </p>
           </div>

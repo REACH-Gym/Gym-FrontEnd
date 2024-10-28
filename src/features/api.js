@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await fetchBaseQuery({
-    baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+    baseUrl: `${process.env.REACT_APP_DOMAIN}`,
     prepareHeaders: (headers) => {
       headers.set("Authorization", localStorage.getItem("access"));
       headers.set("Content-Type", "application/json");
@@ -16,7 +16,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
     // Call the refresh token endpoint to get a new access token
     const refreshResult = await fetchBaseQuery({
-      baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+      baseUrl: `${process.env.REACT_APP_DOMAIN}`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
       // Retry the original request with the new access token
       result = await fetchBaseQuery({
-        baseUrl: "https://gym-backend-production-65cc.up.railway.app/",
+        baseUrl: `${process.env.REACT_APP_DOMAIN}`,
         prepareHeaders: (headers) => {
           headers.set("Authorization", refreshResult.data.data.access_token);
           headers.set("Content-Type", "application/json");
@@ -55,6 +55,9 @@ export const apis = createApi({
   reducerPath: "apis",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
+    userData: builder.query({
+      query: () => `current-employee`,
+    }),
     getAllMembers: builder.query({
       query: (params) => `members${params}`,
     }),
@@ -159,6 +162,9 @@ export const apis = createApi({
     getCoupons: builder.query({
       query: (params) => `coupons/active_coupons/${params}`,
     }),
+    getAllCoupons: builder.query({
+      query: (params) => `coupons/${params}`,
+    }),
     postCoupon: builder.mutation({
       query: (data) => ({
         url: "coupons/",
@@ -218,4 +224,6 @@ export const {
   useEditCouponMutation,
   useLazyGetRecietQuery,
   useLazyGetMembershipRecietQuery,
+  useGetAllCouponsQuery,
+  useUserDataQuery,
 } = apis;

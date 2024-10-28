@@ -154,12 +154,31 @@ const AddScheduleForm = () => {
           navigate("/Home/AllSchedules");
         }, 3000);
       } catch (e) {
-        if (e.originalStatus === 403) {
+        console.log(e);
+        if (
+          e.data.error.detail.startsWith(
+            "This trainer already has a schedule on"
+          )
+        ) {
+          setError("هذا الموعد متعارض مع موعد سابق.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (e.originalStatus === 403) {
           setError("ليس لديك الصلاحية لإضافة مجموعة.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else if (e.originalStatus === 401) {
           setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else {
           setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         }
       }
     }
@@ -241,9 +260,7 @@ const AddScheduleForm = () => {
       {success && (
         <Success text={"تم إضافة الموعد إلى المجموعة بنجاح"} show={success} />
       )}
-      {isScheduleError || error.length > 1 ? (
-        <Error text={error} show={isScheduleError || error.length > 1} />
-      ) : null}
+      {error.length > 1 ? <Error text={error} show={error.length > 1} /> : null}
       <div className={`${styles.schedulFormeContainer}`}>
         <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
           <ComponentTitle

@@ -5,10 +5,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
-
+import PhoneInput from "react-phone-input-2";
 function Login() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +23,7 @@ function Login() {
     setLoading(true);
     try {
       const items = {
-        phone_number: values["phone_number"],
+        phone_number: `${values["countryCode"]}${values["phone_number"]}`,
         password: values["password"],
         is_web: values["is_web"],
       };
@@ -88,12 +89,14 @@ function Login() {
   const initialValues = {
     phone_number: "",
     password: "",
+    countryCode: "966",
     is_web: true,
   };
 
   const validationSchema = Yup.object({
     phone_number: Yup.string().required("هذا الحقل إلزامي"),
     password: Yup.string().required("هذا الحقل إلزامي"),
+    countryCode: Yup.string().required("هذا الحقل إلزامي"),
   });
   const handleCloseModal = () => {
     setShowModalError(false);
@@ -105,80 +108,112 @@ function Login() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="login-form">
-          <div className="mt-3 d-flex justify-content-center">
-            <img
-              src="/assets/image/gym2 1.png"
-              alt="logo"
-              width={"149px"}
-              height={"149px"}
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="phone_number" className="d-block mb-2">
-              رقم الجوال
-            </label>
-            <Field id="phone_number" name="phone_number" />
-            <ErrorMessage
-              className="error-message mt-1 text-danger"
-              name="phone_number"
-              component="div"
-            />
-          </div>
-          <div className="mb-2 position-relative">
-            <label htmlFor="password" className="d-block mb-2 mt-4">
-              كلمة السر
-            </label>
-            <Field
-              name="password"
-              id="password"
-              type={show ? "text" : "password"}
-            />
-            <span
-              style={{
-                position: "absolute",
-                top: 45,
-                left: 25,
-                cursor: "pointer",
-              }}
-              onClick={() => setShow(!show)}
-            >
-              {!show ? (
+        {({ setFieldValue, values }) => {
+          return (
+            <Form className="login-form">
+              <div className="mt-3 d-flex justify-content-center">
                 <img
-                  src="/assets/image/close eye.png"
-                  alt="hide password"
-                  width={"20px"}
-                  height={"20px"}
+                  src="/assets/image/gym2 1.png"
+                  alt="logo"
+                  width={"149px"}
+                  height={"149px"}
                 />
-              ) : (
-                <img
-                  src="/assets/image/open eye.png"
-                  alt="show password"
-                  width={"20px"}
-                  height={"20px"}
+              </div>
+              <div className={`phone-number position-relative`}>
+                <label
+                  className="mb-2 mt-2 text-secondary"
+                  htmlFor={"phone_number"}
+                >
+                  رقم الهاتف
+                </label>
+                <div className={`position-relative mt-3`}>
+                  <Field
+                    name={"phone_number"}
+                    id={"phone_number"}
+                    style={{
+                      width: "100%",
+                      border: "1px solid lightgray",
+                      borderRadius: "5px",
+                      padding: "10px",
+                      outline: "none",
+                      height: "52px",
+                    }}
+                  />
+                  <div className={`countryCode`}>
+                    <PhoneInput
+                      country={"sa"} // Default country
+                      value={values.countryCode}
+                      onChange={(value) => setFieldValue("countryCode", value)}
+                      inputProps={{
+                        name: "countryCode",
+                        required: true,
+                        autoFocus: true,
+                      }}
+                    />
+                  </div>
+                </div>
+                <ErrorMessage
+                  name="phone_number"
+                  component="div"
+                  className="text-danger"
                 />
-              )}
-            </span>
-            <ErrorMessage
-              className="error-message mt-1 text-danger"
-              name="password"
-              component="div"
-            />
-          </div>
-          <Link
-            to={"ForgotPassword"}
-            className="text-decoration-none fw-bolder"
-          >
-            <span className="forgot-password">هل نسيت كلمة السر؟</span>
-          </Link>
-          <div className="mt-4 text-center login-btn">
-            <MainButton
-              text={"تسجيل الدخول"}
-              btnType="submit"
-              isLoading={loading}
-            />
-          </div>
-        </Form>
+              </div>
+              <div className="mb-2 position-relative">
+                <label htmlFor="password" className="d-block mb-2 mt-4">
+                  كلمة السر
+                </label>
+                <Field
+                  name="password"
+                  id="password"
+                  type={show ? "text" : "password"}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 45,
+                    left: 25,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShow(!show)}
+                >
+                  {!show ? (
+                    <img
+                      src="/assets/image/close eye.png"
+                      alt="hide password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  ) : (
+                    <img
+                      src="/assets/image/open eye.png"
+                      alt="show password"
+                      width={"20px"}
+                      height={"20px"}
+                    />
+                  )}
+                </span>
+                <ErrorMessage
+                  className="error-message mt-1 text-danger"
+                  name="password"
+                  component="div"
+                />
+              </div>
+              <Link
+                to={"ForgotPassword"}
+                className="text-decoration-none fw-bolder"
+              >
+                <span className="forgot-password">هل نسيت كلمة السر؟</span>
+              </Link>
+              <div className="mt-4 text-center login-btn">
+                <MainButton
+                  text={"تسجيل الدخول"}
+                  btnType="submit"
+                  isLoading={loading}
+                />
+              </div>
+            </Form>
+          );
+        }}
       </Formik>
       <SuccessModal isOpen={showModal} handleClose={() => setShowModal(false)}>
         <div className="text-center fw-lighter fs-5">

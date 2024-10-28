@@ -17,7 +17,7 @@ function ChangePhoneNumber() {
     };
     try {
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/auth/request-otp",
+        "http://104.248.251.235:8000/auth/request-otp",
         {
           method: "POST",
           headers: {
@@ -51,8 +51,7 @@ function ChangePhoneNumber() {
     countryCode: "",
   };
   const validationSchema = Yup.object({
-    phone_number: Yup.string()
-      .required("يرجي ادخال رقم الهاتف"),
+    phone_number: Yup.string().required("يرجي ادخال رقم الهاتف"),
     countryCode: Yup.string().required("يرجي ادخال كود الدولة"),
   });
   return (

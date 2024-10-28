@@ -110,6 +110,7 @@ const ReceiptDocument = ({
   promo,
   promoValue,
   url,
+  admin,
 }) => {
   const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
   const [hasEnglishC, setHasEnglishC] = useState(
@@ -158,8 +159,9 @@ const ReceiptDocument = ({
             (فاتورة ضريبية مبسطة)
           </Text>
           <Text style={{ textAlign: "center" }}>Balance Fitness Complix</Text>
-          <Text style={style.title}>0543842672</Text>
+          <Text style={style.title}>{url}</Text>
           <Text style={style.text}>التاريخ والوقت: {readableDate}</Text>
+          <Text style={style.text}>اسم المستخدم:{admin}</Text>
           <Text style={style.text}>
             {hasArabicC && !hasEnglishC
               ? `اسم العضو: ${customerName}`
@@ -209,7 +211,7 @@ const ReceiptDocument = ({
               fontSize: 4,
               textDecoration: "underline",
               textAlign: "center",
-              marginTop: 4,
+              marginTop: 1.5,
               marginBottom: 2,
             }}
           >
@@ -243,7 +245,7 @@ function AddNewMemberToSub() {
     async function fetchData() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/members/?filter{is_active}=true",
+          "http://104.248.251.235:8000/members/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -283,7 +285,7 @@ function AddNewMemberToSub() {
     async function fetchMemberShips() {
       try {
         const response = await fetch(
-          "https://gym-backend-production-65cc.up.railway.app/memberships/?filter{is_active}=true",
+          "http://104.248.251.235:8000/memberships/?filter{is_active}=true",
           {
             method: "GET",
             headers: {
@@ -314,7 +316,7 @@ function AddNewMemberToSub() {
     async function fetchPromoCode() {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/coupons/active_coupons/`,
+          `http://104.248.251.235:8000/coupons/active_coupons/`,
           {
             method: "GET",
             headers: {
@@ -355,7 +357,7 @@ function AddNewMemberToSub() {
   const handleSubmit = async (values) => {
     setLoading(true);
     console.log(values);
-    const uniqeId = uuidv4();
+    const uniqeId = new Date().getTime();
     try {
       const items = {
         user: values["user"],
@@ -386,8 +388,14 @@ function AddNewMemberToSub() {
                 (1 - (+values.discount + +promo[1]) / 100)
               ).toFixed(2),
       };
+      const filteredObject = Object.fromEntries(
+        Object.entries(items).filter(
+          ([key, value]) => +value !== 0 || value !== ""
+        )
+      );
+
       const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/members/memberships/",
+        "http://104.248.251.235:8000/members/memberships/",
         {
           method: "POST",
           headers: {
@@ -395,7 +403,7 @@ function AddNewMemberToSub() {
             "Content-Type": "application/json",
             Authorization: access_token,
           },
-          body: JSON.stringify(items),
+          body: JSON.stringify(filteredObject),
         }
       );
 
@@ -436,6 +444,7 @@ function AddNewMemberToSub() {
                 ? `${promo[1]}`
                 : `${(memberShipPrice * (+promo[1] / 100)).toFixed(2)}`
             }
+            admin={localStorage.getItem("name of user")}
           />
         );
         // Generate PDF blob
@@ -479,7 +488,7 @@ function AddNewMemberToSub() {
     membership: Yup.string().required("هذا الحقل الزامي"),
     notes: Yup.string(),
     start_date: Yup.date().required("هذا الحقل الزامي"),
-    discount: Yup.number().min(0).max(100).required("هذا الحقل الزامي"),
+    discount: Yup.number().min(0).max(100),
     promo_code: Yup.string(),
   });
 

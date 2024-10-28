@@ -10,7 +10,7 @@ function DeleteMember({ id, onDelete }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://gym-backend-production-65cc.up.railway.app/members/deactivate/${id}`,
+        `http://104.248.251.235:8000/members/deactivate/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -72,17 +72,20 @@ function DeleteMember({ id, onDelete }) {
                 style={{ padding: "12px" }}
               />
             </div>
-            <p className="text-center mt-2  text-dark" style={{fontWeight:"bolder"}}>
+            <p
+              className="text-center mt-2  text-dark"
+              style={{ fontWeight: "bolder" }}
+            >
               هل انت متأكد انك تريد حذف هذا العضو؟
             </p>
             <div className="d-flex justify-content-center delete mt-3 mb-4 fw-bolder ">
               <div className="confirmDeactive ms-3">
-              <MainButton
-              text={'تأكيد'}
-                onClick={handleDelete}
-                isLoading={loading}
-                // className="border-0 text-center fw-bolder text-dark p-2 rounded ms-3 delete-btn"
-              />
+                <MainButton
+                  text={"تأكيد"}
+                  onClick={handleDelete}
+                  isLoading={loading}
+                  // className="border-0 text-center fw-bolder text-dark p-2 rounded ms-3 delete-btn"
+                />
               </div>
               <button
                 onClick={handleCloseModal}

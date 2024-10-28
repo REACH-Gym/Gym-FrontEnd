@@ -5,32 +5,44 @@ import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../../Common Components/Main Button/MainButton";
 import { useEffect, useState } from "react";
-import { useGetEmployeesQuery } from "../../features/api";
+import { useGetEmployeesQuery, useUserDataQuery } from "../../features/api";
 import UsersItem from "../UsersItem/UsersItem";
 import { Commet } from "react-loading-indicators";
+import { useDispatch, useSelector } from "react-redux";
+import { clear, searchR } from "../../features/searchSlice";
 
 const UsersContainer = () => {
-  const [results, setResults] = useState([]);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  // function decodeJWT(token) {
-  //   const parts = token?.split(".");
-  //   if (parts?.length !== 3) {
-  //     throw new Error("JWT must have 3 parts");
-  //   }
-  //   const payload = parts[1];
-  //   const decodedPayload = JSON.parse(
-  //     atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
-  //   );
-  //   return decodedPayload;
-  // }
-  // const decodedToken = decodeJWT(localStorage.getItem("access"));
-  // const userId = decodedToken.user_id;
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
+  const term = useSelector((state) => state.search.term.term);
+  const dispatch = useDispatch();
+  const [filterType, setFilterType] = useState("name");
+  const filter = (filter) => {
+    setFilterType(filter);
+  };
+
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    error: userDataError,
+  } = useUserDataQuery();
+  console.log(userData);
   const {
     data: emplyees,
-    isFetching: isEmployeesLoading,
+    isLoading: isEmployeesLoading,
+    isFetching: isEmployeesFetching,
     error: employeesError,
-  } = useGetEmployeesQuery(`?page=${page}&per_page=20`);
+  } = useGetEmployeesQuery(
+    `?page=${page}&per_page=20&filter{-id}=${
+      userData?.data?.user?.id
+    }&filter{${filterType}.istartswith}=${term ? term : ""}`
+  );
+
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
 
   const [total_pages, setTotalPages] = useState(0);
   useEffect(() => {
@@ -39,7 +51,7 @@ const UsersContainer = () => {
     }
   }, [emplyees]);
 
-  if (isEmployeesLoading) {
+  if (isEmployeesLoading || isUserLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
@@ -50,11 +62,11 @@ const UsersContainer = () => {
     );
   }
 
-  if (employeesError) {
+  if (employeesError || userDataError) {
     if (employeesError.status === 403) {
       return (
         <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
-          ليس صلاحية الوصول لهذه الصفحة.
+          ليس لديك صلاحية الوصول الى هذه الصفحة
         </div>
       );
     } else if (employeesError.status === 401) {
@@ -85,12 +97,128 @@ const UsersContainer = () => {
             subTitle={"يمكنك متابعة جميع المستخدمين من هنا"}
           />
           <Filter
-            query={"employee"}
-            options={["الاسم"]}
-            searchResults={setResults}
-            status={false}
-            eStatus={false}
-          />
+            filter={true}
+            isDisabled={isDisabled}
+            placeHolder={placeHolder}
+            handleClear={() => {
+              dispatch(searchR({ term: "" }));
+              filter("name");
+              setIsDisabled(false);
+              setPlaceHolder("ابحث هنا...");
+            }}
+          >
+            <div className={`p-2 rounded-2 bg-white`}>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("name");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                الإسم
+              </div>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("phone_number");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                رقم الجوال
+              </div>
+              <div
+                className={`p-2 ${styles.filter} rounded-2`}
+                onClick={() => {
+                  dispatch(searchR({ term: "" }));
+                  filter("national_id");
+                  setIsDisabled(false);
+                  setPlaceHolder("ابحث هنا...");
+                }}
+              >
+                رقم العضوية
+              </div>
+              <div className={`p-2 rounded-2`}>
+                <div>الوظيفة</div>
+                <div className={`pe-3`}>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "S" }));
+                      filter("role");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الوظيفة");
+                    }}
+                  >
+                    مشرف عام
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "A" }));
+                      filter("role");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الوظيفة");
+                    }}
+                  >
+                    محاسب
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "T" }));
+                      filter("role");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الوظيفة");
+                    }}
+                  >
+                    مدرب
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "R" }));
+                      filter("role");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ الوظيفة");
+                    }}
+                  >
+                    موظف استقبال
+                  </div>
+                </div>
+              </div>
+              <div className={`p-2 rounded-2`}>
+                <div>النوع</div>
+                <div className={`pe-3`}>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "M" }));
+                      filter("gender");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ النوع");
+                    }}
+                  >
+                    ذكر
+                  </div>
+                  <div
+                    className={`p-2 rounded-2 ${styles.filter}`}
+                    onClick={() => {
+                      dispatch(searchR({ term: "F" }));
+                      filter("gender");
+                      setIsDisabled(true);
+                      setPlaceHolder("انت الآن تبحث بـ النوع");
+                    }}
+                  >
+                    أنثى
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Filter>
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}
             onclick={() => {
@@ -99,31 +227,14 @@ const UsersContainer = () => {
             }}
           />
         </div>
-        {results?.data?.users?.length > 0 ? (
-          <div className={` ${styles.tableContainer} text-end ps-4 pe-4`}>
-            <table className="w-100">
-              <thead>
-                <tr>
-                  <th className={`p-2 pt-3 pb-3`}>#</th>
-                  <th className={`p-2 pt-3 pb-3`}>الإسم</th>
-                  <th className={`p-2 pt-3 pb-3`}>الجوال</th>
-                  <th className={`p-2 pt-3 pb-3`}>رقم العضوية</th>
-                  <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
-                  <th className={`p-2 pt-3 pb-3`}>النوع</th>
-                  <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
-                  <th className={`p-2 pt-3 pb-3`}>الوظيفة</th>
-                  <th className={`p-2 pt-3 pb-3`}>الحالة</th>
-                  <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results?.data?.users?.map((item, index) => (
-                  <UsersItem key={index} index={index + 1} item={item} />
-                ))}
-              </tbody>
-            </table>
+        {isEmployeesFetching ? (
+          <div
+            className="d-flex justify-content-center align-items-center w-100"
+            style={{ height: "100vh" }}
+          >
+            <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : (
+        ) : emplyees?.data?.users?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -169,6 +280,13 @@ const UsersContainer = () => {
                 btnWidth="100px"
               />
             </div>
+          </div>
+        ) : (
+          <div
+            className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+            style={{ color: "red", height: "60vh" }}
+          >
+            لا يوجد نتائج
           </div>
         )}
       </div>

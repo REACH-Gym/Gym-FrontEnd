@@ -35,18 +35,15 @@ function AddNewMember() {
         gender: genderValue,
       };
       console.log(items);
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/members",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: access_token,
-            accept: "application/json",
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch("http://104.248.251.235:8000/members", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+          accept: "application/json",
+        },
+        body: JSON.stringify(items),
+      });
 
       const result = await response.json();
       console.log("Response status:", response.status);
@@ -94,7 +91,9 @@ function AddNewMember() {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("هذا الحقل الزامي"),
-    phone_number: Yup.string().max(11).required("هذا الحقل الزامي"),
+    phone_number: Yup.string()
+      .max(11, "يجب أن يكون رقم الهاتف أقل من 11 رقم")
+      .required("هذا الحقل الزامي"),
     national_id: Yup.string()
       .matches(/^[1-2]\d{9}$/, "يجب أن تبدأ برقم 1 أو 2، وتحتوي على 10أرقام")
       .required("هذا الحقل الزامي"),
@@ -119,7 +118,7 @@ function AddNewMember() {
     notes: "",
     date_of_birth: "",
     gender: "",
-    countryCode: "",
+    countryCode: "966",
   };
   const handleCloseModalError = () => {
     setShowModalError(false);
@@ -191,6 +190,11 @@ function AddNewMember() {
                         />
                       </div>
                     </div>
+                    <ErrorMessage
+                      name={"phone_number"}
+                      component="div"
+                      className={"text-danger"}
+                    />
                   </div>
                 </div>
                 <div className={`row g-4 mb-5`}>
@@ -302,8 +306,7 @@ function AddNewMember() {
       >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم العضوية موجود من قبل 
-            
+            حدث خطأ ! رقم العضوية موجود من قبل
           </p>
         </div>
       </FailedModal>
@@ -314,7 +317,7 @@ function AddNewMember() {
       >
         <div>
           <p className="text-center mt-2  text-dark fw-bolder mb-5">
-            حدث خطأ ! رقم الجوال موجود من قبل 
+            حدث خطأ ! رقم الجوال موجود من قبل
           </p>
         </div>
       </FailedModal>

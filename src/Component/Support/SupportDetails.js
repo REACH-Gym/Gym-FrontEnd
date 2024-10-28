@@ -9,7 +9,7 @@ function SupportDetails() {
     async function fetchSupportDetails() {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/support/${id}/`,
+          `http://104.248.251.235:8000/support/${id}/`,
           {
             method: "GET",
             headers: {
@@ -35,9 +35,7 @@ function SupportDetails() {
   return (
     <div className="supportDetailContainer">
       <Helmet>
-        <title>
-          تفاصيل رسالة الدعم
-        </title>
+        <title>تفاصيل رسالة الدعم</title>
       </Helmet>
       <div className="d-flex align-items-center justify-content-between pe-2">
         <ComponentTitle

@@ -74,8 +74,18 @@ const AddCoupon = () => {
         window.location.reload();
       }, 1000);
     } catch (error) {
+      console.log(error);
+      console.log(error.data.error.end_date);
       if (Object.keys(error.data.error).includes("code")) {
         setError("الكوبون بهذا الكود مسجل مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (
+        error.data.error.end_date[0] ===
+        "End date must be after the start date."
+      ) {
+        setError("يجب أن يكون تاريخ الإنتهاء بعد تاريخ البداية.");
         setTimeout(() => {
           setError("");
         }, 3000);

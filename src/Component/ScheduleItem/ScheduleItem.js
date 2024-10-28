@@ -122,6 +122,7 @@ const ScheduleItem = ({ index, session }) => {
         <td className="table-column p-2">{session.name}</td>
         <td className="table-column p-2">{session.price}</td>
         <td className="table-column p-2">{session.duration}</td>
+        <td className="table-column p-2">{session.freeze_duration}</td>
         <td className="table-column p-2">{session.description}</td>
         <td className="table-column p-2">
           {session.is_active === false ? <Deleted /> : <Active />}

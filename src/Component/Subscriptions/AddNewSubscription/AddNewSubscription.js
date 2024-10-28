@@ -14,8 +14,8 @@ function AddNewSubscription() {
   const access_token = localStorage.getItem("access");
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
-  const [loading , setLoading] = useState(false);
-  const [error , setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -26,18 +26,15 @@ function AddNewSubscription() {
         freeze_duration: values["freeze_duration"],
         description: values["description"],
       };
-      const response = await fetch(
-        "https://gym-backend-production-65cc.up.railway.app/memberships/",
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch("http://104.248.251.235:8000/memberships/", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify(items),
+      });
       const result = await response.json();
       if (response.ok) {
         console.log("Response data:", result);
@@ -49,7 +46,7 @@ function AddNewSubscription() {
         setError("ليس لديك صلاحية لعرض هذه المعلومات");
       } else if (response.status === 401) {
         setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
-      }else {
+      } else {
         console.error("Response status:", response.status);
         console.error("Response body:", result);
         console.log("Failed to add new Subscription");
@@ -79,9 +76,7 @@ function AddNewSubscription() {
   return (
     <div className="AddNewSubscriptionContainer">
       <Helmet>
-        <title>
-        إضافة أشتراك جديد
-        </title>
+        <title>إضافة أشتراك جديد</title>
       </Helmet>
       <div className="pe-4">
         <ComponentTitle
@@ -108,10 +103,16 @@ function AddNewSubscription() {
             </div>
             <div className="row mb-4 g-5">
               <div className="col-6">
-                <InputField name={"membership_duration"} label={" المدة بالشهر"} />
+                <InputField
+                  name={"membership_duration"}
+                  label={" المدة بالشهر"}
+                />
               </div>
               <div className="col-6">
-                <InputField name={"freeze_duration"} label={"أقصي حد للتجميد(بالأيام)"} />
+                <InputField
+                  name={"freeze_duration"}
+                  label={"أقصي حد للتجميد(بالأيام)"}
+                />
               </div>
             </div>
             <div className="col-12">
@@ -122,7 +123,11 @@ function AddNewSubscription() {
               />
             </div>
             <div className="addmemberBtn mt-5 text-center">
-              <MainButton text={"اضافة"} btnType={"submit"} isLoading={loading} />
+              <MainButton
+                text={"اضافة"}
+                btnType={"submit"}
+                isLoading={loading}
+              />
             </div>
           </Form>
         </Formik>

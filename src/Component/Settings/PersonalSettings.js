@@ -12,8 +12,7 @@ import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
 
 const USER_NAME_KEY = "name of logged in user";
-const API_URL =
-  "https://gym-backend-production-65cc.up.railway.app/current-employee";
+const API_URL = "http://104.248.251.235:8000/current-employee";
 
 function PersonalSettings() {
   const [loading, setLoading] = useState(true);
@@ -24,7 +23,7 @@ function PersonalSettings() {
     (async () => {
       try {
         const response = await fetch(
-          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
+          `http://104.248.251.235:8000/current-employee`,
           {
             method: "GET",
             headers: {

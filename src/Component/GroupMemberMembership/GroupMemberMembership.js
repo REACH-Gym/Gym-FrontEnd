@@ -106,7 +106,7 @@ const GroupMemberMembership = () => {
         <div className={`${styles.trainer}`}>
           <div className={`d-grid gap-4`}>
             <div className="row mb-4">
-              <div className={`col-4 text-end`}>
+              <div className={`col-3 text-end`}>
                 <img
                   src="/assets/image/Group 1000011667.png"
                   className="w-100"
@@ -116,7 +116,7 @@ const GroupMemberMembership = () => {
               </div>
             </div>
             <div className="row">
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/iconamoon_profile.png"}
@@ -131,7 +131,7 @@ const GroupMemberMembership = () => {
                   </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/phone.png"}
@@ -146,7 +146,7 @@ const GroupMemberMembership = () => {
                   </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/date.png"}
@@ -161,7 +161,7 @@ const GroupMemberMembership = () => {
                   </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
                     src={"/assets/image/iconamoon_profile.png"}
@@ -180,7 +180,7 @@ const GroupMemberMembership = () => {
               </div>
             </div>
             <div className="row">
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <svg
                     width="24"
@@ -201,11 +201,12 @@ const GroupMemberMembership = () => {
                     {
                       memberMembership?.data?.user_session?.schedule?.session
                         ?.price
-                    }
+                    }{" "}
+                    ريال
                   </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <svg
                     width="24"
@@ -221,16 +222,23 @@ const GroupMemberMembership = () => {
                   </svg>
                 </span>
                 <div className="me-2">
-                  <div className="mb-2 fw-bold">الخصم (%)</div>
-                  <div className="">
+                  <div className="mb-2 fw-bold">
+                    الخصم (%
                     {Number.parseInt(
                       memberMembership?.data?.user_session?.discount
                     )}
-                    %
+                    )
+                  </div>
+                  <div className="">
+                    {memberMembership?.data?.user_session?.schedule?.session
+                      ?.price *
+                      (memberMembership?.data?.user_session?.discount /
+                        100)}{" "}
+                    ريال
                   </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <svg
                     width="24"
@@ -246,11 +254,66 @@ const GroupMemberMembership = () => {
                   </svg>
                 </span>
                 <div className="me-2">
-                  <div className="mb-2 fw-bold">الضريبة (%)</div>
-                  <div className="">15%</div>
+                  <div className="mb-2 fw-bold">الضريبة (%15)</div>
+                  <div className="">
+                    {memberMembership?.data?.user_session?.coupon
+                      ?.discount_type === "price"
+                      ? `${
+                          memberMembership?.data?.user_session?.schedule
+                            ?.session?.price *
+                          (1 -
+                            (+memberMembership?.data?.user_session?.discount +
+                              +(
+                                +memberMembership?.data?.user_session?.coupon
+                                  ?.discount_value /
+                                memberMembership?.data?.user_session?.schedule
+                                  ?.session?.price
+                              ) *
+                                100) /
+                              100) *
+                          (15 / 100)
+                        }`
+                      : memberMembership?.data?.user_session?.schedule?.session
+                          ?.price *
+                        (1 -
+                          (+memberMembership?.data?.user_session?.discount +
+                            +memberMembership?.data?.user_session?.coupon
+                              ?.discount_value) /
+                            100) *
+                        (15 / 100)}{" "}
+                    ريال
+                  </div>
                 </div>
               </div>
-              <div className={`col-2 d-flex justify-content-start gap-2`}>
+              {memberMembership?.data?.user_session?.coupon && (
+                <div className={`col-3 d-flex justify-content-start gap-2`}>
+                  <div className="ms-3">
+                    <img src="/assets/image/ph_money (1).png" alt="icon" />
+                  </div>
+                  <div>
+                    <p className="mb-1 fw-bolder">
+                      الكوبون (
+                      {memberMembership?.data?.user_session?.coupon?.code})
+                    </p>
+                    <p style={{ fontSize: "13px" }}>
+                      {memberMembership?.data?.user_session?.coupon
+                        .discount_type === "price"
+                        ? `${memberMembership?.data?.user_session?.coupon?.discount_value}`
+                        : `${(
+                            memberMembership?.data?.user_session?.schedule
+                              ?.session?.price *
+                            (+memberMembership?.data?.user_session?.coupon
+                              .discount_value /
+                              100)
+                          ).toFixed(2)}`}{" "}
+                      ريال
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="row">
+              <div className={`col-3 d-flex justify-content-start gap-2`}>
                 <span>
                   <svg
                     width="24"
@@ -265,44 +328,36 @@ const GroupMemberMembership = () => {
                     />
                   </svg>
                 </span>
-                <div className="me-2">
-                  <div className="mb-2 fw-bold">الإجمالي</div>
+                <div className="col-3 me-2">
+                  <div className="mb-2 fw-bold">الإجمالي قبل الضريبة</div>
                   <div className="">
-                    {
-                      memberMembership?.data?.user_session?.schedule?.session
-                        ?.price_after_discount
-                    }
+                    {memberMembership?.data?.user_session?.coupon
+                      ?.discount_type === "price"
+                      ? (
+                          memberMembership?.data?.user_session?.schedule
+                            ?.session?.price *
+                          (1 -
+                            (+memberMembership?.data?.user_session?.discount +
+                              (+memberMembership?.data?.user_session?.coupon
+                                ?.discount_value /
+                                memberMembership?.data?.user_session?.schedule
+                                  ?.session?.price) *
+                                100) /
+                              100)
+                        ).toFixed(2)
+                      : (
+                          memberMembership?.data?.user_session?.schedule
+                            ?.session?.price *
+                          (1 -
+                            (+memberMembership?.data?.user_session?.discount +
+                              +memberMembership?.data?.user_session?.coupon
+                                ?.discount_value) /
+                              100)
+                        ).toFixed(2)}{" "}
+                    ريال
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              {/* <div className={`col-2 d-flex justify-content-start gap-2`}>
-                <span className="">
-                  <img
-                    src={"/assets/image/date.png"}
-                    width={"20px"}
-                    alt={"Icon"}
-                  />
-                </span>
-                <div className="me-2">
-                  <div className="mb-2 fw-bold">تاريخ التجميد</div>
-                  <div className="">-</div>
-                </div>
-              </div> */}
-              {/* <div className={`col-2 d-flex justify-content-start gap-2`}>
-                <span className="">
-                  <img
-                    src={"/assets/image/date.png"}
-                    width={"20px"}
-                    alt={"Icon"}
-                  />
-                </span>
-                <div className="me-2">
-                  <div className="mb-2 fw-bold">باقي التجميد</div>
-                  <div className="">-</div>
-                </div>
-              </div> */}
               <div className={`col-2 d-flex justify-content-start gap-2`}>
                 <span className="">
                   <img
@@ -329,8 +384,6 @@ const GroupMemberMembership = () => {
                 <tr>
                   <th>#</th>
                   <th>بيان</th>
-                  <th>اجمالي</th>
-                  <th>خصم فردي</th>
                   <th>اجمالي نهائي</th>
                   <th>من تاريخ</th>
                   <th>إلى تاريخ</th>
@@ -349,22 +402,8 @@ const GroupMemberMembership = () => {
                     }
                   </td>
                   <td>
-                    {
-                      memberMembership?.data?.user_session?.schedule?.session
-                        ?.price_after_discount
-                    }
+                    {memberMembership?.data?.user_session?.paid_money} ريال
                   </td>
-                  <td>
-                    {/* {(
-                      memberMembership?.data?.user_session?.actual_price *
-                      (1 - memberMembership?.data?.user_session?.discount / 100)
-                    ).toFixed(2)} */}
-                    {Number.parseInt(
-                      memberMembership?.data?.user_session?.discount
-                    )}
-                    %
-                  </td>
-                  <td>{memberMembership?.data?.user_session?.actual_price}</td>
                   <td>{memberMembership?.data?.user_session?.start_date}</td>
                   <td>{memberMembership?.data?.user_session?.end_date}</td>
                   <td>

@@ -195,15 +195,14 @@ function CreateNewPassword() {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center fw-bolder pb-3">
-          <p className="mt-4">
-          تم التحقق من الرقم 01013585051 </p>
+          <p className="mt-4">تم التحقق من الرقم 01013585051 </p>
         </div>
       </Modal>
       {/* error */}
       <Modal isOpen={showError}>
         <div className="">
           <button
-          style={{backgroundColor:"transparent"}}
+            style={{ backgroundColor: "transparent" }}
             className="border-0 ps-4 pe-4 pt-4 fw-bolder"
             onClick={() => setShowError(false)}
           >
@@ -223,7 +222,7 @@ function CreateNewPassword() {
         </div>
         <div className="d-flex align-items-center justify-content-center fw-bolder pb-3">
           <p className="mt-4" style={{}}>
-             كلمة المرور قصيرة جدًا. يجب أن تحتوي على 8 أحرف على الأقل.
+            كلمة المرور قصيرة جدًا. يجب أن تحتوي على 8 أحرف على الأقل.
           </p>
         </div>
       </Modal>
