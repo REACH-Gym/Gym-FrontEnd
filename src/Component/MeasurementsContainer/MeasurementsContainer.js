@@ -55,7 +55,8 @@ const MeasurementsContainer = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`fs-3 w-100 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          style={{ height: "100vh" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
@@ -72,50 +73,59 @@ const MeasurementsContainer = () => {
         />
         <ComponentBtns btn1={"+ إضافة قياس جديد "} />
       </div>
-      <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>
-        <table className="w-100">
-          <thead className={`fw-bold`}>
-            <tr>
-              <th className={`p-2 pt-3 pb-3`}>#</th>
-              <th className={`p-2 pt-3 pb-3`}>العضو</th>
-              <th className={`p-2 pt-3 pb-3`}>تاريخ القياس</th>
-              <th className={`p-2 pt-3 pb-3`}>الطول</th>
-              <th className={`p-2 pt-3 pb-3`}>الوزن</th>
-              <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
-              <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.data.map((e, index) => (
-              <MeasurementsItem
-                key={index}
-                index={data?.data.indexOf(e) + (page - 1) * 5 + 1}
-                item={e}
-              />
-            ))}
-          </tbody>
-        </table>
-        <div
-          className={`text-center m-auto mt-4 d-flex justify-content-between align-items-center`}
-          style={{ width: "350px" }}
-        >
-          <MainButton
-            text={"السابق"}
-            onClick={() => setPage((prev) => prev - 1)}
-            btnWidth="100px"
-            disabled={page === 1}
-          />
-          <p className="m-0">
-            الصفحة {page} من {totalPages}
-          </p>
-          <MainButton
-            text={"التالي"}
-            onClick={() => setPage((prev) => prev + 1)}
-            btnWidth="100px"
-            disabled={page === totalPages ? true : false}
-          />
+      {data?.data.length > 0 ? (
+        <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>
+          <table className="w-100">
+            <thead className={`fw-bold`}>
+              <tr>
+                <th className={`p-2 pt-3 pb-3`}>#</th>
+                <th className={`p-2 pt-3 pb-3`}>العضو</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ القياس</th>
+                <th className={`p-2 pt-3 pb-3`}>الطول</th>
+                <th className={`p-2 pt-3 pb-3`}>الوزن</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ التسجيل</th>
+                <th className={`p-2 pt-3 pb-3 text-center`}>خيارات</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.data.map((e, index) => (
+                <MeasurementsItem
+                  key={index}
+                  index={data?.data.indexOf(e) + (page - 1) * 5 + 1}
+                  item={e}
+                />
+              ))}
+            </tbody>
+          </table>
+          <div
+            className={`text-center m-auto mt-4 d-flex justify-content-between align-items-center`}
+            style={{ width: "350px" }}
+          >
+            <MainButton
+              text={"السابق"}
+              onClick={() => setPage((prev) => prev - 1)}
+              btnWidth="100px"
+              disabled={page === 1}
+            />
+            <p className="m-0">
+              الصفحة {page} من {totalPages}
+            </p>
+            <MainButton
+              text={"التالي"}
+              onClick={() => setPage((prev) => prev + 1)}
+              btnWidth="100px"
+              disabled={page === totalPages ? true : false}
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+          style={{ color: "red", height: "60vh" }}
+        >
+          لا يوجد نتائج
+        </div>
+      )}
     </div>
   );
 };
