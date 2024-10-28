@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
@@ -15,7 +16,9 @@ function Login() {
   const [showModalError, setShowModalError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-
+  const api = process.env.REACT_APP_DOMAIN;
+  // console.log(api);
+  // console.log("Environment Domain:", process.env.REACT_APP_DOMAIN);
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -24,8 +27,7 @@ function Login() {
         password: values["password"],
         is_web: values["is_web"],
       };
-      console.log(items);
-      const response = await fetch("http://104.248.251.235:8000/auth/login", {
+      const response = await fetch(`${api}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +47,7 @@ function Login() {
           navigate("/Home");
         }, 2500);
         const fetchUserInfo = await fetch(
-          `http://104.248.251.235:8000/current-employee`,
+          `https://gym-backend-production-65cc.up.railway.app/current-employee`,
           {
             method: "GET",
             headers: {

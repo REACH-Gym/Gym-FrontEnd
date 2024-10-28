@@ -16,8 +16,8 @@ function ConfirmCode() {
   const [modalExpired, setModalExpired] = useState(false);
   const [incorrectOtp, setIncorrectOtp] = useState(false);
   const [tooMantAttempts, setTooManyAttempts] = useState(false);
-  const [resend, setResend] = useState(false);
-
+  const [resend , setResend] =  useState(false);
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -32,7 +32,7 @@ function ConfirmCode() {
       const item = { otp, phone_number };
       console.log("Sending item:", item);
       const response = await fetch(
-        "http://104.248.251.235:8000/auth/verify-otp",
+        `${api}/auth/verify-otp`,
         {
           method: "POST",
           headers: {
@@ -83,7 +83,7 @@ function ConfirmCode() {
   const handleResendCode = async () => {
     try {
       const response = await fetch(
-        "http://104.248.251.235:8000/auth/request-otp",
+        `${api}/auth/request-otp`,
         {
           method: "POST",
           headers: {
