@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainButton from "../../../Common Components/Main Button/MainButton";
 import { Link, useNavigate } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
