@@ -144,7 +144,7 @@ export const apis = createApi({
     }),
     editMemberMembershipStartDate: builder.mutation({
       query: ({ id, data }) => ({
-        url: `members/memeberships/${id}/update-start-date/`,
+        url: `members/memberships/${id}/update-start-date/`,
         method: "PATCH",
         body: JSON.stringify(data),
       }),
@@ -158,7 +158,7 @@ export const apis = createApi({
     }),
     freezeMemberMembership: builder.mutation({
       query: ({ id, data }) => ({
-        url: `members/sessions/${id}/freeze/`,
+        url: `members/memberships/${id}/freeze/`,
         method: "PATCH",
         body: JSON.stringify(data),
       }),
@@ -172,7 +172,7 @@ export const apis = createApi({
     }),
     unFreezeMemberMembership: builder.mutation({
       query: (id) => ({
-        url: `members/sessions/${id}/unfreeze/`,
+        url: `members/memberships/${id}/unfreeze/`,
         method: "PATCH",
         body: JSON.stringify({}),
       }),
