@@ -94,6 +94,16 @@ const GroupsItem = ({ index, item }) => {
         } catch (error) {
           if (
             error?.data?.error?.detail?.startsWith(
+              "The period exceeds allowed freezing days."
+            )
+          ) {
+            setShowFreeze(false);
+            setError("المدة تخطت ايام التجميد المسموح بها، اختر تاريخاً أٌقرب");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (
+            error?.data?.error?.detail?.startsWith(
               "You cannot update the start date"
             )
           ) {
