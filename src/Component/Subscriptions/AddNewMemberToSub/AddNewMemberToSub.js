@@ -361,6 +361,7 @@ function AddNewMemberToSub() {
         start_date: values["start_date"],
         discount: values["discount"],
         coupon: values["promo_code"],
+        // payment_method: values["payment_method"],
         receipt_id: uniqeId,
         paid_money:
           promo[0] === "price"
@@ -474,6 +475,7 @@ function AddNewMemberToSub() {
     discount: "",
     status: "active",
     promo_code: "",
+    payment_method: "",
   };
   const validationSchema = Yup.object({
     user: Yup.string().required("هذا الحقل الزامي"),
@@ -482,6 +484,7 @@ function AddNewMemberToSub() {
     start_date: Yup.date().required("هذا الحقل الزامي"),
     discount: Yup.number().min(0).max(100),
     promo_code: Yup.string(),
+    payment_method: Yup.string().required("هذا الحقل الزامي"),
   });
 
   const handleCloseModalError = () => {
