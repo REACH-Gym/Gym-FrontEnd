@@ -17,18 +17,15 @@ function ChangePhoneNumber() {
       phone_number: `${value["countryCode"]}${value["phone_number"]}`,
     };
     try {
-      const response = await fetch(
-        `${api}/auth/request-otp`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: localStorage.getItem("access"),
-            accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(item),
-        }
-      );
+      const response = await fetch(`${api}/auth/request-otp`, {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("access"),
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      });
       const result = await response.json();
       console.log(result);
       if (response.ok) {
@@ -49,7 +46,7 @@ function ChangePhoneNumber() {
   };
   const intialValues = {
     phone_number: "",
-    countryCode: "",
+    countryCode: "966",
   };
   const validationSchema = Yup.object({
     phone_number: Yup.string().required("يرجي ادخال رقم الهاتف"),
