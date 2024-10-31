@@ -23,7 +23,7 @@
 .subMenu {
   position: absolute;
   background-color: white;
-  width: 190px;
+  width: 220px;
   height: fit-content;
   z-index: 1000;
   left: 0;

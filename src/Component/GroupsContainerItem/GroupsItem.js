@@ -1,11 +1,18 @@
 import styles from "./GroupsItem.module.css";
 import { Active, AlmostOver, Expired, Freezed } from "../Status/Status";
+import Warning from "../../Common Components/Warning/Warning";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
-import { useSendDetailsMutation } from "../../features/api";
+import {
+  useEditMemberSessionStartDateMutation,
+  useFreezeMemberSessionMutation,
+  useSendDetailsMutation,
+  useUnFreezeMemberSessionMutation,
+} from "../../features/api";
 import Success from "../../Common Components/Success/Success";
 import Error from "../../Common Components/Error/Error";
 import { Commet } from "react-loading-indicators";
+import FreezeBox from "../FreezeBox/FreezeBox";
 
 // Measurements table item
 // props --> object that has: number of the row, member name, measurement date, height, register date
@@ -14,7 +21,176 @@ const GroupsItem = ({ index, item }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showChangeDate, setShowChangeDate] = useState(false);
+  const [showFreeze, setShowFreeze] = useState(false);
   const options = useRef(null);
+  const [editStartDate, { isLoading: isEditStartDateLoading }] =
+    useEditMemberSessionStartDateMutation();
+  const [freeze, { isLoading: isFreezeLoading }] =
+    useFreezeMemberSessionMutation();
+  const [unFreeze, { isLoading: isUnFreezeLoading }] =
+    useUnFreezeMemberSessionMutation();
+  const [date, setDate] = useState("");
+
+  const handleEdit = async (start_date) => {
+    console.log(start_date);
+    if (showFreeze) {
+      if (item.status === "freezed") {
+        try {
+          const response = await unFreeze(item.id).unwrap();
+          console.log(response);
+          setShowFreeze(false);
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.reload();
+            setSuccess(false);
+          }, 2000);
+        } catch (error) {
+          if (
+            error.data.error.detail.startsWith(
+              "You cannot update the start date"
+            )
+          ) {
+            setShowFreeze(false);
+            setError(
+              "لا يمكنك تعديل الإشتراك لأنه بدأ بالفعل، ولكن يمكنك تجميده"
+            );
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (error.originalStatus === 403) {
+            setShowFreeze(false);
+            setError("ليس لديك الصلاحية لتغيير تاريخ البداية.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (error.originalStatus === 401) {
+            setShowFreeze(false);
+            setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else {
+            setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+            setShowFreeze(false);
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          }
+        }
+      } else {
+        try {
+          const response = await freeze({
+            id: item.id,
+            data: { freezed_date: start_date },
+          }).unwrap();
+          console.log(response);
+          setShowFreeze(false);
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.reload();
+            setSuccess(false);
+          }, 2000);
+        } catch (error) {
+          if (
+            error?.data?.error?.detail?.startsWith(
+              "The period exceeds allowed freezing days."
+            )
+          ) {
+            setShowFreeze(false);
+            setError("المدة تخطت ايام التجميد المسموح بها، اختر تاريخاً أٌقرب");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (
+            error?.data?.error?.detail?.startsWith(
+              "You cannot update the start date"
+            )
+          ) {
+            setShowFreeze(false);
+            setError(
+              "لا يمكنك تعديل الإشتراك لأنه بدأ بالفعل، ولكن يمكنك تجميده"
+            );
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (error.originalStatus === 403) {
+            setShowFreeze(false);
+            setError("ليس لديك الصلاحية لتغيير تاريخ البداية.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else if (error.originalStatus === 401) {
+            setShowFreeze(false);
+            setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          } else {
+            setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+            setShowFreeze(false);
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          }
+        }
+      }
+    } else if (showChangeDate) {
+      try {
+        const response = await editStartDate({
+          id: item.id,
+          data: { start_date: start_date },
+        }).unwrap();
+        console.log(response);
+        setShowChangeDate(false);
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.reload();
+          setSuccess(false);
+        }, 2000);
+      } catch (error) {
+        if (
+          error?.data?.error?.detail?.startsWith(
+            "The period exceeds allowed freezing days."
+          )
+        ) {
+          setShowChangeDate(false);
+          setError("المدة تخطت ايام التجميد المسموح بها، اختر تاريخاً أٌقرب");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (
+          error.data.error.detail.startsWith("You cannot update the start date")
+        ) {
+          setShowChangeDate(false);
+          setError(
+            "لا يمكنك تعديل الإشتراك لأنه بدأ بالفعل، ولكن يمكنك تجميده"
+          );
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (error.originalStatus === 403) {
+          setShowChangeDate(false);
+          setError("ليس لديك الصلاحية لتغيير تاريخ البداية.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (error.originalStatus === 401) {
+          setShowChangeDate(false);
+          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else {
+          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+          setShowChangeDate(false);
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        }
+      }
+    }
+  };
   const handleOptions = () => {
     document.addEventListener("click", (e) => {
       console.log(e.target);
@@ -71,6 +247,34 @@ const GroupsItem = ({ index, item }) => {
         <Success text={"تم تعديل بيانات المجموعة بنجاح"} show={success} />
       )}
       {error.length > 0 && <Error text={error} show={error.length > 0} />}
+      {showFreeze && item.status === "freezed" ? (
+        <Warning
+          text={"هل تريد إلغاء التجميد؟"}
+          handleCancel={() => {
+            setShowFreeze(false);
+          }}
+          handleConfirm={() => {
+            handleEdit(date);
+          }}
+          isLoading={isUnFreezeLoading}
+        />
+      ) : null}
+      {showChangeDate || (showFreeze && item.status !== "freezed") ? (
+        <FreezeBox
+          text={showChangeDate ? "تعديل تاريخ البداية" : "تجميد الإشتراك"}
+          desc={"من فضلك قم بإدخال تاريخ البداية الجديد"}
+          handleCancel={() => {
+            showFreeze ? setShowFreeze(false) : setShowChangeDate(false);
+          }}
+          handleConfirm={() => {
+            handleEdit(date);
+          }}
+          isLoading={
+            isEditStartDateLoading || isFreezeLoading || isUnFreezeLoading
+          }
+          dateValue={setDate}
+        />
+      ) : null}
       <tr className={`${styles.tableRow}`}>
         <td className="table-column p-2">{index}</td>
         <td className="table-column p-2">{item.user.name}</td>
@@ -119,6 +323,94 @@ const GroupsItem = ({ index, item }) => {
 
               <div className={`d-inline-block`}>التفاصيل</div>
             </div>
+            {item.status === "freezed" ? (
+              <div
+                className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
+                onClick={() => {
+                  setShowFreeze(true);
+                }}
+              >
+                <svg
+                  width="20px"
+                  height="20px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ alignSelf: "center" }}
+                >
+                  <path
+                    d="M12 2.84952C17.0537 2.84952 21.1505 6.94634 21.1505 12C21.1505 17.0537 17.0537 21.1505 12 21.1505C6.94631 21.1505 2.84949 17.0537 2.84949 12C2.84949 6.94634 6.94631 2.84952 12 2.84952Z"
+                    stroke="#1C1C1C"
+                    stroke-width="1.69905"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M11.085 14.7452L9.25489 12.9151C8.74953 12.4097 8.74953 11.5903 9.25489 11.0849L11.085 9.25485C11.5904 8.74948 12.4097 8.74948 12.9151 9.25485L14.7452 11.0849C15.2506 11.5903 15.2506 12.4097 14.7452 12.9151L12.9151 14.7452C12.4097 15.2505 11.5904 15.2505 11.085 14.7452Z"
+                    stroke="#1C1C1C"
+                    stroke-width="1.69905"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+                <div className={`d-inline-block`}>إلغاء التجميد</div>
+              </div>
+            ) : item.status === "active" ? (
+              <div
+                className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
+                onClick={() => {
+                  setShowFreeze(true);
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ alignSelf: "center" }}
+                >
+                  <path
+                    d="M3.5 8.50645L5.7065 8.49895L10.5225 3.72895C10.7115 3.53995 10.8155 3.28895 10.8155 3.02195C10.8155 2.75495 10.7115 2.50395 10.5225 2.31495L9.7295 1.52195C9.3515 1.14395 8.692 1.14595 8.317 1.52045L3.5 6.29145V8.50645ZM9.0225 2.22895L9.817 3.02045L9.0185 3.81145L8.2255 3.01895L9.0225 2.22895ZM4.5 6.70845L7.515 3.72195L8.308 4.51495L5.2935 7.50045L4.5 7.50295V6.70845Z"
+                    fill="#4F4F4F"
+                  />
+                  <path
+                    d="M2.5 10.5H9.5C10.0515 10.5 10.5 10.0515 10.5 9.5V5.166L9.5 6.166V9.5H4.079C4.066 9.5 4.0525 9.505 4.0395 9.505C4.023 9.505 4.0065 9.5005 3.9895 9.5H2.5V2.5H5.9235L6.9235 1.5H2.5C1.9485 1.5 1.5 1.9485 1.5 2.5V9.5C1.5 10.0515 1.9485 10.5 2.5 10.5Z"
+                    fill="#4F4F4F"
+                  />
+                </svg>
+
+                <div className={`d-inline-block`}>تجميد</div>
+              </div>
+            ) : null}
+            {item.status === "freezed" &&
+              item.start_date > new Date().getDate() && (
+                <div
+                  className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
+                  onClick={() => {
+                    setShowChangeDate(true);
+                  }}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ alignSelf: "center" }}
+                  >
+                    <path
+                      d="M3.5 8.50645L5.7065 8.49895L10.5225 3.72895C10.7115 3.53995 10.8155 3.28895 10.8155 3.02195C10.8155 2.75495 10.7115 2.50395 10.5225 2.31495L9.7295 1.52195C9.3515 1.14395 8.692 1.14595 8.317 1.52045L3.5 6.29145V8.50645ZM9.0225 2.22895L9.817 3.02045L9.0185 3.81145L8.2255 3.01895L9.0225 2.22895ZM4.5 6.70845L7.515 3.72195L8.308 4.51495L5.2935 7.50045L4.5 7.50295V6.70845Z"
+                      fill="#4F4F4F"
+                    />
+                    <path
+                      d="M2.5 10.5H9.5C10.0515 10.5 10.5 10.0515 10.5 9.5V5.166L9.5 6.166V9.5H4.079C4.066 9.5 4.0525 9.505 4.0395 9.505C4.023 9.505 4.0065 9.5005 3.9895 9.5H2.5V2.5H5.9235L6.9235 1.5H2.5C1.9485 1.5 1.5 1.9485 1.5 2.5V9.5C1.5 10.0515 1.9485 10.5 2.5 10.5Z"
+                      fill="#4F4F4F"
+                    />
+                  </svg>
+
+                  <div className={`d-inline-block`}>تعديل تاريخ البداية</div>
+                </div>
+              )}
             <div
               className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
               onClick={handleSendDetails}
@@ -139,31 +431,6 @@ const GroupsItem = ({ index, item }) => {
 
               <div className={`d-inline-block`}>اعادة الإرسال</div>
             </div>
-            {/* <div
-            className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"
-            onClick={() => {
-              navigate(`/Home/EditGroupMember/${item.id}/`);
-            }}
-          >
-            <svg
-              width="25"
-              height="25"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ alignSelf: "center" }}
-            >
-              <path
-                d="M3.5 8.50645L5.7065 8.49895L10.5225 3.72895C10.7115 3.53995 10.8155 3.28895 10.8155 3.02195C10.8155 2.75495 10.7115 2.50395 10.5225 2.31495L9.7295 1.52195C9.3515 1.14395 8.692 1.14595 8.317 1.52045L3.5 6.29145V8.50645ZM9.0225 2.22895L9.817 3.02045L9.0185 3.81145L8.2255 3.01895L9.0225 2.22895ZM4.5 6.70845L7.515 3.72195L8.308 4.51495L5.2935 7.50045L4.5 7.50295V6.70845Z"
-                fill="#4F4F4F"
-              />
-              <path
-                d="M2.5 10.5H9.5C10.0515 10.5 10.5 10.0515 10.5 9.5V5.166L9.5 6.166V9.5H4.079C4.066 9.5 4.0525 9.505 4.0395 9.505C4.023 9.505 4.0065 9.5005 3.9895 9.5H2.5V2.5H5.9235L6.9235 1.5H2.5C1.9485 1.5 1.5 1.9485 1.5 2.5V9.5C1.5 10.0515 1.9485 10.5 2.5 10.5Z"
-                fill="#4F4F4F"
-              />
-            </svg>
-            <div className={`d-inline-block`}>تعديل</div>
-          </div> */}
           </div>
         </td>
       </tr>

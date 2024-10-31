@@ -211,8 +211,8 @@ const ReceiptDocument = ({
               fontSize: 4,
               textDecoration: "underline",
               textAlign: "center",
-              marginTop: 1.5,
-              marginBottom: 2,
+              marginTop: 1,
+              marginBottom: 1,
             }}
           >
             الإجمالي النهائي يشمل ضريبة القيمة المضافة
@@ -245,16 +245,13 @@ function AddNewMemberToSub() {
     // fetch users
     async function fetchData() {
       try {
-        const response = await fetch(
-          `${api}/members/?filter{is_active}=true`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: access_token,
-            },
-          }
-        );
+        const response = await fetch(`${api}/members/?filter{is_active}=true`, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: access_token,
+          },
+        });
         const user = await response.json();
 
         if (response.ok) {
@@ -271,7 +268,7 @@ function AddNewMemberToSub() {
       }
     }
     fetchData();
-  }, [access_token,api]);
+  }, [access_token, api]);
   const [values, setValues] = useState({
     user: "",
     membership: "",
@@ -310,22 +307,19 @@ function AddNewMemberToSub() {
       }
     }
     fetchMemberShips();
-  }, [access_token,api]);
+  }, [access_token, api]);
 
   //get promo code
   useEffect(() => {
     async function fetchPromoCode() {
       try {
-        const response = await fetch(
-          `${api}/coupons/active_coupons/`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: localStorage.getItem("access"),
-            },
-          }
-        );
+        const response = await fetch(`${api}/coupons/active_coupons/`, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: localStorage.getItem("access"),
+          },
+        });
         const result = await response.json();
         console.log("promo code", result);
         if (response.ok) {
@@ -367,6 +361,7 @@ function AddNewMemberToSub() {
         start_date: values["start_date"],
         discount: values["discount"],
         coupon: values["promo_code"],
+        // payment_method: values["payment_method"],
         receipt_id: uniqeId,
         paid_money:
           promo[0] === "price"
@@ -395,18 +390,15 @@ function AddNewMemberToSub() {
         )
       );
 
-      const response = await fetch(
-        `${api}/members/memberships/`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(filteredObject),
-        }
-      );
+      const response = await fetch(`${api}/members/memberships/`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify(filteredObject),
+      });
 
       const subscriptions = await response.json();
       console.log(subscriptions);
@@ -483,6 +475,7 @@ function AddNewMemberToSub() {
     discount: "",
     status: "active",
     promo_code: "",
+    payment_method: "",
   };
   const validationSchema = Yup.object({
     user: Yup.string().required("هذا الحقل الزامي"),
@@ -491,6 +484,7 @@ function AddNewMemberToSub() {
     start_date: Yup.date().required("هذا الحقل الزامي"),
     discount: Yup.number().min(0).max(100),
     promo_code: Yup.string(),
+    payment_method: Yup.string().required("هذا الحقل الزامي"),
   });
 
   const handleCloseModalError = () => {

@@ -135,6 +135,48 @@ export const apis = createApi({
         body: JSON.stringify(data),
       }),
     }),
+    editMemberSessionStartDate: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `members/sessions/${id}/update-start-date/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
+    editMemberMembershipStartDate: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `members/memberships/${id}/update-start-date/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
+    freezeMemberSession: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `members/sessions/${id}/freeze/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
+    freezeMemberMembership: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `members/memberships/${id}/freeze/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
+    unFreezeMemberSession: builder.mutation({
+      query: (id) => ({
+        url: `members/sessions/${id}/unfreeze/`,
+        method: "PATCH",
+        body: JSON.stringify({}),
+      }),
+    }),
+    unFreezeMemberMembership: builder.mutation({
+      query: (id) => ({
+        url: `members/memberships/${id}/unfreeze/`,
+        method: "PATCH",
+        body: JSON.stringify({}),
+      }),
+    }),
     patchSession: builder.mutation({
       query: ({ id, data }) => ({
         url: `sessions/${id}/`,
@@ -226,4 +268,10 @@ export const {
   useLazyGetMembershipRecietQuery,
   useGetAllCouponsQuery,
   useUserDataQuery,
+  useEditMemberSessionStartDateMutation,
+  useFreezeMemberSessionMutation,
+  useUnFreezeMemberSessionMutation,
+  useFreezeMemberMembershipMutation,
+  useUnFreezeMemberMembershipMutation,
+  useEditMemberMembershipStartDateMutation,
 } = apis;

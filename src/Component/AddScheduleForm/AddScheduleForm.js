@@ -188,7 +188,7 @@ const AddScheduleForm = () => {
     data: trainers,
     isLoading: isEmployeesLoading,
     error: employeesError,
-  } = useGetEmployeesQuery("?filter{role}=T");
+  } = useGetEmployeesQuery("?filter{role}=T&filter{is_active}=true");
 
   const {
     data: sessions,
