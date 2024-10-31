@@ -1,6 +1,6 @@
 .login {
   position: relative;
-  background-image: url("/public/assets/image/gymm 2.png");
+  background-image: url("/public/assets/image/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -18,13 +18,15 @@
   z-index: 1;
 }
 .login-form {
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 5px;
-  margin: auto;
+  /* margin: auto; */
   position: relative;
   z-index: 2;
   padding: 30px;
   width: 30%;
+  margin-top: 150px;
+  margin-right: 50px;
 }
 .login-form input {
   outline: none;
@@ -35,7 +37,7 @@
   padding: 10px;
 }
 .login-form label {
-  color: #888888;
+  color: #fff;
 }
 .login-btn button {
   width: 100%;
@@ -43,7 +45,7 @@
 }
 .forgot-password {
   font-size: 13px;
-  color: #3572ef;
+  color: lightgray;
 }
 .modal-img {
   position: absolute;

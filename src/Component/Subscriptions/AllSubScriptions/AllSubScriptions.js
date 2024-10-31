@@ -384,7 +384,6 @@ function AllSubScriptions() {
             </div>
           )}
         </div>
-      ){"}"}
     </div>
   );
 }

@@ -48,10 +48,10 @@ function Navbar({ userData }) {
   }, []);
   return (
     <div className="navbarContainer">
-      <nav className="navbar bg-body-tertiary fixed-top">
+      <nav className="navbar  fixed-top">
         <div className="container-fluid ">
           <div className="mt-3">
-            <img src="/assets/image/logo(1).png" alt="" />
+            <img src="/assets/image/Group 1000011864.png" alt="" />
           </div>
           <div
             style={{ cursor: "pointer" }}
@@ -60,7 +60,7 @@ function Navbar({ userData }) {
           >
             <div className="d-flex align-items-center ">
               <div>
-                <p className="mb-0 fw-bolder ms-3 fs-6">
+                <p className="mb-0 fw-bolder ms-3 fs-6 text-light">
                   {userData?.data?.user?.name}
                 </p>
               </div>
@@ -129,7 +129,7 @@ function Navbar({ userData }) {
                       <span className="me-2">تعديل كلمة السر</span>
                     </p>
                   </Link>
-                  <Link
+                  {/* <Link
                     className="text-decoration-none text-dark"
                     to={"ChagePhoneNumber"}
                   >
@@ -147,7 +147,7 @@ function Navbar({ userData }) {
                       </svg>
                       <span className="me-3">تعديل رقم الجوال</span>
                     </p>
-                  </Link>
+                  </Link> */}
                   <Link
                     to={"PersonalSettings"}
                     className="text-decoration-none text-dark"

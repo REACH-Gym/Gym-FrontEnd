@@ -69,7 +69,7 @@ function AllMembers() {
       }
     }
     fetchAllMembers();
-  }, [access_token, filterType, page, per_page, term]);
+  }, [access_token, api, filterType, page, per_page, term]);
 
   useEffect(() => {
     dispatch(clear());
@@ -447,7 +447,7 @@ function AllMembers() {
                 </tbody>
               </table>
               <div className="d-flex justify-content-center align-items-center mt-5">
-                <div className="preivous-btn">
+                <div className="preivous-btn text-light">
                   <MainButton
                     text={"السابق"}
                     onClick={handlePrevPage}
@@ -455,11 +455,11 @@ function AllMembers() {
                   />
                 </div>
                 <div>
-                  <span className="ms-3 me-3">
+                  <span className="ms-3 me-3 text-light">
                     الصفحة {totalPages} من {page}
                   </span>
                 </div>
-                <div className="next-btn">
+                <div className="next-btn text-light">
                   <MainButton
                     text={"التالي"}
                     onClick={handleNextPage}
@@ -471,7 +471,6 @@ function AllMembers() {
           )}
         </div>
       </div>
-      {/* </div> */}){"}"}
     </div>
   );
 }

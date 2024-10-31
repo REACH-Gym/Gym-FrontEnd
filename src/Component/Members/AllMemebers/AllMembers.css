@@ -2,6 +2,10 @@
   background-color: #f2f4f5;
   width: 100%;
   min-height: 100vh;
+  background-image: url('/public/assets/image/bg3.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .allMembereContainer__items {
   padding: 80px 20px 20px 20px;
@@ -33,13 +37,14 @@
   list-style: none;
 }
 .tableContainer {
-  background-color: #fff;
+  background-color: #373636;
   border-radius: 10px;
   padding: 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .tableContainer td,
 .tableContainer th {
+  color: #fff;
   background-color: transparent;
 }
 .tableContainer td {

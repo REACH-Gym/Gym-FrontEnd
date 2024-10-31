@@ -56,13 +56,13 @@ function Container() {
                 <img src="/assets/image/Icon (3).png" alt="" />
               </div>
               <div className="d-flex flex-column align-items-end">
-                <p style={{ color: "#666666" }} className="mb-0">
+                <p style={{ color: "#fff" }} className="mb-0">
                   جميع الاعضاء
                 </p>
-                <p className="fw-bolder fs-2">{status.all_members}</p>
+                <p className="fw-bolder fs-2 text-light">{status.all_members}</p>
               </div>
             </div>
-            <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            <p className="fw-bolder mt-4" style={{ color: "#fff" }}>
               جميع اعضاء النادي
             </p>
           </div>
@@ -72,15 +72,15 @@ function Container() {
                 <img src="/assets/image/Icon (5).png" alt="" />
               </div>
               <div className="d-flex flex-column align-items-end">
-                <p style={{ color: "#666666" }} className="mb-0">
+                <p style={{ color: "#fff" }} className="mb-0">
                   حجوزات اليوم
                 </p>
-                <p className="fw-bolder fs-2">
+                <p className="fw-bolder fs-2 text-light">
                   {status.today_memberships_and_sessions}
                 </p>
               </div>
             </div>
-            <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            <p className="fw-bolder mt-4" style={{ color: "#fff" }}>
               الحجوزات منذ بداية اليوم
             </p>
           </div>
@@ -90,15 +90,15 @@ function Container() {
                 <img src="/assets/image/Icon (2).png" alt="" />
               </div>
               <div className="d-flex flex-column align-items-end">
-                <p style={{ color: "#666666" }} className="mb-0">
+                <p style={{ color: "#fff" }} className="mb-0">
                   الاشتراكات الفعالة
                 </p>
-                <p className="fw-bolder fs-2">
+                <p className="fw-bolder fs-2 text-light">
                   {status.active_memberships_and_sessions}
                 </p>
               </div>
             </div>
-            <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            <p className="fw-bolder mt-4" style={{ color: "#fff" }}>
               جميع الاشتراكات الفعالة
             </p>
           </div>
@@ -108,15 +108,15 @@ function Container() {
                 <img src="/assets/image/Icon.png" alt="" />
               </div>
               <div className="d-flex flex-column align-items-end">
-                <p style={{ color: "#666666" }} className="mb-0">
+                <p style={{ color: "#fff" }} className="mb-0">
                   أوشكت علي الأنتهاء
                 </p>
-                <p className="fw-bolder fs-2">
+                <p className="fw-bolder fs-2 text-light">
                   {status.almost_over_memberships_and_sessions}
                 </p>
               </div>
             </div>
-            <p className="fw-bolder mt-4" style={{ color: "#666666" }}>
+            <p className="fw-bolder mt-4" style={{ color: "#fff" }}>
               جميع الاشتراكات المنتهية
             </p>
           </div>

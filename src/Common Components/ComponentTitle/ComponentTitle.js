@@ -24,16 +24,16 @@ function ComponentTitle({ title, subTitle, date = false, isSVG = false, MainIcon
         </div>
         <div>
           <div className="d-flex mt-3 me-3">
-            <p className="fw-bolder mb-0">{title}</p>
+            <p className="fw-bolder mb-0 text-light">{title}</p>
             {date && (
               <p className="mb-0">
-                <span className="text-muted me-2 fw-lighter" style={{fontSize:"15px", color:"#666666"}}>
+                <span className=" me-2 fw-lighter text-secondary" style={{fontSize:"15px", color:"#fff"}}>
                   {formattedDate}
                 </span>
               </p>
             )}
           </div>
-          <p className="fw-lighter me-3" style={{fontSize:"14px", color:"#666666"}}>{subTitle}</p>
+          <p className="fw-lighter me-3" style={{fontSize:"14px", color:"#fff"}}>{subTitle}</p>
         </div>
       </div>
     </div>
