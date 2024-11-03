@@ -157,7 +157,7 @@ function AddNewMember() {
                     className={`col-4 col-lg-6 phone-number position-relative`}
                   >
                     <label
-                      className="mb-2 mt-2 text-secondary"
+                      className="mb-2 mt-2 text-light"
                       htmlFor={"phone_number"}
                     >
                       رقم الهاتف
@@ -203,7 +203,7 @@ function AddNewMember() {
                     <InputField name={"national_id"} label={"رقم العضوية"} />
                   </div>
                   <div className={`col-4 col-lg-6 position-relative`}>
-                    <label className="d-block mt-2" htmlFor="password">
+                    <label className="text-light d-block mt-2" htmlFor="password">
                       كلمة السر
                     </label>
                     <InputField

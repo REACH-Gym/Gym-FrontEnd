@@ -239,32 +239,32 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
   return (
     <div className={`${styles.trainer}`}>
       <div className={`d-grid gap-3`}>
-        <div className={`row`}>
+        <div className={`row text-light`}>
           <div className={`col-4 text-center`}>
             <img
-              src="/assets/image/Group 1000011667.png"
+              src="/assets/image/Group 1000011864.png"
               className="w-100"
               style={{ maxWidth: "205px" }}
               alt="Logo"
             />
           </div>
-          <div className={`col-2 d-flex justify-content-start gap-3`}>
+          <div className={`col-2 d-flex justify-content-start gap-3 text-light`}>
             <span className="">
               <img
-                src={"/assets/image/iconamoon_profile.png"}
+                src={"/assets/image/Group.png"}
                 width={"24px"}
                 alt={"Icon"}
               />
             </span>
-            <div className="me-2">
+            <div className="me-2 text-light">
               <div className="mb-2 fw-bold">اسم المدرب</div>
               <div className="">{schedules[0]?.trainer?.name}</div>
             </div>
           </div>
-          <div className={`col-2 d-flex justify-content-start gap-3`}>
+          <div className={`col-2 d-flex justify-content-start gap-3 text-light`}>
             <span className="">
               <img
-                src={"/assets/image/phone.png"}
+                src={"/assets/image/img1.png"}
                 width={"24px"}
                 alt={"Icon"}
               />
@@ -276,7 +276,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
           </div>
           <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
-              <img src={"/assets/image/date.png"} width={"24px"} alt={"Icon"} />
+              <img src={"/assets/image/img2.png"} width={"24px"} alt={"Icon"} />
             </span>
             <div className="me-2">
               <div className="mb-2 fw-bold">تاريخ الإنشاء</div>
@@ -286,7 +286,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
           <div className={`col-2 d-flex justify-content-start gap-3`}>
             <span className="">
               <img
-                src={"/assets/image/iconamoon_profile.png"}
+                src={"/assets/image/Group.png"}
                 width={"24px"}
                 alt={"Icon"}
               />
@@ -298,11 +298,11 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
           </div>
         </div>
       </div>
-      <div className={`fs-4 fw-bold mt-4 mb-5 me-4`}>المواعيد</div>
+      <div className={`fs-4 fw-bold mt-4 mb-5 me-4 text-light`}>المواعيد</div>
       <div className="">
         <table className="w-100">
           <thead>
-            <tr>
+            <tr className="text-light">
               <th>#</th>
               <th>اسم المجموعة</th>
               <th>السبت</th>
@@ -317,7 +317,7 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
               <th className="text-center">خيارات</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-light">
             {schedules?.map((schedule, index) => (
               <TrainerScheduleItem
                 key={index}

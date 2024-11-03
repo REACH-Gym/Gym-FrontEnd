@@ -20,7 +20,7 @@ const DynamicComponent = () => {
   const [show, setShow] = useState(false);
   return (
     <>
-      <div className={`row`}>
+      <div className={`row ${styles.editForm}`}>
         <div className={`col-6`}>
           <InputField name="name" label="اسم العضو" />
         </div>

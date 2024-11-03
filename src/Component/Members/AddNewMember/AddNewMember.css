@@ -1,22 +1,18 @@
 .addMemberContainer {
   width: 100%;
   min-height: 100vh;
+  background-image: url('/public/assets/image/bg3.jpg');
 }
 .addForm {
-  background-color: #fff;
+  background-color: #373636;
   padding: 0px 150px 50px 150px;
   border-radius: 10px;
   width: 100%;
   margin: auto;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow:none;
 }
 .addForm label {
   color: rgb(98, 98, 98);
-}
-.addMemberContainer {
-  background-color: #f2f4f5;
-  width: 100%;
-  padding: 80px 20px 20px 20px;
 }
 .note {
   height: 144px !important;
@@ -26,14 +22,6 @@
 }
 .addMemberContainer {
   width: 100%;
-}
-.addForm {
-  background-color: #fff;
-  padding: 0px 150px 50px 150px;
-  border-radius: 5px;
-  width: 100%;
-  margin: auto;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .addForm label {
   color: rgb(98, 98, 98);

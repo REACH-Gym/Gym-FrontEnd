@@ -125,7 +125,7 @@ const CouponsItem = ({ index, item }) => {
                 />
               </svg>
 
-              <div className={`d-inline-block`}>حذف</div>
+              <div className={`d-inline-block text-dark`}>حذف</div>
             </div>
             {/* <div
             className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"

@@ -496,7 +496,7 @@ const DynamicComponent = () => {
 
   return (
     <>
-      <div className="row">
+      <div className="row" >
         <div className={`col-6`}>
           <div
             className={`${styles.section} col-12 d-grid gap-3 rounded-2 pb-5 pt-3 pe-5 ps-5`}
@@ -550,11 +550,11 @@ const DynamicComponent = () => {
             </div>
           </div>
         </div>
-        <div className={`col-6`}>
+        <div className={`col-6 text-light`}>
           <div
             className={`${styles.section} col-12 rounded-2 pb-5 pt-3 pe-5 ps-5`}
             style={{
-              backgroundColor: "white",
+              // backgroundColor: "white",
               boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
             }}
           >
@@ -586,8 +586,8 @@ const DynamicComponent = () => {
                 <option value={"mada"}>مدى</option>
               </InputField>
             </div>
-            <div className={`col-12 mt-4 ps-2 pe-2`}>
-              <div className="row gap-3 text-secondary mb-3">
+            <div className={`col-12 mt-4 ps-2 pe-2 text-light`}>
+              <div className="row gap-3  mb-3">
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الخصم</span>
                   <span>{sessionPrice ? sessionPrice : "-"} ريال</span>
@@ -766,7 +766,7 @@ const AddGroupMember = () => {
           title={"إضافة عضو للمجموعة"}
           subTitle={"يمكنك إضافة عضو لمجموعة من هنا"}
         />
-        <div className="container p-4">
+        <div className="  rounded-2 p-4" style={{backgroundColor:"#5f5e5e"}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

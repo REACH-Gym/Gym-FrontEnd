@@ -178,7 +178,7 @@ const AddCoupon = () => {
                           className={`col-6 ${styles.radioContainer}`}
                           style={{ marginBottom: "120px" }}
                         >
-                          <label htmlFor="discount_type" className="form-label">
+                          <label htmlFor="discount_type" className={`text-light`}>
                             برجاء اختيار طريقة كود الخصم
                           </label>
                           <Field

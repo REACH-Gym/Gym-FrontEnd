@@ -1,5 +1,5 @@
 .blogContainer {
-  background-color: #f2f4f5;
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   min-height: 100vh;
 }
@@ -17,7 +17,7 @@
   position: absolute;
 }
 .logDetailContainer {
-  background-color: #f2f4f5;
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   padding: 80px 20px 20px 20px;
 }

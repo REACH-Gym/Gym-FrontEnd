@@ -1,6 +1,6 @@
 .tableContainer {
   width: 98%;
-  background-color: white;
+  background-color: #5f5e5e;
   direction: rtl;
   padding: 10px;
   border-radius: 10px;
@@ -14,8 +14,12 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
+.tableContainer td,th{
+  color: #fff;
+}
 .scheduleContainer {
-  background-color: #f2f4f5;
+  /* background-color: #f2f4f5; */
+  background-image: url('/public/assets/image/bg3.jpg');
   padding: 80px 20px 20px 20px;
   width: 100%;
   min-height: 100vh;

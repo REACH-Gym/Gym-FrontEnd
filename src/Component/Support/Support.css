@@ -1,5 +1,5 @@
 .supportContainer {
-  background-color: #f2f4f5;
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   padding: 80px 20px 20px 20px;
   min-height: 100vh;
@@ -29,15 +29,15 @@
   cursor: pointer;
 }
 .tr:hover {
-  background-color: #f2f4f5;
+  background-color: #9d9e9e;
 }
 .supportDetailContainer {
-  background-color: #f2f4f5;
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
 .supportDetailContainer__item {
-  background-color: #fff;
+  background-color: #373636;
   border-radius: 10px;
   padding: 30px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

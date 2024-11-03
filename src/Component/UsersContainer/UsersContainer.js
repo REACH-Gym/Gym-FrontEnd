@@ -229,7 +229,7 @@ const UsersContainer = () => {
         </div>
         {isEmployeesFetching ? (
           <div
-            className="d-flex justify-content-center align-items-center w-100"
+            className="d-flex justify-content-center align-items-center w-100 "
             style={{ height: "100vh" }}
           >
             <Commet color="#316dcc" size="medium" text="" textColor="" />
@@ -270,7 +270,7 @@ const UsersContainer = () => {
                 text={"السابق"}
                 btnWidth="100px"
               />
-              <p className={`m-0`}>
+              <p className={`m-0 text-light`}>
                 صفحة {page} من {total_pages}
               </p>
               <MainButton

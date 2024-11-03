@@ -107,7 +107,7 @@ const MeasurementsContainer = () => {
               btnWidth="100px"
               disabled={page === 1}
             />
-            <p className="m-0">
+            <p className="m-0 text-light">
               الصفحة {page} من {totalPages}
             </p>
             <MainButton

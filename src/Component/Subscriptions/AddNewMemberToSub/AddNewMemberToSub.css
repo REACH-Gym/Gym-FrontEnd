@@ -16,7 +16,8 @@
 .addNewSubscriptionsContainer {
   padding: 30px 0px 0px 0px;
   width: 100%;
-  background-color: #f2f4f5;
+  /* background-color: #f2f4f5; */
+  background-image: url('/public/assets/image/bg3.jpg');
 }
 .formContainer {
   display: flex;
@@ -35,10 +36,10 @@
 .AddForm {
   width: 96%;
   margin: auto;
-  background-color: #fff;
+  background-color: #373636;
   border-radius: 5px;
   padding: 80px 200px 80px 200px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 }
 .Notes{
   height: 185px !important;

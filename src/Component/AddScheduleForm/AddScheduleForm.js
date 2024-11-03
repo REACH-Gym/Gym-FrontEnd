@@ -92,7 +92,7 @@ const AddScheduleForm = () => {
           </div>
           <div className={`col-5`}>
             <div>
-              <label className={`text-secondary mb-2 mt-2`}>الساعة</label>
+              <label className={`text-light mb-2 mt-2`}>الساعة</label>
               <input
                 type="time"
                 value={time}
@@ -322,11 +322,11 @@ const AddScheduleForm = () => {
                     </div>
                   </div>
                   <div className={`row mt-4`}>
-                    <div className="col-12 fw-bold fs-5">الموعد</div>
+                    <div className="col-12 fw-bold fs-5 text-light">الموعد</div>
                   </div>
                   <div className={`row`}>
                     <div className="col-6">
-                      <label className={`text-secondary mb-2 mt-2`}>
+                      <label className={`text-light mb-2 mt-2`}>
                         اليوم
                       </label>
                       <select
@@ -356,7 +356,7 @@ const AddScheduleForm = () => {
                       </select>
                     </div>
                     <div className="col-5">
-                      <label className={`text-secondary mb-2 mt-2`}>
+                      <label className={`text-light mb-2 mt-2`}>
                         الساعة
                       </label>
                       <input

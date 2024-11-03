@@ -1,6 +1,6 @@
 .login {
   position: relative;
-  background-image: url("/public/assets/image/bg.jpg");
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -18,15 +18,15 @@
   z-index: 1;
 }
 .login-form {
-  /* background-color: #fff; */
+  background-color: rgba(255, 255, 255);
   border-radius: 5px;
-  /* margin: auto; */
+  margin: auto;
   position: relative;
   z-index: 2;
   padding: 30px;
   width: 30%;
-  margin-top: 150px;
-  margin-right: 50px;
+  /* margin-top: 150px; */
+  /* margin-right: 50px; */
 }
 .login-form input {
   outline: none;
@@ -37,7 +37,7 @@
   padding: 10px;
 }
 .login-form label {
-  color: #fff;
+  color: #373636;
 }
 .login-btn button {
   width: 100%;
@@ -45,7 +45,7 @@
 }
 .forgot-password {
   font-size: 13px;
-  color: lightgray;
+  color:#3572ef;
 }
 .modal-img {
   position: absolute;

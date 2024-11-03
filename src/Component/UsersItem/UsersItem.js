@@ -123,7 +123,7 @@ const UsersItem = ({ index, item }) => {
           {item.is_active ? <Active /> : <Deleted />}
         </td>
         <td
-          className={`${styles.tableColumn} tableColumn${index} position-relative p-2`}
+          className={`${styles.tableColumn} tableColumn${index} position-relative p-2 `}
           onClick={handleOptions}
         >
           <span></span>

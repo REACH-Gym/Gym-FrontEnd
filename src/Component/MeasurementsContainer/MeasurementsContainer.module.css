@@ -6,7 +6,7 @@
   min-height: 500px;
   max-height: 70vh;
   overflow-y: auto;
-  background-color: white;
+  background-color: #373636;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .tableContainer thead th:first-child {
@@ -15,8 +15,11 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
+.tableContainer td,th{
+  color: #fff;
+}
 .MeasurementsContainer {
-  background-color: #f2f4f5;
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   padding: 90px 20px 20px 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

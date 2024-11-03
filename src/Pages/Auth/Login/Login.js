@@ -118,7 +118,7 @@ function Login() {
               </div> */}
               <div className={`phone-number position-relative`}>
                 <label
-                  className="mb-2 mt-2 text-light"
+                  className="mb-2 mt-2 "
                   htmlFor={"phone_number"}
                 >
                   رقم الهاتف

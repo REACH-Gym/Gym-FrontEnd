@@ -45,14 +45,14 @@ function SupportDetails() {
           }
         />
       </div>
-      <div className="supportDetailContainer__item">
+      <div className="supportDetailContainer__item mt-3">
         <div>
-          <img src="/assets/image/logo(1).png" alt="gym logo" />
+          <img src="/assets/image/Group 1000011864.png" alt="gym logo" />
         </div>
-        <div className="mt-5">
+        <div className="mt-5 text-light">
           <div>
             <div className="d-flex align-items-center">
-              <img src="/assets/image/Vector (2).png" alt="phone number" />
+              <img src="/assets/image/img1.png" alt="phone number" />
               <p className="mt-2 me-3 fw-bolder">رقم الجوال</p>
             </div>
             <p className="me-4" style={{ fontSize: "14px" }}>
@@ -61,7 +61,7 @@ function SupportDetails() {
           </div>
           <div>
             <div className="d-flex align-items-center">
-              <img src="/assets/image/Vector (3).png" alt="date" />
+              <img src="/assets/image/img2.png" alt="date" />
               <p className="mt-2 me-3 fw-bolder">التاريخ</p>
             </div>
             <p className="me-4" style={{ fontSize: "14px" }}>
@@ -70,7 +70,7 @@ function SupportDetails() {
           </div>
           <div>
             <div className="d-flex align-items-center">
-              <img src="/assets/image/Vector (4).png" alt="message" />
+              <img src="/assets/image/img.png" alt="message" />
               <p className="mt-2 me-3 fw-bolder">الأستفسار</p>
             </div>
             <p className="me-4" style={{ fontSize: "14px" }}>

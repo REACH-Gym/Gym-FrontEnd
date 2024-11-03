@@ -1,10 +1,12 @@
 .addGroupMemberForm {
   width: 100%;
   padding: 70px 20px 20px;
-  background-color: #f2f4f5;
-  min-min-height: 100vh;
+  /* background-color: #f2f4f5; */
+  background-image: url('/public/assets/image/bg3.jpg');
+  min-height: 100vh;
 }
 .section {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #373636;
   height: 560px;
 }

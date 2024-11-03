@@ -468,9 +468,6 @@ function SubscripedMembers() {
                           <td>{SubscripedMember.user.name}</td>
                           <td>{SubscripedMember.membership.name}</td>
                           <td>{SubscripedMember.paid_money} ريال</td>
-                          {/* <td>0</td> */}
-                          {/* <td>0</td> */}
-                          {/* <td>0</td> */}
                           <td>{SubscripedMember.start_date}</td>
                           <td className={""}>
                             {SubscripedMember.status === "active" ? (
@@ -669,7 +666,6 @@ function SubscripedMembers() {
             </div>
           )}
         </div>
-        ){"}"}
         {/* modal*/}
         <SuccessModal
           isOpen={sendWhatsappMessage}

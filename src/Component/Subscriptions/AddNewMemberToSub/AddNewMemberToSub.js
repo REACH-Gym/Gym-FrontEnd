@@ -638,7 +638,7 @@ function AddNewMemberToSub() {
                             </InputField>
                           </div>
                           <div className="d-flex justify-content-between mt-4">
-                            <div>
+                            <div className="text-light">
                               <p>الإجمالي قبل الخصم</p>
                               <p>الخصم (%{values.discount})</p>
                               <p>قيمة البرومو كود</p>
@@ -646,7 +646,7 @@ function AddNewMemberToSub() {
                               <p>الضريبة (%15)</p>
                               <p>الإجمالي</p>
                             </div>
-                            <div>
+                            <div className="text-light">
                               <p>{memberShipPrice || 0} ريال</p>
                               <p>
                                 {(

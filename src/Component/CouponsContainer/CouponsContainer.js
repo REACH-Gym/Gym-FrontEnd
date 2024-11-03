@@ -185,7 +185,7 @@ const CouponsContainer = () => {
                 text={"السابق"}
                 btnWidth="100px"
               />
-              <p className={`m-0`}>
+              <p className={`m-0 text-light`}>
                 صفحة {page} من {totalPages}
               </p>
               <MainButton

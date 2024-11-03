@@ -322,12 +322,12 @@ function Logs() {
                                 viewBox="0 0 24 24"
                               >
                                 <path
-                                  fill="currentColor"
+                                  fill="#000"
                                   d="M1 2.5h8.48l2 2.5H23v16H1zm2 2V19h18V7H10.52l-2-2.5zm3.998 7.498h2.004v2.004H6.998zm4 0h2.004v2.004h-2.004zm4 0h2.004v2.004h-2.004z"
                                 />
                               </svg>
                               <p
-                                className=" mb-1 me-2"
+                                className=" mb-1 me-2 text-dark"
                                 style={{ textAlign: "right", fontSize: "16px" }}
                               >
                                 تفاصيل
@@ -349,7 +349,7 @@ function Logs() {
                   />
                 </div>
                 <div>
-                  <span className="ms-3 me-3">
+                  <span className="ms-3 me-3 text-light">
                     الصفحة {total_pages} من {page}
                   </span>
                 </div>

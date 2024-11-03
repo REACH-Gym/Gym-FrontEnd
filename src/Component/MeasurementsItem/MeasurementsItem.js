@@ -153,7 +153,7 @@ const MeasurementsItem = ({ index, item }) => {
                     fill="#4F4F4F"
                   />
                 </svg>
-                <div className={`d-inline-block`}>حذف</div>
+                <div className={`d-inline-block text-dark`}>حذف</div>
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ const DynamicComponent = () => {
           <InputField name="name" label="اسم العضو" />
         </div>
         <div className={`col-6 phone-number position-relative`}>
-          <label className="mb-2 mt-2 text-secondary" htmlFor={"phone_number"}>
+          <label className="mb-2 mt-2 text-light" htmlFor={"phone_number"}>
             رقم الهاتف
           </label>
           <div className={`position-relative`}>
@@ -66,7 +66,7 @@ const DynamicComponent = () => {
           <InputField name="national_id" label="رقم العضوية" />
         </div>
         <div className={`col-6 position-relative`}>
-          <label className="mb-2 mt-2 text-secondary" htmlFor={"password"}>
+          <label className="mb-2 mt-2 text-light" htmlFor={"password"}>
             كلمة السر
           </label>
           <Field
@@ -275,7 +275,7 @@ const AddUser = () => {
           title={"إضافة مستخدم"}
           subTitle={"يمكنك إضافة مستخدم من هنا"}
         />
-        <div className="container bg-white p-4 rounded-4">
+        <div className="container p-4 rounded-4" style={{backgroundColor:"#5f5e5e"}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

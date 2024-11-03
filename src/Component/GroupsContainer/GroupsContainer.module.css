@@ -1,6 +1,6 @@
 .tableContainer {
   width: 98%;
-  background-color: #fff;
+  background-color: #5f5e5e;
   direction: rtl;
   padding: 10px;
   border-radius: 10px;
@@ -15,13 +15,17 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
+.tableContainer td,th{
+  color: #fff;
+}
 .pageBtn {
   width: 350px;
   margin: auto;
   margin-top: 30px;
 }
 .groupsContainer {
-  background-color: #f2f4f5;
+  /* background-color: #f2f4f5; */
+  background-image: url('/public/assets/image/bg3.jpg');
   width: 100%;
   padding: 90px 20px 20px 20px;
   min-height: 100vh;

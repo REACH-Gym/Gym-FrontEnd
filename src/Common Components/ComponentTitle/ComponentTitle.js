@@ -27,7 +27,7 @@ function ComponentTitle({ title, subTitle, date = false, isSVG = false, MainIcon
             <p className="fw-bolder mb-0 text-light">{title}</p>
             {date && (
               <p className="mb-0">
-                <span className=" me-2 fw-lighter text-secondary" style={{fontSize:"15px", color:"#fff"}}>
+                <span className=" me-4 fw-lighter text-light" style={{fontSize:"15px", color:"#fff"}}>
                   {formattedDate}
                 </span>
               </p>
