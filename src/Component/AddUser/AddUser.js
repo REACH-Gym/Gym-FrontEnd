@@ -43,9 +43,7 @@ const DynamicComponent = () => {
               <PhoneInput
                 country={"sa"} // Default country
                 value={values.countryCode}
-                onChange={(value) =>
-                  setFieldValue("countryCode", value.target.value)
-                }
+                onChange={(value) => setFieldValue("countryCode", value)}
                 inputProps={{
                   name: "countryCode",
                   required: true,
@@ -275,7 +273,10 @@ const AddUser = () => {
           title={"إضافة مستخدم"}
           subTitle={"يمكنك إضافة مستخدم من هنا"}
         />
-        <div className="container p-4 rounded-4" style={{backgroundColor:"#5f5e5e"}}>
+        <div
+          className="container p-4 rounded-4"
+          style={{ backgroundColor: "#5f5e5e" }}
+        >
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

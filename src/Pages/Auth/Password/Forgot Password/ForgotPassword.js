@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../../../Common Components/Modal/Modal";
 import SuccessModal from "../../../../Common Components/Modal/SucessModal/SuccessModal";
+import PhoneInput from "react-phone-input-2";
 function ForgotPassword() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -15,32 +16,29 @@ function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const [tooMantAttempts, setTooManyAttempts] = useState(false);
   const access_token = localStorage.getItem("access");
-  const api = process.env.REACT_APP_DOMAIN
+  const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       const item = {
-        phone_number: values["phone_number"],
+        phone_number: `${values["countryCode"]}${values["phone_number"]}`,
       };
-      const response = await fetch(
-        `${api}/auth/request-otp`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(item),
-        }
-      );
+      const response = await fetch(`${api}/auth/request-otp`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify(item),
+      });
       const result = await response.json();
       console.log(result);
 
       if (response.ok) {
         localStorage.setItem("message", result.message);
         localStorage.setItem("phone_number", values["phone_number"]);
-
+        setLoading(false);
         if (
           result.message.includes(
             "A verification request has been sent to your number:"
@@ -58,6 +56,10 @@ function ForgotPassword() {
           setTooManyAttempts(true);
           setLoading(false);
         }
+      } else if (result.status === 404) {
+        setShowModalError(true);
+        setLoading(false);
+        setServerError("رقم الهاتف غير صحيح برجاء المحاولة مرة أخرى");
       } else {
         setShowModalError(true);
         setLoading(false);
@@ -65,6 +67,7 @@ function ForgotPassword() {
         console.log(result.error.detail);
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error occurred:", error);
       setServerError("حدث خطأ ما، يرجى المحاولة لاحقًا");
     }
@@ -74,10 +77,12 @@ function ForgotPassword() {
     phone_number: Yup.string()
       .matches(/^[0-9\s]+$/, "رقم الهاتف يجب أن يحتوي على أرقام ومسافات فقط")
       .required("رقم الهاتف مطلوب"),
+    countryCode: Yup.string().required("ادخل رقم الدولة"),
   });
 
   const initialValues = {
     phone_number: "",
+    countryCode: "966",
   };
   const handleCloseModalError = () => {
     setShowModalError(false);
@@ -107,33 +112,64 @@ function ForgotPassword() {
             initialValues={initialValues}
             validationSchema={validationSchema}
           >
-            <Form className="forgotPasswordForm">
-              <div>
-                <label className="d-block fw-bolder" htmlFor="phone_number">
-                  رقم الجوال
-                </label>
-                <Field
-                  className="forgotPasswordForm__input mt-3 p-3"
-                  name="phone_number"
-                  id="phone_number"
-                />
-                <ErrorMessage
-                  name="phone_number"
-                  component="div"
-                  className="text-danger error-message"
-                />
-                {serverError && ( // error is founded
-                  <div className="text-danger mt-2">{serverError}</div>
-                )}
-              </div>
-              <div className="sendCodeBtn mt-4">
-                <MainButton
-                  btnType={"submit"}
-                  text={"ارسال رمز"}
-                  isLoading={loading}
-                />
-              </div>
-            </Form>
+            {({ values, setFieldValue }) => (
+              <Form className="forgotPasswordForm">
+                <div className={`phone-number position-relative`}>
+                  <label
+                    className="mb-2 mt-2 text-light"
+                    htmlFor={"phone_number"}
+                  >
+                    رقم الهاتف
+                  </label>
+                  <div className={`position-relative`}>
+                    <Field
+                      name={"phone_number"}
+                      id={"phone_number"}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#F4F4F4",
+                        border: "none",
+                        borderRadius: "5px",
+                        padding: "10px",
+                        outline: "none",
+                        height: "52px",
+                      }}
+                    />
+                    <div className={`countryCode`}>
+                      <PhoneInput
+                        country={"sa"} // Default country
+                        value={values.countryCode}
+                        onChange={(value) =>
+                          setFieldValue("countryCode", value)
+                        }
+                        inputProps={{
+                          name: "countryCode",
+                          required: true,
+                          autoFocus: true,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <ErrorMessage
+                    name="phone_number"
+                    component="div"
+                    className="text-danger error-message"
+                  />
+                </div>
+                <div className="sendCodeBtn mt-4">
+                  <ErrorMessage
+                    name="countryCode"
+                    component="div"
+                    className="text-danger"
+                  />
+                  <MainButton
+                    btnType={"submit"}
+                    text={"ارسال رمز"}
+                    isLoading={loading}
+                  />
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>

@@ -43,16 +43,13 @@ function Login() {
         setTimeout(() => {
           navigate("/Home");
         }, 2500);
-        const fetchUserInfo = await fetch(
-          `${api}/current-employee`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: localStorage.getItem("access"),
-              accept: "application/json",
-            },
-          }
-        );
+        const fetchUserInfo = await fetch(`${api}/current-employee`, {
+          method: "GET",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            accept: "application/json",
+          },
+        });
         const userInfo = await fetchUserInfo.json();
         console.log(userInfo);
         if (fetchUserInfo.ok) {
@@ -117,10 +114,7 @@ function Login() {
                 />
               </div> */}
               <div className={`phone-number position-relative`}>
-                <label
-                  className="mb-2 mt-2 "
-                  htmlFor={"phone_number"}
-                >
+                <label className="mb-2 mt-2 " htmlFor={"phone_number"}>
                   رقم الهاتف
                 </label>
                 <div className={`position-relative mt-3`}>
