@@ -16,7 +16,7 @@ function ConfirmCode() {
   const [modalExpired, setModalExpired] = useState(false);
   const [incorrectOtp, setIncorrectOtp] = useState(false);
   const [tooMantAttempts, setTooManyAttempts] = useState(false);
-  const [resend , setResend] =  useState(false);
+  const [resend, setResend] = useState(false);
   const api = process.env.REACT_APP_DOMAIN;
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -31,18 +31,15 @@ function ConfirmCode() {
         values.otp6;
       const item = { otp, phone_number };
       console.log("Sending item:", item);
-      const response = await fetch(
-        `${api}/auth/verify-otp`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(item),
-        }
-      );
+      const response = await fetch(`${api}/auth/verify-otp`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify(item),
+      });
       const result = await response.json();
       if (response.ok) {
         localStorage.setItem("otp_message", result.message);
@@ -82,18 +79,15 @@ function ConfirmCode() {
   // resend
   const handleResendCode = async () => {
     try {
-      const response = await fetch(
-        `${api}/auth/request-otp`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify({ phone_number }),
-        }
-      );
+      const response = await fetch(`${api}/auth/request-otp`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify({ phone_number }),
+      });
 
       const result = await response.json();
       if (response.ok) {

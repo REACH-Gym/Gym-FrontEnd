@@ -9,16 +9,13 @@ function Container() {
   useEffect(() => {
     async function fetchStatus() {
       try {
-        const response = await fetch(
-          `${api}/dashboard-stats/`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: localStorage.getItem("access"),
-              accept: "*/*",
-            },
-          }
-        );
+        const response = await fetch(`${api}/dashboard-stats/`, {
+          method: "GET",
+          headers: {
+            Authorization: localStorage.getItem("access"),
+            accept: "*/*",
+          },
+        });
         const result = await response.json();
         console.log(result);
         if (response.ok) {
@@ -59,7 +56,9 @@ function Container() {
                 <p style={{ color: "#fff" }} className="mb-0">
                   جميع الاعضاء
                 </p>
-                <p className="fw-bolder fs-2 text-light">{status.all_members}</p>
+                <p className="fw-bolder fs-2 text-light">
+                  {status.all_members}
+                </p>
               </div>
             </div>
             <p className="fw-bolder mt-4" style={{ color: "#fff" }}>

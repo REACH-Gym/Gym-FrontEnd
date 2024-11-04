@@ -22,18 +22,15 @@ function CreateNewPassword() {
         phone_number: phone_number,
         new_password: values["new_password"],
       };
-      const response = await fetch(
-        `${api}/auth/forget-password`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify(items),
-        }
-      );
+      const response = await fetch(`${api}/auth/forget-password`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify(items),
+      });
       const data = await response.json();
       console.log(data);
       if (response.ok) {
