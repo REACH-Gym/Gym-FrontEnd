@@ -192,16 +192,16 @@ function AllSubScriptions() {
         </div>
       ) : allSubscription.length === 0 ? (
         <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-          style={{ height: "50vh" }}
+          className="noResults fw-bolder text-light fs-4 d-flex justify-content-center align-items-center"
+          style={{ height: "100vh" }}
         >
           لا يوجد نتائج
         </div>
       ) :
           results?.data?.memberships?.length === 0 ? (
            <div
-              className="d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
-              style={{ color: "red", height: "60vh" }}
+              className="noResults d-flex justify-content-center align-items-center mt-5 fs-5 fw-bolder"
+              style={{ color: "#fff", height: "100vh" }}
             >
               لا يوجد نتائج
             </div>

@@ -101,7 +101,7 @@ function EditSub() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="editForm">
+          <Form className=" mt-5 mb-4 rounded-2" style={{padding:"0px 50px 0px 50px" , backgroundColor:"#373636"}}>
             <div className="row g-4 mb-5 mt-5">
               <div className="col-4 col-lg-6">
                 <InputField name="name" label={"أسم الأشتراك"} />

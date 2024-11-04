@@ -1,6 +1,6 @@
 .tableContainer {
   width: 98%;
-  background-color: #5f5e5e;
+  background-color: #373636;
   direction: rtl;
   padding: 10px;
   border-radius: 10px;
@@ -20,6 +20,8 @@
 .scheduleContainer {
   /* background-color: #f2f4f5; */
   background-image: url('/public/assets/image/bg3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 80px 20px 20px 20px;
   width: 100%;
   min-height: 100vh;

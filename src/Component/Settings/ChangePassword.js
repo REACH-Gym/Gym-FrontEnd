@@ -95,7 +95,7 @@ function ChangePassword() {
             <div className={`pt-5`}>
               <div className="mt-3 position-relative">
                 <InputField
-                  label={"                  كلمة السر الحالية"}
+                  label={"كلمة السر الحالية"}
                   className="changePassForm__input p-2"
                   name="current_password"
                   id="current_password"
@@ -130,7 +130,7 @@ function ChangePassword() {
               <p
                 className="mt-2 fw-bolder"
                 style={{
-                  color: "#3572EF",
+                  color: "lightgray",
                   fontSize: "13px",
                   cursor: "pointer",
                 }}

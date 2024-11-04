@@ -644,7 +644,7 @@ function SubscripedMembers() {
                   />
                 </div>
                 <div>
-                  <span className="ms-3 me-3">
+                  <span className="ms-3 me-3 text-light">
                     الصفحة {total_pages} من {page}
                   </span>
                 </div>

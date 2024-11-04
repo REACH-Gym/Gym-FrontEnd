@@ -298,7 +298,7 @@ const EditUser = () => {
           title={"تعديل بيانات المستخدم"}
           subTitle={"يمكنك تعديل بيانات المستخدم من هنا"}
         />
-        <div className="container bg-white p-4 rounded-4">
+        <div className="rounded-2" style={{backgroundColor:"#373636" , padding:"50px"}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

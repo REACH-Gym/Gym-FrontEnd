@@ -235,7 +235,7 @@ const UsersContainer = () => {
             <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
         ) : emplyees?.data?.users?.length > 0 ? (
-          <div className={`${styles.tableContainer} text-end ps-4 pe-4`}>
+          <div className={`${styles.tableContainer} text-end ps-4 pe-4`} style={{fontSize:"14px"}}>
             <table className="w-100">
               <thead className={`fw-bold`}>
                 <th className={`p-2 pt-3 pb-3`}>#</th>

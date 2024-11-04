@@ -1,6 +1,8 @@
 .groupForm {
-  background-color: #5f5e5e;
+  background-color: #373636;
   border-radius: 5px;
+  max-width: 98%;
+  margin: auto;
 }
 .addgroupContainer {
   width: 100%;
@@ -14,7 +16,6 @@
   background-color: #f2f4f5;
   width: 100%;
   border-radius: 10px;
-  /* padding: 0px 20px 20px 20px; */
 }
 @media (max-width: 768px) {
   .groupForm {

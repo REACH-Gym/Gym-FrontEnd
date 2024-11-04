@@ -88,15 +88,7 @@ function ForgotPassword() {
   return (
     <div className="forgotPasswordContainer">
       <div className="forgotPasswordFormContainer">
-        <div className="mt-3 d-flex justify-content-center">
-          <img
-            src="/assets/image/gym2 1.png"
-            alt="logo"
-            width={"149px"}
-            height={"149px"}
-          />
-        </div>
-        <p className="fw-bolder text-center mt-4">
+        <p className="fw-bolder text-center mt-4 text-light">
           من فضلك أدخل رقم هاتفك لإرسال رمز التحقق
           <br /> لمرة واحدة (OTP).
         </p>
@@ -109,7 +101,7 @@ function ForgotPassword() {
           >
             <Form className="forgotPasswordForm">
               <div>
-                <label className="d-block fw-bolder" htmlFor="phone_number">
+                <label className="d-block fw-bolder text-light" htmlFor="phone_number">
                   رقم الجوال
                 </label>
                 <Field

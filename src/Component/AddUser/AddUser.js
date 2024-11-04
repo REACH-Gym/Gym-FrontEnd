@@ -275,7 +275,7 @@ const AddUser = () => {
           title={"إضافة مستخدم"}
           subTitle={"يمكنك إضافة مستخدم من هنا"}
         />
-        <div className="container p-4 rounded-4" style={{backgroundColor:"#5f5e5e"}}>
+        <div className="rounded-2" style={{backgroundColor:"#373636" , padding:"50px"}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

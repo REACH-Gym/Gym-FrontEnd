@@ -1,7 +1,8 @@
 .addGroupMemberForm {
   width: 100%;
-  /* background-color: #f2f4f5; */
   background-image: url('/public/assets/image/bg3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 70px 20px 20px;
   min-height: 100vh;
 }

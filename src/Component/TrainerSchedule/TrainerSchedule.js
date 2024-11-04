@@ -165,7 +165,7 @@ const TrainerScheduleItem = ({ index, schedule }) => {
                       />
                     </svg>
 
-                    <div className={`d-inline-block`}>تعديل</div>
+                    <div className={`d-inline-block text-dark`}>تعديل</div>
                   </div>
                 </>
               ) : null}
@@ -189,7 +189,7 @@ const TrainerScheduleItem = ({ index, schedule }) => {
                       fill="#4F4F4F"
                     />
                   </svg>
-                  <div className={`d-inline-block`}>حذف</div>
+                  <div className={`d-inline-block text-dark`}>حذف</div>
                 </div>
               ) : (
                 <div
@@ -243,12 +243,14 @@ const TrainerSchedule = ({ id, trainerSchedule }) => {
           <div className={`col-4 text-center`}>
             <img
               src="/assets/image/Group 1000011864.png"
-              className="w-100"
-              style={{ maxWidth: "205px" }}
+              className="w-75 d-block"
+              style={{ padding: "6px" }}
+              width={'50px'}
+              height={'60px'}
               alt="Logo"
             />
           </div>
-          <div className={`col-2 d-flex justify-content-start gap-3 text-light`}>
+          <div className={`col-2 d-flex justify-content-start gap-3 text-light `}>
             <span className="">
               <img
                 src={"/assets/image/Group.png"}

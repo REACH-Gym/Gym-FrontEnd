@@ -1,12 +1,15 @@
 .subscriptionDetailContainer {
-  background-color: #f2f4f5;
+  /* background-color: #f2f4f5; */
   width: 100%;
   padding: 80px 20px 20px 20px;
   min-height: 100vh;
+  background-image: url('/public/assets/image/bg3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .subscriptionDetailContainer__items {
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #373636;
   height: 100vh;
   padding: 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

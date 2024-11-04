@@ -1,5 +1,5 @@
 .groupForm {
-  background-color: #5f5e5e;
+  background-color: #373636;
   width: 98%;
   margin: auto;
   border-radius: 10px;
@@ -13,10 +13,12 @@
   }
 }
 .schedulFormeContainer {
-  /* background-color: #f2f4f5; */
   background-image: url('/public/assets/image/bg3.jpg');
-  padding: 80px 0px 0px 0px;
+  padding: 80px 0px 150px 0px;
+  background-size: cover;
+  background-repeat: no-repeat;
   width: 100%;
-  border-radius: 10px;
-  min-height: 100vh;
+  /* border-radius: 10px; */
+  /* height: 100vh; */
+  height: 100%;
 }

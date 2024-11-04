@@ -67,14 +67,14 @@ function SubscriptionDetail() {
               MainIcon={"/assets/image/subscriptions.png"}
             />
           </div>
-          <div className="subscriptionDetailContainer__items mt-3">
+          <div className="subscriptionDetailContainer__items mt-3 text-light">
             <div className="mt-4">
-              <img src="/assets/image/logo(1).png" alt="" />
+              <img src="/assets/image/Group 1000011864.png" alt="" />
             </div>
             <div className="item1 me-5">
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/iconamoon_profile.png" alt="" />
+                  <img src="/assets/image/Group.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">اسم العميل</p>
@@ -83,7 +83,7 @@ function SubscriptionDetail() {
               </div>
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/phone.png" alt="" />
+                  <img src="/assets/image/img1.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">رقم الجوال</p>
@@ -95,7 +95,7 @@ function SubscriptionDetail() {
 
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/Vector (1).png" alt="" />
+                  <img src="/assets/image/img2.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">تاريخ الانشاء</p>
@@ -106,7 +106,7 @@ function SubscriptionDetail() {
               </div>
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/iconamoon_profile.png" alt="" />
+                  <img src="/assets/image/Group.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">بواسطة</p>
@@ -116,7 +116,7 @@ function SubscriptionDetail() {
 
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
+                  <img src="/assets/image/ph_money.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">السعر الأصلي </p>
@@ -128,7 +128,7 @@ function SubscriptionDetail() {
 
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
+                  <img src="/assets/image/ph_money.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">
@@ -142,7 +142,7 @@ function SubscriptionDetail() {
               </div>
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
+                  <img src="/assets/image/ph_money.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">الضريبة (15%)</p>
@@ -165,7 +165,7 @@ function SubscriptionDetail() {
                           (+subDetail.discount +
                             +subDetail.coupon.discount_value) /
                             100) *
-                        (15 / 100)}{" "}
+                        (15 / 100)}
                     ريال
                   </p>
                 </div>
@@ -173,7 +173,7 @@ function SubscriptionDetail() {
               {subDetail.coupon && (
                 <div className="d-flex">
                   <div className="ms-3">
-                    <img src="/assets/image/ph_money (1).png" alt="icon" />
+                    <img src="/assets/image/ph_money.png" alt="icon" />
                   </div>
                   <div>
                     <p className="mb-1 fw-bolder">
@@ -193,7 +193,7 @@ function SubscriptionDetail() {
               )}
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/ph_money (1).png" alt="" />
+                  <img src="/assets/image/ph_money.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">الإجمالي قبل الضريبة</p>
@@ -221,7 +221,7 @@ function SubscriptionDetail() {
               </div>
               <div className="d-flex">
                 <div className="ms-3">
-                  <img src="/assets/image/bx_edit (1).png" alt="" />
+                  <img src="/assets/image/bx_edit.png" alt="" />
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">
@@ -233,7 +233,7 @@ function SubscriptionDetail() {
             {/*subscriptions*/}
             <div>
               <p className="fw-bolder mt-5  fs-5 ">الاشتراكات</p>
-              <table className="table">
+              <table className="table " style={{backgroundColor:"#373636" , color:"#fff"}}>
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -267,7 +267,7 @@ function SubscriptionDetail() {
                         onClick={() => setShowOptions(!showOptions)}
                         style={{ cursor: "pointer" }}
                       />
-                      <div className="" style={{ position: "relative" }}>
+                      {/* <div className="" style={{ position: "relative" }}>
                         {showOptions && (
                           <div
                             ref={optionRef}
@@ -295,7 +295,7 @@ function SubscriptionDetail() {
                             </div>
                           </div>
                         )}
-                      </div>
+                      </div> */}
                     </td>
                   </tr>
                 </tbody>

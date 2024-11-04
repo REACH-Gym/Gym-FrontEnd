@@ -110,7 +110,9 @@ const GroupMemberMembership = () => {
                 <img
                   src="/assets/image/Group 1000011864.png"
                   className="w-100"
-                  style={{ maxWidth: "205px" }}
+                  style={{ padding: "6px" }}
+                  width={'50px'}
+                  height={'60px'}
                   alt="Logo"
                 />
               </div>

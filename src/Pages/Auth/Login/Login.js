@@ -108,14 +108,6 @@ function Login() {
         {({ setFieldValue, values }) => {
           return (
             <Form className="login-form">
-              {/* <div className="mt-3 d-flex justify-content-center">
-                <img
-                  src="/assets/image/gym2 1.png"
-                  alt="logo"
-                  width={"149px"}
-                  height={"149px"}
-                />
-              </div> */}
               <div className={`phone-number position-relative`}>
                 <label
                   className="mb-2 mt-2 "

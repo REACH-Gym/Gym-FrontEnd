@@ -1,9 +1,10 @@
 .addGroupMemberForm {
   width: 100%;
-  /* background-color: #f2f4f5; */
   background-image: url('/public/assets/image/bg3.jpg');
   padding: 70px 20px 20px;
   min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .countryCode {
   position: absolute;
@@ -47,10 +48,3 @@
 .form-control:focus {
   box-shadow: none !important;
 }
-/* .editForm{
-  background-image: url("/public/assets/image/gymm 2.png");
-  padding: 0px 150px 180px 150px;
-  border-radius: 10px;
-  width: 100%;
-  margin: auto;
-} */

@@ -1,6 +1,7 @@
 .groupForm {
   background-color: #373636;
   border-radius: 5px;
+  padding: 50px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .addgroupContainer {
@@ -63,7 +64,6 @@
   height: 20px;
 }
 .radioContainer > label {
-  color: black !important;
   font-size: 18px;
   margin-bottom: 15px !important;
 }

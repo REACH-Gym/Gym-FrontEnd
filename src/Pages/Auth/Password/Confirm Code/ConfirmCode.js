@@ -147,15 +147,7 @@ function ConfirmCode() {
   return (
     <div className="confirmCodeContainer">
       <div className="confirmCodeFormContainer">
-        <div className="mt-3 d-flex justify-content-center">
-          <img
-            src="/assets/image/gym2 1.png"
-            alt="logo"
-            width={"149px"}
-            height={"149px"}
-          />
-        </div>
-        <p className="text-center mt-3">
+        <p className="text-center mt-3 text-light">
           لقد قمنا بإرسال رمز التحقق المكون من 6 أرقام إلى رقم <br />
           الهاتف المنتهي بـ {phone_number.slice(-4)}
           <span className="fw-bolder me-3">
@@ -222,11 +214,11 @@ function ConfirmCode() {
                 />
               </div>
 
-              <p className="mt-3 fw-bolder">لم تقم باستلام الرمز؟</p>
-              <p>
+              <p className="mt-3 fw-bolder text-light">لم تقم باستلام الرمز؟</p>
+              <p className="text-light">
                 ارسال الرمز مرة اخرى
                 <button
-                  className="resend-button fw-bolder text-primary me-2"
+                  className="resend-button fw-bolder  me-2 " style={{color:"#cccbcb"}}
                   type="button"
                   onClick={handleResendCode}
                 >

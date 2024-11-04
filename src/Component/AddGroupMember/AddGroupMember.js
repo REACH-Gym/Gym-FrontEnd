@@ -501,8 +501,8 @@ const DynamicComponent = () => {
           <div
             className={`${styles.section} col-12 d-grid gap-3 rounded-2 pb-5 pt-3 pe-5 ps-5`}
             style={{
-              backgroundColor: "white",
-              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+              // backgroundColor: "white",
+              // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
             }}
           >
             <div className={`col-12`}>

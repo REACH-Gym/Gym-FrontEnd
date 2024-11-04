@@ -71,15 +71,7 @@ function CreateNewPassword() {
   return (
     <div className="createNewPasswordContainer">
       <div className="createNewPasswordFormContainer">
-        <div className="mt-3 d-flex justify-content-center">
-          <img
-            src="/assets/image/gym2 1.png"
-            alt="logo"
-            width={"149px"}
-            height={"149px"}
-          />
-        </div>
-        <p className="text-center mt-3 fw-bolder">
+        <p className="text-center mt-3 fw-bolder text-light">
           أدخل كلمة السر الجديدة التي ترغب في استخدامها لحماية حسابك.
         </p>
         <div>
@@ -90,7 +82,7 @@ function CreateNewPassword() {
           >
             <Form className="createNewPasswordForm">
               <div className="position-relative">
-                <label className="d-block" htmlFor="new_password">
+                <label className="d-block text-light" htmlFor="new_password">
                   كلمة السر الجديدة
                 </label>
                 <Field
@@ -131,7 +123,7 @@ function CreateNewPassword() {
                 />
               </div>
               <div className="mt-3 position-relative">
-                <label className="d-block mb-2" htmlFor="confirm_password">
+                <label className="d-block mb-2 text-light" htmlFor="confirm_password">
                   اعادة كتابة كلمة السر
                 </label>
                 <Field

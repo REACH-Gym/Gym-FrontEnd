@@ -93,7 +93,7 @@ function AddNewSubscription() {
           initialValues={intialValues}
           validationSchema={validationSchema}
         >
-          <Form className="addSubForm mt-5 mb-4">
+          <Form className=" mt-5 mb-4" style={{padding:"0px 50px 0px 50px"}}>
             <div className="row mb-4 g-5">
               <div className="col-6">
                 <InputField name={"name"} label={"اسم الاشتراك"} />

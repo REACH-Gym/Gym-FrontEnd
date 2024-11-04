@@ -65,8 +65,8 @@ function LogDetails() {
   const getBackgroundColor = (oldValue, newValue) => {
     if (oldValue !== newValue) {
       return {
-        oldBackground: "rgba(255, 0, 0, 0.2)",
-        newBackground: "rgba(0, 128, 0, 0.2)",
+        oldBackground: "#ffe0e0",
+        newBackground: "#dbf7e9",
       };
     }
     return { oldBackground: "", newBackground: "" };

@@ -1,14 +1,11 @@
 .tableContainer {
   width: 98%;
   background-color: #373636;
-  /* background-image: url('/public/assets/image/gymm 2.png'); */
   direction: rtl;
   padding: 50px 10px 10px 10px;
   border-radius: 10px;
   min-height: 600px;
-  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
-height: 70vh;
-  /* overflow-y: auto; */
+  height: 70vh;
 }
 .tableContainer thead th:first-child {
   width: 50px;
@@ -16,7 +13,8 @@ height: 70vh;
 .tableContainer thead th:last-child {
   width: 100px;
 }
-.tableContainer td , th{
+.tableContainer td,
+th {
   color: #fff;
 }
 .pageBtn {
@@ -25,11 +23,12 @@ height: 70vh;
   margin-top: 30px;
 }
 .groupsContainer {
-  /* background-color: #f2f4f5; */
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   width: 100%;
   padding: 90px 20px 20px 20px;
   min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .filter:hover {
   background-color: #f4f4f4;

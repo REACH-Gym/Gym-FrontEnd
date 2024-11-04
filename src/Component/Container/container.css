@@ -1,5 +1,4 @@
 .container {
-  /* background-color: #f2f4f5; */
   min-height: 100vh;
   background-image: url('/public/assets/image/bg3.jpg');
   background-repeat: no-repeat;
@@ -16,8 +15,8 @@
 }
 .item {
   background-color: #5f5e5e;
-  width: 290px;
-  height: 180px;
+  width: 95%;
+  height: 100%;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   padding: 20px;
   border-radius: 10px;
@@ -48,7 +47,7 @@
 /* laptop : 1024px => 1440px */
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
   .items {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
 }

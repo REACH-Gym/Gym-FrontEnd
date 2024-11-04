@@ -1,5 +1,7 @@
 .supportContainer {
   background-image: url('/public/assets/image/bg3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%;
   padding: 80px 20px 20px 20px;
   min-height: 100vh;
@@ -29,10 +31,12 @@
   cursor: pointer;
 }
 .tr:hover {
-  background-color: #9d9e9e;
+  background-color: #636464;
 }
 .supportDetailContainer {
   background-image: url('/public/assets/image/bg3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%;
   padding: 80px 20px 20px 20px;
 }
