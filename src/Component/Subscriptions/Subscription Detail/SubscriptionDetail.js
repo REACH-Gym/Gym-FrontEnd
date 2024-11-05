@@ -50,6 +50,51 @@ function SubscriptionDetail() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  function final_price(originalPrice, coupon_value, discountPercentage) {
+    const discountAmount = (originalPrice * discountPercentage) / 100;
+    let couponDiscount = 0;
+    if (coupon_value > 0) {
+      couponDiscount = (originalPrice * coupon_value) / 100;
+    } else {
+      couponDiscount = (originalPrice * 0) / 100;
+    }
+    const priceAfterDiscount = originalPrice - discountAmount;
+    const finalPrice = priceAfterDiscount - couponDiscount;
+    return finalPrice;
+  }
+
+  function taxes(originalPrice, coupon_value, coupon_type, discountPercentage) {
+    if (coupon_type === "price") {
+      const couponValue = (coupon_value / originalPrice) * 100;
+      const finalPrice = final_price(
+        originalPrice,
+        couponValue,
+        discountPercentage
+      );
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    } else if (coupon_type === "percentage") {
+      const finalPrice = final_price(
+        originalPrice,
+        coupon_value,
+        discountPercentage
+      );
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    } else {
+      const finalPrice = final_price(originalPrice, 0, discountPercentage);
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    }
+  }
+
   return (
     <div className="subscriptionDetailContainer">
       <Helmet>
@@ -75,7 +120,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">اسم العميل</p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.user.name}</p>
+                  <p style={{ fontSize: "13px" }}>{subDetail?.user?.name}</p>
                 </div>
               </div>
               <div className="d-flex">
@@ -107,7 +152,7 @@ function SubscriptionDetail() {
                 </div>
                 <div>
                   <p className="mb-1 fw-bolder">بواسطة</p>
-                  <p style={{ fontSize: "13px" }}>{subDetail.admin.name}</p>
+                  <p style={{ fontSize: "13px" }}>{subDetail?.admin?.name}</p>
                 </div>
               </div>
 
@@ -144,25 +189,19 @@ function SubscriptionDetail() {
                 <div>
                   <p className="mb-1 fw-bolder">الضريبة (15%)</p>
                   <p style={{ fontSize: "13px" }}>
-                    {subDetail?.coupon?.discount_type === "price"
-                      ? `${
-                          subDetail.membership.price *
-                          (1 -
-                            (+subDetail.discount +
-                              +(
-                                +subDetail.coupon.discount_value /
-                                subDetail.membership.price
-                              ) *
-                                100) /
-                              100) *
-                          (15 / 100)
-                        }`
-                      : subDetail.membership.price *
-                        (1 -
-                          (+subDetail.discount +
-                            +subDetail.coupon.discount_value) /
-                            100) *
-                        (15 / 100)}
+                    {subDetail?.coupon
+                      ? taxes(
+                          subDetail.membership.price,
+                          subDetail?.coupon?.discount_value,
+                          subDetail?.coupon?.discount_type,
+                          subDetail.discount
+                        )
+                      : taxes(
+                          subDetail.membership.price,
+                          0,
+                          "",
+                          subDetail.discount
+                        )}
                     ريال
                   </p>
                 </div>
@@ -177,12 +216,14 @@ function SubscriptionDetail() {
                       الكوبون ({subDetail.coupon.code})
                     </p>
                     <p style={{ fontSize: "13px" }}>
-                      {subDetail?.coupon?.discount_type === "price"
-                        ? `${subDetail.coupon.discount_value}`
-                        : `${(
-                            subDetail.membership.price *
-                            (+subDetail.coupon.discount_value / 100)
-                          ).toFixed(2)}`}{" "}
+                      {subDetail?.coupon
+                        ? subDetail?.coupon?.discount_type === "price"
+                          ? `${subDetail.coupon.discount_value}`
+                          : `${(
+                              subDetail.membership.price *
+                              (+subDetail.coupon.discount_value / 100)
+                            ).toFixed(2)}`
+                        : "0"}{" "}
                       ريال
                     </p>
                   </div>
@@ -195,23 +236,25 @@ function SubscriptionDetail() {
                 <div>
                   <p className="mb-1 fw-bolder">الإجمالي قبل الضريبة</p>
                   <p style={{ fontSize: "13px", display: "block" }}>
-                    {subDetail?.coupon?.discount_type === "price"
-                      ? (
-                          subDetail.membership.price *
-                          (1 -
-                            (+subDetail.discount +
-                              (+subDetail.coupon.discount_value /
-                                subDetail.membership.price) *
-                                100) /
-                              100)
-                        ).toFixed(2)
-                      : (
-                          subDetail.membership.price *
-                          (1 -
-                            (+subDetail.discount +
-                              +subDetail.coupon.discount_value) /
-                              100)
-                        ).toFixed(2)}{" "}
+                    {subDetail?.coupon
+                      ? subDetail?.coupon?.discount_type === "price"
+                        ? (
+                            subDetail.membership.price *
+                            (1 -
+                              (+subDetail.discount +
+                                (+subDetail.coupon.discount_value /
+                                  subDetail.membership.price) *
+                                  100) /
+                                100)
+                          ).toFixed(2)
+                        : (
+                            subDetail.membership.price *
+                            (1 -
+                              (+subDetail.discount +
+                                +subDetail.coupon.discount_value) /
+                                100)
+                          ).toFixed(2)
+                      : "0"}{" "}
                     ريال
                   </p>
                 </div>
@@ -251,7 +294,7 @@ function SubscriptionDetail() {
                 <tbody>
                   <tr style={{ fontSize: "14px", textAlign: "right" }}>
                     <td>1</td>
-                    <td>{subDetail.membership.name}</td>
+                    <td>{subDetail?.membership?.name}</td>
                     <td>{subDetail.paid_money} ريال</td>
                     <td>{subDetail.start_date}</td>
                     <td>{subDetail.end_date}</td>

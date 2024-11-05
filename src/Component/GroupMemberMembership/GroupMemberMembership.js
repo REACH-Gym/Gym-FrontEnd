@@ -16,42 +16,51 @@ const GroupMemberMembership = () => {
 
   console.log(memberMembership);
 
-  // const handleDelete = async () => {
-  //   if (window.confirm("هل تريد خذف هذا الموعد؟")) {
-  //     try {
-  //       const response = await deleteSchedule({
-  //         id: id,
-  //         data: { is_active: false },
-  //       });
-  //       console.log(response);
-  //       window.location.reload();
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert("خطأ في حذف الموعد، حاول مرة أخرى.");
-  //     }
-  //   } else {
-  //     alert("تم إلغاء حذف هذه الموعد.");
-  //   }
-  // };
-  // const handleActivate = async () => {
-  //   if (window.confirm("هل تريد تفعيل هذه الموعد؟")) {
-  //     try {
-  //       const response = await deleteSchedule({
-  //         id: id,
-  //         data: { is_active: true },
-  //       });
-  //       console.log(response);
-  //       window.location.reload();
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert("خطأ في تفعيل الموعد، حاول مرة أخرى.");
-  //     }
-  //   } else {
-  //     alert("تم إلغاء تفعيل هذه الموعد.");
-  //   }
-  // };
-
   const navigate = useNavigate();
+
+  function final_price(originalPrice, coupon_value, discountPercentage) {
+    const discountAmount = (originalPrice * discountPercentage) / 100;
+    let couponDiscount = 0;
+    if (coupon_value > 0) {
+      couponDiscount = (originalPrice * coupon_value) / 100;
+    } else {
+      couponDiscount = (originalPrice * 0) / 100;
+    }
+    const priceAfterDiscount = originalPrice - discountAmount;
+    const finalPrice = priceAfterDiscount - couponDiscount;
+    return finalPrice;
+  }
+
+  function taxes(originalPrice, coupon_value, coupon_type, discountPercentage) {
+    if (coupon_type === "price") {
+      const couponValue = (coupon_value / originalPrice) * 100;
+      const finalPrice = final_price(
+        originalPrice,
+        couponValue,
+        discountPercentage
+      );
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    } else if (coupon_type === "percentage") {
+      const finalPrice = final_price(
+        originalPrice,
+        coupon_value,
+        discountPercentage
+      );
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    } else {
+      const finalPrice = final_price(originalPrice, 0, discountPercentage);
+      const taxRate = 0.15; // 15%
+      const taxAmount = finalPrice * taxRate;
+      console.log(taxAmount);
+      return taxAmount;
+    }
+  }
 
   if (isMemberMembershipLoading) {
     return (
@@ -111,8 +120,8 @@ const GroupMemberMembership = () => {
                   src="/assets/image/Group 1000011864.png"
                   className="w-100"
                   style={{ padding: "6px" }}
-                  width={'50px'}
-                  height={'60px'}
+                  width={"50px"}
+                  height={"60px"}
                   alt="Logo"
                 />
               </div>
@@ -182,8 +191,10 @@ const GroupMemberMembership = () => {
               </div>
             </div>
             <div className="row">
-              <div className={`col-3 d-flex justify-content-start align-items-start gap-2`}>
-              <img src="/assets/image/ph_money.png" alt="" width={'25px'} />
+              <div
+                className={`col-3 d-flex justify-content-start align-items-start gap-2`}
+              >
+                <img src="/assets/image/ph_money.png" alt="" width={"25px"} />
                 <div className="me-2">
                   <div className="mb-2 fw-bold">السعر الأصلي</div>
                   <div className="">
@@ -195,8 +206,10 @@ const GroupMemberMembership = () => {
                   </div>
                 </div>
               </div>
-              <div className={`col-3 d-flex justify-content-start align-items-start gap-2`}>
-              <img src="/assets/image/ph_money.png" alt="" width={'25px'} />
+              <div
+                className={`col-3 d-flex justify-content-start align-items-start gap-2`}
+              >
+                <img src="/assets/image/ph_money.png" alt="" width={"25px"} />
                 <div className="me-2">
                   <div className="mb-2 fw-bold">
                     الخصم (%
@@ -214,36 +227,30 @@ const GroupMemberMembership = () => {
                   </div>
                 </div>
               </div>
-              <div className={`col-3 d-flex justify-content-start align-items-start gap-2`}>
-              <img src="/assets/image/ph_money.png" alt="" width={'25px'} />
+              <div
+                className={`col-3 d-flex justify-content-start align-items-start gap-2`}
+              >
+                <img src="/assets/image/ph_money.png" alt="" width={"25px"} />
                 <div className="me-2">
                   <div className="mb-2 fw-bold">الضريبة (%15)</div>
                   <div className="">
                     {memberMembership?.data?.user_session?.coupon
-                      ?.discount_type === "price"
-                      ? `${
+                      ? taxes(
                           memberMembership?.data?.user_session?.schedule
-                            ?.session?.price *
-                          (1 -
-                            (+memberMembership?.data?.user_session?.discount +
-                              +(
-                                +memberMembership?.data?.user_session?.coupon
-                                  ?.discount_value /
-                                memberMembership?.data?.user_session?.schedule
-                                  ?.session?.price
-                              ) *
-                                100) /
-                              100) *
-                          (15 / 100)
-                        }`
-                      : memberMembership?.data?.user_session?.schedule?.session
-                          ?.price *
-                        (1 -
-                          (+memberMembership?.data?.user_session?.discount +
-                            +memberMembership?.data?.user_session?.coupon
-                              ?.discount_value) /
-                            100) *
-                        (15 / 100)}{" "}
+                            ?.session?.price,
+                          memberMembership?.data?.user_session?.coupon
+                            ?.discount_value,
+                          memberMembership?.data?.user_session?.coupon
+                            ?.discount_type,
+                          memberMembership?.data?.user_session?.discount
+                        )
+                      : taxes(
+                          memberMembership?.data?.user_session?.schedule
+                            ?.session?.price,
+                          0,
+                          "",
+                          memberMembership?.data?.user_session?.discount
+                        )}{" "}
                     ريال
                   </div>
                 </div>
@@ -251,7 +258,11 @@ const GroupMemberMembership = () => {
               {memberMembership?.data?.user_session?.coupon && (
                 <div className={`col-3 d-flex justify-content-start gap-2`}>
                   <div className="ms-3">
-                  <img src="/assets/image/ph_money.png" alt="" width={'25px'} />
+                    <img
+                      src="/assets/image/ph_money.png"
+                      alt=""
+                      width={"25px"}
+                    />
                   </div>
                   <div>
                     <p className="mb-1 fw-bolder">
@@ -276,35 +287,21 @@ const GroupMemberMembership = () => {
               )}
             </div>
             <div className="row">
-              <div className={`col-3 d-flex justify-content-start align-items-start gap-2`}>
-              <img src="/assets/image/ph_money.png" alt="" width={'25px'} />
+              <div
+                className={`col-3 d-flex justify-content-start align-items-start gap-2`}
+              >
+                <img src="/assets/image/ph_money.png" alt="" width={"25px"} />
 
                 <div className="me-2">
                   <div className="mb-2 fw-bold">الإجمالي قبل الضريبة</div>
                   <div className="">
-                    {memberMembership?.data?.user_session?.coupon
-                      ?.discount_type === "price"
-                      ? (
-                          memberMembership?.data?.user_session?.schedule
-                            ?.session?.price *
-                          (1 -
-                            (+memberMembership?.data?.user_session?.discount +
-                              (+memberMembership?.data?.user_session?.coupon
-                                ?.discount_value /
-                                memberMembership?.data?.user_session?.schedule
-                                  ?.session?.price) *
-                                100) /
-                              100)
-                        ).toFixed(2)
-                      : (
-                          memberMembership?.data?.user_session?.schedule
-                            ?.session?.price *
-                          (1 -
-                            (+memberMembership?.data?.user_session?.discount +
-                              +memberMembership?.data?.user_session?.coupon
-                                ?.discount_value) /
-                              100)
-                        ).toFixed(2)}{" "}
+                    {final_price(
+                      memberMembership?.data?.user_session?.schedule?.session
+                        ?.price,
+                      memberMembership?.data?.user_session?.coupon
+                        ?.discount_value,
+                      memberMembership?.data?.user_session?.discount
+                    )}{" "}
                     ريال
                   </div>
                 </div>
