@@ -38,7 +38,10 @@ function Navbar({ userData }) {
       setShowSettings(false);
     }
   };
-
+  const handleSidebar = () => {
+    const sidebar = document.querySelector(".sidebarContainer");
+    sidebar.classList.toggle("active");
+  };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -49,8 +52,13 @@ function Navbar({ userData }) {
   return (
     <div className="navbarContainer">
       <nav className="navbar  fixed-top">
-        <div className="container-fluid ">
-          <div className="mt-3">
+        <div className="ps-md-5 pe-md-5 w-100 d-flex justify-content-between align-items-center">
+          <div className="toggleIcon" onClick={handleSidebar}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div className="navbarLogo">
             <img src="/assets/image/Group 1000011864.png" alt="" />
           </div>
           <div

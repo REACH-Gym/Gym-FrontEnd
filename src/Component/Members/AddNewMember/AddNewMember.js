@@ -150,11 +150,11 @@ function AddNewMember() {
             return (
               <Form className={`addForm pt-4 mt-2`}>
                 <div className={`row g-4 mt-2`}>
-                  <div className={`col-4 col-lg-6`}>
+                  <div className={`col-12 col-sm-6`}>
                     <InputField name={"name"} label={"الأسم"} />
                   </div>
                   <div
-                    className={`col-4 col-lg-6 phone-number position-relative`}
+                    className={`col-12 col-sm-6 phone-number position-relative`}
                   >
                     <label
                       className="mb-2 mt-2 text-light"
@@ -199,11 +199,14 @@ function AddNewMember() {
                   </div>
                 </div>
                 <div className={`row g-4 mb-5`}>
-                  <div className={`col-4 col-lg-6`}>
+                  <div className={`col-12 col-sm-6`}>
                     <InputField name={"national_id"} label={"رقم العضوية"} />
                   </div>
-                  <div className={`col-4 col-lg-6 position-relative`}>
-                    <label className="text-light d-block mt-2" htmlFor="password">
+                  <div className={`col-12 col-sm-6 position-relative`}>
+                    <label
+                      className="text-light d-block mt-2"
+                      htmlFor="password"
+                    >
                       كلمة السر
                     </label>
                     <InputField
@@ -245,21 +248,21 @@ function AddNewMember() {
                   </div>
                 </div>
                 <div className={`row g-4 mb-5`}>
-                  <div className={`col-4 col-lg-6`}>
+                  <div className={`col-12 col-sm-6`}>
                     <InputField
                       name={"notes"}
                       label={"ملاحظات"}
                       className={"note"}
                     />
                   </div>
-                  <div className={`col-4 col-lg-6`}>
+                  <div className={`col-12 col-sm-6`}>
                     <InputField
                       name={"date_of_birth"}
                       label={"تاريخ الميلاد"}
                       inputType={"input"}
                       type={"date"}
                     />
-                    <div className={`col-4 col-lg-6`}>
+                    <div className={`col-12 col-sm-6`}>
                       <InputField
                         name={"gender"}
                         label={"النوع"}

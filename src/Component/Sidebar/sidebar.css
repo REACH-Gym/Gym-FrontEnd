@@ -1,7 +1,19 @@
+@keyframes slideIn {
+  from {
+    right: -230px;
+    opacity: 0;
+  }
+  to {
+    right: 0px;
+    opacity: 1;
+  }
+}
 .sidebarContainer {
-  width: 300px;
+  min-width: 230px;
   padding: 100px 10px;
   background-color: #2c2c2c;
+  position: relative;
+  overflow-y: auto;
   /* overflow-y:scroll; */
   /* height: 60vh; */
 }
@@ -50,4 +62,17 @@
 .menu-item-header.active-item {
   background-color: #3572ef;
   color: #fff;
+}
+@media (max-width: 768px) {
+  .active {
+    display: block !important;
+    width: 230px !important;
+    animation: slideIn 0.5s ease-in-out;
+    position: absolute;
+    height: 100%;
+  }
+  .sidebarContainer {
+    display: none;
+    overflow: hidden;
+  }
 }

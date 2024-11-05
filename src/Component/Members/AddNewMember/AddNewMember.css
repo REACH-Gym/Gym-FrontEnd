@@ -6,11 +6,13 @@
 }
 .addForm {
   background-color: #373636;
-  padding: 0px 150px 50px 150px;
+  padding: 30px;
   border-radius: 10px;
   width: 100%;
   margin: auto;
   box-shadow: none;
+  max-height: 72vh;
+  overflow-y: auto;
 }
 .addForm label {
   color: rgb(98, 98, 98);

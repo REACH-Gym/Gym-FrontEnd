@@ -50,17 +50,14 @@ function EditMember() {
       date_of_birth: new Date(values.date_of_birth).toISOString().split("T")[0],
     };
     try {
-      const response = await fetch(
-        `${api}/members/${member.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: localStorage.getItem("access"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formattedValues),
-        }
-      );
+      const response = await fetch(`${api}/members/${member.id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: localStorage.getItem("access"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formattedValues),
+      });
       const updatedMember = await response.json();
       if (response.ok) {
         setShowModal(true);
@@ -99,10 +96,10 @@ function EditMember() {
       >
         <Form className="editForm">
           <div className="row g-4 mb-5 mt-5">
-            <div className="col-4 col-lg-6">
+            <div className="col-12 col-sm-6">
               <InputField name="name" label={"الأسم"} />
             </div>
-            <div className="col-4 col-lg-6">
+            <div className="col-12 col-sm-6">
               <InputField
                 label={"تاريخ الميلاد"}
                 type="date"
@@ -111,10 +108,10 @@ function EditMember() {
             </div>
           </div>
           <div className="row g-4 mb-5">
-            <div className="col-4 col-lg-6">
+            <div className="col-12 col-sm-6">
               <InputField label={"رقم العضوية"} name="national_id" />
             </div>
-            <div className="col-4 col-lg-6">
+            <div className="col-12 col-sm-6">
               <InputField name={"gender"} label={"النوع"} inputType={"select"}>
                 <option value="">{"أختر نوع"}</option>
                 <option value="انثي">{"انثي"}</option>
