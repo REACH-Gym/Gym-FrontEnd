@@ -18,10 +18,10 @@ const DynamicComponent = () => {
   return (
     <>
       <div className={`row`}>
-        <div className={`col-6`}>
+        <div className={`col-12 col-md-6`}>
           <InputField name="name" label="اسم العضو" />
         </div>
-        <div className={`col-6 phone-number position-relative`}>
+        <div className={`col-12 col-md-6 phone-number position-relative`}>
           <label className="mb-2 mt-2 text-light" htmlFor={"phone_number"}>
             رقم الهاتف
           </label>
@@ -60,10 +60,10 @@ const DynamicComponent = () => {
         </div>
       </div>
       <div className={`row`}>
-        <div className={`col-6`}>
+        <div className={`col-12 col-md-6`}>
           <InputField name="national_id" label="رقم العضوية" />
         </div>
-        <div className={`col-6 position-relative`}>
+        <div className={`col-12 col-md-6 position-relative`}>
           <label className="mb-2 mt-2 text-light" htmlFor={"password"}>
             كلمة السر
           </label>
@@ -135,7 +135,7 @@ const DynamicComponent = () => {
         </div>
       </div>
       <div className={`row`}>
-        <div className={`col-6`}>
+        <div className={`col-12 col-md-6`}>
           <InputField
             name="date_of_birth"
             label="تاريخ الميلاد"
@@ -143,7 +143,7 @@ const DynamicComponent = () => {
             type={"date"}
           />
         </div>
-        <div className={`col-6`}>
+        <div className={`col-12 col-md-6`}>
           <InputField name="role" label="الوظيفة" inputType={"select"}>
             <option value={""}>اختر</option>
             <option value={"S"}>مشرف العام</option>
@@ -154,7 +154,7 @@ const DynamicComponent = () => {
         </div>
       </div>
       <div className="row">
-        <div className={`col-6`}>
+        <div className={`col-12 col-md-6`}>
           <InputField name={"gender"} label={"الجنس"} inputType={"select"}>
             <option value={""}>اختر</option>
             <option value={"M"}>ذكر</option>
@@ -273,7 +273,10 @@ const AddUser = () => {
           title={"إضافة مستخدم"}
           subTitle={"يمكنك إضافة مستخدم من هنا"}
         />
-        <div className="rounded-2" style={{backgroundColor:"#373636" , padding:"50px"}}>
+        <div
+          className="rounded-2"
+          style={{ backgroundColor: "#373636", padding: "50px" }}
+        >
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

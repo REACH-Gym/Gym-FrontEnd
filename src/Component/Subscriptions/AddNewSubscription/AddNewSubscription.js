@@ -93,23 +93,23 @@ function AddNewSubscription() {
           initialValues={intialValues}
           validationSchema={validationSchema}
         >
-          <Form className=" mt-5 mb-4" style={{padding:"0px 50px 0px 50px"}}>
+          <Form className=" mt-5 mb-4" style={{ padding: "0px 50px 0px 50px" }}>
             <div className="row mb-4 g-5">
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <InputField name={"name"} label={"اسم الاشتراك"} />
               </div>
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <InputField name={"price"} label={"السعر"} />
               </div>
             </div>
             <div className="row mb-4 g-5">
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <InputField
                   name={"membership_duration"}
                   label={" المدة بالشهر"}
                 />
               </div>
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <InputField
                   name={"freeze_duration"}
                   label={"أقصي حد للتجميد(بالأيام)"}

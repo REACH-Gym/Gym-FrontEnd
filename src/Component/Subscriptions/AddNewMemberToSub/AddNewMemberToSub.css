@@ -18,6 +18,8 @@
   width: 100%;
   /* background-color: #f2f4f5; */
   background-image: url("/public/assets/image/bg3.jpg");
+  padding-bottom: 30px;
+  overflow-y: auto;
 }
 .formContainer {
   display: flex;

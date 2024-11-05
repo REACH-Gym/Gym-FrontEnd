@@ -1,10 +1,11 @@
 .allSubscriptionContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 80px 0px 0px 0px;
   width: 100%;
   min-height: 100vh;
+  min-width: 1100px;
 }
 .active-subscription {
   background-color: white !important;
@@ -36,6 +37,6 @@
   background-color: #f4f4f4;
   cursor: pointer;
 }
-.noResults{
-  background-color: rgba(79, 79, 79,0.9);
+.noResults {
+  background-color: rgba(79, 79, 79, 0.9);
 }

@@ -523,8 +523,8 @@ function AddNewMemberToSub() {
                   setValues(values);
                   return (
                     <Form className="  AddForm">
-                      <div className=" d-flex justify-content-around">
-                        <div className="form1 ms-5">
+                      <div className=" d-flex justify-content-around flex-column flex-lg-row">
+                        <div className="form1 ms-5 w-100">
                           <div>
                             <InputField
                               name={"user"}
@@ -599,7 +599,7 @@ function AddNewMemberToSub() {
                             />
                           </div>
                         </div>
-                        <div className="form2">
+                        <div className="form2 w-100">
                           <div>
                             <InputField
                               name={"discount"}

@@ -6,6 +6,7 @@
   background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  min-width: 750px;
 }
 .subscriptionDetailContainer__items {
   border-radius: 10px;

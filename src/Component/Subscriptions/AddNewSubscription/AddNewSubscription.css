@@ -1,11 +1,12 @@
 .AddNewSubscriptionContainer {
   /* background-color: #f2f4f5; */
-  background-image: url('/public/assets/image/bg3.jpg');
-  padding: 80px 0px 0px 0px;
+  background-image: url("/public/assets/image/bg3.jpg");
+  padding: 80px 0px 30px 0px;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   min-height: 100vh;
+  overflow-y: auto;
 }
 .addSubFormContainer {
   background-color: #373636;

@@ -48,18 +48,15 @@ function EditSub() {
   const handleSubmit = async (values, { setSubmitting }) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `${api}/memberships/${membership.id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("access"),
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const response = await fetch(`${api}/memberships/${membership.id}/`, {
+        method: "PATCH",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("access"),
+        },
+        body: JSON.stringify(values),
+      });
 
       if (response.ok) {
         const updateSub = await response.json();
@@ -85,7 +82,7 @@ function EditSub() {
     setShowModalError(false);
   };
   return (
-    <div className="editMemberContainer">
+    <div className="editSubContainer">
       <Helmet>تعديل بيانات أشتراك</Helmet>
       <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
         <ComponentTitle
@@ -101,30 +98,33 @@ function EditSub() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className=" mt-5 mb-4 rounded-2" style={{padding:"0px 50px 0px 50px" , backgroundColor:"#373636"}}>
+          <Form
+            className=" mt-5 mb-4 rounded-2"
+            style={{ padding: "0 30px 30px", backgroundColor: "#373636" }}
+          >
             <div className="row g-4 mb-5 mt-5">
-              <div className="col-4 col-lg-6">
+              <div className="col-12 col-md-6">
                 <InputField name="name" label={"أسم الأشتراك"} />
               </div>
-              <div className="col-4 col-lg-6">
+              <div className="col-12 col-md-6">
                 <InputField label={"السعر"} name="price" />
               </div>
             </div>
             <div className="row g-4 mb-5">
-              <div className="col-4 col-lg-6">
+              <div className="col-12 col-md-6">
                 <InputField
                   label={" المدة بالشهر"}
                   name="membership_duration"
                 />
               </div>
-              <div className="col-4 col-lg-6">
+              <div className="col-12 col-md-6">
                 <InputField
                   label={"أقصي حد للتجميد(بالأيام)"}
                   name="freeze_duration"
                 />
               </div>
             </div>
-            <div className="col-6 col-lg-6 w-100">
+            <div className="col-12 col-md-6 w-100">
               <InputField label={"ملاحظات"} name="description" />
             </div>
             <div className="editBtn text-center mt-5">
