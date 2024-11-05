@@ -46,9 +46,9 @@ function Home() {
   }
 
   return (
-    <div className="homePage ">
-      <Navbar userData={userData} />
+    <div className="homePage">
       <div className="homepage__item d-flex">
+        <Navbar userData={userData} />
         <SidebarBox />
         <Outlet />
       </div>

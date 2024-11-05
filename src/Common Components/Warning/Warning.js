@@ -24,7 +24,7 @@ const Warning = ({ text, handleConfirm, handleCancel, isLoading = false }) => {
           />
         </svg>
 
-        <p className="mt-4 fs-5 fw-bold">{text}</p>
+        <p className="mt-4 fs-5 fw-bold text-black">{text}</p>
 
         <div
           className={`${styles.buttons} d-flex justify-content-center gap-4 mt-4`}

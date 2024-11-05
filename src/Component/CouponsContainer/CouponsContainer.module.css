@@ -13,7 +13,8 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
-.tableContainer td,th{
+.tableContainer td,
+th {
   color: #fff;
 }
 .pageBtn {
@@ -22,12 +23,13 @@
   margin-top: 30px;
 }
 .groupsContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   padding: 90px 20px 20px 20px;
   min-height: 100vh;
+  overflow: auto;
 }
 .filter:hover {
   background-color: #f4f4f4;

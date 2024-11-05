@@ -1,7 +1,8 @@
 .addMemberContainer {
   width: 100%;
   min-height: 100vh;
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
+  background-size: cover;
 }
 .addForm {
   background-color: #373636;
@@ -9,7 +10,7 @@
   border-radius: 10px;
   width: 100%;
   margin: auto;
-  box-shadow:none;
+  box-shadow: none;
 }
 .addForm label {
   color: rgb(98, 98, 98);

@@ -16,16 +16,13 @@ function SubscriptionDetail() {
   useEffect(() => {
     async function fetchDetails() {
       try {
-        const response = await fetch(
-          `${api}/members/memberships/${id}/`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: access_token,
-            },
-          }
-        );
+        const response = await fetch(`${api}/members/memberships/${id}/`, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: access_token,
+          },
+        });
         const result = await response.json();
         console.log(result);
         if (response.ok) {
@@ -38,7 +35,7 @@ function SubscriptionDetail() {
       }
     }
     fetchDetails();
-  }, [access_token, id,api]);
+  }, [access_token, id, api]);
 
   const handleClickOutside = (event) => {
     if (optionRef.current && !optionRef.current.contains(event.target)) {
@@ -147,7 +144,7 @@ function SubscriptionDetail() {
                 <div>
                   <p className="mb-1 fw-bolder">الضريبة (15%)</p>
                   <p style={{ fontSize: "13px" }}>
-                    {subDetail.coupon.discount_type === "price"
+                    {subDetail?.coupon?.discount_type === "price"
                       ? `${
                           subDetail.membership.price *
                           (1 -
@@ -180,7 +177,7 @@ function SubscriptionDetail() {
                       الكوبون ({subDetail.coupon.code})
                     </p>
                     <p style={{ fontSize: "13px" }}>
-                      {subDetail.coupon.discount_type === "price"
+                      {subDetail?.coupon?.discount_type === "price"
                         ? `${subDetail.coupon.discount_value}`
                         : `${(
                             subDetail.membership.price *
@@ -198,7 +195,7 @@ function SubscriptionDetail() {
                 <div>
                   <p className="mb-1 fw-bolder">الإجمالي قبل الضريبة</p>
                   <p style={{ fontSize: "13px", display: "block" }}>
-                    {subDetail.coupon.discount_type === "price"
+                    {subDetail?.coupon?.discount_type === "price"
                       ? (
                           subDetail.membership.price *
                           (1 -
@@ -233,7 +230,10 @@ function SubscriptionDetail() {
             {/*subscriptions*/}
             <div>
               <p className="fw-bolder mt-5  fs-5 ">الاشتراكات</p>
-              <table className="table " style={{backgroundColor:"#373636" , color:"#fff"}}>
+              <table
+                className="table "
+                style={{ backgroundColor: "#373636", color: "#fff" }}
+              >
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -243,9 +243,9 @@ function SubscriptionDetail() {
                     <th scope="col">الي تاريخ</th>
                     <th scope="col">المدة</th>
                     <th scope="col">حالة الأشتراك</th>
-                    <th className="text-center" scope="col">
+                    {/* <th className="text-center" scope="col">
                       خيارات
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -259,15 +259,15 @@ function SubscriptionDetail() {
                     <td>
                       {subDetail.status === "active" ? <Active /> : <Deleted />}
                     </td>
-                    <td
+                    {/* <td
                       className="text-center"
                       style={{ position: "relative" }}
                     >
                       <MoreVertIcon
                         onClick={() => setShowOptions(!showOptions)}
                         style={{ cursor: "pointer" }}
-                      />
-                      {/* <div className="" style={{ position: "relative" }}>
+                      /> */}
+                    {/* <div className="" style={{ position: "relative" }}>
                         {showOptions && (
                           <div
                             ref={optionRef}
@@ -296,7 +296,7 @@ function SubscriptionDetail() {
                           </div>
                         )}
                       </div> */}
-                    </td>
+                    {/* </td> */}
                   </tr>
                 </tbody>
               </table>

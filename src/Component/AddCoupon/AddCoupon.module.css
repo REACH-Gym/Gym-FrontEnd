@@ -16,8 +16,9 @@
   background-color: #f2f4f5;
   width: 100%;
   min-height: 100vh;
+  overflow: auto;
 }
-.label{
+.label {
   color: #fff;
 }
 @media (max-width: 768px) {

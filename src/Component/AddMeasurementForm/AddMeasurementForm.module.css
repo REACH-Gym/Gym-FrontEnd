@@ -3,8 +3,6 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   background-color: #373636;
-  overflow: hidden;
-  min-height: 100vh;
 }
 .formContainer {
   width: 100%;
@@ -29,9 +27,12 @@
   width: 25%;
 }
 .AddMeasurementFormContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
+  background-size: cover;
   width: 100%;
   padding: 90px 20px 20px 20px;
+  min-height: 100vh;
+  overflow: auto;
 }
 .membersSearch {
   position: relative;
