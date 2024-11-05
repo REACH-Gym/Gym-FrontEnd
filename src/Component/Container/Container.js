@@ -31,8 +31,8 @@ function Container() {
     fetchStatus();
   }, [api]);
   return (
-    <div className="container">
-      <div className="container__item">
+    <div className="contentContainer">
+      <div className="container__item container">
         <Helmet>
           <title>الصفحة الريئسية</title>
         </Helmet>

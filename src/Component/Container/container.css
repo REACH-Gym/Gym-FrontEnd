@@ -1,9 +1,11 @@
-.container {
+.contentContainer {
   min-height: 100vh;
-  background-image: url('/public/assets/image/bg3.jpg');
+  margin: 0;
+  width: 100%;
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
-  background-size:cover;
-  object-fit:fill;
+  background-size: cover;
+  object-fit: fill;
 }
 .container__item {
   padding: 80px 0px 0px 0px;
