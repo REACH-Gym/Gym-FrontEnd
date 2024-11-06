@@ -268,7 +268,8 @@ const EditSchedule = () => {
     if (employeesError?.status === 403 || scheduleError?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -282,7 +283,8 @@ const EditSchedule = () => {
       }, 2000);
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           برجاء تسجيل الدخول والمحاولة مرة أخرى.
         </div>
@@ -290,7 +292,8 @@ const EditSchedule = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
@@ -321,7 +324,7 @@ const EditSchedule = () => {
             return (
               <Form className={`${styles.groupForm} d-grid gap-3 p-4`}>
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-12 col-md-6">
                     <label className="text-light mb-2 mt-2">اسم المجموعة</label>
                     <input
                       type="text"
@@ -338,7 +341,7 @@ const EditSchedule = () => {
                       }}
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-12 col-md-6">
                     <InputField
                       name="max_capacity"
                       label="الطاقة الإستيعابية"
@@ -346,7 +349,7 @@ const EditSchedule = () => {
                   </div>
                 </div>
                 <div className={`row`}>
-                  <div className="col-6">
+                  <div className="col-12 col-md-6">
                     <InputField
                       name={"trainer"}
                       label={"المدرب"}
@@ -365,7 +368,7 @@ const EditSchedule = () => {
                   <div className="col-12 fw-bold fs-5 text-light">الموعد</div>
                 </div>
                 <div className={`row`}>
-                  <div className="col-5">
+                  <div className="col-12 col-md-5">
                     <label className={`text-light mb-2 mt-2`}>اليوم</label>
                     <select
                       style={{
@@ -393,7 +396,7 @@ const EditSchedule = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="col-5">
+                  <div className="col-12 col-md-5">
                     <label className={`text-light mb-2 mt-2`}>الساعة</label>
                     <input
                       type="time"
@@ -424,7 +427,7 @@ const EditSchedule = () => {
                 </div>
                 {state?.map((currentDay, index) => (
                   <div key={index} className={`row`}>
-                    <div className="col-5">
+                    <div className="col-12 col-md-5">
                       <label className={`text-light mb-2 mt-2`}>اليوم</label>
                       <select
                         style={{
@@ -460,7 +463,7 @@ const EditSchedule = () => {
                         ))}
                       </select>
                     </div>
-                    <div className="col-5">
+                    <div className="col-12 col-md-5">
                       <label className={`text-light mb-2 mt-2`}>الساعة</label>
                       <input
                         type="time"
@@ -501,11 +504,11 @@ const EditSchedule = () => {
                         >
                           <path
                             d="M3.5 8.50645L5.7065 8.49895L10.5225 3.72895C10.7115 3.53995 10.8155 3.28895 10.8155 3.02195C10.8155 2.75495 10.7115 2.50395 10.5225 2.31495L9.7295 1.52195C9.3515 1.14395 8.692 1.14595 8.317 1.52045L3.5 6.29145V8.50645ZM9.0225 2.22895L9.817 3.02045L9.0185 3.81145L8.2255 3.01895L9.0225 2.22895ZM4.5 6.70845L7.515 3.72195L8.308 4.51495L5.2935 7.50045L4.5 7.50295V6.70845Z"
-                            fill="#4F4F4F"
+                            fill="white"
                           />
                           <path
                             d="M2.5 10.5H9.5C10.0515 10.5 10.5 10.0515 10.5 9.5V5.166L9.5 6.166V9.5H4.079C4.066 9.5 4.0525 9.505 4.0395 9.505C4.023 9.505 4.0065 9.5005 3.9895 9.5H2.5V2.5H5.9235L6.9235 1.5H2.5C1.9485 1.5 1.5 1.9485 1.5 2.5V9.5C1.5 10.0515 1.9485 10.5 2.5 10.5Z"
-                            fill="#4F4F4F"
+                            fill="white"
                           />
                         </svg>
                       </div>

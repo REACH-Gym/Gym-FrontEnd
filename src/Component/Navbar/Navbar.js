@@ -64,7 +64,7 @@ function Navbar({ userData }) {
           <div
             style={{ cursor: "pointer" }}
             onClick={handleShowSettings}
-            className="position-relative"
+            className="position-relative ms-2"
           >
             <div className="d-flex align-items-center ">
               <div>

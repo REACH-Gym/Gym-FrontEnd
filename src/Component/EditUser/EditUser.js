@@ -58,7 +58,7 @@ const DynamicComponent = () => {
           <ErrorMessage
             name={"phone_number"}
             component="div"
-            className={"text-danger"}
+            className={"error-message"}
           />
         </div>
       </div>
@@ -126,7 +126,7 @@ const DynamicComponent = () => {
           <ErrorMessage
             name="new_password"
             component="div"
-            className="text-danger mt-2"
+            className="error-message mt-2"
           />
         </div>
       </div>

@@ -19,7 +19,7 @@ function AllSubScriptions() {
   const [showDropdown, setShowDropdown] = useState(null);
   const access_token = localStorage.getItem("access");
   const [page, setPage] = useState(1);
-  const [per_page] = useState(10);
+  const [per_page] = useState(20);
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -145,14 +145,14 @@ function ForgotPassword() {
                   <ErrorMessage
                     name="phone_number"
                     component="div"
-                    className="text-danger error-message"
+                    className="error-message error-message"
                   />
                 </div>
                 <div className="sendCodeBtn mt-4">
                   <ErrorMessage
                     name="countryCode"
                     component="div"
-                    className="text-danger"
+                    className="error-message"
                   />
                   <MainButton
                     btnType={"submit"}

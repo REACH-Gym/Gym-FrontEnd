@@ -5,6 +5,8 @@
   width: 100%;
   padding: 80px 20px 20px 20px;
   min-height: 100vh;
+  min-width: 500px;
+  overflow: auto;
 }
 .dropmenu {
   background-color: #373636;
@@ -41,6 +43,8 @@
   background-size: cover;
   width: 100%;
   padding: 80px 20px 20px 20px;
+  min-width: 500px;
+  overflow: auto;
 }
 .supportDetailContainer__item {
   background-color: #373636;

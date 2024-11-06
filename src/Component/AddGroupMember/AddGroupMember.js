@@ -463,7 +463,8 @@ const DynamicComponent = () => {
     ) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -478,7 +479,8 @@ const DynamicComponent = () => {
       }, 2000);
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           برجاء تسجيل الدخول والمحاولة مرة أخرى
         </div>
@@ -486,7 +488,8 @@ const DynamicComponent = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
@@ -496,14 +499,16 @@ const DynamicComponent = () => {
 
   return (
     <>
-      <div className="row" >
-        <div className={`col-6`}>
+      <div className="row">
+        <div className={`col-12 col-lg-6`}>
           <div
             className={`${styles.section} col-12 d-grid gap-3 rounded-2 pb-5 pt-3 pe-5 ps-5`}
-            style={{
-              // backgroundColor: "white",
-              // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-            }}
+            style={
+              {
+                // backgroundColor: "white",
+                // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+              }
+            }
           >
             <div className={`col-12`}>
               <InputField name="name" label="اسم العضو" inputType={"select"}>
@@ -550,7 +555,7 @@ const DynamicComponent = () => {
             </div>
           </div>
         </div>
-        <div className={`col-6 text-light`}>
+        <div className={`col-12 col-lg-6 mt-3 mt-lg-0 text-light`}>
           <div
             className={`${styles.section} col-12 rounded-2 pb-5 pt-3 pe-5 ps-5`}
             style={{
@@ -766,7 +771,7 @@ const AddGroupMember = () => {
           title={"إضافة عضو للمجموعة"}
           subTitle={"يمكنك إضافة عضو لمجموعة من هنا"}
         />
-        <div className="  rounded-2 p-4" style={{backgroundColor:"#5f5e5e"}}>
+        <div className="  rounded-2 p-4" style={{ backgroundColor: "#5f5e5e" }}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

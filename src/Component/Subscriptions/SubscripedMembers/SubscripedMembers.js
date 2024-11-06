@@ -334,7 +334,7 @@ function SubscripedMembers() {
           dateValue={setDate}
         />
       ) : null}
-      <div className="allSubscriptionContainer mt-4">
+      <div className="allSubscripedMembersContainer mt-4">
         <Helmet>
           <title>الاعضاء المشتركين</title>
         </Helmet>
@@ -659,7 +659,7 @@ function SubscripedMembers() {
             </div>
           ) : (
             <div
-              className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+              className="fw-bolder error-message fs-4 d-flex justify-content-center align-items-center"
               style={{ height: "50vh" }}
             >
               لا يوجد نتائج

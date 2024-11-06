@@ -11,8 +11,8 @@
   width: 100%;
   margin: auto;
   box-shadow: none;
-  max-height: 72vh;
-  overflow-y: auto;
+  /* max-height: 72vh; */
+  /* overflow-y: auto; */
 }
 .addForm label {
   color: rgb(98, 98, 98);
@@ -32,7 +32,8 @@
 .addMemberContainer {
   background-color: #f2f4f5;
   width: 100%;
-  padding: 80px 20px 20px 20px;
+  padding: 80px 20px 30px 20px;
+  overflow-y: auto;
 }
 .note {
   height: 144px !important;

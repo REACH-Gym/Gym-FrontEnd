@@ -111,7 +111,7 @@ function ChangePhoneNumber() {
                   <div className="mt-5">
                     <div className="phoneNumber">
                       <label
-                        className="mb-2 mt-2 text-secondary"
+                        className="mb-2 mt-2 text-light"
                         htmlFor={"phone_number"}
                       >
                         رقم الهاتف
@@ -122,7 +122,7 @@ function ChangePhoneNumber() {
                           id={"phone_number"}
                           style={{
                             width: "100%",
-                            backgroundColor: "#F4F4F4",
+                            backgroundColor: "rgb(222, 226, 230)",
                             border: "none",
                             borderRadius: "5px",
                             padding: "10px",
@@ -148,14 +148,14 @@ function ChangePhoneNumber() {
                       <ErrorMessage
                         name="phone_number"
                         component="div"
-                        className="text-danger"
+                        className="error-message"
                       />
                     </div>
                     <div className="saveChange text-center mt-5">
                       <ErrorMessage
                         name="countryCode"
                         component="div"
-                        className="text-danger"
+                        className="error-message"
                       />
                       <MainButton
                         text={"تأكيد"}

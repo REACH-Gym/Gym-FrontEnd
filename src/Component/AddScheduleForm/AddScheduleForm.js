@@ -73,8 +73,8 @@ const AddScheduleForm = () => {
       setDays((prev) => [
         ...prev,
         <>
-          <div className={`col-6`}>
-            <label className={`text-secondary mb-2 mt-2`}>اليوم</label>
+          <div className={`col-12 col-md-6`}>
+            <label className={`text-light mb-2 mt-2`}>اليوم</label>
             <input
               type="text"
               disabled
@@ -110,7 +110,7 @@ const AddScheduleForm = () => {
             </div>
           </div>
           <div
-            className={`col-1 text-danger fs-3 fw-bold d-flex justify-content-center align-items-end pb-2`}
+            className={`col-1 error-message fs-3 fw-bold d-flex justify-content-center align-items-end pb-2`}
             onClick={() => handleDelete(days.length, day)}
             style={{ cursor: "pointer" }}
           >
@@ -228,7 +228,8 @@ const AddScheduleForm = () => {
     if (employeesError?.status === 403 || sessionsError?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 s-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -242,7 +243,8 @@ const AddScheduleForm = () => {
       }, 3000);
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           برجاء تسجيل الدخول والمحاولة مرة أخرى
         </div>
@@ -250,7 +252,8 @@ const AddScheduleForm = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
@@ -273,7 +276,7 @@ const AddScheduleForm = () => {
           />
         </div>
         <div
-          style={{ height: "100%" }}
+          // style={{ height: "100%" }}
           className="  justify-content-center align-items-center mt-3"
         >
           <Formik
@@ -287,7 +290,7 @@ const AddScheduleForm = () => {
               return (
                 <Form className={`${styles.groupForm} d-grid gap-3 p-4`}>
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField
                         name="session"
                         label="المجموعة"
@@ -301,7 +304,7 @@ const AddScheduleForm = () => {
                         ))}
                       </InputField>
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField
                         name="max_capacity"
                         label="الطاقة الإستيعابية"
@@ -309,7 +312,7 @@ const AddScheduleForm = () => {
                     </div>
                   </div>
                   <div className={`row`}>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField
                         name={"trainer"}
                         label={"المدرب"}
@@ -328,7 +331,7 @@ const AddScheduleForm = () => {
                     <div className="col-12 fw-bold fs-5 text-light">الموعد</div>
                   </div>
                   <div className={`row`}>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <label className={`text-light mb-2 mt-2`}>اليوم</label>
                       <select
                         onChange={(e) => setDay(e.target.value)}

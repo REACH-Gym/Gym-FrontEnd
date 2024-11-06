@@ -1,6 +1,7 @@
-*{
-  font-family: 'Cairo', sans-serif;
+* {
+  font-family: "Cairo", sans-serif;
 }
-.error-message{
+.error-message {
   font-size: 12px;
+  color: #ff6666 !important;
 }

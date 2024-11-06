@@ -37,7 +37,8 @@ const MembershipReceipt = () => {
     if (recietError?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -45,7 +46,8 @@ const MembershipReceipt = () => {
     } else if (recietError?.status === 404) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           هذه الفاتورة غير موجودة.
         </div>
@@ -53,7 +55,8 @@ const MembershipReceipt = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>

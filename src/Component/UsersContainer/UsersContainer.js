@@ -65,7 +65,10 @@ const UsersContainer = () => {
   if (employeesError || userDataError) {
     if (employeesError.status === 403) {
       return (
-        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
           ليس لديك صلاحية الوصول الى هذه الصفحة
         </div>
       );
@@ -74,13 +77,19 @@ const UsersContainer = () => {
         navigate("/");
       }, 2000);
       return (
-        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
           برجاء تسجيل الدخول والمحاولة مرة أخرى.
         </div>
       );
     } else {
       return (
-        <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold w-100">
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
           حدث خطأ، برجاء المحاولة مرة أخرى.
         </div>
       );

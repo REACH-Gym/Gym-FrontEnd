@@ -16,7 +16,7 @@ function Logs() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [per_page] = useState(10);
+  const [per_page] = useState(20);
   const [total_pages, setTotalPages] = useState(1);
   const [activeLogId, setActiveLogId] = useState(null);
   const navigate = useNavigate();
@@ -102,7 +102,7 @@ function Logs() {
   if (error.length > 0) {
     return (
       <div
-        className="fw-bolder w-100 text-danger fs-4 d-flex justify-content-center align-items-center"
+        className="fw-bolder w-100 error-message fs-4 d-flex justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
         {error}
@@ -188,7 +188,7 @@ function Logs() {
           </div>
         ) : logs.length === 0 ? (
           <div
-            className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+            className="fw-bolder error-message fs-4 d-flex justify-content-center align-items-center"
             style={{ height: "50vh", backgroundColor: "#373636" }}
           >
             لا يوجد سجلات حالية

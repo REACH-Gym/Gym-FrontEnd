@@ -125,7 +125,7 @@ function Support() {
         </>
       ) : (
         <div
-          className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
+          className="fw-bolder error-message fs-4 d-flex justify-content-center align-items-center"
           style={{ height: "50vh" }}
         >
           لا يوجد رسائل دعم

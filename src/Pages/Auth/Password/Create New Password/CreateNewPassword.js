@@ -116,11 +116,14 @@ function CreateNewPassword() {
                 <ErrorMessage
                   name="new_password"
                   component="div"
-                  className="text-danger mt-2"
+                  className="error-message mt-2"
                 />
               </div>
               <div className="mt-3 position-relative">
-                <label className="d-block mb-2 text-light" htmlFor="confirm_password">
+                <label
+                  className="d-block mb-2 text-light"
+                  htmlFor="confirm_password"
+                >
                   اعادة كتابة كلمة السر
                 </label>
                 <Field
@@ -157,7 +160,7 @@ function CreateNewPassword() {
                 <ErrorMessage
                   name="confirm_password"
                   component="div"
-                  className="text-danger mt-2"
+                  className="error-message mt-2"
                 />
               </div>
               <div className="mt-4 sendCodeBtn">

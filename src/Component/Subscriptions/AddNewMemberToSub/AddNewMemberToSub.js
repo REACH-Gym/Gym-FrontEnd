@@ -498,7 +498,7 @@ function AddNewMemberToSub() {
       </Helmet>
       {error ? (
         <div style={{ paddingTop: "200px" }}>
-          <h4 className="fw-bolder texte-center text-danger text-center">
+          <h4 className="fw-bolder texte-center error-message text-center">
             {error}
           </h4>
         </div>

@@ -143,7 +143,7 @@ function ConfirmCode() {
       <div className="confirmCodeFormContainer">
         <p className="text-center mt-3 text-light">
           لقد قمنا بإرسال رمز التحقق المكون من 6 أرقام إلى رقم <br />
-          الهاتف المنتهي بـ {phone_number.slice(-4)}
+          الهاتف المنتهي بـ {phone_number?.slice(-4)}
           <span className="fw-bolder me-3">
             يرجي إدخال الرمز لإعادة تعيين كلمة المرور الخاصة بك.
           </span>
@@ -212,7 +212,8 @@ function ConfirmCode() {
               <p className="text-light">
                 ارسال الرمز مرة اخرى
                 <button
-                  className="resend-button fw-bolder  me-2 " style={{color:"#cccbcb"}}
+                  className="resend-button fw-bolder  me-2 "
+                  style={{ color: "#cccbcb" }}
                   type="button"
                   onClick={handleResendCode}
                 >

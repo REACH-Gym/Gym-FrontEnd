@@ -55,7 +55,7 @@ const DynamicComponent = () => {
           <ErrorMessage
             name="phone_number"
             component="div"
-            className="text-danger"
+            className="error-message"
           />
         </div>
       </div>

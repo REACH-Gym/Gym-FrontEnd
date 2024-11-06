@@ -112,7 +112,7 @@ const AddCoupon = () => {
       {success && <Success text={"تم إضافة الكوبون! "} />}
       {error.length > 0 && <Error text={error} show={error.length > 0} />}
       <div className={`${styles.groupFormContainer}`}>
-        <div className="allSubscriptionContainer mt-4">
+        <div className="addCouponContainer mt-4">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
               MainIcon={"/assets/image/discount.png"}
@@ -131,10 +131,10 @@ const AddCoupon = () => {
                   return (
                     <Form className={`${styles.groupForm} p-4`}>
                       <div className="row mb-4 g-5">
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                           <InputField name="code" label="كود الخصم" />
                         </div>
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                           <InputField
                             name="usage_limit"
                             label="عدد مرات الإستخدام"
@@ -142,7 +142,7 @@ const AddCoupon = () => {
                         </div>
                       </div>
                       <div className="row mb-4 g-5">
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                           <InputField
                             name="start_date"
                             label="تاريخ البداية"
@@ -151,7 +151,7 @@ const AddCoupon = () => {
                             min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
-                        <div className="col-4">
+                        <div className="col-8 col-md-4">
                           <InputField
                             name="end_date"
                             label="تاريخ النهاية"
@@ -160,7 +160,7 @@ const AddCoupon = () => {
                           />
                         </div>
                         <div
-                          className={`${styles.infiniteDate} col-2 ${
+                          className={`${styles.infiniteDate} col-4 col-md-2 ${
                             values.end_date === "" ? styles.activeInfinite : ""
                           }`}
                         >
@@ -175,10 +175,13 @@ const AddCoupon = () => {
                       </div>
                       <div className="row mb-4 g-5">
                         <div
-                          className={`col-6 ${styles.radioContainer}`}
+                          className={`col-12 col-md-6 ${styles.radioContainer}`}
                           style={{ marginBottom: "120px" }}
                         >
-                          <label htmlFor="discount_type" className={`text-light`}>
+                          <label
+                            htmlFor="discount_type"
+                            className={`text-light`}
+                          >
                             برجاء اختيار طريقة كود الخصم
                           </label>
                           <Field
@@ -338,7 +341,7 @@ const AddCoupon = () => {
                           <ErrorMessage
                             name="discount_type"
                             component="div"
-                            className="text-danger"
+                            className="error-message"
                           />
                         </div>
                       </div>
@@ -346,7 +349,7 @@ const AddCoupon = () => {
                         <ErrorMessage
                           name="discount_value"
                           component="div"
-                          className="text-danger mb-3"
+                          className="error-message mb-3"
                         />
                         <MainButton
                           text={"اضافة"}

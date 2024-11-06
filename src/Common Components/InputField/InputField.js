@@ -26,7 +26,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
       >
         {children}
       </Field>
-      <ErrorMessage name={name} component="div" className="text-danger" />
+      <ErrorMessage name={name} component="div" className="error-message" />
     </div>
   );
 };

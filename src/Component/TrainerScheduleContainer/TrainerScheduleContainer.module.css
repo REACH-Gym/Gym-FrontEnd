@@ -1,8 +1,10 @@
 .trainerSchedule {
   padding: 80px 20px 0 !important;
   /* background-color: #f8f9fa; */
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   padding: 20px;
   border-radius: 10px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  /* min-width: 1100px; */
+  overflow: auto;
 }

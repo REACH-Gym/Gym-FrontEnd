@@ -20,7 +20,7 @@ function AllMembers() {
   const [showDropdown, setShowDropdown] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [per_page] = useState(10);
+  const [per_page] = useState(20);
   const access_token = localStorage.getItem("access");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -239,7 +239,7 @@ function AllMembers() {
             </div>
           ) : error ? (
             <div style={{ paddingTop: "200px" }}>
-              <h4 className="text-danger text-center fw-bolder">{error}</h4>
+              <h4 className="error-message text-center fw-bolder">{error}</h4>
             </div>
           ) : allMembers.length === 0 ? (
             <div

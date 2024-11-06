@@ -37,7 +37,7 @@ const Receipt = () => {
     if (recietError?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -45,7 +45,7 @@ const Receipt = () => {
     } else if (recietError?.status === 404) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
         >
           هذه الفاتورة غير موجودة.
         </div>
@@ -53,7 +53,7 @@ const Receipt = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
