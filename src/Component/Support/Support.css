@@ -1,5 +1,5 @@
 .supportContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -7,7 +7,8 @@
   min-height: 100vh;
 }
 .dropmenu {
-  background-color: #fff;
+  background-color: #373636;
+  color: white;
   border-radius: 5px;
   border: 1px solid #ddd;
   list-style-type: none;
@@ -25,6 +26,7 @@
 }
 .delete-support:hover {
   background-color: #f2f4f5;
+  color: #373636;
   border-radius: 5px;
 }
 .tr {
@@ -34,7 +36,7 @@
   background-color: #636464;
 }
 .supportDetailContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;

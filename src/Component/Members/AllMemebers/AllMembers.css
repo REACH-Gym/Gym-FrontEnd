@@ -58,7 +58,8 @@
   margin: 0;
   left: 6%;
   position: absolute;
-  background-color: white;
+  background-color: #373636;
+  color: white;
   border: 1px solid #ddd;
   border-radius: 5px;
   z-index: 1;
@@ -67,13 +68,14 @@
 .drop-menu li {
   text-align: right;
   padding: 8px;
-  color: #4f4f4f;
+  color: white;
   cursor: pointer;
   font-weight: lighter;
   font-size: 16px;
 }
 .drop-menu li:hover {
   background-color: #f2f4f5;
+  color: #373636;
   border-radius: 5px;
 }
 .dropdown__icon {

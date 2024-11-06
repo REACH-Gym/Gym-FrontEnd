@@ -148,7 +148,7 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
                 >
                   <path
                     d="M5.25 3V3.75H3V3H5.25ZM3 5.25V4.5H5.25V5.25H3ZM3 6.75V6H4.5V6.75H3ZM2.25 3V3.75H1.5V3H2.25ZM2.25 4.5V5.25H1.5V4.5H2.25ZM1.5 6.75V6H2.25V6.75H1.5ZM0.75 0.75V11.25H4.5V12H0V0H6.5332L9.75 3.2168V4.5H9V3.75H6V0.75H0.75ZM6.75 1.2832V3H8.4668L6.75 1.2832ZM10.5 6H12V12H5.25V6H6.75V5.25H7.5V6H9.75V5.25H10.5V6ZM11.25 11.25V8.25H6V11.25H11.25ZM11.25 7.5V6.75H6V7.5H11.25Z"
-                    fill="#4F4F4F"
+                    fill="white"
                   />
                 </svg>
                 <div className={`d-inline-block`}>التفاصيل</div>
@@ -196,7 +196,7 @@ const AllScheduleItem = ({ index, session, schedulesLength }) => {
                   >
                     <path
                       d="M3 9.5C3 9.76522 3.10536 10.0196 3.29289 10.2071C3.48043 10.3946 3.73478 10.5 4 10.5H8C8.26522 10.5 8.51957 10.3946 8.70711 10.2071C8.89464 10.0196 9 9.76522 9 9.5V3.5H3V9.5ZM4 4.5H8V9.5H4V4.5ZM7.75 2L7.25 1.5H4.75L4.25 2H2.5V3H9.5V2H7.75Z"
-                      fill="#4F4F4F"
+                      fill="white"
                     />
                   </svg>
                   <div className={`d-inline-block`}>حذف</div>
