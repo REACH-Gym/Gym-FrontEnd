@@ -5,3 +5,16 @@
   font-size: 12px;
   color: #ff6666 !important;
 }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #4e4e4e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3572ef;
+  border-radius: 25px;
+}
