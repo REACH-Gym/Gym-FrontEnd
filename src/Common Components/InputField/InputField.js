@@ -14,7 +14,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
         {...props}
         style={{
           width: "100%",
-          backgroundColor: "#F4F4F4",
+          backgroundColor: "#dee2e6",
           border: "none",
           borderRadius: "5px",
           padding: "10px",

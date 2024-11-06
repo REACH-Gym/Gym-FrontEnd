@@ -231,7 +231,10 @@ function AllMembers() {
             <ComponentBtns />
           </div>
           {loading ? (
-            <div className="loader">
+            <div
+              className="loader"
+              style={{ height: "200vh", backgroundColor: "#373636" }}
+            >
               <Commet width="50px" height="50px" color="#316dcc" />
             </div>
           ) : error ? (

@@ -92,7 +92,10 @@ const AddMeasurementForm = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{
+          height: "100vh",
+          backgroundColor: "#373636",
+        }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>

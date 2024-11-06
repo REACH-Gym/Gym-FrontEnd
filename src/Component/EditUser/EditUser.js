@@ -34,7 +34,7 @@ const DynamicComponent = () => {
               id={"phone_number"}
               style={{
                 width: "100%",
-                backgroundColor: "#F4F4F4",
+                backgroundColor: "#dee2e6",
                 border: "none",
                 borderRadius: "5px",
                 padding: "10px",
@@ -281,7 +281,7 @@ const EditUser = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", backgroundColor: "#373636" }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>

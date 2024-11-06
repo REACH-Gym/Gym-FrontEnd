@@ -255,7 +255,10 @@ const EditSchedule = () => {
 
   if (isEmployeesLoading || isScheduleLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center w-100">
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh", backgroundColor: "#373636" }}
+      >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
     );
@@ -319,9 +322,7 @@ const EditSchedule = () => {
               <Form className={`${styles.groupForm} d-grid gap-3 p-4`}>
                 <div className="row">
                   <div className="col-6">
-                    <label className="text-light mb-2 mt-2">
-                      اسم المجموعة
-                    </label>
+                    <label className="text-light mb-2 mt-2">اسم المجموعة</label>
                     <input
                       type="text"
                       disabled
@@ -424,9 +425,7 @@ const EditSchedule = () => {
                 {state?.map((currentDay, index) => (
                   <div key={index} className={`row`}>
                     <div className="col-5">
-                      <label className={`text-light mb-2 mt-2`}>
-                        اليوم
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>اليوم</label>
                       <select
                         style={{
                           width: "100%",
@@ -462,9 +461,7 @@ const EditSchedule = () => {
                       </select>
                     </div>
                     <div className="col-5">
-                      <label className={`text-light mb-2 mt-2`}>
-                        الساعة
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>الساعة</label>
                       <input
                         type="time"
                         style={{

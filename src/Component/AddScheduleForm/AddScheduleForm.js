@@ -214,7 +214,10 @@ const AddScheduleForm = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{
+          height: "100vh",
+          backgroundColor: "#373636",
+        }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -326,9 +329,7 @@ const AddScheduleForm = () => {
                   </div>
                   <div className={`row`}>
                     <div className="col-6">
-                      <label className={`text-light mb-2 mt-2`}>
-                        اليوم
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>اليوم</label>
                       <select
                         onChange={(e) => setDay(e.target.value)}
                         value={day}
@@ -356,9 +357,7 @@ const AddScheduleForm = () => {
                       </select>
                     </div>
                     <div className="col-5">
-                      <label className={`text-light mb-2 mt-2`}>
-                        الساعة
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>الساعة</label>
                       <input
                         type="time"
                         onChange={(e) => setTime(e.target.value)}

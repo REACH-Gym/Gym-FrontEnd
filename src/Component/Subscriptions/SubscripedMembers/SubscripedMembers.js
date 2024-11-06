@@ -423,7 +423,7 @@ function SubscripedMembers() {
             <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
           </div>
           {loading ? (
-            <div className="loader">
+            <div className="loader" style={{ backgroundColor: "#373636" }}>
               <Commet width="50px" height="50px" color="#316dcc" />
             </div>
           ) : SubscripedMembers.length > 0 ? (

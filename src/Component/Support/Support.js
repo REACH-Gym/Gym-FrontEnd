@@ -66,7 +66,7 @@ function Support() {
         <title>رسائل الدعم</title>
       </Helmet>
       {loading ? (
-        <div className="loader">
+        <div className="loader" style={{ backgroundColor: "#373636" }}>
           <Commet color="#316dcc" size="medium" text="" textColor="" />
         </div>
       ) : support.length > 0 ? (

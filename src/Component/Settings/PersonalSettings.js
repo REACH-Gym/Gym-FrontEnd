@@ -110,7 +110,7 @@ function PersonalSettings() {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", backgroundColor: "#373636" }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -162,7 +162,7 @@ function PersonalSettings() {
                   <option value="">{"أختر نوع"}</option>
                   <option value="ذكر">{`ذكر`}</option>
                   <option value="انثي">{"انثي"}</option>
-                  </InputField>
+                </InputField>
               </div>
             </div>
             <div className="text-center saveInfo">
