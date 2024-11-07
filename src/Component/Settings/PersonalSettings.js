@@ -110,7 +110,7 @@ function PersonalSettings() {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", backgroundColor: "#373636" }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -138,22 +138,22 @@ function PersonalSettings() {
         >
           <Form className="settingForm mt-4">
             <div className={`row g-4 mb-5 pt-5`}>
-              <div className={`col-6`}>
+              <div className={`col-12 col-md-6`}>
                 <InputField name={"name"} label={"الأسم"} />
               </div>
-              <div className={`col-6`}>
+              <div className={`col-12 col-md-6`}>
                 <InputField label={" رقم العضوية"} name={"national_id"} />
               </div>
             </div>
             <div className={`row g-4 mb-5`}>
-              <div className={`col-6`}>
+              <div className={`col-12 col-md-6`}>
                 <InputField
                   name={"date_of_birth"}
                   label={"تاريخ الميلاد"}
                   type="date"
                 />
               </div>
-              <div className={`col-6`}>
+              <div className={`col-12 col-md-6`}>
                 <InputField
                   name={"gender"}
                   label={"النوع"}
@@ -162,7 +162,7 @@ function PersonalSettings() {
                   <option value="">{"أختر نوع"}</option>
                   <option value="ذكر">{`ذكر`}</option>
                   <option value="انثي">{"انثي"}</option>
-                  </InputField>
+                </InputField>
               </div>
             </div>
             <div className="text-center saveInfo">

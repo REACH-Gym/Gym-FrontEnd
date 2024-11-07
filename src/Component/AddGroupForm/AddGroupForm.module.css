@@ -1,21 +1,17 @@
+.groupFormContainer {
+  width: 100%;
+  padding: 70px 20px 20px;
+  background-image: url("/public/assets/image/bg3.jpg");
+  min-height: 100vh;
+  overflow: auto;
+}
 .groupForm {
   background-color: #373636;
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .addgroupContainer {
-  width: 98%;
-  margin: auto;
 }
 .addgroupBtn button {
   width: 20%;
-}
-.groupFormContainer {
-  background-color: #f2f4f5;
-  width: 100%;
-}
-@media (max-width: 768px) {
-  .groupForm {
-    width: 90%;
-  }
 }

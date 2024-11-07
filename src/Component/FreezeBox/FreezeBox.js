@@ -73,7 +73,7 @@ const FreezeBox = ({
                   <ErrorMessage
                     name="start_date"
                     component="div"
-                    className="text-danger text-end mt-1"
+                    className="error-message text-end mt-1"
                   />
                 </div>
 

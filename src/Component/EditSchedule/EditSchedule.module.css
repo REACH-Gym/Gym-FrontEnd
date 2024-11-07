@@ -12,12 +12,13 @@
   }
 }
 .schedulFormeContainer {
-  padding: 80px 0px 0px 0px;
-  background-image: url('/public/assets/image/bg3.jpg');
+  padding: 80px 0px 30px 0px;
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   min-height: 100vh;
+  overflow-y: auto;
 }
 .groupForm {
   border-radius: 10px;

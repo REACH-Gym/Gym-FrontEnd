@@ -150,10 +150,10 @@ const MeasurementsItem = ({ index, item }) => {
                 >
                   <path
                     d="M3 9.5C3 9.76522 3.10536 10.0196 3.29289 10.2071C3.48043 10.3946 3.73478 10.5 4 10.5H8C8.26522 10.5 8.51957 10.3946 8.70711 10.2071C8.89464 10.0196 9 9.76522 9 9.5V3.5H3V9.5ZM4 4.5H8V9.5H4V4.5ZM7.75 2L7.25 1.5H4.75L4.25 2H2.5V3H9.5V2H7.75Z"
-                    fill="#4F4F4F"
+                    fill="white"
                   />
                 </svg>
-                <div className={`d-inline-block text-dark`}>حذف</div>
+                <div className={`d-inline-block`}>حذف</div>
               </div>
             </div>
           </div>

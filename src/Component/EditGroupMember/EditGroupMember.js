@@ -82,7 +82,7 @@
 
 //   if (membersError || sessionsError) {
 //     return (
-//       <div className="d-flex justify-content-center align-items-center text-danger fs-3 fw-bold">
+//       <div className="d-flex justify-content-center align-items-center error-message fs-3 fw-bold">
 //         حدث خطأ برجاء المحاولة مرة أخرى.
 //       </div>
 //     );

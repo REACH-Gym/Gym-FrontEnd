@@ -138,7 +138,7 @@ function Login() {
                 <ErrorMessage
                   name="phone_number"
                   component="div"
-                  className="text-danger"
+                  className="error-message"
                 />
               </div>
               <div className="mb-2 position-relative">
@@ -176,7 +176,7 @@ function Login() {
                   )}
                 </span>
                 <ErrorMessage
-                  className="error-message mt-1 text-danger"
+                  className="error-message mt-1 error-message"
                   name="password"
                   component="div"
                 />

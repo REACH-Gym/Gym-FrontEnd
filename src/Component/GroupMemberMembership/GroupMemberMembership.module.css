@@ -34,7 +34,8 @@ th {
 .tableColumn:hover .subMenu {
   display: block;
   position: absolute;
-  background-color: white;
+  background-color: #373636;
+  color: white;
   width: 190px;
   height: fit-content;
   z-index: 1000;
@@ -45,10 +46,11 @@ th {
 }
 .subMenu > div:hover {
   background-color: #f2f4f5;
+  color: #373636;
   border-radius: 20px;
 }
 .GroupMemberMembership {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   width: 100%;
   padding: 90px 20px 20px 20px;
   min-height: 100vh;

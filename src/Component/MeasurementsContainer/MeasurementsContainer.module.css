@@ -15,13 +15,16 @@
 .tableContainer thead th:last-child {
   width: 100px;
 }
-.tableContainer td,th{
+.tableContainer td,
+th {
   color: #fff;
 }
 .MeasurementsContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   width: 100%;
   padding: 90px 20px 20px 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   min-height: 100vh;
+  min-width: 750px;
+  overflow: auto;
 }

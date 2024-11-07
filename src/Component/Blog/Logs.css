@@ -1,9 +1,11 @@
 .blogContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   min-height: 100vh;
+  min-width: 1000px;
+  overflow: auto;
 }
 .blogContainer__items {
   padding: 80px 20px 20px 20px;
@@ -19,11 +21,13 @@
   position: absolute;
 }
 .logDetailContainer {
-  background-image: url('/public/assets/image/bg3.jpg');
+  background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   padding: 80px 20px 20px 20px;
+  min-width: 1100px;
+  overflow: auto;
 }
 .logForm input {
   width: 300px;

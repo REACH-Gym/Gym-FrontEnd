@@ -2,10 +2,11 @@
   background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 80px 0px 0px 0px;
+  padding: 80px 0px 30px 0px !important;
   width: 100%;
   min-height: 100vh;
   min-width: 1100px;
+  overflow-y: auto;
 }
 .active-subscription {
   background-color: white !important;

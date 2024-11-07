@@ -14,7 +14,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
         {...props}
         style={{
           width: "100%",
-          backgroundColor: "rgb(244, 244, 244)",
+          backgroundColor: "#dee2e6",
           border: "none",
           borderRadius: "5px",
           padding: "10px",
@@ -26,7 +26,7 @@ const InputField = ({ children, name, label, inputType, ...props }) => {
       >
         {children}
       </Field>
-      <ErrorMessage name={name} component="div" className="text-danger" />
+      <ErrorMessage name={name} component="div" className="error-message" />
     </div>
   );
 };

@@ -121,11 +121,11 @@ const CouponsItem = ({ index, item }) => {
               >
                 <path
                   d="M5.25 3V3.75H3V3H5.25ZM3 5.25V4.5H5.25V5.25H3ZM3 6.75V6H4.5V6.75H3ZM2.25 3V3.75H1.5V3H2.25ZM2.25 4.5V5.25H1.5V4.5H2.25ZM1.5 6.75V6H2.25V6.75H1.5ZM0.75 0.75V11.25H4.5V12H0V0H6.5332L9.75 3.2168V4.5H9V3.75H6V0.75H0.75ZM6.75 1.2832V3H8.4668L6.75 1.2832ZM10.5 6H12V12H5.25V6H6.75V5.25H7.5V6H9.75V5.25H10.5V6ZM11.25 11.25V8.25H6V11.25H11.25ZM11.25 7.5V6.75H6V7.5H11.25Z"
-                  fill="#4F4F4F"
+                  fill="white"
                 />
               </svg>
 
-              <div className={`d-inline-block text-dark`}>حذف</div>
+              <div className={`d-inline-block`}>حذف</div>
             </div>
             {/* <div
             className="d-flex justify-content-start p-2 gap-3 flex-wrap align-content-center"

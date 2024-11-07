@@ -168,7 +168,7 @@ function AddNewMember() {
                         id={"phone_number"}
                         style={{
                           width: "100%",
-                          backgroundColor: "#F4F4F4",
+                          backgroundColor: "#dee2e6",
                           border: "none",
                           borderRadius: "5px",
                           padding: "10px",
@@ -194,7 +194,7 @@ function AddNewMember() {
                     <ErrorMessage
                       name={"phone_number"}
                       component="div"
-                      className={"text-danger"}
+                      className={"error-message"}
                     />
                   </div>
                 </div>
@@ -243,7 +243,7 @@ function AddNewMember() {
                     <ErrorMessage
                       name="new_password"
                       component="div"
-                      className="text-danger mt-2"
+                      className="error-message mt-2"
                     />
                   </div>
                 </div>

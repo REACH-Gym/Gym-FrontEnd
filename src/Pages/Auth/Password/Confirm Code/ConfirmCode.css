@@ -8,6 +8,9 @@
   display: flex;
   align-items: center;
   justify-content: start;
+  min-width: 600px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .confirmCodeContainer::before {
   content: "";
@@ -20,7 +23,7 @@
   z-index: 1;
 }
 .confirmCodeFormContainer {
-  background-color: rgba(255, 255, 255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   padding: 30px;
   position: relative;

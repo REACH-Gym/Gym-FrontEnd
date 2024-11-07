@@ -347,7 +347,7 @@ function SubscriptionDetail() {
           </div>
         </>
       ) : (
-        <div className="loader">
+        <div className="loader" style={{ backgroundColor: "#373636" }}>
           <Commet color="#316dcc" size="medium" text="" textColor="" />
         </div>
       )}

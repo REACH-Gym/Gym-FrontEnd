@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   object-fit: fill;
-  /* overflow: auto; */
+  overflow: auto;
   padding: 0 0 30px;
 }
 .container__item {

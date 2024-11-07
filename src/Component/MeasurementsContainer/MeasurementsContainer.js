@@ -26,7 +26,7 @@ const MeasurementsContainer = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", backgroundColor: "#373636" }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -36,7 +36,8 @@ const MeasurementsContainer = () => {
     if (error?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -47,7 +48,8 @@ const MeasurementsContainer = () => {
       }, 3000);
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           برجاء تسجيل الدخول والمحاولة مرة أخرى.
         </div>
@@ -55,8 +57,8 @@ const MeasurementsContainer = () => {
     } else {
       return (
         <div
-          className={`fs-3 w-100 fw-bold text-danger d-flex justify-content-center align-items-center`}
-          style={{ height: "100vh" }}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>

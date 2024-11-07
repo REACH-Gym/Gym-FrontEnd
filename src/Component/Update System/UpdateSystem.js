@@ -3,8 +3,10 @@ import "./UpdateSystem.css";
 function UpdateSystem() {
   return (
     <div className="updateContainer">
-      <p className="fw-bolder text-danger fs-4 d-flex justify-content-center align-items-center"
-        style={{ height: "50vh" }}>
+      <p
+        className="fw-bolder error-message fs-4 d-flex justify-content-center align-items-center"
+        style={{ height: "50vh" }}
+      >
         لايوجد تحديثات
       </p>
       {/* <div className="updateContainer__item mb-3">
@@ -22,7 +24,7 @@ function UpdateSystem() {
         <p style={{ color: "#666666", fontSize: "14px" }}>
           إضافة صلاحيات للمستخدمين
         </p>
-        <h5 className="text-danger" style={{ fontSize: "15px" }}>
+        <h5 className="error-message" style={{ fontSize: "15px" }}>
           إصلاح الأخطاء
         </h5>
         <p style={{ color: "#666666", fontSize: "14px" }}>تصحيح بعض الاخطاء</p>
@@ -42,7 +44,7 @@ function UpdateSystem() {
         <p style={{ color: "#666666", fontSize: "14px" }}>
           إضافة صلاحيات للمستخدمين
         </p>
-        <h5 className="text-danger" style={{ fontSize: "15px" }}>
+        <h5 className="error-message" style={{ fontSize: "15px" }}>
           إصلاح الأخطاء
         </h5>
         <p style={{ color: "#666666", fontSize: "14px" }}>تصحيح بعض الاخطاء</p>
@@ -62,7 +64,7 @@ function UpdateSystem() {
         <p style={{ color: "#666666", fontSize: "14px" }}>
           إضافة صلاحيات للمستخدمين
         </p>
-        <h5 className="text-danger" style={{ fontSize: "15px" }}>
+        <h5 className="error-message" style={{ fontSize: "15px" }}>
           إصلاح الأخطاء
         </h5>
         <p style={{ color: "#666666", fontSize: "14px" }}>تصحيح بعض الاخطاء</p>

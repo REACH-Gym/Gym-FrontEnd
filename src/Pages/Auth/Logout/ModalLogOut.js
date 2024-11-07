@@ -30,7 +30,7 @@ function ModalLogOut({ children, isOpen, onClose }) {
           borderRadius: "8px",
           position: "relative",
           maxWidth: "500px",
-          width: "100%",
+          width: "80%",
         }}
       >
         {children}

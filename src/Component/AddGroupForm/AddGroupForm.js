@@ -82,7 +82,7 @@ const AddGroupForm = () => {
       {success && <Success text={"تم إضافة المجموعة! "} />}
       {isSessionsError && <Error text={error} show={isSessionsError} />}
       <div className={`${styles.groupFormContainer}`}>
-        <div className="allSubscriptionContainer mt-4">
+        <div className="addgroupContainer mt-4">
           <div className="d-flex align-items-center justify-content-between ps-3 pe-3">
             <ComponentTitle
               MainIcon={"/assets/image/groups.png"}
@@ -99,10 +99,10 @@ const AddGroupForm = () => {
               >
                 <Form className={`${styles.groupForm} p-4`}>
                   <div className="row mb-4 g-5">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField name="name" label="الإسم" />
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField
                         name="duration"
                         label="مدة الجلسة (بالدقيقة)"
@@ -110,15 +110,15 @@ const AddGroupForm = () => {
                     </div>
                   </div>
                   <div className="row mb-4 g-5">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField name="price" label="السعر" />
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField name="notes" label="ملاحظات" />
                     </div>
                   </div>
                   <div className="row mb-4 g-5">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <InputField
                         name="freeze_duration"
                         label="أقصى حد للتجميد (بالأيام)"

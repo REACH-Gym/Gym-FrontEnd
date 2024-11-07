@@ -43,7 +43,7 @@ const DynamicComponent = ({ isSessionsLoading }) => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", backgroundColor: "#373636" }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -53,7 +53,7 @@ const DynamicComponent = ({ isSessionsLoading }) => {
   if (sessionError) {
     return (
       <div
-        className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+        className={`fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
       >
         حدث خطأ، برجاء المحاولة مرة أخرى.
       </div>
@@ -62,23 +62,23 @@ const DynamicComponent = ({ isSessionsLoading }) => {
   return (
     <Form className={`${styles.groupForm} p-4`}>
       <div className="row mb-4 g-5">
-        <div className="col-6">
+        <div className="col-12 col-md-6">
           <InputField name="name" label="الإسم" />
         </div>
-        <div className="col-6">
+        <div className="col-12 col-md-6">
           <InputField name="duration" label="مدة الجلسة (بالدقيقة)" />
         </div>
       </div>
       <div className="row mb-4 g-5">
-        <div className="col-6">
+        <div className="col-12 col-md-6">
           <InputField name="price" label="السعر" />
         </div>
-        <div className="col-6">
+        <div className="col-12 col-md-6">
           <InputField name="notes" label="ملاحظات" />
         </div>
       </div>
       <div className="row mb-4 g-5">
-        <div className="col-6">
+        <div className="col-12 col-md-6">
           <InputField name="freeze_duration" label="فترة التجميد" />
         </div>
       </div>

@@ -92,7 +92,10 @@ const AddMeasurementForm = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center w-100"
-        style={{ height: "100vh" }}
+        style={{
+          height: "100vh",
+          backgroundColor: "#373636",
+        }}
       >
         <Commet color="#316dcc" size="medium" text="" textColor="" />
       </div>
@@ -103,7 +106,8 @@ const AddMeasurementForm = () => {
     if (error?.status === 403) {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           ليس لديك صلاحية الوصول لهذه الصفحة.
         </div>
@@ -114,7 +118,8 @@ const AddMeasurementForm = () => {
       }, 2000);
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           برجاء تسجيل الدخول والمحاولة مرة أخرى.
         </div>
@@ -122,7 +127,8 @@ const AddMeasurementForm = () => {
     } else {
       return (
         <div
-          className={`fs-3 fw-bold text-danger d-flex justify-content-center align-items-center`}
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
         >
           حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
         </div>
@@ -148,7 +154,7 @@ const AddMeasurementForm = () => {
           {({ setFieldValue, values }) => (
             <Form className={`${styles.formContainer} p-4`}>
               <div className={`row g-4 d-flex align-items-end w-100`}>
-                <div className={`col-5`}>
+                <div className={`col-12 col-lg-5`}>
                   <div className={`row g-4`}>
                     <div className={`col-12 ${styles.membersSearch}`}>
                       <InputField
@@ -202,14 +208,14 @@ const AddMeasurementForm = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-2 text-center p-2">
+                <div className="col-12 col-lg-2 text-center p-2">
                   <img
                     src="/assets/image/body.png"
                     alt="Body"
                     style={{ maxHeight: "350px" }}
                   />
                 </div>
-                <div className="col-5">
+                <div className="col-12 col-lg-5">
                   <div className="row g-4">
                     <div className={`col-6`}>
                       <InputField name="shoulder1" label={"الكتف"} />

@@ -22,8 +22,9 @@
 }
 .subMenu {
   position: absolute;
-  background-color: white;
+  background-color: #373636;
   width: 190px;
+  color: #fff;
   height: fit-content;
   z-index: 1000;
   left: 0;
@@ -35,5 +36,6 @@
 }
 .subMenu > div:hover {
   background-color: #f2f4f5;
+  color: #373636;
   border-radius: 10px;
 }
