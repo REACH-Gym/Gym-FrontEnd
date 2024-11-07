@@ -81,7 +81,7 @@ const AddScheduleForm = () => {
               value={weekDays[day]}
               style={{
                 width: "100%",
-                backgroundColor: "#F4F4F4",
+                backgroundColor: "rgb(244, 244, 244)",
                 border: "none",
                 borderRadius: "5px",
                 padding: "10px",
@@ -99,7 +99,7 @@ const AddScheduleForm = () => {
                 disabled
                 style={{
                   width: "100%",
-                  backgroundColor: "#F4F4F4",
+                  backgroundColor: "rgb(244, 244, 244)",
                   border: "none",
                   borderRadius: "5px",
                   padding: "10px",
@@ -326,15 +326,13 @@ const AddScheduleForm = () => {
                   </div>
                   <div className={`row`}>
                     <div className="col-6">
-                      <label className={`text-light mb-2 mt-2`}>
-                        اليوم
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>اليوم</label>
                       <select
                         onChange={(e) => setDay(e.target.value)}
                         value={day}
                         style={{
                           width: "100%",
-                          backgroundColor: "#F4F4F4",
+                          backgroundColor: "rgb(244, 244, 244)",
                           border: "none",
                           borderRadius: "5px",
                           padding: "10px",
@@ -356,16 +354,14 @@ const AddScheduleForm = () => {
                       </select>
                     </div>
                     <div className="col-5">
-                      <label className={`text-light mb-2 mt-2`}>
-                        الساعة
-                      </label>
+                      <label className={`text-light mb-2 mt-2`}>الساعة</label>
                       <input
                         type="time"
                         onChange={(e) => setTime(e.target.value)}
                         value={time}
                         style={{
                           width: "100%",
-                          backgroundColor: "#F4F4F4",
+                          backgroundColor: "rgb(244, 244, 244)",
                           border: "none",
                           borderRadius: "5px",
                           padding: "10px",

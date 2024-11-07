@@ -31,7 +31,7 @@ const DynamicComponent = () => {
               id={"phone_number"}
               style={{
                 width: "100%",
-                backgroundColor: "#F4F4F4",
+                backgroundColor: "rgb(244, 244, 244)",
                 border: "none",
                 borderRadius: "5px",
                 padding: "10px",
@@ -72,7 +72,7 @@ const DynamicComponent = () => {
             type={show ? "text" : "password"}
             style={{
               width: "100%",
-              backgroundColor: "#F4F4F4",
+              backgroundColor: "rgb(244, 244, 244)",
               border: "none",
               borderRadius: "5px",
               padding: "10px",
