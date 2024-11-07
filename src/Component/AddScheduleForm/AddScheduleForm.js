@@ -81,7 +81,7 @@ const AddScheduleForm = () => {
               value={weekDays[day]}
               style={{
                 width: "100%",
-                backgroundColor: "rgb(244, 244, 244)",
+                backgroundColor: "#dee2e6",
                 border: "none",
                 borderRadius: "5px",
                 padding: "10px",
@@ -99,7 +99,7 @@ const AddScheduleForm = () => {
                 disabled
                 style={{
                   width: "100%",
-                  backgroundColor: "rgb(244, 244, 244)",
+                  backgroundColor: "#dee2e6",
                   border: "none",
                   borderRadius: "5px",
                   padding: "10px",
@@ -338,7 +338,7 @@ const AddScheduleForm = () => {
                         value={day}
                         style={{
                           width: "100%",
-                          backgroundColor: "rgb(244, 244, 244)",
+                          backgroundColor: "#dee2e6",
                           border: "none",
                           borderRadius: "5px",
                           padding: "10px",
@@ -367,7 +367,7 @@ const AddScheduleForm = () => {
                         value={time}
                         style={{
                           width: "100%",
-                          backgroundColor: "rgb(244, 244, 244)",
+                          backgroundColor: "#dee2e6",
                           border: "none",
                           borderRadius: "5px",
                           padding: "10px",

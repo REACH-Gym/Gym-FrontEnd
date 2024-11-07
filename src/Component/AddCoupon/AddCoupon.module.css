@@ -31,7 +31,7 @@
   color: #fff;
 }
 .radioItem {
-  background-color: #f4f4f4;
+  background-color: #dee2e6;
   height: 52px;
   border-radius: 5px;
   margin-bottom: 30px;
@@ -79,7 +79,7 @@
   top: 48px;
   height: 0;
   z-index: 1000;
-  background-color: #f4f4f4;
+  background-color: #dee2e6;
   padding: 20px;
   border-radius: 0 0 5px 5px;
   text-align: end;
