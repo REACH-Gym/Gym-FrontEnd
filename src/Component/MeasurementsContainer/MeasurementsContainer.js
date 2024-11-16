@@ -7,6 +7,7 @@ import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { Commet } from "react-loading-indicators";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 // Measurements table container and header
 const MeasurementsContainer = () => {
@@ -16,11 +17,30 @@ const MeasurementsContainer = () => {
     page,
     page_size: 20,
   });
+
   useEffect(() => {
     setTotalPages(data?.total_pages);
   }, [data]);
 
   const navigate = useNavigate();
+
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(data?.data, "Measurments");
+  };
 
   if (isLoading || isFetching) {
     return (
@@ -73,7 +93,7 @@ const MeasurementsContainer = () => {
           title={" جميع القياسات"}
           subTitle={"يمكنك متابعة جميع القياسات  من هنا"}
         />
-        <ComponentBtns btn1={"+ إضافة قياس جديد "} />
+        <ComponentBtns onclick={handleExcelSheet} disabled={false} />
       </div>
       {data?.data.length > 0 ? (
         <div className={`${styles.tableContainer} w-100 text-end ps-4 pe-4`}>

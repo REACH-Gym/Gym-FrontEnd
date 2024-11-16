@@ -13,6 +13,7 @@ import { Active, Deleted } from "../../Status/Status";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../../features/searchSlice";
+import * as XLSX from "xlsx";
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function AllMembers() {
   const term = useSelector((state) => state.search.term.term);
   const dispatch = useDispatch();
   const [filterType, setFilterType] = useState("name");
+
   const filter = (filter) => {
     setFilterType(filter);
   };
@@ -141,6 +143,24 @@ function AllMembers() {
     };
   }, []);
 
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(allMembers, "Members");
+  };
+
   return (
     <div className="allMembereContainer">
       <Helmet>
@@ -228,7 +248,7 @@ function AllMembers() {
                 </div>
               </div>
             </Filter>
-            <ComponentBtns />
+            <ComponentBtns onclick={handleExcelSheet} disabled={false} />
           </div>
           {loading ? (
             <div

@@ -10,6 +10,7 @@ import UsersItem from "../UsersItem/UsersItem";
 import { Commet } from "react-loading-indicators";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../features/searchSlice";
+import * as XLSX from "xlsx";
 
 const UsersContainer = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const UsersContainer = () => {
       userData?.data?.user?.id
     }&filter{${filterType}.istartswith}=${term ? term : ""}`
   );
+  console.log(emplyees);
 
   useEffect(() => {
     dispatch(clear());
@@ -50,6 +52,24 @@ const UsersContainer = () => {
       setTotalPages(emplyees?.data?.meta?.total_pages);
     }
   }, [emplyees]);
+
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(emplyees?.data?.users, "Users");
+  };
 
   if (isEmployeesLoading || isUserLoading) {
     return (
@@ -230,10 +250,8 @@ const UsersContainer = () => {
           </Filter>
           <ComponentBtns
             btn1={"+ إضافة عضو لمجموعة"}
-            onclick={() => {
-              console.log("clicked");
-              navigate("/Home/AddGroupMember");
-            }}
+            onclick={handleExcelSheet}
+            disabled={false}
           />
         </div>
         {isEmployeesFetching ? (

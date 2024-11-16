@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Warning from "../../Common Components/Warning/Warning";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../features/searchSlice";
+import * as XLSX from "xlsx";
 
 // Schedule table container and header
 const ScheduleContainer = () => {
@@ -40,6 +41,24 @@ const ScheduleContainer = () => {
   useEffect(() => {
     dispatch(clear());
   }, [dispatch]);
+
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(data?.data?.sessions, "Sessions");
+  };
 
   if (isLoading) {
     return (
@@ -155,9 +174,8 @@ const ScheduleContainer = () => {
           </Filter>
           <ComponentBtns
             btn1={"+ إضافة موعد جديد "}
-            onclick={() => {
-              navigate("/Home/AddScheduleForm");
-            }}
+            onclick={handleExcelSheet}
+            disabled={false}
           />
         </div>
         {isFetching ? (

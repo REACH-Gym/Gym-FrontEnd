@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../features/searchSlice";
+import * as XLSX from "xlsx";
 
 // Groups table container and header
 const GroupsContainer = () => {
@@ -43,6 +44,35 @@ const GroupsContainer = () => {
   useEffect(() => {
     setTotalPages(groupsMembers?.data.meta?.total_pages);
   }, [groupsMembers]);
+
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    const data = [];
+    for (let i = 0; i < groupsMembers?.data?.user_sessions?.length; i++) {
+      data.push({
+        Name: groupsMembers?.data?.user_sessions[i]?.user?.name,
+        Group: groupsMembers?.data?.user_sessions[i]?.schedule?.session?.name,
+        Trainer: groupsMembers?.data?.user_sessions[i]?.schedule?.trainer?.name,
+        Paid: groupsMembers?.data?.user_sessions[i]?.paid_money,
+        Membership_Date: groupsMembers?.data?.user_sessions[i]?.start_date,
+        Status: groupsMembers?.data?.user_sessions[i]?.status,
+      });
+    }
+    exportToExcel(data, "GroupsMembers");
+  };
 
   if (isGroupsMembersLoading) {
     return (
@@ -194,13 +224,7 @@ const GroupsContainer = () => {
               </div>
             </div>
           </Filter>
-          <ComponentBtns
-            btn1={"+ إضافة عضو لمجموعة"}
-            onclick={() => {
-              console.log("clicked");
-              navigate("/Home/AddGroupMember");
-            }}
-          />
+          <ComponentBtns onclick={handleExcelSheet} disabled={false} />
         </div>
         {isGroupsMembersFetching ? (
           <div

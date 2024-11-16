@@ -22,6 +22,8 @@ import Error from "../../../Common Components/Error/Error";
 import Success from "../../../Common Components/Success/Success";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
 import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
+import * as XLSX from "xlsx";
+
 function SubscripedMembers() {
   const access_token = localStorage.getItem("access");
   const [SubscripedMembers, setSubscripedMembers] = useState([]);
@@ -302,6 +304,34 @@ function SubscripedMembers() {
     };
   }, []);
 
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    const data = [];
+    for (let i = 0; i < SubscripedMembers.length; i++) {
+      data.push({
+        Name: SubscripedMembers[i].user.name,
+        Subscription: SubscripedMembers[i].membership.name,
+        Payed: SubscripedMembers[i].paid_money,
+        Membership_Date: SubscripedMembers[i].start_date,
+        Status: SubscripedMembers[i].status,
+      });
+    }
+    exportToExcel(data, "SubscripedMembers");
+  };
+
   return (
     <>
       {success && <Success text={"تمت العملية بنجاح"} show={success} />}
@@ -420,7 +450,11 @@ function SubscripedMembers() {
                 </div>
               </div>
             </Filter>
-            <ComponentBtns btn1={"+ إضافة اشتراك جديد "} />
+            <ComponentBtns
+              btn1={"+ إضافة اشتراك جديد "}
+              onclick={handleExcelSheet}
+              disabled={false}
+            />
           </div>
           {loading ? (
             <div className="loader" style={{ backgroundColor: "#373636" }}>

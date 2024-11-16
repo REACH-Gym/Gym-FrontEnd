@@ -10,6 +10,7 @@ import MainButton from "../../Common Components/Main Button/MainButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../features/searchSlice";
+import * as XLSX from "xlsx";
 
 function Logs() {
   const [results, setResults] = useState([]);
@@ -99,6 +100,24 @@ function Logs() {
     };
   }, []);
 
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(logs, "Logs");
+  };
+
   if (error.length > 0) {
     return (
       <div
@@ -180,7 +199,7 @@ function Logs() {
               </div>
             </div>
           </Filter>
-          <ComponentBtns />
+          <ComponentBtns onclick={handleExcelSheet} disabled={false} />
         </div>
         {loading ? (
           <div className="loader" style={{ backgroundColor: "#373636" }}>

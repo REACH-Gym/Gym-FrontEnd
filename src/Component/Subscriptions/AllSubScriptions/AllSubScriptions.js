@@ -14,6 +14,7 @@ import { Active, Deleted } from "../../Status/Status";
 import { Helmet } from "react-helmet";
 import { clear, searchR } from "../../../features/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
+import * as XLSX from "xlsx";
 function AllSubScriptions() {
   const [allSubscription, setAllSubscriptions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(null);
@@ -117,6 +118,25 @@ function AllSubScriptions() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const exportToExcel = (data, fileName) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Convert your data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
+  const handleExcelSheet = () => {
+    exportToExcel(allSubscription, "Subscriptions");
+  };
+
   return (
     <div className="allSubscriptionContainer">
       <Helmet>
@@ -183,7 +203,8 @@ function AllSubScriptions() {
           </Filter>
           <ComponentBtns
             btn1={"+ إضافة اشتراك جديد "}
-            onclick={() => navigate("/Home/AddNewSubscription")}
+            onclick={handleExcelSheet}
+            disabled={false}
           />
         </div>
         {loading ? (
