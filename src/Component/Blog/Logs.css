@@ -10,8 +10,9 @@
 .blogContainer__items {
   padding: 80px 20px 20px 20px;
 }
-.option {
-  background-color: #fff;
+.options {
+  background-color: #373636;
+  color: #fff;
   border-radius: 5px;
   padding: 5px;
   position: relative;

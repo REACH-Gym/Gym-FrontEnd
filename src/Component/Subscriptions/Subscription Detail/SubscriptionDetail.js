@@ -254,7 +254,10 @@ function SubscriptionDetail() {
                                 +subDetail.coupon.discount_value) /
                                 100)
                           ).toFixed(2)
-                      : "0"}{" "}
+                      : (
+                          subDetail.membership.price *
+                          (1 - +subDetail.discount / 100)
+                        ).toFixed(2)}{" "}
                     ريال
                   </p>
                 </div>

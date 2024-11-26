@@ -5,6 +5,7 @@
   padding: 10px;
   border-radius: 10px;
   min-height: 500px;
+  margin: auto;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .tableContainer thead th:first-child {
@@ -17,37 +18,17 @@
 th {
   color: #fff;
 }
-.pageBtn {
-  width: 350px;
-  margin: auto;
-  margin-top: 30px;
-}
-.groupsContainer {
+.scheduleContainer {
   background-image: url("/public/assets/image/bg3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  padding: 80px 20px 30px 20px;
   width: 100%;
-  padding: 90px 20px 20px 20px;
   min-height: 100vh;
-  min-width: 1200px;
-  overflow-y: auto;
+  min-width: 1100px;
+  overflow: auto;
 }
 .filter:hover {
   background-color: #f4f4f4;
   cursor: pointer;
 }
-/* @page {
-  size: A5;
-  margin: 0.5cm;
-}
-@media print {
-  .printable {
-    width: 100%;
-    text-align: center;
-    padding: 50px;
-    border: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-} */

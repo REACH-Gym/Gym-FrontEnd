@@ -9,20 +9,17 @@ function LogDetails() {
   const [logDetail, setDetail] = useState(null);
   const [parsedOldFields, setParsedOldFields] = useState({});
   const [parsedNewFields, setParsedNewFields] = useState({});
-  const api = process.env.REACT_APP_DOMAIN
+  const api = process.env.REACT_APP_DOMAIN;
   useEffect(() => {
     async function fetchLogDetail() {
       try {
-        const response = await fetch(
-          `${api}/activity-logs/${id}`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: localStorage.getItem("access"),
-            },
-          }
-        );
+        const response = await fetch(`${api}/activity-logs/${id}`, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: localStorage.getItem("access"),
+          },
+        });
         const result = await response.json();
         if (response.ok) {
           setDetail(result.data.activity_log);
@@ -36,7 +33,7 @@ function LogDetails() {
       }
     }
     fetchLogDetail();
-  }, [id]);
+  }, [api, id]);
 
   function parseOldFields(oldFieldsString) {
     const fieldsArray = oldFieldsString.split(", ");

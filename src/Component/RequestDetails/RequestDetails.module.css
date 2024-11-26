@@ -1,0 +1,72 @@
+.addGroupMemberForm {
+  width: 100%;
+  background-image: url("/public/assets/image/bg3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 70px 20px 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+.countryCode {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 50px;
+  height: 52px;
+}
+.react-tel-input {
+  width: 50px;
+  height: 52px;
+  border-right: 1px solid lightgray;
+  padding-right: 5px;
+}
+.react-tel-input .form-control {
+  width: 70px !important;
+  height: 52px !important;
+  padding-left: 5px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.react-tel-input .country-list {
+  left: -40px;
+  top: 42px;
+}
+.react-tel-input .selected-flag {
+  width: 28px !important;
+}
+.react-tel-input .flag-dropdown {
+  border: none !important;
+}
+.react-tel-input .selected-flag .arrow {
+  display: none;
+}
+.react-tel-input .flag-dropdown.open,
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background: transparent !important;
+}
+.form-control:focus {
+  box-shadow: none !important;
+}
+.acceptButton {
+  background-color: #228151;
+  color: white;
+  border: none;
+  max-width: 200px;
+  min-width: 100px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+}
+.cancelButton {
+  background-color: #e06969;
+  color: white;
+  border: none;
+  max-width: 200px;
+  min-width: 100px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+}

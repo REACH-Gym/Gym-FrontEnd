@@ -119,6 +119,27 @@ function Container() {
               جميع الاشتراكات المنتهية
             </p>
           </div>
+          <div className="item">
+            <div className="d-flex justify-content-between">
+              <div>
+                <img
+                  src="/assets/image/request-sent-svgrepo-com 1.png"
+                  alt=""
+                />
+              </div>
+              <div className="d-flex flex-column align-items-end">
+                <p style={{ color: "#fff" }} className="mb-0">
+                  حجوزات عضوية جديدة
+                </p>
+                <p className="fw-bolder fs-2 text-light">
+                  {status.almost_over_memberships_and_sessions}
+                </p>
+              </div>
+            </div>
+            <p className="fw-bolder mt-4" style={{ color: "#fff" }}>
+              طلبات الإشتراك الجديدة
+            </p>
+          </div>
         </div>
       </div>
     </div>

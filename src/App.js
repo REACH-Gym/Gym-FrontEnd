@@ -49,6 +49,13 @@ import AddCoupon from "./Component/AddCoupon/AddCoupon";
 import VerifyOtp from "./Component/Settings/VerifyOtp";
 import Receipt from "./Component/Receipt/Receipt";
 import MembershipReceipt from "./Component/Receipt/MembershipReceipt";
+import NewRequests from "./Component/NewRequests/NewRequests";
+import AllRequests from "./Component/AllRequests/AllRequests";
+import RequestDetails from "./Component/RequestDetails/RequestDetails";
+import OffersContainer from "./Component/OffersContainer/OffersContainer";
+import OfferDetails from "./Component/OfferDetails/OfferDetails";
+import AcceptedRequests from "./Component/AcceptedRequests/AcceptedRequests";
+import RejectedRequests from "./Component/RejectedRequests/RejectedRequests";
 function App() {
   return (
     <Provider store={store}>
@@ -170,6 +177,20 @@ function App() {
               <Route path="CouponsContainer" element={<CouponsContainer />} />
               <Route path="AddCoupon" element={<AddCoupon />} />
               {/* end coupons */}
+              {/* start requests */}
+              <Route path="NewRequests" element={<NewRequests />} />
+              <Route path="AllRequests" element={<AllRequests />} />
+              <Route path="AcceptedRequests" element={<AcceptedRequests />} />
+              <Route path="RejectedRequests" element={<RejectedRequests />} />
+              <Route
+                path="RequestDetails/:RequestId"
+                element={<RequestDetails />}
+              />
+              {/* end requests */}
+              {/* start offers */}
+              <Route path="OffersContainer" element={<OffersContainer />} />
+              <Route path="OfferDetails" element={<OfferDetails />} />
+              {/* end offers */}
             </Route>
           </Route>
         </Routes>

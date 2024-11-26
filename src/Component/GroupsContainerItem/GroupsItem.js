@@ -321,7 +321,7 @@ const GroupsItem = ({ index, item }) => {
                 />
               </svg>
 
-              <div className={`d-inline-block text-dark`}>التفاصيل</div>
+              <div className={`d-inline-block`}>التفاصيل</div>
             </div>
             {item.status === "freezed" ? (
               <div
@@ -352,7 +352,7 @@ const GroupsItem = ({ index, item }) => {
                   />
                 </svg>
 
-                <div className={`d-inline-block text-dark`}>إلغاء التجميد</div>
+                <div className={`d-inline-block`}>إلغاء التجميد</div>
               </div>
             ) : item.status === "active" ? (
               <div
@@ -379,7 +379,7 @@ const GroupsItem = ({ index, item }) => {
                   />
                 </svg>
 
-                <div className={`d-inline-block text-dark`}>تجميد</div>
+                <div className={`d-inline-block`}>تجميد</div>
               </div>
             ) : null}
             {item.status === "freezed" &&
@@ -408,7 +408,7 @@ const GroupsItem = ({ index, item }) => {
                     />
                   </svg>
 
-                  <div className={`d-inline-block text-dark`}>تعديل تاريخ البداية</div>
+                  <div className={`d-inline-block`}>تعديل تاريخ البداية</div>
                 </div>
               )}
             <div
@@ -429,7 +429,7 @@ const GroupsItem = ({ index, item }) => {
                 />
               </svg>
 
-              <div className={`d-inline-block text-dark`}>اعادة الإرسال</div>
+              <div className={`d-inline-block`}>اعادة الإرسال</div>
             </div>
           </div>
         </td>

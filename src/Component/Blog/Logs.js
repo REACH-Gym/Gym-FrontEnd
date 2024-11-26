@@ -246,7 +246,7 @@ function Logs() {
                       <td>{item.created_at}</td>
                       <td>{item.performed_by}</td>
                       <td
-                        className="text-center"
+                        className="text-center position-relative"
                         style={{ position: "relative" }}
                       >
                         <MoreVertIcon
@@ -341,12 +341,12 @@ function Logs() {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="#000"
+                                fill="#fff"
                                 d="M1 2.5h8.48l2 2.5H23v16H1zm2 2V19h18V7H10.52l-2-2.5zm3.998 7.498h2.004v2.004H6.998zm4 0h2.004v2.004h-2.004zm4 0h2.004v2.004h-2.004z"
                               />
                             </svg>
                             <p
-                              className=" mb-1 me-2 text-dark"
+                              className=" mb-1 me-2"
                               style={{ textAlign: "right", fontSize: "16px" }}
                             >
                               تفاصيل

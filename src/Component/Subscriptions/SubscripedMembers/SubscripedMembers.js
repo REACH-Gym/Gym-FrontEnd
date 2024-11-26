@@ -517,7 +517,7 @@ function SubscripedMembers() {
                               <Expired />
                             ) : null}
                           </td>
-                          <td className="text-center">
+                          <td className="text-center position-relative">
                             <MoreVertIcon
                               onClick={() =>
                                 handleShowDropMenu(SubscripedMember.id)

@@ -101,7 +101,7 @@ function Support() {
                       {support.message.slice(0, 50)}
                     </td>
                     <td>{support.created_at.slice(0, 10)}</td>
-                    <td className="text-center">
+                    <td className="text-center position-relative">
                       <MoreVertIcon
                         onClick={() => handleToggleDropMenu(support.id)}
                         style={{ cursor: "pointer" }}

@@ -255,7 +255,7 @@ function AllSubScriptions() {
                       <td>
                         {item.is_active === false ? <Deleted /> : <Active />}
                       </td>
-                      <td className="fs-5 fw-bolder text-center">
+                      <td className="fs-5 fw-bolder text-center position-relative">
                         <MoreVertIcon
                           onClick={() => handleShowDropMenu(item.id)}
                           style={{ cursor: "pointer" }}
@@ -323,7 +323,7 @@ function AllSubScriptions() {
                         <Active />
                       )}
                     </td>
-                    <td className="fw-bolder text-center fs-5">
+                    <td className="fw-bolder text-center fs-5 position-relative">
                       <MoreVertIcon
                         onClick={() => handleShowDropMenu(subscription.id)}
                         style={{ cursor: "pointer" }}

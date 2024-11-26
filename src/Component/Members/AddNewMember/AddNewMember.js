@@ -275,6 +275,28 @@ function AddNewMember() {
                     </div>
                   </div>
                 </div>
+                <div className={`row g-4 mb-5`}>
+                  <div className={`col-12 col-sm-6 d-flex flex-column gap-3`}>
+                    <label className="text-light">تحميل الصورة الشخصية</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="id"
+                      className="p-2 border rounded-2"
+                    />
+                  </div>
+                  <div className={`col-12 col-sm-6 d-flex flex-column gap-3`}>
+                    <label className="text-light">
+                      تحميل صورة البطاقة الشخصية
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="id"
+                      className="p-2 border rounded-2"
+                    />
+                  </div>
+                </div>
                 <div className={`addmemberBtn text-center`}>
                   <MainButton
                     text={"اضافة"}

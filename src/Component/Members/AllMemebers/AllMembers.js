@@ -314,7 +314,7 @@ function AllMembers() {
                         <td>
                           {item.is_active === false ? <Deleted /> : <Active />}
                         </td>
-                        <td className="text-center">
+                        <td className="text-center position-relative">
                           <MoreVertIcon
                             onClick={() => toggleDropdown(item.id)}
                             style={{ cursor: "pointer" }}
@@ -415,7 +415,7 @@ function AllMembers() {
                       <td>
                         {item.is_active === false ? <Deleted /> : <Active />}
                       </td>
-                      <td className="text-center">
+                      <td className="text-center position-relative">
                         <MoreVertIcon
                           onClick={() => toggleDropdown(item.id)}
                           style={{ cursor: "pointer" }}
