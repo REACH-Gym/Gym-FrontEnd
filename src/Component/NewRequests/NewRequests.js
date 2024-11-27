@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./NewRequests.module.css";
 import MainButton from "../../Common Components/Main Button/MainButton";
-import RequestItem from "../NewRequestItem/NewRequestItem";
+import NewRequestItem from "../NewRequestItem/NewRequestItem";
 import { Commet } from "react-loading-indicators";
 import ComponentBtns from "../../Common Components/ComponentBtns/ComponentBtns";
 import Filter from "../../Common Components/Filter/Filter";
@@ -10,7 +10,7 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetSessionsQuery } from "../../features/api";
+import { useGetAllMembersQuery, useGetSessionsQuery } from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 
 function NewRequests() {
@@ -27,8 +27,8 @@ function NewRequests() {
   const filter = (filter) => {
     setFilterType(filter);
   };
-  const { data, error, isLoading, isFetching } = useGetSessionsQuery(
-    `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+  const { data, error, isLoading, isFetching } = useGetAllMembersQuery(
+    `?page=${page}&per_page=20&filter{is_verified.isnull}=true&filter{${filterType}.istartswith}=${
       term ? term : ""
     }`
   );
@@ -56,7 +56,7 @@ function NewRequests() {
   };
 
   const handleExcelSheet = () => {
-    exportToExcel(data?.data?.sessions, "Sessions");
+    exportToExcel(data?.data?.users, "New_Requests");
   };
 
   if (isLoading) {
@@ -180,7 +180,7 @@ function NewRequests() {
           >
             <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : data?.data?.sessions?.length > 0 ? (
+        ) : data?.data?.users?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -190,14 +190,13 @@ function NewRequests() {
                 <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
                 <th className={`p-2 pt-3 pb-3`}>النوع</th>
                 <th className={`p-2 pt-3 pb-3`}></th>
-                <th className={`p-2 pt-3 pb-3`}></th>
               </thead>
               <tbody>
-                {data?.data?.sessions?.map((session, index) => (
-                  <RequestItem
+                {data?.data?.users?.map((session, index) => (
+                  <NewRequestItem
                     key={index}
                     index={
-                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
+                      data?.data.users?.indexOf(session) + (page - 1) * 5 + 1
                     }
                     session={session}
                     deleteConfirmation={confirmed}

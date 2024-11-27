@@ -26,24 +26,28 @@ function AddNewMember() {
     console.log(value);
     try {
       const genderValue = value.gender === "انثي" ? "F" : "M";
-      const items = {
-        name: value["name"],
-        phone_number: `${value["countryCode"]}${value["phone_number"]}`,
-        national_id: value["national_id"],
-        password: value["password"],
-        notes: value["notes"],
-        date_of_birth: value["date_of_birth"],
-        gender: genderValue,
-      };
+      const items = new FormData();
+
+      items.append("name", value["name"]);
+      items.append(
+        "phone_number",
+        `${value["countryCode"]}${value["phone_number"]}`
+      );
+      items.append("national_id", value["national_id"]);
+      items.append("password", value["password"]);
+      items.append("notes", value["notes"]);
+      items.append("date_of_birth", value["date_of_birth"]);
+      items.append("gender", genderValue);
+      items.append("profile_image", value["personalPhoto"]);
+      items.append("personal_card_image", value["id"]);
       console.log(items);
       const response = await fetch(`${api}/members`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: access_token,
           accept: "application/json",
         },
-        body: JSON.stringify(items),
+        body: items,
       });
 
       const result = await response.json();
@@ -109,6 +113,8 @@ function AddNewMember() {
     date_of_birth: Yup.date().required("هذا الحقل الزامي").max("2-5-3000"),
     gender: Yup.string().required("هذا الحقل الزامي"),
     countryCode: Yup.string().required("هذا الحقل الزامي"),
+    personalPhoto: Yup.string().required("هذا الحقل الزامي"),
+    id: Yup.string().required("هذا الحقل الزامي"),
   });
   const [show, setShow] = useState(false);
   const initialValues = {
@@ -120,6 +126,8 @@ function AddNewMember() {
     date_of_birth: "",
     gender: "",
     countryCode: "966",
+    personalPhoto: "",
+    id: "",
   };
   const handleCloseModalError = () => {
     setShowModalError(false);
@@ -281,8 +289,15 @@ function AddNewMember() {
                     <input
                       type="file"
                       accept="image/*"
-                      name="id"
+                      name="personalPhoto"
+                      id="personalPhoto"
                       className="p-2 border rounded-2"
+                      onChange={(event) => {
+                        setFieldValue(
+                          "personalPhoto",
+                          event.currentTarget.files[0]
+                        );
+                      }}
                     />
                   </div>
                   <div className={`col-12 col-sm-6 d-flex flex-column gap-3`}>
@@ -293,7 +308,11 @@ function AddNewMember() {
                       type="file"
                       accept="image/*"
                       name="id"
+                      id="id"
                       className="p-2 border rounded-2"
+                      onChange={(event) => {
+                        setFieldValue("id", event.currentTarget.files[0]);
+                      }}
                     />
                   </div>
                 </div>

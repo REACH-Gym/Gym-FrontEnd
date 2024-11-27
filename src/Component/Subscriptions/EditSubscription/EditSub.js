@@ -14,6 +14,8 @@ function EditSub() {
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const membership = location.state?.membership;
+  console.log(membership);
+  console.log(location.state);
   const [loading, setLoading] = useState(false);
   const api = process.env.REACT_APP_DOMAIN;
 

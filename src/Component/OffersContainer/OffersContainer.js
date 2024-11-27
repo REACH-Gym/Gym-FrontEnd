@@ -10,7 +10,11 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetSessionsQuery } from "../../features/api";
+import {
+  useGetMemberOfferQuery,
+  useGetOffersQuery,
+  useGetSessionsQuery,
+} from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 import OffersItem from "../OffersItem/OffersItem";
 
@@ -24,11 +28,11 @@ function OffersContainer() {
   const [placeHolder, setPlaceHolder] = useState("ابحث هنا...");
   const term = useSelector((state) => state.search.term.term);
   const dispatch = useDispatch();
-  const [filterType, setFilterType] = useState("name");
+  const [filterType, setFilterType] = useState("user.name");
   const filter = (filter) => {
     setFilterType(filter);
   };
-  const { data, error, isLoading, isFetching } = useGetSessionsQuery(
+  const { data, error, isLoading, isFetching } = useGetMemberOfferQuery(
     `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
       term ? term : ""
     }`
@@ -126,7 +130,7 @@ function OffersContainer() {
             placeHolder={placeHolder}
             handleClear={() => {
               dispatch(searchR({ term: "" }));
-              filter("name");
+              filter("user.name");
               setIsDisabled(false);
               setPlaceHolder("ابحث هنا...");
             }}
@@ -136,7 +140,7 @@ function OffersContainer() {
                 className={`p-2 ${styles.filter} rounded-2`}
                 onClick={() => {
                   dispatch(searchR({ term: "" }));
-                  filter("name");
+                  filter("user.name");
                   setIsDisabled(false);
                   setPlaceHolder("ابحث هنا...");
                 }}
@@ -166,7 +170,7 @@ function OffersContainer() {
                       setPlaceHolder("انت الآن تبحث بـ الحالة");
                     }}
                   >
-                    محذوف
+                    منتهي
                   </div>
                 </div>
               </div>
@@ -181,7 +185,7 @@ function OffersContainer() {
           >
             <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : data?.data?.sessions?.length > 0 ? (
+        ) : data?.data?.user_offers?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
@@ -189,16 +193,18 @@ function OffersContainer() {
                 <th className={`p-2 pt-3 pb-3`}>اسم العضو</th>
                 <th className={`p-2 pt-3 pb-3`}>عدد أيام العرض</th>
                 <th className={`p-2 pt-3 pb-3`}>تاريخ الحصول على العرض</th>
-                <th className={`p-2 pt-3 pb-3`}>عدد الأيام المتبقية</th>
+                {/* <th className={`p-2 pt-3 pb-3`}>عدد الأيام المتبقية</th> */}
                 <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3`}></th>
               </thead>
               <tbody>
-                {data?.data?.sessions?.map((session, index) => (
+                {data?.data?.user_offers?.map((session, index) => (
                   <OffersItem
                     key={index}
                     index={
-                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
+                      data?.data.user_offers?.indexOf(session) +
+                      (page - 1) * 5 +
+                      1
                     }
                     session={session}
                     deleteConfirmation={confirmed}

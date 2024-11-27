@@ -3,91 +3,179 @@ import styles from "./OfferDetails.module.css";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import { usePostEmployeeMutation } from "../../features/api";
+import {
+  useEditOfferMutation,
+  useGetOfferQuery,
+  usePostEmployeeMutation,
+} from "../../features/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
 import "react-phone-input-2/lib/style.css";
+import { Commet } from "react-loading-indicators";
 
 const OfferDetails = () => {
+  const { data: offer, isLoading, error: offerError } = useGetOfferQuery("");
+  const [editOffer, { isLoading: isEditLoading, error: editOfferError }] =
+    useEditOfferMutation();
   const [editable, setEditable] = useState(false);
   const [activated, setActivated] = useState(false);
   const initialValues = {
-    offerDays: "",
+    offerDays: offer?.data.free_days,
   };
   const validationSchema = Yup.object({
     offerDays: Yup.string().required("هذا الحقل الزامي"),
   });
-  const [postEmployee, { isLoading: isEmployeeLoading }] =
-    usePostEmployeeMutation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState("");
   const handleSubmit = async (values) => {
-    setEditable(false);
-    // console.log(values);
-    // const data = {
-    //   name: values["name"],
-    //   phone_number: `${values["countryCode"]}${values["phone_number"]}`,
-    //   national_id: values["national_id"],
-    //   date_of_birth: values["date_of_birth"],
-    //   password: values["password"],
-    //   role: values["role"],
-    //   gender: values["gender"],
-    // };
-    // console.log(data);
-    // try {
-    //   const response = await postEmployee(data).unwrap();
-    //   console.log(response);
-    //   setSuccess(true);
-    //   setTimeout(() => {
-    //     setSuccess(false);
-    //     navigate("/Home/UsersContainer");
-    //     window.location.reload();
-    //   }, 1000);
-    // } catch (err) {
-    //   console.log(err);
-    //   if (
-    //     Object.keys(err.data.error).includes("national_id") &&
-    //     Object.keys(err.data.error).includes("phone_number")
-    //   ) {
-    //     setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (Object.keys(err.data.error).includes("phone_number")) {
-    //     setError("رقم الهاتف مسجل مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (Object.keys(err.data.error).includes("national_id")) {
-    //     setError("رقم العضوية مسجل مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (err.originalStatus === 403) {
-    //     setError("ليس لديك الصلاحية لإضافة مجموعة.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (err.originalStatus === 401) {
-    //     setError("قم بتسجيل الدخول وحاول مرة أخرى.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else {
-    //     setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   }
-    // }
+    console.log(values);
+    const data = {
+      free_days: values.offerDays,
+    };
+    console.log(data);
+    try {
+      const response = await editOffer(data).unwrap();
+      console.log(response);
+      setEditable(false);
+      setSuccess("تم تعديل العرض بنجاح!");
+      setTimeout(() => {
+        setSuccess("");
+        window.location.reload();
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      if (err.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
+    }
   };
+
+  const handleActivation = async () => {
+    if (offer.data.is_active) {
+      const data = { is_active: false };
+      try {
+        const response = await editOffer(data);
+        console.log(response);
+        setSuccess("تم تعطيل العرض بنجاح!");
+        setTimeout(() => {
+          setSuccess("");
+          window.location.reload();
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+        if (error.originalStatus === 403) {
+          setError("ليس لديك الصلاحية لإضافة مجموعة.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (error.originalStatus === 401) {
+          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else {
+          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        }
+      }
+    } else {
+      const data = { is_active: true };
+      try {
+        const response = await editOffer(data);
+        console.log(response);
+        setSuccess("تم تفعيل العرض بنجاح|");
+        setTimeout(() => {
+          setSuccess("");
+          window.location.reload();
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+        if (error.originalStatus === 403) {
+          setError("ليس لديك الصلاحية لإضافة مجموعة.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else if (error.originalStatus === 401) {
+          setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        } else {
+          setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
+        }
+      }
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center w-100"
+        style={{ height: "100vh", backgroundColor: "#373636" }}
+      >
+        <Commet color="#316dcc" size="medium" text="" textColor="" />
+      </div>
+    );
+  }
+
+  if (error) {
+    if (error?.status === 403) {
+      return (
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
+          ليس لديك صلاحية الوصول لهذه الصفحة.
+        </div>
+      );
+    } else if (error?.status === 401) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return (
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
+          برجاء تسجيل الدخول والمحاولة مرة أخرى.
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`w-100 fs-3 fw-bold error-message d-flex justify-content-center align-items-center`}
+          style={{ backgroundColor: "#373636" }}
+        >
+          حدث خطأ، برجاء المحاولة مرة أخرى لاحقا.
+        </div>
+      );
+    }
+  }
 
   return (
     <>
-      {success && <Success text={"تم إضافة مستخدم بنجاح! "} />}
+      {success.length > 0 && <Success text={success} />}
       {error.length > 0 ? <Error text={error} show={error.length > 0} /> : null}
       <div className={`${styles.addGroupMemberForm}`}>
         <ComponentTitle
@@ -143,20 +231,23 @@ const OfferDetails = () => {
                     تعديل
                   </div>
                 )}
-                <div
-                  className={`${styles.cancelButton}`}
-                  onClick={() => {
-                    setActivated(!activated);
-                  }}
-                >
-                  {activated ? (
+                {offer.data.is_active ? (
+                  <div
+                    className={`${styles.cancelButton} bg-danger`}
+                    onClick={handleActivation}
+                  >
                     <div className={`d-inline-block fw-bold`}>
                       إلغاء التفعيل
                     </div>
-                  ) : (
+                  </div>
+                ) : (
+                  <div
+                    className={`${styles.cancelButton}`}
+                    onClick={handleActivation}
+                  >
                     <div className={`d-inline-block fw-bold`}>تفعيل</div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </Form>
           </Formik>

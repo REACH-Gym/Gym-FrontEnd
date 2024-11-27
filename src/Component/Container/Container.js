@@ -129,10 +129,10 @@ function Container() {
               </div>
               <div className="d-flex flex-column align-items-end">
                 <p style={{ color: "#fff" }} className="mb-0">
-                  حجوزات عضوية جديدة
+                  طلبات عضوية جديدة
                 </p>
                 <p className="fw-bolder fs-2 text-light">
-                  {status.almost_over_memberships_and_sessions}
+                  {status.all_new_members_requests}
                 </p>
               </div>
             </div>

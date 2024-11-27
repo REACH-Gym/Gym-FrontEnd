@@ -49,7 +49,7 @@
   }
 }
 /* laptop : 1024px => 1440px */
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1024px) {
   .items {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;

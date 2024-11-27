@@ -5,7 +5,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     baseUrl: `${process.env.REACT_APP_DOMAIN}/`,
     prepareHeaders: (headers) => {
       headers.set("Authorization", localStorage.getItem("access"));
-      headers.set("Content-Type", "application/json");
       return headers;
     },
   })(args, api, extraOptions);
@@ -19,7 +18,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       baseUrl: `${process.env.REACT_APP_DOMAIN}/`,
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: refreshToken,
       },
     })({ url: "auth/refresh-token" }, api, extraOptions);
@@ -35,7 +33,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         baseUrl: `${process.env.REACT_APP_DOMAIN}/`,
         prepareHeaders: (headers) => {
           headers.set("Authorization", refreshResult.data.data.access_token);
-          headers.set("Content-Type", "application/json");
           return headers;
         },
       })(args, api, extraOptions);
@@ -60,6 +57,13 @@ export const apis = createApi({
     }),
     getAllMembers: builder.query({
       query: (params) => `members${params}`,
+    }),
+    editMember: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `members/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
     }),
     getEmployees: builder.query({
       query: (params) => `employee${params}`,
@@ -237,11 +241,33 @@ export const apis = createApi({
     getMembershipReciet: builder.query({
       query: (id) => `membership-receipt/${id}`,
     }),
+    getOffer: builder.query({
+      query: (query) => `offer/${query}`,
+    }),
+    editOffer: builder.mutation({
+      query: (data) => ({
+        url: `offer/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
+    getMemberOffer: builder.query({
+      query: (query) => `offer/members/${query}`,
+    }),
+    markOfferAsFinished: builder.mutation({
+      query: (id) => ({
+        url: `offer/members/${id}/mark-as-finished`,
+        method: "POST",
+        body: JSON.stringify({}),
+      }),
+    }),
   }),
 });
+
 export const {
   useGetAllMembersQuery,
   useGetAllMembersAtOnceQuery,
+  useEditMemberMutation,
   useGetMeasurementsQuery,
   useLoginAdminMutation,
   useAddMeasurementsMutation,
@@ -274,4 +300,8 @@ export const {
   useFreezeMemberMembershipMutation,
   useUnFreezeMemberMembershipMutation,
   useEditMemberMembershipStartDateMutation,
+  useGetOfferQuery,
+  useGetMemberOfferQuery,
+  useMarkOfferAsFinishedMutation,
+  useEditOfferMutation,
 } = apis;

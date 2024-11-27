@@ -10,7 +10,7 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetSessionsQuery } from "../../features/api";
+import { useGetAllMembersQuery, useGetSessionsQuery } from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 
 function AcceptedRequests() {
@@ -27,8 +27,8 @@ function AcceptedRequests() {
   const filter = (filter) => {
     setFilterType(filter);
   };
-  const { data, error, isLoading, isFetching } = useGetSessionsQuery(
-    `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+  const { data, error, isLoading, isFetching } = useGetAllMembersQuery(
+    `?page=${page}&per_page=20&filter{is_verified}=true&filter{${filterType}.istartswith}=${
       term ? term : ""
     }`
   );
@@ -56,7 +56,7 @@ function AcceptedRequests() {
   };
 
   const handleExcelSheet = () => {
-    exportToExcel(data?.data?.sessions, "Sessions");
+    exportToExcel(data?.data?.users, "Accepted_Requests");
   };
 
   if (isLoading) {
@@ -180,24 +180,25 @@ function AcceptedRequests() {
           >
             <Commet color="#316dcc" size="medium" text="" textColor="" />
           </div>
-        ) : data?.data?.sessions?.length > 0 ? (
+        ) : data?.data?.users?.length > 0 ? (
           <div className={`${styles.tableContainer} text-end mt-3 ps-4 pe-4`}>
             <table className="w-100">
               <thead className={`fw-bold`}>
                 <th className={`p-2 pt-3 pb-3`}>#</th>
                 <th className={`p-2 pt-3 pb-3`}>اسم العضو</th>
-                <th className={`p-2 pt-3 pb-3`}>عدد أيام العرض</th>
-                <th className={`p-2 pt-3 pb-3`}>تاريخ الحصول على العرض</th>
-                <th className={`p-2 pt-3 pb-3`}>عدد الأيام المتبقية</th>
+                <th className={`p-2 pt-3 pb-3`}>رقم الجوال</th>
+                <th className={`p-2 pt-3 pb-3`}>رقم العضوية</th>
+                <th className={`p-2 pt-3 pb-3`}>تاريخ الميلاد</th>
+                <th className={`p-2 pt-3 pb-3`}>النوع</th>
                 <th className={`p-2 pt-3 pb-3`}>الحالة</th>
                 <th className={`p-2 pt-3 pb-3`}></th>
               </thead>
               <tbody>
-                {data?.data?.sessions?.map((session, index) => (
+                {data?.data?.users?.map((session, index) => (
                   <RequestItem
                     key={index}
                     index={
-                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
+                      data?.data.users?.indexOf(session) + (page - 1) * 5 + 1
                     }
                     session={session}
                   />

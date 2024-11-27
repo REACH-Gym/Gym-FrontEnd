@@ -10,7 +10,7 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetSessionsQuery } from "../../features/api";
+import { useGetAllMembersQuery, useGetSessionsQuery } from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 import AllRequestItem from "../AllRequestsItem/AllRequestsItem";
 
@@ -28,8 +28,8 @@ function AllRequests() {
   const filter = (filter) => {
     setFilterType(filter);
   };
-  const { data, error, isLoading, isFetching } = useGetSessionsQuery(
-    `?page=${page}&per_page=20&filter{${filterType}.istartswith}=${
+  const { data, error, isLoading, isFetching } = useGetAllMembersQuery(
+    `?page=${page}&per_page=20&filter{is_verified.isnull}=true&filter{${filterType}.istartswith}=${
       term ? term : ""
     }`
   );
@@ -57,7 +57,7 @@ function AllRequests() {
   };
 
   const handleExcelSheet = () => {
-    exportToExcel(data?.data?.sessions, "Sessions");
+    exportToExcel(data?.data?.users, "Users_Requests");
   };
 
   if (isLoading) {
