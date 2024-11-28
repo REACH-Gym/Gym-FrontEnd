@@ -10,11 +10,7 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  useGetMemberOfferQuery,
-  useGetOffersQuery,
-  useGetSessionsQuery,
-} from "../../features/api";
+import { useGetMemberOfferQuery } from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 import OffersItem from "../OffersItem/OffersItem";
 
@@ -61,7 +57,17 @@ function OffersContainer() {
   };
 
   const handleExcelSheet = () => {
-    exportToExcel(data?.data?.sessions, "Sessions");
+    const sheet = [];
+    for (let i = 0; i < data?.data?.user_offers?.length; i++) {
+      sheet.push({
+        id: data?.data?.user_offers[i].id,
+        name: data?.data?.user_offers[i].user.name,
+        free_days: data?.data?.user_offers[i].free_days,
+        is_active: data?.data?.user_offers[i].is_active,
+        updated_at: data?.data?.user_offers[i].updated_at,
+      });
+    }
+    exportToExcel(sheet, "Users_Offers");
   };
 
   if (isLoading) {

@@ -42,7 +42,7 @@ function AllMembers() {
       setLoading(true);
       try {
         const response = await fetch(
-          `${api}/members/?page=${page}&per_page=${per_page}&filter{${filterType}.istartswith}=${
+          `${api}/members/?page=${page}&per_page=${per_page}&filter{is_verified}=true&filter{${filterType}.istartswith}=${
             term ? term : ""
           }`,
           {

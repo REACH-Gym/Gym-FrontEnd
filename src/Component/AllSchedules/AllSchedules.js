@@ -104,7 +104,7 @@ const AllSchedules = () => {
         />
       )}
       <div className={`${styles.scheduleContainer}`}>
-        <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
+        <div className="d-flex align-items-center justify-content-start gap-5 ps-3 pe-3">
           <ComponentTitle
             MainIcon={"/assets/image/appointments.png"}
             title={"جميع المواعيد"}
@@ -162,12 +162,6 @@ const AllSchedules = () => {
               </div>
             </div>
           </Filter>
-          <ComponentBtns
-            btn1={"+ إضافة موعد جديد "}
-            onclick={() => {
-              navigate("/Home/AddScheduleForm");
-            }}
-          />
         </div>
         {isFetching ? (
           <div
