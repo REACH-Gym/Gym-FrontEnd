@@ -10,7 +10,7 @@ import Warning from "../../Common Components/Warning/Warning";
 import * as XLSX from "xlsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetAllMembersQuery, useGetSessionsQuery } from "../../features/api";
+import { useGetAllMembersQuery } from "../../features/api";
 import { clear, searchR } from "../../features/searchSlice";
 
 function AcceptedRequests() {

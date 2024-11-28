@@ -1,6 +1,6 @@
 import InputField from "../../Common Components/InputField/InputField";
 import styles from "./OfferDetails.module.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
 import { useEditOfferMutation, useGetOfferQuery } from "../../features/api";
@@ -12,11 +12,9 @@ import "react-phone-input-2/lib/style.css";
 import { Commet } from "react-loading-indicators";
 
 const OfferDetails = () => {
-  const { data: offer, isLoading, error: offerError } = useGetOfferQuery("");
-  const [editOffer, { isLoading: isEditLoading, error: editOfferError }] =
-    useEditOfferMutation();
+  const { data: offer, isLoading } = useGetOfferQuery("");
+  const [editOffer] = useEditOfferMutation();
   const [editable, setEditable] = useState(false);
-  const [activated, setActivated] = useState(false);
   const initialValues = {
     offerDays: offer?.data.free_days,
   };
