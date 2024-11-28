@@ -17,15 +17,11 @@ import { Commet } from "react-loading-indicators";
 const RequestDetails = () => {
   const { RequestId } = useParams();
 
-  const {
-    data: userData,
-    isLoading: isUserDataLoading,
-    error: userDataError,
-  } = useGetAllMembersQuery(`/${RequestId}`);
+  const { data: userData, isLoading: isUserDataLoading } =
+    useGetAllMembersQuery(`/${RequestId}`);
   console.log(userData);
 
-  const [editMember, { isLoading: isEditLoading, error: editMemberLoading }] =
-    useEditMemberMutation();
+  const [editMember] = useEditMemberMutation();
 
   const initialValues = {
     name: userData?.data?.user.name,
