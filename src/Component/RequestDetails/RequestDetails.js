@@ -7,7 +7,7 @@ import {
   useEditMemberMutation,
   useGetAllMembersQuery,
 } from "../../features/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
@@ -85,6 +85,13 @@ const RequestDetails = () => {
   const [selectedProfileImage, setSelectedProfileImage] = useState(
     userData?.data?.user.profile_image
   );
+  useEffect(() => {
+    setSelectedProfileImage(userData?.data?.user.profile_image);
+    setSelectedImage(userData?.data?.user.personal_card_image);
+  }, [
+    userData?.data?.user.personal_card_image,
+    userData?.data?.user.profile_image,
+  ]);
 
   // Handle file selection
   const handleImageChange = (event) => {
