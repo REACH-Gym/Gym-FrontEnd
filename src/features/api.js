@@ -73,6 +73,9 @@ export const apis = createApi({
         url: "employee",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     patchEmployee: builder.mutation({
@@ -80,6 +83,9 @@ export const apis = createApi({
         url: `employee/${id}`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getAllMembersAtOnce: builder.query({
@@ -94,12 +100,18 @@ export const apis = createApi({
         url: "members/measurements",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     deleteMeasurement: builder.mutation({
       query: (id) => ({
         url: `members/measurements/${id}`,
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     loginAdmin: builder.mutation({
@@ -107,6 +119,9 @@ export const apis = createApi({
         url: "auth/login",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getGroupsMembers: builder.query({
@@ -117,6 +132,9 @@ export const apis = createApi({
         url: "sessions",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getSessions: builder.query({
@@ -130,6 +148,9 @@ export const apis = createApi({
         url: "members/sessions/",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     editSession: builder.mutation({
@@ -137,6 +158,9 @@ export const apis = createApi({
         url: `sessions/${id}`,
         method: "PUT",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     editMemberSessionStartDate: builder.mutation({
@@ -144,6 +168,9 @@ export const apis = createApi({
         url: `members/sessions/${id}/update-start-date/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     editMemberMembershipStartDate: builder.mutation({
@@ -151,6 +178,9 @@ export const apis = createApi({
         url: `members/memberships/${id}/update-start-date/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     freezeMemberSession: builder.mutation({
@@ -158,6 +188,9 @@ export const apis = createApi({
         url: `members/sessions/${id}/freeze/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     freezeMemberMembership: builder.mutation({
@@ -165,6 +198,9 @@ export const apis = createApi({
         url: `members/memberships/${id}/freeze/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     unFreezeMemberSession: builder.mutation({
@@ -172,6 +208,9 @@ export const apis = createApi({
         url: `members/sessions/${id}/unfreeze/`,
         method: "PATCH",
         body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     unFreezeMemberMembership: builder.mutation({
@@ -179,6 +218,9 @@ export const apis = createApi({
         url: `members/memberships/${id}/unfreeze/`,
         method: "PATCH",
         body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     patchSession: builder.mutation({
@@ -186,6 +228,9 @@ export const apis = createApi({
         url: `sessions/${id}/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     postSchedule: builder.mutation({
@@ -193,6 +238,9 @@ export const apis = createApi({
         url: "schedules",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getSchedules: builder.query({
@@ -203,6 +251,9 @@ export const apis = createApi({
         url: `schedules/${id}/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getCoupons: builder.query({
@@ -216,6 +267,9 @@ export const apis = createApi({
         url: "coupons/",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     editCoupon: builder.mutation({
@@ -223,6 +277,9 @@ export const apis = createApi({
         url: `coupons/${id}/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     search: builder.query({
@@ -233,6 +290,9 @@ export const apis = createApi({
         url: "whatsapp/send-details/",
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getReciet: builder.query({
@@ -249,6 +309,9 @@ export const apis = createApi({
         url: `offer/`,
         method: "PATCH",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
     getMemberOffer: builder.query({
@@ -259,6 +322,9 @@ export const apis = createApi({
         url: `offer/members/${id}/mark-as-finished`,
         method: "POST",
         body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
   }),

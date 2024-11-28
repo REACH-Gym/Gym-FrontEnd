@@ -3,11 +3,7 @@ import styles from "./OfferDetails.module.css";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitle";
-import {
-  useEditOfferMutation,
-  useGetOfferQuery,
-  usePostEmployeeMutation,
-} from "../../features/api";
+import { useEditOfferMutation, useGetOfferQuery } from "../../features/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Error from "../../Common Components/Error/Error";
@@ -31,7 +27,6 @@ const OfferDetails = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const handleSubmit = async (values) => {
-    console.log(values);
     const data = {
       free_days: values.offerDays,
     };
