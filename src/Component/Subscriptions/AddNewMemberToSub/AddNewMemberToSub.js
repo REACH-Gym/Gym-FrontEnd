@@ -8,9 +8,7 @@ import ComponentTitle from "../../../Common Components/ComponentTitle/ComponentT
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
-import FailedModal from "../../../Common Components/Modal/FailedModal/FailedModal";
 import QRCode from "qrcode";
-import { v4 as uuidv4 } from "uuid";
 
 import {
   Page,
@@ -22,6 +20,7 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
+import Error from "../../../Common Components/Error/Error";
 
 // Define styles
 Font.register({
@@ -233,9 +232,7 @@ function AddNewMemberToSub() {
   const [users, setUsers] = useState([]);
   const [membership, setMemberShip] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalModalError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [subscription, setSubscription] = useState([]);
   const [memberShipPrice, setMemberShipPrice] = useState(0);
   const [error, setError] = useState("");
   const [copons, setCopons] = useState(false);
@@ -258,8 +255,14 @@ function AddNewMemberToSub() {
           setUsers(user.data.users);
         } else if (response.status === 403) {
           setError("ليس لديك صلاحية لعرض هذه المعلومات");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else if (response.status === 401) {
           setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else {
           setUsers(null);
         }
@@ -297,8 +300,14 @@ function AddNewMemberToSub() {
           setMemberShip(result.data.memberships);
         } else if (response.status === 403) {
           setError("ليس لديك صلاحية لعرض هذه المعلومات");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else if (response.status === 401) {
           setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else {
           setMemberShip(null);
         }
@@ -346,6 +355,8 @@ function AddNewMemberToSub() {
           ?.discount_value,
         copons?.find((coupon) => +coupon.id === +values[`promo_code`])?.code,
       ]);
+    } else {
+      setPromo([``, 0, ``]);
     }
   }, [values, copons]);
   // adding member to subscriptions
@@ -445,7 +456,6 @@ function AddNewMemberToSub() {
         // Open in new tab and trigger print dialog
         const blobURL = URL.createObjectURL(blob);
         window.open(blobURL);
-        setSubscription(subscriptions.data.user_membership);
         console.log(subscriptions.data);
         setShowModal(true);
         setLoading(false);
@@ -455,12 +465,32 @@ function AddNewMemberToSub() {
       } else if (response.status === 403) {
         setLoading(false);
         setError("ليس لديك صلاحية لعرض هذه المعلومات");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       } else if (response.status === 401) {
         setLoading(false);
         setError("غير مصرح به: يرجى تسجيل الدخول لعرض هذه الصفحة");
-      } else {
-        setShowModalModalError(true);
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (
+        subscriptions.error.detail ===
+        "The period exceeds allowed freezing days."
+      ) {
         setLoading(false);
+        setError("عفوا التاريخ الذي أدخلته يتخطى الحد المسموح به");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (
+        subscriptions.error.detail.startsWith("This user already has an active")
+      ) {
+        setLoading(false);
+        setError("هذا العضو مشترك بالفعل.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
       }
     } catch (error) {
       setLoading(false);
@@ -487,22 +517,13 @@ function AddNewMemberToSub() {
     payment_method: Yup.string().required("هذا الحقل الزامي"),
   });
 
-  const handleCloseModalError = () => {
-    setShowModalModalError(false);
-  };
-
   return (
-    <div className="addNewSubscriptionsContainer mt-5">
-      <Helmet>
-        <title>إضافة عضو للأشتراك</title>
-      </Helmet>
-      {error ? (
-        <div style={{ paddingTop: "200px" }}>
-          <h4 className="fw-bolder texte-center error-message text-center">
-            {error}
-          </h4>
-        </div>
-      ) : (
+    <>
+      {error.length > 0 && <Error text={error} show={error.length > 0} />}
+      <div className="addNewSubscriptionsContainer mt-5">
+        <Helmet>
+          <title>إضافة عضو للأشتراك</title>
+        </Helmet>
         <>
           <div className="pe-4  ">
             <ComponentTitle
@@ -511,7 +532,6 @@ function AddNewMemberToSub() {
               subTitle={"يمكنك إضافة عضو للاشتراك من هنا"}
             />
           </div>
-
           <div className=" ">
             <div className="">
               <Formik
@@ -764,19 +784,9 @@ function AddNewMemberToSub() {
             </div>
           </SuccessModal>
           {/* failed */}
-          <FailedModal
-            isOpen={showModalError}
-            handleClose={handleCloseModalError}
-          >
-            <div>
-              <p className="text-center mt-2  text-dark fw-bolder mb-5">
-                حدث خطأ ! هذا العضو مشترك من قبل
-              </p>
-            </div>
-          </FailedModal>
         </>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 export default AddNewMemberToSub;

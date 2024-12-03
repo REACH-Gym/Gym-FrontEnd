@@ -269,6 +269,8 @@ const DynamicComponent = () => {
         coupons?.data?.find((coupon) => +coupon.id === +values.promo_code)
           ?.code,
       ]);
+    } else {
+      setPromo([``, 0, ``]);
     }
   }, [values.promo_code, coupons]);
 
@@ -740,6 +742,15 @@ const AddGroupMember = () => {
         err.data.error.detail[0].startsWith("This user already has an active")
       ) {
         setError("هذا العضو مشترك بالفعل.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (
+        err.data.error.detail[0].startsWith(
+          "The period exceeds allowed freezing days."
+        )
+      ) {
+        setError("عفوا التاريخ الذي أدخلته يتخطى الحد المسموح به");
         setTimeout(() => {
           setError("");
         }, 3000);
