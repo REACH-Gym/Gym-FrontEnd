@@ -37,7 +37,7 @@ const UsersContainer = () => {
     error: employeesError,
   } = useGetEmployeesQuery(
     `?page=${page}&per_page=20&filter{-id}=${
-      userData?.data?.user?.id
+      userData?.data?.user?.id ? userData?.data?.user?.id : ""
     }&filter{${filterType}.istartswith}=${term ? term : ""}`
   );
   console.log(emplyees);
