@@ -69,68 +69,164 @@ function LogDetails() {
     return { oldBackground: "", newBackground: "" };
   };
 
-  const fieldNameMap = {
-    name: "الأسم",
-    gender: "الجنس",
-    description: "الملاحظات",
-    duration: "المدة",
-    price: "السعر",
-    freeze_duration: "مدة التجميد",
-    is_active: "الحالة",
-    national_id: "الرقم القومي",
-    phone_number: "رقم الجوال",
-    role: "الوظيفة",
-    date_of_birth: "تاريخ الميلاد",
-    notes: "ملاحظات",
-    discount: "الخصم",
-    actual_price: "السعرالحالي",
-    start_date: "تاريخ البداية",
-    end_date: "تاريخ النهاية",
-    "saturday	": "السبت",
-    sunday: "الأحد",
-    monday: "الأتنين",
-    tuesday: "الثلاثاء",
-    wednesday: "الأربعاء",
-    thursday: "الخميس",
-    friday: "الجمعة",
-    max_capacity: "الحد الأقصى للسعة",
-    current_capacity: "السعة الحالية",
-    price_after_discount: "السعر قبل الخصم",
-    membership_duration: "مدة الأشتراك",
-    paid_money: "المبلغ المدفوع",
-  };
+  // const fieldNameMap = {
+  //   name: "الأسم",
+  //   gender: "الجنس",
+  //   description: "الملاحظات",
+  //   duration: "المدة",
+  //   price: "السعر",
+  //   freeze_duration: "مدة التجميد",
+  //   is_active: "مفعل",
+  //   national_id: "الرقم القومي",
+  //   phone_number: "رقم الجوال",
+  //   role: "الوظيفة",
+  //   date_of_birth: "تاريخ الميلاد",
+  //   notes: "ملاحظات",
+  //   discount: "الخصم",
+  //   actual_price: "السعرالحالي",
+  //   start_date: "تاريخ البداية",
+  //   end_date: "تاريخ النهاية",
+  //   saturday: "السبت",
+  //   sunday: "الأحد",
+  //   monday: "الأتنين",
+  //   tuesday: "الثلاثاء",
+  //   wednesday: "الأربعاء",
+  //   thursday: "الخميس",
+  //   friday: "الجمعة",
+  //   max_capacity: "الحد الأقصى للسعة",
+  //   current_capacity: "السعة الحالية",
+  //   price_after_discount: "السعر قبل الخصم",
+  //   membership_duration: "مدة الأشتراك",
+  //   paid_money: "المبلغ المدفوع",
+  //   personal_card_image: "صورة البطاقة الشخصية",
+  //   electronic_signature_image: "صورة التوقيع الإلكتروني",
+  //   profile_image: "الصورة الشخصية",
+  //   is_verified: "التحقق",
+  //   status: "الحالة",
+  // };
 
   const renderField = (key, oldValue, newValue) => {
     let displayOldValue = oldValue;
     let displayNewValue = newValue;
 
-    // Special case for is_active field
-    if (key === "is_active") {
+    if (key === "profile_image") {
       return (
         <tr key={key}>
-          <td>{fieldNameMap[key]}</td>
-          <td>{oldValue === "false" ? <Deleted /> : <Active />}</td>
-          <td>{newValue === "false" ? <Deleted /> : <Active />}</td>
+          <td>{key}</td>
+          <td>
+            <img
+              src={`${api}/media/${oldValue}`}
+              alt="Profile"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
+          <td>
+            <img
+              src={`${api}/media/${newValue}`}
+              alt="Profile"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
         </tr>
       );
     }
-    if (key === "gender") {
-      displayOldValue =
-        oldValue === "M" ? "ذكر" : oldValue === "F" ? "أنثى" : "";
-      displayNewValue =
-        newValue === "M" ? "ذكر" : newValue === "F" ? "أنثى" : "";
+    if (key === "personal_card_image") {
+      return (
+        <tr key={key}>
+          <td>{key}</td>
+          <td>
+            <img
+              src={`${api}/media/${oldValue}`}
+              alt="personal_card"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
+          <td>
+            <img
+              src={`${api}/media/${newValue}`}
+              alt="personal_card"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
+        </tr>
+      );
+    }
+    if (key === "electronic_signature_image") {
+      return (
+        <tr key={key}>
+          <td>{key}</td>
+          <td>
+            <img
+              src={`${api}/media/${oldValue}`}
+              alt="electronic_signature"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
+          <td>
+            <img
+              src={`${api}/media/${newValue}`}
+              alt="electronic_signature"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </td>
+        </tr>
+      );
     }
 
-    if (key === "role") {
-      const roleMap = {
-        M: "عضو",
-        A: "محاسب",
-        S: "الأدمن الرئيسي",
-        T: "مدرب",
-      };
-      displayOldValue = roleMap[oldValue] || "";
-      displayNewValue = roleMap[newValue] || "";
-    }
+    // Special case for is_active field
+    // if (key === "is_active") {
+    //   return (
+    // //     <tr key={key}>
+    // //       <td>{fieldNameMap[key]}</td>
+    // //       <td>
+    // //         {String(oldValue).toLowerCase() === "false" ? (
+    // //           <Deleted />
+    // //         ) : (
+    // //           <Active />
+    // //         )}
+    // //       </td>
+    // //       <td>
+    // //         {String(newValue).toLowerCase() === "false" ? (
+    // //           <Deleted />
+    // //         ) : (
+    // //           <Active />
+    // //         )}
+    // //       </td>
+    // //     </tr>
+    // //   );
+    // // }
+    // // if (key === "gender") {
+    // //   displayOldValue =
+    // //     oldValue === "M" ? "ذكر" : oldValue === "F" ? "أنثى" : "";
+    // //   displayNewValue =
+    // //     newValue === "M" ? "ذكر" : newValue === "F" ? "أنثى" : "";
+    // // }
+
+    // // if (key === "is_verified") {
+    // //   displayOldValue =
+    // //     String(oldValue).toLowerCase() === "true"
+    // //       ? "مقبول"
+    // //       : String(oldValue).toLowerCase() === "false"
+    // //       ? "مرفوض"
+    // //       : "";
+    // //   displayNewValue =
+    // //     String(newValue).toLowerCase() === "true"
+    // //       ? "مقبول"
+    // //       : String(newValue).toLowerCase() === "false"
+    // //       ? "مرفوض"
+    // //       : "";
+    // // }
+
+    // // if (key === "role") {
+    // //   const roleMap = {
+    // //     M: "عضو",
+    // //     A: "محاسب",
+    // //     S: "الأدمن الرئيسي",
+    // //     T: "مدرب",
+    // //   };
+    // //   displayOldValue = roleMap[oldValue] || "";
+    // //   displayNewValue = roleMap[newValue] || "";
+    // // }
 
     const inputStyle = {
       width: "300px",
@@ -144,7 +240,7 @@ function LogDetails() {
 
     return (
       <tr key={key}>
-        <td>{fieldNameMap[key] || key}</td>
+        <td>{key}</td>
         <td>
           <input
             value={displayOldValue || ""}
@@ -230,13 +326,10 @@ function LogDetails() {
                       "id",
                       "created_at",
                       "updated_at",
-                      "profile_image",
-                      "is_verified",
                       "session_id",
                       "user_id",
                       "admin_id",
                       "schedule_id",
-                      "status",
                       "trainer_id",
                       "membership_id",
                       "coupon_id",
