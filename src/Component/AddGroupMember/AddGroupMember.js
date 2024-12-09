@@ -236,7 +236,7 @@ const ReceiptDocument = ({
   );
 };
 
-const DynamicComponent = () => {
+const DynamicComponent = ({ setCoupons, setSessions, setMembers }) => {
   const { values } = useFormikContext();
   const {
     data: members,
@@ -245,6 +245,10 @@ const DynamicComponent = () => {
   } = useGetAllMembersQuery("/?filter{is_active}=true");
   console.log(members);
 
+  useEffect(() => {
+    setMembers(members);
+  }, [members, setMembers]);
+
   const {
     data: sessions,
     isLoading: isSessionsLoading,
@@ -252,12 +256,19 @@ const DynamicComponent = () => {
   } = useGetSessionsWithSchedulesQuery("?filter{is_active}=true");
   console.log(sessions);
 
+  useEffect(() => {
+    setSessions(sessions);
+  }, [sessions, setSessions]);
+
   const {
     data: coupons,
     isLoading: isCouponsLoading,
     error: couponsError,
   } = useGetCouponsQuery("");
   console.log(coupons);
+  useEffect(() => {
+    setCoupons(coupons);
+  }, [coupons, setCoupons]);
   const [promo, setPromo] = useState([``, 0]);
   useEffect(() => {
     if (values.promo_code !== "") {
@@ -324,128 +335,57 @@ const DynamicComponent = () => {
       }
     } else {
       setSesstionSchedules([]);
+      setSessionPrice(0);
     }
   }, [values.group, sessions]);
 
-  const [price, setPrice] = useState(0);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(
-      setReceiptPaid(
-        promo[0] === "price"
-          ? +price +
-              +(
-                sessionPrice *
-                (1 -
-                  (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
-              ).toFixed(2)
-          : +price +
-              +(
-                sessionPrice *
-                (1 - (+values.discount + +promo[1]) / 100)
-              ).toFixed(2)
-      )
-    );
-  }, [sessionPrice, values.discount, promo, dispatch, price]);
-  useEffect(() => {
-    if (sessionPrice) {
-      if (promo[0] === "price") {
-        const pricePercentage = (+promo[1] / sessionPrice) * 100;
-        setPrice(
-          sessionPrice *
-            (1 - (+values.discount + +pricePercentage) / 100) *
-            (15 / 100)
-        );
+
+  const discountValue = (type, value, price) => {
+    if (type === "percentage") {
+      if (value >= 100 || value < 1) {
+        return 0;
       } else {
-        setPrice(
-          sessionPrice * (1 - (+values.discount + +promo[1]) / 100) * (15 / 100)
-        );
+        return ((value / 100) * price).toFixed(2);
       }
+    } else if (type === "price") {
+      return +value;
+    } else {
+      return 0;
     }
-  }, [sessionPrice, values.discount, promo, dispatch, price]);
-  const receiptStatus = useSelector((state) => state.receipt);
-  useEffect(() => {
-    if (receiptStatus.status) {
-      const doc = (
-        <ReceiptDocument
-          customerName={
-            members?.data?.users?.find((member) => +member.id === +values.name)
-              ?.name
-          }
-          phone_number={
-            members?.data?.users?.find((member) => +member.id === +values.name)
-              ?.phone_number
-          }
-          group={
-            sessions?.data?.sessions?.find(
-              (session) => +session.id === +values.group
-            )?.name
-          }
-          total={`${sessionPrice}`}
-          discount={`${values.discount}`}
-          totalBT={
-            promo[0] === "price"
-              ? (
-                  sessionPrice *
-                  (1 -
-                    (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
-                ).toFixed(2)
-              : (
-                  sessionPrice *
-                  (1 - (+values.discount + +promo[1]) / 100)
-                ).toFixed(2)
-          }
-          taxes={price}
-          fTotal={
-            promo[0] === "price"
-              ? +price +
-                +(
-                  sessionPrice *
-                  (1 -
-                    (+values.discount + (+promo[1] / sessionPrice) * 100) / 100)
-                ).toFixed(2)
-              : +price +
-                +(
-                  sessionPrice *
-                  (1 - (+values.discount + +promo[1]) / 100)
-                ).toFixed(2)
-          }
-          startDate={values.start_date}
-          national_id={
-            members?.data?.users?.find((member) => +member.id === +values.name)
-              ?.national_id
-          }
-          promo={promo[2]}
-          promoValue={
-            promo[0] === "price"
-              ? `${promo[1]}`
-              : `${(sessionPrice * (+promo[1] / 100)).toFixed(2)}`
-          }
-          url={receiptStatus.id}
-          admin={localStorage.getItem("name of user")}
-        />
-      );
-      // Generate PDF blob
-      (async () => {
-        const blob = await pdf(doc).toBlob();
-        // Open in new tab and trigger print dialog
-        const blobURL = URL.createObjectURL(blob);
-        window.open(blobURL);
-      })();
+  };
+
+  const priceBeforeTaxes = (discount, promoType, promoValue, price) => {
+    const disValue = discountValue("percentage", +discount, +price);
+    const pValue = discountValue(`${promoType}`, promoValue, +price);
+    if (+disValue + +promoValue > +price) {
+      return 0;
+    } else {
+      return +price - (+disValue + +pValue);
     }
-  }, [
-    members?.data?.users,
-    price,
-    promo,
-    receiptStatus,
-    sessionPrice,
-    sessions?.data?.sessions,
-    values.discount,
-    values.group,
-    values.name,
-    values.start_date,
-  ]);
+  };
+
+  const taxes = (discount, promoType, promoValue, price) => {
+    const fPrice = priceBeforeTaxes(discount, promoType, promoValue, price);
+    if (+fPrice > 0) {
+      return fPrice * (15 / 100);
+    } else {
+      return 0;
+    }
+  };
+
+  const priceAfterTaxes = (priceBeforeTaxes, taxes) => {
+    if (+priceBeforeTaxes + +taxes > 0) {
+      dispatch(setReceiptPaid((+priceBeforeTaxes + +taxes).toFixed(2)));
+      return (+priceBeforeTaxes + +taxes).toFixed(2);
+    } else {
+      dispatch(setReceiptPaid(0));
+      return 0;
+    }
+  };
+
   const navigate = useNavigate();
+
   if (isSessionsLoading || isMembersLoading || isCouponsLoading) {
     return (
       <div
@@ -505,12 +445,6 @@ const DynamicComponent = () => {
         <div className={`col-12 col-lg-6`}>
           <div
             className={`${styles.section} col-12 d-grid gap-3 rounded-2 pb-5 pt-3 pe-5 ps-5`}
-            style={
-              {
-                // backgroundColor: "white",
-                // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-              }
-            }
           >
             <div className={`col-12`}>
               <InputField name="name" label="اسم العضو" inputType={"select"}>
@@ -529,11 +463,13 @@ const DynamicComponent = () => {
                 inputType={"select"}
               >
                 <option value={""}>اختر</option>
-                {sessions?.data?.sessions?.map((session, i) => (
-                  <option value={session.id} key={i}>
-                    {session.name}
-                  </option>
-                ))}
+                {sessions?.data?.sessions
+                  ?.filter((session) => session.schedules.length > 0)
+                  .map((session, i) => (
+                    <option value={session.id} key={i}>
+                      {session.name}
+                    </option>
+                  ))}
               </InputField>
             </div>
             <div className={`col-12`}>
@@ -597,71 +533,66 @@ const DynamicComponent = () => {
               <div className="row gap-3  mb-3">
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الخصم</span>
-                  <span>{sessionPrice ? sessionPrice : "-"} ريال</span>
+                  <span>{sessionPrice ? sessionPrice : "0"} ريال</span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الخصم ({values.discount}%)</span>
                   <span>
-                    {(sessionPrice * (values.discount / 100)).toFixed(2) > 0
-                      ? (sessionPrice * (values.discount / 100)).toFixed(2)
-                      : "-"}{" "}
+                    {discountValue(
+                      "percentage",
+                      values.discount,
+                      +sessionPrice
+                    )}{" "}
                     ريال
                   </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>قيمة البرومو كود </span>
                   <span>
-                    {sessionPrice > 0
-                      ? promo[0] === "price"
-                        ? `${promo[1]}`
-                        : `${(sessionPrice * (+promo[1] / 100)).toFixed(2)}`
-                      : "-"}{" "}
-                    ريال
+                    {discountValue(promo[0], promo[1], +sessionPrice)} ريال
                   </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الإجمالي قبل الضريبة</span>
                   <span>
-                    {sessionPrice > 0
-                      ? promo[0] === "price"
-                        ? (
-                            sessionPrice *
-                            (1 -
-                              (+values.discount +
-                                (+promo[1] / sessionPrice) * 100) /
-                                100)
-                          ).toFixed(2)
-                        : (
-                            sessionPrice *
-                            (1 - (+values.discount + +promo[1]) / 100)
-                          ).toFixed(2)
-                      : "-"}
+                    {priceBeforeTaxes(
+                      +values.discount,
+                      promo[0],
+                      +promo[1],
+                      +sessionPrice
+                    ).toFixed(2)}{" "}
                     ريال
                   </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الضريبة (15%) </span>
-                  <span>{price > 0 ? price : "-"} ريال</span>
+                  <span>
+                    {taxes(
+                      +values.discount,
+                      promo[0],
+                      +promo[1],
+                      +sessionPrice
+                    ).toFixed(2)}{" "}
+                    ريال
+                  </span>
                 </div>
                 <div className="col-12 d-flex justify-content-between align-content-center">
                   <span>الاجمالي</span>
                   <span>
-                    {sessionPrice > 0
-                      ? promo[0] === "price"
-                        ? +price +
-                          +(
-                            sessionPrice *
-                            (1 -
-                              (+values.discount +
-                                (+promo[1] / sessionPrice) * 100) /
-                                100)
-                          ).toFixed(2)
-                        : +price +
-                          +(
-                            sessionPrice *
-                            (1 - (+values.discount + +promo[1]) / 100)
-                          ).toFixed(2)
-                      : "-"}{" "}
+                    {priceAfterTaxes(
+                      priceBeforeTaxes(
+                        +values.discount,
+                        promo[0],
+                        +promo[1],
+                        +sessionPrice
+                      ),
+                      taxes(
+                        +values.discount,
+                        promo[0],
+                        +promo[1],
+                        +sessionPrice
+                      )
+                    )}{" "}
                     ريال
                   </span>
                 </div>
@@ -698,43 +629,164 @@ const AddGroupMember = () => {
 
   const [postSessionMember, { isLoading: isSchedulesLoading }] =
     usePostSessionMemberMutation();
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const discountValue = (type, value, price) => {
+    if (type === "percentage") {
+      if (value >= 100 || value < 1) {
+        return 0;
+      } else {
+        return ((value / 100) * price).toFixed(2);
+      }
+    } else if (type === "price") {
+      return +value;
+    } else {
+      return 0;
+    }
+  };
+
+  const priceBeforeTaxes = (discount, promoType, promoValue, price) => {
+    const disValue = discountValue("percentage", +discount, +price);
+    const pValue = discountValue(`${promoType}`, promoValue, +price);
+    if (+disValue + +promoValue > +price) {
+      return 0;
+    } else {
+      return +price - (+disValue + +pValue);
+    }
+  };
+
+  const taxes = (discount, promoType, promoValue, price) => {
+    const fPrice = priceBeforeTaxes(discount, promoType, promoValue, price);
+    if (+fPrice > 0) {
+      return fPrice * (15 / 100);
+    } else {
+      return 0;
+    }
+  };
+
+  const priceAfterTaxes = (priceBeforeTaxes, taxes) => {
+    if (+priceBeforeTaxes + +taxes > 0) {
+      dispatch(setReceiptPaid((+priceBeforeTaxes + +taxes).toFixed(2)));
+      return (+priceBeforeTaxes + +taxes).toFixed(2);
+    } else {
+      dispatch(setReceiptPaid(0));
+      return 0;
+    }
+  };
+
   const dispatch = useDispatch();
   const receiptState = useSelector((state) => state.receipt);
+  const [members, setMembers] = useState({});
+  const [sessions, setSessions] = useState({});
+  const [coupons, setCoupons] = useState({});
+  const receiptStatus = useSelector((state) => state.receipt);
 
   const handleSubmit = async (values) => {
     console.log(values);
     const uniqeId = new Date().getTime();
-
+    console.log(parseInt(receiptState.paid).toFixed(2));
     dispatch(setReceiptId(uniqeId));
-    const data = {
-      schedule: values.schedule,
-      user: values.name,
-      discount: values.discount,
-      start_date: values.start_date,
-      paid_money: receiptState.paid,
-      // payment_method: values.payment_method,
-      coupon: values.promo_code,
-      receipt_id: uniqeId,
-    };
-    console.log(receiptState);
-    console.log(data);
-    const filteredObject = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => +value !== 0)
-    );
+    let data = {};
+    if (values.promo_code === "") {
+      data = {
+        schedule: values.schedule,
+        user: values.name,
+        discount: values.discount === "" ? "0" : values.discount,
+        start_date: values.start_date,
+        paid_money: receiptState.paid,
+        // payment_method: values.payment_method,
+        receipt_id: uniqeId,
+      };
+    } else {
+      data = {
+        schedule: values.schedule,
+        user: values.name,
+        discount: values.discount === "" ? "0" : values.discount,
+        start_date: values.start_date,
+        paid_money: receiptState.paid,
+        // payment_method: values.payment_method,
+        coupon: values.promo_code,
+        receipt_id: uniqeId,
+      };
+    }
     try {
-      const response = await postSessionMember(filteredObject).unwrap();
+      const response = await postSessionMember(data).unwrap();
       console.log(response);
       dispatch(setReceipt(true));
       setSuccess(true);
+      const sessionPrice = sessions?.data?.sessions?.find(
+        (session) => +session.id === +values.group
+      )?.price;
+      const couponType = coupons?.data?.find(
+        (coupon) => +coupon.id === +values.promo_code
+      )?.discount_type;
+      const couponValue = coupons?.data?.find(
+        (coupon) => +coupon.id === +values.promo_code
+      )?.discount_value;
+      const couponName = coupons?.data?.find(
+        (coupon) => +coupon.id === +values.promo_code
+      )?.code;
+      const price = taxes(
+        +values.discount,
+        couponType,
+        +couponValue,
+        +sessionPrice
+      );
+      const doc = (
+        <ReceiptDocument
+          customerName={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.name
+          }
+          phone_number={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.phone_number
+          }
+          group={
+            sessions?.data?.sessions?.find(
+              (session) => +session.id === +values.group
+            )?.name
+          }
+          total={`${sessionPrice}`}
+          discount={`${values.discount}`}
+          totalBT={priceBeforeTaxes(
+            +values.discount,
+            couponType,
+            +couponValue,
+            +sessionPrice
+          )}
+          taxes={price}
+          fTotal={priceAfterTaxes(
+            priceBeforeTaxes(
+              +values.discount,
+              couponType,
+              +couponValue,
+              +sessionPrice
+            ),
+            price
+          )}
+          startDate={values.start_date}
+          national_id={
+            members?.data?.users?.find((member) => +member.id === +values.name)
+              ?.national_id
+          }
+          promo={couponName}
+          promoValue={discountValue(couponType, +couponValue, +sessionPrice)}
+          url={receiptStatus.id}
+          admin={localStorage.getItem("name of logged in user ")}
+        />
+      );
+      // Generate PDF blob
+      const blob = await pdf(doc).toBlob();
+      // Open in new tab and trigger print dialog
+      const blobURL = URL.createObjectURL(blob);
+      window.open(blobURL);
       setTimeout(() => {
         dispatch(setReceipt(false));
         setSuccess(false);
-        navigate("/Home/GroupsContainer");
-        window.location.reload();
+        // navigate("/Home/GroupsContainer");
+        // window.location.reload();
       }, 1000);
     } catch (err) {
       console.log(err);
@@ -750,6 +802,11 @@ const AddGroupMember = () => {
           "The period exceeds allowed freezing days."
         )
       ) {
+        setError("عفوا التاريخ الذي أدخلته يتخطى الحد المسموح به");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.data.error.detail[0].startsWith("You paid")) {
         setError("عفوا التاريخ الذي أدخلته يتخطى الحد المسموح به");
         setTimeout(() => {
           setError("");
@@ -791,7 +848,11 @@ const AddGroupMember = () => {
             {({ values, setStatus }) => {
               return (
                 <Form className={`d-grid gap-3`}>
-                  <DynamicComponent />
+                  <DynamicComponent
+                    setMembers={setMembers}
+                    setSessions={setSessions}
+                    setCoupons={setCoupons}
+                  />
                   <div className="row text-center mt-4">
                     <MainButton
                       text={"اضافة"}

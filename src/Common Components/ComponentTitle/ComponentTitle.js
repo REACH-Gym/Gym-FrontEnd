@@ -1,7 +1,13 @@
 import React from "react";
-import './ComponentTitle.css';
+import "./ComponentTitle.css";
 
-function ComponentTitle({ title, subTitle, date = false, isSVG = false, MainIcon }) {
+function ComponentTitle({
+  title,
+  subTitle,
+  date = false,
+  isSVG = false,
+  MainIcon,
+}) {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("ar-EG", {
     weekday: "long",
@@ -15,11 +21,23 @@ function ComponentTitle({ title, subTitle, date = false, isSVG = false, MainIcon
       <div className="d-flex align-items-center">
         <div className="mainIcon">
           {isSVG ? (
-            <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d={MainIcon} stroke="#006AEA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg
+              width="26"
+              height="24"
+              viewBox="0 0 26 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d={MainIcon}
+                stroke="#006AEA"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           ) : (
-            <img src={MainIcon} alt="icon" />
+            <img src={MainIcon} alt="icon" width={35} />
           )}
         </div>
         <div>
@@ -27,13 +45,21 @@ function ComponentTitle({ title, subTitle, date = false, isSVG = false, MainIcon
             <p className="fw-bolder mb-0 text-light">{title}</p>
             {date && (
               <p className="mb-0">
-                <span className=" me-4 fw-lighter text-light" style={{fontSize:"15px", color:"#fff"}}>
+                <span
+                  className=" me-4 fw-lighter text-light"
+                  style={{ fontSize: "15px", color: "#fff" }}
+                >
                   {formattedDate}
                 </span>
               </p>
             )}
           </div>
-          <p className="fw-lighter me-3" style={{fontSize:"14px", color:"#fff"}}>{subTitle}</p>
+          <p
+            className="fw-lighter me-3"
+            style={{ fontSize: "14px", color: "#fff" }}
+          >
+            {subTitle}
+          </p>
         </div>
       </div>
     </div>

@@ -9,5 +9,7 @@
 .section {
   /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
   background-color: #373636;
-  height: 560px;
+  min-height: 560px;
+  height: 100%;
+  overflow-y: auto;
 }

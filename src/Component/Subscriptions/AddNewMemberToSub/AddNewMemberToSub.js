@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import SuccessModal from "../../../Common Components/Modal/SucessModal/SuccessModal";
 import QRCode from "qrcode";
-
 import {
   Page,
   Text,
@@ -61,8 +60,8 @@ const style = StyleSheet.create({
   table: {
     display: "table",
     width: "auto",
-    marginTop: 2,
-    marginBottom: 3,
+    marginTop: 1,
+    marginBottom: 2,
     borderStyle: "solid",
     borderWidth: 0.2,
     borderColor: "#000",
@@ -359,6 +358,70 @@ function AddNewMemberToSub() {
       setPromo([``, 0, ``]);
     }
   }, [values, copons]);
+
+  const initialValues = {
+    user: "",
+    membership: "",
+    notes: "",
+    start_date: "",
+    discount: "",
+    status: "active",
+    promo_code: "",
+    payment_method: "",
+  };
+  const validationSchema = Yup.object({
+    user: Yup.string().required("هذا الحقل الزامي"),
+    membership: Yup.string().required("هذا الحقل الزامي"),
+    notes: Yup.string(),
+    start_date: Yup.date().required("هذا الحقل الزامي"),
+    discount: Yup.number().min(0).max(100),
+    promo_code: Yup.string(),
+    payment_method: Yup.string().required("هذا الحقل الزامي"),
+  });
+
+  const discountValue = (type, value, price) => {
+    if (type === "percentage") {
+      if (value >= 100 || value < 1) {
+        return 0;
+      } else {
+        return ((value / 100) * price).toFixed(2);
+      }
+    } else if (type === "price") {
+      return +value;
+    } else {
+      return 0;
+    }
+  };
+
+  const priceBeforeTaxes = (discount, promoType, promoValue, price) => {
+    const disValue = discountValue("percentage", +discount, +price);
+    const pValue = discountValue(`${promoType}`, promoValue, +price);
+    if (+disValue + +promoValue > +price) {
+      return 0;
+    } else {
+      return +price - (+disValue + +pValue);
+    }
+  };
+
+  const taxes = (discount, promoType, promoValue, price) => {
+    const fPrice = priceBeforeTaxes(discount, promoType, promoValue, price);
+    if (+fPrice > 0) {
+      return fPrice * (15 / 100);
+    } else {
+      return 0;
+    }
+  };
+
+  const priceAfterTaxes = (priceBeforeTaxes, taxes) => {
+    if (+priceBeforeTaxes + +taxes > 0) {
+      // dispatch(setReceiptPaid((+priceBeforeTaxes + +taxes).toFixed(2)));
+      return (+priceBeforeTaxes + +taxes).toFixed(2);
+    } else {
+      // dispatch(setReceiptPaid(0));
+      return 0;
+    }
+  };
+
   // adding member to subscriptions
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -374,26 +437,15 @@ function AddNewMemberToSub() {
         coupon: values["promo_code"],
         // payment_method: values["payment_method"],
         receipt_id: uniqeId,
-        paid_money:
-          promo[0] === "price"
-            ? memberShipPrice *
-                (1 -
-                  (+values.discount + +(+promo[1] / memberShipPrice) * 100) /
-                    100) *
-                (15 / 100) +
-              +(
-                memberShipPrice *
-                (1 -
-                  (+values.discount + (+promo[1] / memberShipPrice) * 100) /
-                    100)
-              ).toFixed(2)
-            : memberShipPrice *
-                (1 - (+values.discount + +promo[1]) / 100) *
-                (15 / 100) +
-              +(
-                memberShipPrice *
-                (1 - (+values.discount + +promo[1]) / 100)
-              ).toFixed(2),
+        paid_money: priceAfterTaxes(
+          priceBeforeTaxes(
+            +values.discount,
+            promo[0],
+            promo[1],
+            memberShipPrice
+          ),
+          taxes(+values.discount, promo[0], promo[1], memberShipPrice)
+        ),
       };
       const filteredObject = Object.fromEntries(
         Object.entries(items).filter(
@@ -429,26 +481,35 @@ function AddNewMemberToSub() {
             }
             total={`${memberShipPrice}`}
             discount={`${values.discount}`}
-            totalBT={(memberShipPrice * (1 - values.discount / 100)).toFixed(2)}
-            taxes={`${
-              memberShipPrice * (1 - values.discount / 100) * (15 / 100)
-            }`}
-            fTotal={
-              +(memberShipPrice * (1 - values.discount / 100) * (15 / 100)) +
-              +(memberShipPrice * (1 - values.discount / 100)).toFixed(2)
-            }
+            totalBT={priceBeforeTaxes(
+              +values.discount,
+              promo[0],
+              promo[1],
+              memberShipPrice
+            )}
+            taxes={`${taxes(
+              +values.discount,
+              promo[0],
+              promo[1],
+              memberShipPrice
+            ).toFixed(2)}`}
+            fTotal={priceAfterTaxes(
+              priceBeforeTaxes(
+                +values.discount,
+                promo[0],
+                promo[1],
+                memberShipPrice
+              ),
+              taxes(+values.discount, promo[0], promo[1], memberShipPrice)
+            )}
             startDate={values.start_date}
             national_id={
               users?.find((member) => +member.id === +values.user)?.national_id
             }
             url={uniqeId}
             promo={promo[2]}
-            promoValue={
-              promo[0] === "price"
-                ? `${promo[1]}`
-                : `${(memberShipPrice * (+promo[1] / 100)).toFixed(2)}`
-            }
-            admin={localStorage.getItem("name of user")}
+            promoValue={discountValue(promo[0], +promo[1], +memberShipPrice)}
+            admin={localStorage.getItem("name of logged in user ")}
           />
         );
         // Generate PDF blob
@@ -497,25 +558,6 @@ function AddNewMemberToSub() {
       console.error(error);
     }
   };
-  const initialValues = {
-    user: "",
-    membership: "",
-    notes: "",
-    start_date: "",
-    discount: "",
-    status: "active",
-    promo_code: "",
-    payment_method: "",
-  };
-  const validationSchema = Yup.object({
-    user: Yup.string().required("هذا الحقل الزامي"),
-    membership: Yup.string().required("هذا الحقل الزامي"),
-    notes: Yup.string(),
-    start_date: Yup.date().required("هذا الحقل الزامي"),
-    discount: Yup.number().min(0).max(100),
-    promo_code: Yup.string(),
-    payment_method: Yup.string().required("هذا الحقل الزامي"),
-  });
 
   return (
     <>
@@ -666,96 +708,57 @@ function AddNewMemberToSub() {
                               <p>الضريبة (%15)</p>
                               <p>الإجمالي</p>
                             </div>
-                            <div className="text-light">
+                            <div className="text-light text-start">
                               <p>{memberShipPrice || 0} ريال</p>
                               <p>
-                                {(
-                                  memberShipPrice *
-                                  (values.discount / 100)
-                                ).toFixed(2) > 0
-                                  ? (
-                                      memberShipPrice *
-                                      (values.discount / 100)
-                                    ).toFixed(2)
-                                  : "0"}{" "}
+                                {discountValue(
+                                  "percentage",
+                                  +values.discount,
+                                  +memberShipPrice
+                                ).toFixed(2)}{" "}
                                 ريال
                               </p>
                               <p>
-                                {memberShipPrice > 0
-                                  ? promo[0] === "price"
-                                    ? `${promo[1]}`
-                                    : `${(
-                                        memberShipPrice *
-                                        (+promo[1] / 100)
-                                      ).toFixed(2)}`
-                                  : "-"}{" "}
+                                {discountValue(
+                                  promo[0],
+                                  +promo[1],
+                                  +memberShipPrice
+                                ).toFixed(2)}{" "}
                                 ريال
                               </p>
                               <p>
-                                {memberShipPrice > 0
-                                  ? promo[0] === "price"
-                                    ? (
-                                        memberShipPrice *
-                                        (1 -
-                                          (+values.discount +
-                                            (+promo[1] / memberShipPrice) *
-                                              100) /
-                                            100)
-                                      ).toFixed(2)
-                                    : (
-                                        memberShipPrice *
-                                        (1 -
-                                          (+values.discount + +promo[1]) / 100)
-                                      ).toFixed(2)
-                                  : "-"}{" "}
+                                {priceBeforeTaxes(
+                                  +values.discount,
+                                  promo[0],
+                                  +promo[1],
+                                  +memberShipPrice
+                                ).toFixed(2)}{" "}
                                 ريال
                               </p>
                               <p>
-                                {memberShipPrice > 0
-                                  ? promo[0] === "price"
-                                    ? memberShipPrice *
-                                      (1 -
-                                        (+values.discount +
-                                          +(+promo[1] / memberShipPrice) *
-                                            100) /
-                                          100) *
-                                      (15 / 100)
-                                    : memberShipPrice *
-                                      (1 -
-                                        (+values.discount + +promo[1]) / 100) *
-                                      (15 / 100)
-                                  : "-"}{" "}
+                                {taxes(
+                                  +values.discount,
+                                  promo[0],
+                                  +promo[1],
+                                  +memberShipPrice
+                                ).toFixed(2)}{" "}
                                 ريال
                               </p>
                               <p>
-                                {memberShipPrice > 0
-                                  ? promo[0] === "price"
-                                    ? memberShipPrice *
-                                        (1 -
-                                          (+values.discount +
-                                            +(+promo[1] / memberShipPrice) *
-                                              100) /
-                                            100) *
-                                        (15 / 100) +
-                                      +(
-                                        memberShipPrice *
-                                        (1 -
-                                          (+values.discount +
-                                            (+promo[1] / memberShipPrice) *
-                                              100) /
-                                            100)
-                                      ).toFixed(2)
-                                    : memberShipPrice *
-                                        (1 -
-                                          (+values.discount + +promo[1]) /
-                                            100) *
-                                        (15 / 100) +
-                                      +(
-                                        memberShipPrice *
-                                        (1 -
-                                          (+values.discount + +promo[1]) / 100)
-                                      ).toFixed(2)
-                                  : "-"}{" "}
+                                {priceAfterTaxes(
+                                  priceBeforeTaxes(
+                                    +values.discount,
+                                    promo[0],
+                                    promo[1],
+                                    memberShipPrice
+                                  ),
+                                  taxes(
+                                    +values.discount,
+                                    promo[0],
+                                    promo[1],
+                                    memberShipPrice
+                                  )
+                                )}{" "}
                                 ريال
                               </p>
                             </div>

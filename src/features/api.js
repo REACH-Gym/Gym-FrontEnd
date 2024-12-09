@@ -327,6 +327,16 @@ export const apis = createApi({
         },
       }),
     }),
+    getContract: builder.query({
+      query: (query) => `privecy/${query}`,
+    }),
+    editContract: builder.mutation({
+      query: (data) => ({
+        url: `privecy/`,
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    }),
   }),
 });
 
@@ -370,4 +380,6 @@ export const {
   useGetMemberOfferQuery,
   useMarkOfferAsFinishedMutation,
   useEditOfferMutation,
+  useGetContractQuery,
+  useEditContractMutation,
 } = apis;

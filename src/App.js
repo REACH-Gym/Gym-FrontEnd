@@ -57,6 +57,7 @@ import OffersContainer from "./Component/OffersContainer/OffersContainer";
 import OfferDetails from "./Component/OfferDetails/OfferDetails";
 import AcceptedRequests from "./Component/AcceptedRequests/AcceptedRequests";
 import RejectedRequests from "./Component/RejectedRequests/RejectedRequests";
+import GymContract from "./Component/GymContract/GymContract";
 function App() {
   return (
     <Provider store={store}>
@@ -89,6 +90,7 @@ function App() {
               <Route path="ChangePassword" element={<ChangePassword />} />
               <Route path="ChagePhoneNumber" element={<ChagePhoneNumber />} />
               <Route path="VerifyOtp" element={<VerifyOtp />} />
+              <Route path="GymContract" element={<GymContract />} />
               {/* end of settings */}
               {/* update system */}
               <Route path="UpdateSystem" element={<UpdateSystem />} />

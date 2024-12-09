@@ -13,3 +13,10 @@
 .addgroupBtn button {
   width: 20%;
 }
+.addgroupContainer {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+textarea {
+  min-height: 100px;
+}

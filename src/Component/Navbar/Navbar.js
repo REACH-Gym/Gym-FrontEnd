@@ -107,7 +107,7 @@ function Navbar({ userData }) {
                 style={{ cursor: "pointer" }}
                 onClick={handleShowSettingOptions}
               >
-                الأعدادات
+                الإعدادات
               </span>
               {settingOptions && (
                 <div className="settingsOtions" ref={optionRef}>
@@ -174,6 +174,17 @@ function Navbar({ userData }) {
                       </svg>
                       <span className="me-2">تعديل البيانات</span>
                     </p>
+                  </Link>
+                  <Link
+                    to={"GymContract"}
+                    className="text-decoration-none text-dark"
+                  >
+                    <img
+                      src="/assets/image/contract.png"
+                      width={20}
+                      alt="contract"
+                    />
+                    <span className="me-2">عقد اتفاقية النادي</span>
                   </Link>
                 </div>
               )}
