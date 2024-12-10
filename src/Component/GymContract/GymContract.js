@@ -66,7 +66,7 @@ function GymContract() {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const response = await editContract(values);
+      const response = await editContract(values).unwrap();
       console.log(response);
       setSuccess(true);
       setTimeout(() => {

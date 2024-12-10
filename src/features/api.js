@@ -334,7 +334,7 @@ export const apis = createApi({
       query: (data) => ({
         url: `privecy/`,
         method: "PATCH",
-        body: JSON.stringify(data),
+        body: data,
       }),
     }),
   }),
@@ -342,6 +342,7 @@ export const apis = createApi({
 
 export const {
   useGetAllMembersQuery,
+  useLazyGetAllMembersQuery,
   useGetAllMembersAtOnceQuery,
   useEditMemberMutation,
   useGetMeasurementsQuery,
@@ -380,6 +381,7 @@ export const {
   useGetMemberOfferQuery,
   useMarkOfferAsFinishedMutation,
   useEditOfferMutation,
+  useLazyGetContractQuery,
   useGetContractQuery,
   useEditContractMutation,
 } = apis;

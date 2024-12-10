@@ -14,6 +14,305 @@ import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../../features/searchSlice";
 import * as XLSX from "xlsx";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  pdf,
+  Image,
+  Font,
+} from "@react-pdf/renderer";
+import {
+  useLazyGetAllMembersQuery,
+  useLazyGetContractQuery,
+} from "../../../features/api";
+
+Font.register({
+  family: "MarkaziText",
+  fonts: [
+    {
+      src: "/assets/fonts/MarkaziText-Regular.ttf",
+      fontWeight: "regular",
+    },
+    {
+      src: "/assets/fonts/MarkaziText-Bold.ttf",
+      fontWeight: "bold",
+    },
+  ],
+});
+const style = StyleSheet.create({
+  page: {
+    minWidth: "210mm", // Set width for receipt printer paper
+    minHeight: "297mm", // Set width for receipt printer paper
+    padding: "15 10",
+    fontFamily: "MarkaziText",
+    fontSize: 14,
+    textAlign: "right", // Align text to the right for RTL
+    direction: "rtl", // Set text direction to RTL
+  },
+  section: {
+    margin: 5,
+    padding: 5,
+  },
+  title: {
+    textAlign: "right",
+    marginTop: 20,
+    marginBottom: 4,
+    fontWeight: "bold",
+    textDecoration: "underline",
+    padding: "2px 0",
+  },
+  memberInformation: {
+    textAlign: "right",
+    display: "flex",
+    direction: "rtl",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  memberInfo: {
+    width: "50%",
+  },
+  memberInfoS: {
+    width: "100%",
+    marginLeft: "auto",
+  },
+  memberImage: {
+    maxWidth: 100,
+    maxHeight: 100,
+  },
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+  line: {
+    marginRight: 5,
+  },
+});
+const ReceiptDocument = ({
+  title,
+  introduction,
+  terms_and_conditions,
+  member_rights,
+  member_duties,
+  payment_terms,
+  package_prices,
+  arriving_at_the_club,
+  classes_and_dates,
+  which_prohibits_the_member,
+  cancel_membership,
+  communication_mechanisms,
+  member,
+}) => {
+  const now = new Date();
+
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  const readableDate = now.toLocaleString("en-US", options);
+
+  return (
+    <Document>
+      <Page size="A4" style={style.page}>
+        <View style={style.section} wrap>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 5,
+            }}
+          >
+            اتفاقية ولائحة عضوية نادي
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 10,
+            }}
+          >
+            {title}
+          </Text>
+          {introduction.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>أولاً: الأحكام والشروط:</Text>
+          {terms_and_conditions.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>ثانياً: حقوق الأعضاء:</Text>
+          {member_rights.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>ثالثاً: واجبات الأعضاء:</Text>
+          {member_duties.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>رابعاً: شروط الدفع:</Text>
+          {payment_terms.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>
+            خامساً: اسعار الباقات المدرجة على برامج العضوية:
+          </Text>
+          {package_prices.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>سادساً: الوصول الى النادي:</Text>
+          {arriving_at_the_club.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>سابعاً: الحصص والمواعيد:</Text>
+          {classes_and_dates.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>ثامناً: يحظر على العضو:</Text>
+          {which_prohibits_the_member.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>تاسعاً: إلغاء العضوية:</Text>
+          {cancel_membership.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+          <Text style={style.title}>عاشراً: آليات التواصل:</Text>
+          {communication_mechanisms.split(".").map((line) => (
+            <Text style={style.line}>{line}</Text>
+          ))}
+        </View>
+      </Page>
+      <Page size="A4" style={style.page}>
+        <Text
+          style={{
+            textDecoration: "underline",
+            fontWeight: "bold",
+            textAlign: "center",
+            marginBottom: 5,
+            marginTop: 20,
+            fontSize: 15,
+          }}
+        >
+          بيانات المشترك
+        </Text>
+        <View style={style.memberInformation}>
+          <Text style={style.memberInfo}>
+            رقم الجوال: {member.phone_number}
+          </Text>
+          <Text style={style.memberInfo}>الإسم: {member.name}</Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 20,
+              width: "50%",
+            }}
+          >
+            <Text>:الصورة الشخصية</Text>
+            <Image
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+              src={
+                member.profile_image
+                  ? member.profile_image
+                  : "/assets/image/broken-image.png"
+              }
+            />
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 20,
+              width: "50%",
+              marginLeft: "auto",
+            }}
+          >
+            <Text style={style.memberInfo}>:صورة البطاقة الشخصية</Text>
+            <Image
+              style={style.memberImage}
+              src={
+                member.personal_card_image
+                  ? member.personal_card_image
+                  : "/assets/image/broken-image.png"
+              }
+            />
+          </View>
+          <Text style={style.memberInfoS}>
+            رقم الهوية: {member.national_id}
+          </Text>
+        </View>
+        <Text
+          style={{
+            textDecoration: "underline",
+            fontWeight: "bold",
+            textAlign: "center",
+            marginBottom: 5,
+            marginTop: 20,
+            fontSize: 15,
+          }}
+        >
+          التوقيعات
+        </Text>
+        <View style={style.memberInformation}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 20,
+              width: "50%",
+            }}
+          >
+            <Text>:توقيع العضو</Text>
+            <Image
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+              src={
+                member.memberSignature
+                  ? member.memberSignature
+                  : "/assets/image/broken-image.png"
+              }
+            />
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: 20,
+              width: "50%",
+            }}
+          >
+            <Text>:توقيع إدارة النادي</Text>
+            <Image
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+              src={
+                member.gymSignature
+                  ? member.gymSignature
+                  : "/assets/image/broken-image.png"
+              }
+            />
+          </View>
+          <Text style={style.memberInfoS}>التاريخ: {readableDate}</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 function AllMembers() {
   const navigate = useNavigate();
@@ -159,6 +458,50 @@ function AllMembers() {
 
   const handleExcelSheet = () => {
     exportToExcel(allMembers, "Members");
+  };
+
+  const [getContract] = useLazyGetContractQuery();
+  const [getMemberData] = useLazyGetAllMembersQuery();
+  const handleContract = async (id) => {
+    try {
+      const cResponse = await getContract("").unwrap();
+      console.log(cResponse);
+      const mResponse = await getMemberData(`/${id}`).unwrap();
+      const member = {
+        name: mResponse.data.user.name,
+        phone_number: mResponse.data.user.phone_number,
+        national_id: mResponse.data.user.national_id,
+        profile_image: mResponse.data.user.profile_image,
+        personal_card_image: mResponse.data.user.personal_card_image,
+        gymSignature: "/assets/image/broken-image.png",
+        memberSignature: mResponse.data.user.electronic_signature_image,
+      };
+      const doc = (
+        <ReceiptDocument
+          title={cResponse.data.title}
+          introduction={cResponse.data.introduction}
+          terms_and_conditions={cResponse.data.terms_and_conditions}
+          member_rights={cResponse.data.member_rights}
+          member_duties={cResponse.data.member_duties}
+          payment_terms={cResponse.data.payment_terms}
+          package_prices={cResponse.data.package_prices}
+          arriving_at_the_club={cResponse.data.arriving_at_the_club}
+          classes_and_dates={cResponse.data.classes_and_dates}
+          which_prohibits_the_member={cResponse.data.which_prohibits_the_member}
+          cancel_membership={cResponse.data.cancel_membership}
+          communication_mechanisms={cResponse.data.communication_mechanisms}
+          member={member}
+        />
+      );
+      const blob = await pdf(doc).toBlob();
+      const blobURL = URL.createObjectURL(blob);
+      window.open(blobURL);
+    } catch (error) {
+      setError("حدث خطأ في طباعة العقد!");
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
   };
 
   return (
@@ -454,6 +797,18 @@ function AllMembers() {
                                     id={item.id}
                                     onDelete={handleDeleteMember}
                                   />
+                                </li>
+                                <li
+                                  onClick={() => {
+                                    handleContract(item.id);
+                                  }}
+                                >
+                                  <img
+                                    src="/assets/image/contractW.png"
+                                    alt="contract"
+                                    width={18}
+                                  />
+                                  <span className="me-2">عقد الإتفاقية </span>
                                 </li>
                               </>
                             ) : (
