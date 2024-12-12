@@ -25,6 +25,8 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
+const baseURL = process.env.REACT_APP_DOMAIN;
+
 Font.register({
   family: "MarkaziText",
   fonts: [
@@ -89,8 +91,6 @@ const style = StyleSheet.create({
     marginRight: 5,
   },
 });
-// const arabicRegex = /[\u0600-\u06FF]/;
-// const englishRegex = /[A-Za-z]/;
 const ReceiptDocument = ({
   title,
   introduction,
@@ -106,22 +106,7 @@ const ReceiptDocument = ({
   communication_mechanisms,
   member,
 }) => {
-  // const [hasArabicC, setHasArabicC] = useState(arabicRegex.test(customerName));
-  // const [hasEnglishC, setHasEnglishC] = useState(
-  //   englishRegex.test(customerName)
-  // );
-  // function addMonthToDate(startDate) {
-  //   const date = new Date(startDate); // Create a new Date object from the starting date
-  //   date.setMonth(date.getMonth() + 1); // Add one month to the current month
-  //   return date; // Return the new date
-  // }
-
-  // useEffect(() => {
-  //   setHasArabicC(arabicRegex.test(customerName));
-  //   setHasEnglishC(englishRegex.test(customerName));
-  // }, [customerName, group]);
   const now = new Date();
-
   const options = {
     year: "numeric",
     month: "2-digit",
@@ -136,7 +121,6 @@ const ReceiptDocument = ({
     <Document>
       <Page size="A4" style={style.page}>
         <View style={style.section} wrap>
-          {/* <Image style={style.logo} src={"/assets/image/Logo1.png"} /> */}
           <Text
             style={{
               textAlign: "center",
@@ -315,7 +299,7 @@ const ReceiptDocument = ({
               style={{ maxWidth: "100px", maxHeight: "100px" }}
               src={
                 member.gymSignature
-                  ? member.gymSignature
+                  ? `${baseURL}${member.gymSignature}`
                   : "/assets/image/broken-image.png"
               }
             />
@@ -453,134 +437,94 @@ const RequestDetails = () => {
     selectedImage?.length > 0 &&
       formattedValues.append("personal_card_image", file);
     try {
-      const response = await getContract("").unwrap();
+      const response = await editMember({
+        id: RequestId,
+        data: formattedValues,
+      }).unwrap();
       console.log(response);
-      const member = {
-        name: values.name,
-        phone_number: values.phone_number,
-        national_id: values.national_id,
-        profile_image: selectedProfileImage,
-        personal_card_image: selectedImage,
-        gymSignature: "/assets/image/broken-image.png",
-        memberSignature: signature,
-      };
-      const doc = (
-        <ReceiptDocument
-          title={response.data.title}
-          introduction={response.data.introduction}
-          terms_and_conditions={response.data.terms_and_conditions}
-          member_rights={response.data.member_rights}
-          member_duties={response.data.member_duties}
-          payment_terms={response.data.payment_terms}
-          package_prices={response.data.package_prices}
-          arriving_at_the_club={response.data.arriving_at_the_club}
-          classes_and_dates={response.data.classes_and_dates}
-          which_prohibits_the_member={response.data.which_prohibits_the_member}
-          cancel_membership={response.data.cancel_membership}
-          communication_mechanisms={response.data.communication_mechanisms}
-          member={member}
-        />
-      );
-      const blob = await pdf(doc).toBlob();
-      const blobURL = URL.createObjectURL(blob);
-      window.open(blobURL);
-    } catch (error) {
-      setError("حدث خطأ في طباعة العقد!");
+      setSuccess(true);
+      try {
+        const response = await getContract("").unwrap();
+        console.log(response);
+        const member = {
+          name: values.name,
+          phone_number: values.phone_number,
+          national_id: values.national_id,
+          profile_image: selectedProfileImage,
+          personal_card_image: selectedImage,
+          gymSignature: response.data.signature_image,
+          memberSignature: signature,
+        };
+        const doc = (
+          <ReceiptDocument
+            title={response.data.title}
+            introduction={response.data.introduction}
+            terms_and_conditions={response.data.terms_and_conditions}
+            member_rights={response.data.member_rights}
+            member_duties={response.data.member_duties}
+            payment_terms={response.data.payment_terms}
+            package_prices={response.data.package_prices}
+            arriving_at_the_club={response.data.arriving_at_the_club}
+            classes_and_dates={response.data.classes_and_dates}
+            which_prohibits_the_member={
+              response.data.which_prohibits_the_member
+            }
+            cancel_membership={response.data.cancel_membership}
+            communication_mechanisms={response.data.communication_mechanisms}
+            member={member}
+          />
+        );
+        const blob = await pdf(doc).toBlob();
+        const blobURL = URL.createObjectURL(blob);
+        window.open(blobURL);
+      } catch (error) {
+        setError("حدث خطأ في طباعة العقد!");
+        setTimeout(() => {
+          setError("");
+        }, 5000);
+      }
       setTimeout(() => {
-        setError("");
-      }, 5000);
+        setSuccess(false);
+        navigate("/Home/AcceptedRequests");
+        window.location.reload();
+      }, 2000);
+    } catch (err) {
+      console.log(err);
+      if (
+        Object.keys(err.data.error).includes("national_id") &&
+        Object.keys(err.data.error).includes("phone_number")
+      ) {
+        setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (Object.keys(err.data.error).includes("phone_number")) {
+        setError("رقم الهاتف مسجل مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (Object.keys(err.data.error).includes("national_id")) {
+        setError("رقم العضوية مسجل مسبقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.originalStatus === 403) {
+        setError("ليس لديك الصلاحية لإضافة مجموعة.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else if (err.originalStatus === 401) {
+        setError("قم بتسجيل الدخول وحاول مرة أخرى.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else {
+        setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
     }
-    // try {
-    //   const response = await editMember({
-    //     id: RequestId,
-    //     data: formattedValues,
-    //   }).unwrap();
-    //   console.log(response);
-    //   setSuccess(true);
-    //   try {
-    //     const response = await getContract("").unwrap();
-    //     console.log(response);
-    //     const member = {
-    //       name: values.name,
-    //       phone_number: values.phone_number,
-    //       national_id: values.national_id,
-    //       profile_image: selectedProfileImage,
-    //       personal_card_image: selectedImage,
-    //       gymSignature: response.data.data.gym_signature,
-    //       memberSignature: signature,
-    //     };
-    //     const doc = (
-    //       <ReceiptDocument
-    //         title={response.data.data.title}
-    //         introduction={response.data.data.introduction}
-    //         terms_and_conditions={response.data.data.terms_and_conditions}
-    //         member_rights={response.data.data.member_rights}
-    //         member_duties={response.data.data.member_duties}
-    //         payment_terms={response.data.data.payment_terms}
-    //         package_prices={response.data.data.package_prices}
-    //         arriving_at_the_club={response.data.data.arriving_at_the_club}
-    //         classes_and_dates={response.data.data.classes_and_dates}
-    //         which_prohibits_the_member={
-    //           response.data.data.which_prohibits_the_member
-    //         }
-    //         cancel_membership={response.data.data.cancel_membership}
-    //         communication_mechanisms={
-    //           response.data.data.communication_mechanisms
-    //         }
-    //         member={member}
-    //       />
-    //     );
-    //     const blob = await pdf(doc).toBlob();
-    //     const blobURL = URL.createObjectURL(blob);
-    //     window.open(blobURL);
-    //   } catch (error) {
-    //     setError("حدث خطأ في طباعة العقد!");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 5000);
-    //   }
-    //   setTimeout(() => {
-    //     setSuccess(false);
-    //     navigate("/Home/AcceptedRequests");
-    //     window.location.reload();
-    //   }, 2000);
-    // } catch (err) {
-    //   console.log(err);
-    //   if (
-    //     Object.keys(err.data.error).includes("national_id") &&
-    //     Object.keys(err.data.error).includes("phone_number")
-    //   ) {
-    //     setError("رقم الهاتف ورقم العضوية مسجلين مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (Object.keys(err.data.error).includes("phone_number")) {
-    //     setError("رقم الهاتف مسجل مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (Object.keys(err.data.error).includes("national_id")) {
-    //     setError("رقم العضوية مسجل مسبقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (err.originalStatus === 403) {
-    //     setError("ليس لديك الصلاحية لإضافة مجموعة.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else if (err.originalStatus === 401) {
-    //     setError("قم بتسجيل الدخول وحاول مرة أخرى.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   } else {
-    //     setError("حدث خطأ، برجاء المحاولة مرة أخرى لاحقاً.");
-    //     setTimeout(() => {
-    //       setError("");
-    //     }, 3000);
-    //   }
-    // }
   };
 
   if (isUserDataLoading) {

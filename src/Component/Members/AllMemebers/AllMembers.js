@@ -29,6 +29,8 @@ import {
   useLazyGetContractQuery,
 } from "../../../features/api";
 
+const baseUrl = process.env.REACT_APP_DOMAIN;
+
 Font.register({
   family: "MarkaziText",
   fonts: [
@@ -302,7 +304,7 @@ const ReceiptDocument = ({
               style={{ maxWidth: "100px", maxHeight: "100px" }}
               src={
                 member.gymSignature
-                  ? member.gymSignature
+                  ? `${baseUrl}${member.gymSignature}`
                   : "/assets/image/broken-image.png"
               }
             />
@@ -473,7 +475,7 @@ function AllMembers() {
         national_id: mResponse.data.user.national_id,
         profile_image: mResponse.data.user.profile_image,
         personal_card_image: mResponse.data.user.personal_card_image,
-        gymSignature: "/assets/image/broken-image.png",
+        gymSignature: cResponse.data.signature_image,
         memberSignature: mResponse.data.user.electronic_signature_image,
       };
       const doc = (

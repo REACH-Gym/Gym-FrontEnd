@@ -72,3 +72,18 @@
   text-align: center;
   cursor: pointer;
 }
+.editBtn button {
+  width: 25%;
+}
+.saveChange button {
+  width: 30%;
+}
+.btns {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.btns > div {
+  cursor: pointer;
+}
