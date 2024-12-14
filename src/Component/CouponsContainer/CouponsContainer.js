@@ -194,7 +194,11 @@ const CouponsContainer = () => {
               </thead>
               <tbody>
                 {coupons?.data?.coupons?.map((item, index) => (
-                  <CouponsItem key={index} index={++index} item={item} />
+                  <CouponsItem
+                    key={index}
+                    index={(page - 1) * 20 + index + 1}
+                    item={item}
+                  />
                 ))}
               </tbody>
             </table>

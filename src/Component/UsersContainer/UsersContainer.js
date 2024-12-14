@@ -283,9 +283,7 @@ const UsersContainer = () => {
                 {emplyees?.data?.users?.map((item, index) => (
                   <UsersItem
                     key={index}
-                    index={
-                      emplyees?.data?.users?.indexOf(item) + (page - 1) * 5 + 1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     item={item}
                   />
                 ))}

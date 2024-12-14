@@ -250,11 +250,7 @@ const GroupsContainer = () => {
                 {groupsMembers?.data.user_sessions.map((item, index) => (
                   <GroupsItem
                     key={index}
-                    index={
-                      groupsMembers?.data.user_sessions.indexOf(item) +
-                      (page - 1) * 5 +
-                      1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     item={item}
                   />
                 ))}

@@ -195,9 +195,7 @@ function NewRequests() {
                 {data?.data?.users?.map((session, index) => (
                   <NewRequestItem
                     key={index}
-                    index={
-                      data?.data.users?.indexOf(session) + (page - 1) * 5 + 1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     session={session}
                     deleteConfirmation={confirmed}
                     confirmation={setConfirmation}

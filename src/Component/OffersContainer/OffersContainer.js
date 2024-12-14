@@ -207,11 +207,7 @@ function OffersContainer() {
                 {data?.data?.user_offers?.map((session, index) => (
                   <OffersItem
                     key={index}
-                    index={
-                      data?.data.user_offers?.indexOf(session) +
-                      (page - 1) * 5 +
-                      1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     session={session}
                     deleteConfirmation={confirmed}
                     confirmation={setConfirmation}

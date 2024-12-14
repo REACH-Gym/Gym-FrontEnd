@@ -197,9 +197,7 @@ function AcceptedRequests() {
                 {data?.data?.users?.map((session, index) => (
                   <RequestItem
                     key={index}
-                    index={
-                      data?.data.users?.indexOf(session) + (page - 1) * 5 + 1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     session={session}
                   />
                 ))}

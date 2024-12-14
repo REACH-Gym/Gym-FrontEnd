@@ -202,9 +202,7 @@ const ScheduleContainer = () => {
                 {data?.data?.sessions?.map((session, index) => (
                   <ScheduleItem
                     key={index}
-                    index={
-                      data?.data.sessions?.indexOf(session) + (page - 1) * 5 + 1
-                    }
+                    index={(page - 1) * 20 + index + 1}
                     session={session}
                     deleteConfirmation={confirmed}
                     confirmation={setConfirmation}

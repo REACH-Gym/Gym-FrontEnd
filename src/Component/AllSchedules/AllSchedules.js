@@ -187,7 +187,7 @@ const AllSchedules = () => {
                 {sessions?.map((session, index) => (
                   <AllScheduleItem
                     key={index}
-                    index={sessions.indexOf(session) + (page - 1) * 5 + 1}
+                    index={(page - 1) * 20 + index + 1}
                     session={session}
                     schedulesLength={session.schedules.length}
                     deleteConfirmation={confirmed}
