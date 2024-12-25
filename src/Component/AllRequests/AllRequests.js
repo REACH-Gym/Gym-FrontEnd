@@ -116,7 +116,7 @@ function AllRequests() {
       <div className={`${styles.scheduleContainer}`}>
         <div className="d-flex align-items-center justify-content-between gap-3 ps-3 pe-3">
           <ComponentTitle
-            MainIcon={"/assets/image/path 50.png"}
+            MainIcon={"/assets/image/offer-svgrepo-com 1.png"}
             title={"جميع الطلبات"}
             subTitle={"يمكنك متابعة جميع الطلبات  من هنا"}
           />
