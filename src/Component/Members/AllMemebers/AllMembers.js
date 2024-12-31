@@ -14,10 +14,6 @@ import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../../features/searchSlice";
 import * as XLSX from "xlsx";
-import {
-  useLazyGetAllMembersQuery,
-  useLazyGetContractQuery,
-} from "../../../features/api";
 
 const baseUrl = process.env.REACT_APP_DOMAIN;
 
@@ -166,9 +162,6 @@ function AllMembers() {
   const handleExcelSheet = () => {
     exportToExcel(allMembers, "Members");
   };
-
-  const [getContract] = useLazyGetContractQuery();
-  const [getMemberData] = useLazyGetAllMembersQuery();
   const handleContract = async (id) => {
     try {
       window.open(`${baseUrl}/privecy/pdf/${id}`, "_blank");
