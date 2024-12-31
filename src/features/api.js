@@ -330,6 +330,9 @@ export const apis = createApi({
     getContract: builder.query({
       query: (query) => `privecy/${query}`,
     }),
+    getContractPdf: builder.query({
+      query: (id) => `privecy/pdf/${id}`,
+    }),
     editContract: builder.mutation({
       query: (data) => ({
         url: `privecy/`,
@@ -384,4 +387,5 @@ export const {
   useLazyGetContractQuery,
   useGetContractQuery,
   useEditContractMutation,
+  useLazyGetContractPdfQuery,
 } = apis;

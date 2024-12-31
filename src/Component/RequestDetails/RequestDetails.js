@@ -6,7 +6,6 @@ import ComponentTitle from "../../Common Components/ComponentTitle/ComponentTitl
 import {
   useEditMemberMutation,
   useGetAllMembersQuery,
-  useLazyGetContractQuery,
 } from "../../features/api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,302 +13,8 @@ import Error from "../../Common Components/Error/Error";
 import Success from "../../Common Components/Success/Success";
 import "react-phone-input-2/lib/style.css";
 import { Commet } from "react-loading-indicators";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  pdf,
-  Image,
-  Font,
-} from "@react-pdf/renderer";
 
-const baseURL = process.env.REACT_APP_DOMAIN;
-
-Font.register({
-  family: "MarkaziText",
-  fonts: [
-    {
-      src: "/assets/fonts/MarkaziText-Regular.ttf",
-      fontWeight: "regular",
-    },
-    {
-      src: "/assets/fonts/MarkaziText-Bold.ttf",
-      fontWeight: "bold",
-    },
-  ],
-});
-const style = StyleSheet.create({
-  page: {
-    minWidth: "210mm", // Set width for receipt printer paper
-    minHeight: "297mm", // Set width for receipt printer paper
-    padding: "15 10",
-    fontFamily: "MarkaziText",
-    fontSize: 14,
-    textAlign: "right", // Align text to the right for RTL
-    direction: "rtl", // Set text direction to RTL
-  },
-  section: {
-    margin: 5,
-    padding: 5,
-  },
-  title: {
-    textAlign: "right",
-    marginTop: 20,
-    marginBottom: 4,
-    fontWeight: "bold",
-    textDecoration: "underline",
-    padding: "2px 0",
-  },
-  memberInformation: {
-    textAlign: "right",
-    display: "flex",
-    direction: "rtl",
-    justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  memberInfo: {
-    width: "50%",
-  },
-  memberInfoS: {
-    width: "100%",
-    marginLeft: "auto",
-  },
-  memberImage: {
-    maxWidth: 100,
-    maxHeight: 100,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 10,
-  },
-  line: {
-    marginRight: 5,
-  },
-});
-const ReceiptDocument = ({
-  title,
-  introduction,
-  terms_and_conditions,
-  member_rights,
-  member_duties,
-  payment_terms,
-  package_prices,
-  arriving_at_the_club,
-  classes_and_dates,
-  which_prohibits_the_member,
-  cancel_membership,
-  communication_mechanisms,
-  member,
-}) => {
-  const now = new Date();
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-  const readableDate = now.toLocaleString("en-US", options);
-
-  return (
-    <Document>
-      <Page size="A4" style={style.page}>
-        <View style={style.section} wrap>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: "bold",
-              marginBottom: 5,
-            }}
-          >
-            اتفاقية ولائحة عضوية نادي
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: "bold",
-              marginBottom: 10,
-            }}
-          >
-            {title}
-          </Text>
-          {introduction.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>أولاً: الأحكام والشروط:</Text>
-          {terms_and_conditions.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>ثانياً: حقوق الأعضاء:</Text>
-          {member_rights.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>ثالثاً: واجبات الأعضاء:</Text>
-          {member_duties.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>رابعاً: شروط الدفع:</Text>
-          {payment_terms.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>
-            خامساً: اسعار الباقات المدرجة على برامج العضوية:
-          </Text>
-          {package_prices.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>سادساً: الوصول الى النادي:</Text>
-          {arriving_at_the_club.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>سابعاً: الحصص والمواعيد:</Text>
-          {classes_and_dates.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>ثامناً: يحظر على العضو:</Text>
-          {which_prohibits_the_member.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>تاسعاً: إلغاء العضوية:</Text>
-          {cancel_membership.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-          <Text style={style.title}>عاشراً: آليات التواصل:</Text>
-          {communication_mechanisms.split(".").map((line) => (
-            <Text style={style.line}>{line}</Text>
-          ))}
-        </View>
-      </Page>
-      <Page size="A4" style={style.page}>
-        <Text
-          style={{
-            textDecoration: "underline",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: 5,
-            marginTop: 20,
-            fontSize: 15,
-          }}
-        >
-          بيانات المشترك
-        </Text>
-        <View style={style.memberInformation}>
-          <Text style={style.memberInfo}>
-            رقم الجوال: {member.phone_number}
-          </Text>
-          <Text style={style.memberInfo}>الإسم: {member.name}</Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: 20,
-              width: "50%",
-            }}
-          >
-            <Text>:الصورة الشخصية</Text>
-            <Image
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-              src={
-                member.profile_image
-                  ? member.profile_image
-                  : "/assets/image/broken-image.png"
-              }
-            />
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: 20,
-              width: "50%",
-              marginLeft: "auto",
-            }}
-          >
-            <Text style={style.memberInfo}>:صورة البطاقة الشخصية</Text>
-            <Image
-              style={style.memberImage}
-              src={
-                member.personal_card_image
-                  ? member.personal_card_image
-                  : "/assets/image/broken-image.png"
-              }
-            />
-          </View>
-          <Text style={style.memberInfoS}>
-            رقم الهوية: {member.national_id}
-          </Text>
-        </View>
-        <Text
-          style={{
-            textDecoration: "underline",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: 5,
-            marginTop: 20,
-            fontSize: 15,
-          }}
-        >
-          التوقيعات
-        </Text>
-        <View style={style.memberInformation}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: 20,
-              width: "50%",
-            }}
-          >
-            <Text>:توقيع العضو</Text>
-            <Image
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-              src={
-                member?.memberSignature
-                  ? member.memberSignature
-                  : "/assets/image/broken-image.png"
-              }
-            />
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: 20,
-              width: "50%",
-            }}
-          >
-            <Text>:توقيع إدارة النادي</Text>
-            <Image
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-              src={
-                member.gymSignature
-                  ? `${baseURL}${member.gymSignature}`
-                  : "/assets/image/broken-image.png"
-              }
-            />
-          </View>
-          <Text style={style.memberInfoS}>التاريخ: {readableDate}</Text>
-        </View>
-      </Page>
-    </Document>
-  );
-};
+const baseUrl = process.env.REACT_APP_DOMAIN;
 
 const RequestDetails = () => {
   const { RequestId } = useParams();
@@ -378,17 +83,13 @@ const RequestDetails = () => {
   const [selectedProfileImage, setSelectedProfileImage] = useState(
     userData?.data?.user.profile_image
   );
-  const [signature, setSignature] = useState(
-    userData?.data?.user?.electronic_signature_image
-  );
+
   useEffect(() => {
     setSelectedProfileImage(userData?.data?.user.profile_image);
     setSelectedImage(userData?.data?.user.personal_card_image);
-    setSignature(userData?.data?.user.electronic_signature_image);
   }, [
     userData?.data?.user.personal_card_image,
     userData?.data?.user.profile_image,
-    userData?.data?.user.electronic_signature_image,
   ]);
 
   // Handle file selection
@@ -414,7 +115,6 @@ const RequestDetails = () => {
       setSelectedProfileImage(URL.createObjectURL(file)); // Save the selected file
     }
   };
-  const [getContract] = useLazyGetContractQuery();
   const handleSubmit = async (values) => {
     const profileResponse = await fetch(selectedProfileImage);
     const response = await fetch(selectedImage);
@@ -444,40 +144,9 @@ const RequestDetails = () => {
       console.log(response);
       setSuccess(true);
       try {
-        const response = await getContract("").unwrap();
-        console.log(response);
-        const member = {
-          name: values.name,
-          phone_number: values.phone_number,
-          national_id: values.national_id,
-          profile_image: selectedProfileImage,
-          personal_card_image: selectedImage,
-          gymSignature: response.data.signature_image,
-          memberSignature: signature,
-        };
-        const doc = (
-          <ReceiptDocument
-            title={response.data.title}
-            introduction={response.data.introduction}
-            terms_and_conditions={response.data.terms_and_conditions}
-            member_rights={response.data.member_rights}
-            member_duties={response.data.member_duties}
-            payment_terms={response.data.payment_terms}
-            package_prices={response.data.package_prices}
-            arriving_at_the_club={response.data.arriving_at_the_club}
-            classes_and_dates={response.data.classes_and_dates}
-            which_prohibits_the_member={
-              response.data.which_prohibits_the_member
-            }
-            cancel_membership={response.data.cancel_membership}
-            communication_mechanisms={response.data.communication_mechanisms}
-            member={member}
-          />
-        );
-        const blob = await pdf(doc).toBlob();
-        const blobURL = URL.createObjectURL(blob);
-        window.open(blobURL);
+        window.open(`${baseUrl}/privecy/pdf/${RequestId}`, "_blank");
       } catch (error) {
+        console.log(error);
         setError("حدث خطأ في طباعة العقد!");
         setTimeout(() => {
           setError("");
