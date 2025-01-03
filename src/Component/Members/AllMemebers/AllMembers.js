@@ -14,6 +14,7 @@ import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { clear, searchR } from "../../../features/searchSlice";
 import * as XLSX from "xlsx";
+import { useLazyGetContractPdfQuery } from "../../../features/api";
 
 const baseUrl = process.env.REACT_APP_DOMAIN;
 
@@ -162,9 +163,44 @@ function AllMembers() {
   const handleExcelSheet = () => {
     exportToExcel(allMembers, "Members");
   };
+  const [getPdf] = useLazyGetContractPdfQuery();
   const handleContract = async (id) => {
     try {
-      window.open(`${baseUrl}/privecy/pdf/${id}`, "_blank");
+      // const response = await getPdf(id).unwrap();
+      // console.log(response);
+      // const blob = await response.blob();
+      // const url = URL.createObjectURL(blob);
+      // window.open(url, "_blank");
+      const newWindow = window.open("");
+      const token = localStorage.getItem("access");
+      if (newWindow) {
+        newWindow.document.write(`
+          <html>
+            <body>
+              <script>
+                fetch('${baseUrl}/privecy/pdf/${id}}', {
+                  headers: {
+                    'Authorization': '${token}',
+                    'Accept': 'application/pdf'
+                  }
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(pdfBlob);
+                const a = document.createElement('a');
+                a.href = '${baseUrl}/privecy/pdf/${id}';
+                a.download = 'document.pdf';
+                a.click();
+                setTimeout(() => {
+                  window.close();                
+                }, 3000)
+                });
+              </script>
+            </body>
+          </html>
+        `);
+      }
     } catch (error) {
       setError("حدث خطأ في طباعة العقد!");
       setTimeout(() => {

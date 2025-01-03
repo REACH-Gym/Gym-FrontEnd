@@ -144,7 +144,36 @@ const RequestDetails = () => {
       console.log(response);
       setSuccess(true);
       try {
-        window.open(`${baseUrl}/privecy/pdf/${RequestId}`, "_blank");
+        const newWindow = window.open("");
+        const token = localStorage.getItem("access");
+        if (newWindow) {
+          newWindow.document.write(`
+          <html>
+            <body>
+              <script>
+                fetch('${baseUrl}/privecy/pdf/${RequestId}}', {
+                  headers: {
+                    'Authorization': '${token}',
+                    'Accept': 'application/pdf'
+                  }
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(pdfBlob);
+                const a = document.createElement('a');
+                a.href = '${baseUrl}/privecy/pdf/${RequestId}';
+                a.download = 'document.pdf';
+                a.click();
+                setTimeout(() => {
+                  window.close();                
+                }, 3000)
+                });
+              </script>
+            </body>
+          </html>
+        `);
+        }
       } catch (error) {
         console.log(error);
         setError("حدث خطأ في طباعة العقد!");
